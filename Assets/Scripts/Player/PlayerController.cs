@@ -442,6 +442,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [Rpc(RpcSources.All, RpcTargets.All)] public void CalculateEffectRPC(PlayerRef player, bool isMakeStun = false,
         bool isMakeSlow = false, bool isMakeSilen = false, float TimeEffect = 0)
     {
+        if (playerStat.isUnstopAble) return;
         if(isMakeStun)
         {
             if (TimeOfStunDebuff.RemainingTime(Runner) == null||
@@ -490,12 +491,12 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         
         if (HasStateAuthority)
         {
-            if (playerStat.isUnstopAble)
+            /*if (playerStat.isUnstopAble)
             {
                 TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
                 TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
                 TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            }
+            }*/
             if (TimeOfStunDebuff.RemainingTime(Runner)>0)
             {
                 currentStunTimeStatus = (float)TimeOfStunDebuff.RemainingTime(Runner); 
