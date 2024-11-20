@@ -1,0 +1,287 @@
+﻿using Cinemachine;
+using Fusion;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
+
+public class SkillButton : NetworkBehaviour
+{
+    [SerializeField] public Image m_skillIcon, skillLevelImage;
+    [SerializeField] Image m_CooldownOverlay;
+    [SerializeField] Image m_timeTriggerFilled;
+
+    [SerializeField] Text m_amountTxt;
+    [SerializeField] Text m_cooldownTxt;
+    [SerializeField] Button m_btnComp, AddSkill_LevelBtn;
+
+
+    SkillController m_skillController;
+    [SerializeField]  PlayerController player;
+    int m_currentAmount;
+    public SkillButtonTypes[] m_skillButtonTypes;
+    public SkillButtonTypes skillButtonType;
+    public SkillTypes skillType;
+    public NetworkObject VfxEffect;
+    [SerializeField] SkillName m_skillName;
+    public Action Skill_Trigger;
+    [SerializeField] float timerTrigger;
+    [SerializeField] int[] levelManaCosts;
+    [SerializeField] AudioClip triggerSoundFX;
+    [SerializeField] int[] levelDamages;
+    [SerializeField] bool isPhysicDamage;
+    [SerializeField] bool isMakeStun;
+    [SerializeField] bool isMakeSlow;
+    [SerializeField] bool isMakeSilen;
+    [SerializeField] float timeEffect;
+    [SerializeField] public int levelSkill;
+    [SerializeField] int damageSkill, manaCost;
+    Vector3? posMouseUp;
+    #region EVENTS
+    void RegisterEvent()
+    {
+        if (m_skillController == null) return;
+        m_skillController.OnCooldown.AddListener(UpdateCooldown);
+        m_skillController.OnSkillUpdate.AddListener(UpdateTimerTrigger);
+        m_skillController.OnCooldownStop.AddListener(UpdateUI);
+    }
+    void UnRegisterEvent()
+    {
+        if (m_skillController == null) return;
+        m_skillController.OnCooldown.RemoveListener(UpdateCooldown);
+        m_skillController.OnSkillUpdate.RemoveListener(UpdateTimerTrigger);
+        m_skillController.OnCooldownStop.RemoveListener(UpdateUI);
+    }
+    #endregion
+    
+    
+    private void Start()
+    {
+        StartCoroutine(DelayCheckPlay());
+        if(skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack)
+        {
+            AddSkill_LevelBtn.gameObject.SetActive(false);
+        }
+    }
+    IEnumerator DelayCheckPlay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        this.player = player;
+    }
+    private void Update()
+    {
+        if (player == null||skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack) return;
+        skillLevelImage.fillAmount = levelSkill * 0.25f;
+        AddSkill_LevelBtn.gameObject.SetActive(player.playerStat.levelPoint > 0 && levelSkill<4);
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+            player.playerStat.UpgradeLevel();
+        }
+        if (skillButtonType != SkillButtonTypes.Ultimate) return;
+        int maxSkillPointCanHave = (int)(player.playerStat.level / 3);
+        AddSkill_LevelBtn.gameObject.SetActive(levelSkill<maxSkillPointCanHave);
+
+    }
+    public void Initialize(SkillName skillName)
+    {
+        m_skillName = skillName;
+        m_skillController = FindObjectOfType<SkillManager>().GetSkillController(skillName);
+        skillType = m_skillController.skillType;
+        VfxEffect = m_skillController.skillStat.VfxEffect;
+        levelDamages = new int[6]; levelManaCosts= new int[6];
+        isPhysicDamage = m_skillController.skillStat.isPhysicDamage;
+        isMakeStun = m_skillController.skillStat.isMakeStun;
+        isMakeSlow = m_skillController.skillStat.isMakeSlow;
+        isMakeSilen = m_skillController.skillStat.isMakeSilen;
+        timeEffect = m_skillController.skillStat.timeEffect;
+        timerTrigger = m_skillController.skillStat.timerTrigger;
+        triggerSoundFX = m_skillController.skillStat.triggerSoundFX;
+        for (int i = 0; i < m_skillController.skillStat.levelDamages.Length; i++)
+        {
+            levelDamages[i] = m_skillController.skillStat.levelDamages[i];
+            levelManaCosts[i] = m_skillController.skillStat.levelManaCosts[i];
+        }
+        m_timeTriggerFilled.transform.parent.gameObject.SetActive(false);
+        UpdateUI();
+        if (m_btnComp != null)
+        {
+            m_btnComp.onClick.RemoveAllListeners();
+            m_btnComp.onClick.AddListener(TriggerSkill);
+        }
+        RegisterEvent();
+    }
+    
+    private void UpdateUI()
+    {
+        if (m_skillController == null) return;
+        if (m_skillIcon)
+            m_skillIcon.sprite = m_skillController.skillStat.skillIcon;
+        //UpdateAmountTxt();
+        UpdateCooldown();
+        //UpdateTimerTrigger();
+        //bool canActiveMe = m_currentAmount > 0 || m_skillController.IsCooldowning;
+        gameObject.SetActive(true);
+    }
+
+    private void UpdateTimerTrigger()
+    {
+        if (m_skillController == null || m_timeTriggerFilled == null) return;
+        float triggerProgress = m_skillController.triggerProgress;
+        m_timeTriggerFilled.fillAmount = triggerProgress;
+        m_timeTriggerFilled.transform.parent.gameObject.SetActive(m_skillController.IsTriggered);
+    }
+
+    private void UpdateCooldown()
+    {
+        if (m_cooldownTxt)
+            m_cooldownTxt.text = m_skillController.CooldownTime.ToString(m_skillController.CooldownTime >= 1 ? "f0" : "f1");
+        float cooldownProgress = m_skillController.cooldownProgress;
+        if (m_CooldownOverlay)
+        {
+            m_CooldownOverlay.fillAmount = cooldownProgress;
+            m_CooldownOverlay.gameObject.SetActive(m_skillController.IsCooldowning);
+        }
+    }
+
+    private void UpdateAmountTxt()
+    {
+        m_currentAmount = FindObjectOfType<SkillManager>().GetSkillAmount(m_skillName);
+        if (m_amountTxt)
+        {
+            m_amountTxt.text = $"x {m_currentAmount}";
+        }
+    }
+    public void UpdateLevelSkill()
+    {
+        levelSkill++;
+        player.playerStat.levelPoint--;
+        if (levelDamages.Length > 0)
+        {
+            damageSkill = levelDamages[levelSkill];
+        }
+        if (levelManaCosts.Length > 0)
+        {
+            manaCost = levelManaCosts[levelSkill];
+        }
+    }
+
+    void TriggerSkill()
+    {
+        
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (m_skillController == null || m_skillController.IsCooldowning 
+            ||levelSkill==0 ||player.playerStat.currentMana < manaCost) return;
+        if (state == 0)
+        {
+            
+            if (skillButtonType == SkillButtonTypes.Jump)
+            {
+                if (player.playerStat.isBeingStun) return;
+                player.Jump(VfxEffect);
+                player.playerStat.UpgradeLevel();
+            }
+            if (skillButtonType == SkillButtonTypes.NormalAttack)
+            {
+                if (player.playerStat.isBeingStun) return;
+                player.NormalAttack(VfxEffect, damageSkill,isPhysicDamage,isMakeStun,isMakeSlow,isMakeSilen
+                    ,timerTrigger,timeEffect);
+                
+            }
+            if (skillButtonType == SkillButtonTypes.Ultimate)
+            {
+                if (player.playerStat.isBeingStun ||player.playerStat.isBeingSilen) return;
+                player.Ultimate(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+             timerTrigger, timeEffect,posMouseUp,levelSkill);
+                
+            }
+            if (skillButtonType == SkillButtonTypes.Skill_2)
+            {
+                if (player.playerStat.isBeingStun || player.playerStat.isBeingSilen) return;
+                player.Skill_2(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+             timerTrigger, timeEffect, posMouseUp, levelSkill);
+            }
+            if (skillButtonType == SkillButtonTypes.Skill_1)
+            {
+                if (player.playerStat.isBeingStun || player.playerStat.isBeingSilen) return;
+                player.Skill_1(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+             timerTrigger, timeEffect, posMouseUp, levelSkill);
+                
+            }
+            
+            m_skillController.Trigger();
+        }
+    }
+    private void OnDestroy()
+    {
+        UnRegisterEvent();
+    }
+    public void PointerDown() //khóa camera khi giữ chuột trái tại skill
+    {
+        if(levelSkill!=0)
+        {
+            Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+
+            if (skillType == SkillTypes.Direction_Active)
+            {
+                if (state != 0 || m_skillController.IsCooldowning) return;
+                player.state = 5;
+                player.gameObject.GetComponent<SkillDirection>().GetMouseDown();
+                return;
+            }
+        }
+        
+
+    }
+    public void PointDrag()
+    {
+        if (levelSkill != 0)
+        {
+            Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+            if (state == 5 && !player.playerStat.isBeingStun && !player.playerStat.isBeingSilen)
+            {
+                Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
+                
+               player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, look, 720 * Time.deltaTime);
+                           }
+        }
+    }
+    public void PointerUp() 
+    {
+        if (levelSkill != 0)
+        {
+            
+            Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+            StartCoroutine(DelayCameraActiveAgain(0.5f));
+
+            if (skillType == SkillTypes.Direction_Active)
+            {
+                if (state == 5)
+                {
+                    player.gameObject.GetComponent<SkillDirection>().GetMouseUp(out Vector3? posMouseUp);
+                    if (posMouseUp != null)
+                    {
+                        this.posMouseUp = posMouseUp;
+                        player.state = 0;
+                        m_btnComp.onClick.Invoke();
+                    }
+                    player.state = 0;
+                }
+            }
+        }
+    }
+    IEnumerator DelayCameraActiveAgain(float time)
+    {
+        yield return new WaitForSeconds(time);
+        FindObjectOfType<CinemachineFreeLook>().enabled = true;
+        Singleton<CameraController>.Instance.StartTransition();
+    }
+
+
+}
+
