@@ -51,6 +51,7 @@ public class PlayerStat: NetworkBehaviour
     [HideInInspector][Networked] public bool isBeingSilen { get; set; }
     [HideInInspector][Networked] public bool isLifeSteal { get; set; }
     [Networked] public bool isVisible { get; set; }
+    [Networked] public bool isUnstopAble { get; set; }
 
     public override void Spawned()
     {

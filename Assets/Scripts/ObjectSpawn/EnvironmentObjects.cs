@@ -52,6 +52,10 @@ public class EnvironmentObjects : NetworkBehaviour
         base.FixedUpdateNetwork();
         if (HasStateAuthority && timerToDestroy.Expired(Runner))
         {
+            if (player.playerType==Player_Types.Viking)
+            {
+                player.playerStat.isUnstopAble=false;
+            }
             Destroy(gameObject);
         }
 
@@ -91,7 +95,7 @@ public class EnvironmentObjects : NetworkBehaviour
                 else  //cùng team
                 {
                     if (other.gameObject.GetComponent<PlayerController>().state != 3
-                        && timerToApply[index].Expired(Runner))
+                        && timerToApply[index].Expired(Runner) &&player.playerType==Player_Types.Sagittarius)
                     {
 
                         timerToApply[index] = TickTimer.CreateFromSeconds(Runner, timerApply);

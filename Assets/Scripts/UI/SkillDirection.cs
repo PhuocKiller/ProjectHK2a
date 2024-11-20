@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class SkillDirection : NetworkBehaviour
 {
@@ -58,9 +59,6 @@ public class SkillDirection : NetworkBehaviour
 #else
         Debug.Log("Nền tảng khác");
 
-
-        
-      
 #endif
 
     }
@@ -70,9 +68,11 @@ public class SkillDirection : NetworkBehaviour
         Vector3 mousePosition = posMouseTouch;
         mousePosition.z = Camera.main.nearClipPlane;
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, 200))
+        int layer = LayerMask.NameToLayer("Ground");
+        LayerMask layerMask = 1 << layer;
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 200, 1 << layer))
         {
+            
             Vector3 Position_y0 = new Vector3(transform.position.x, 0, transform.position.z);
 
             if (player.transform.forward == null) return;

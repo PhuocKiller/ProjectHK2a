@@ -187,10 +187,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
 
         //   moveInput = state != 5 ? characterInput.Character.Move.ReadValue<Vector2>() : Vector2.zero;
-        moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if(moveInput.magnitude==0)
+        if (HasStateAuthority)
         {
-            moveInput = new Vector2(joystick.Horizontal, joystick.Vertical).normalized;
+            moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            if (moveInput.magnitude == 0)
+            {
+                moveInput = new Vector2(joystick.Horizontal, joystick.Vertical).normalized;
+            }
         }
         
         if (isGround)
@@ -484,20 +487,26 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     void CalculateStatusDebuff()
     {
         if(state==3) { playerStat.isBeingStun = false;playerStat.isBeingSlow = false;playerStat.isBeingSilen = false; }
-        if(HasStateAuthority)
+        
+        if (HasStateAuthority)
         {
+            if (playerStat.isUnstopAble)
+            {
+                TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
+                TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
+                TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
+            }
             if (TimeOfStunDebuff.RemainingTime(Runner)>0)
             {
-                currentStunTimeStatus = (float)TimeOfStunDebuff.RemainingTime(Runner); Debug.Log("vo stun");
+                currentStunTimeStatus = (float)TimeOfStunDebuff.RemainingTime(Runner); 
             }
             else if (TimeOfSilenDebuff.RemainingTime(Runner) > 0)
             {
-                currentSilenTimeStatus = (float)TimeOfSilenDebuff.RemainingTime(Runner); Debug.Log("vo silen");
-                Debug.Log("is silen" + playerStat.isBeingSilen);
+                currentSilenTimeStatus = (float)TimeOfSilenDebuff.RemainingTime(Runner); 
             }
             else if(TimeOfSlowDebuff.RemainingTime(Runner) > 0)
             {
-                currentSlowTimeStatus = (float)TimeOfSlowDebuff.RemainingTime(Runner); Debug.Log("vo slow");
+                currentSlowTimeStatus = (float)TimeOfSlowDebuff.RemainingTime(Runner); 
             }
         }
         
@@ -519,6 +528,12 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     void CalculateCanvas()
     {
+        if (HasStateAuthority)
+        {
+            Debug.Log(TimeOfStunDebuff.RemainingTime(Runner)>0);
+            Debug.Log(TimeOfSilenDebuff.RemainingTime(Runner)>0);
+            Debug.Log(TimeOfSlowDebuff.RemainingTime(Runner) > 0);
+        }
         statusCanvas.TimeRemainingBar.gameObject.SetActive
             ((TimeOfStunDebuff.RemainingTime(Runner) > 0|| TimeOfSilenDebuff.RemainingTime(Runner) > 0
             || TimeOfSlowDebuff.RemainingTime(Runner) > 0)&& state!=3);

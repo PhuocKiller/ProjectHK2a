@@ -78,7 +78,7 @@ public class SkillButton : NetworkBehaviour
         if (player == null||skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack) return;
         skillLevelImage.fillAmount = levelSkill * 0.25f;
         AddSkill_LevelBtn.gameObject.SetActive(player.playerStat.levelPoint > 0 && levelSkill<4);
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
             player.playerStat.UpgradeLevel();

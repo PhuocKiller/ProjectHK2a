@@ -90,7 +90,7 @@ public class Viking : PlayerController
     {
         base.Ultimate(VFXEffect, levelDamage, manaCost, isPhysicDamage, timeTrigger: timeTrigger);
         StartCoroutine(DelayUltimate(VFXEffect, levelDamage, isPhysicDamage,
-            isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect));
+            isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, posMouseUp, levelSkill));
 
 
     }
@@ -98,7 +98,7 @@ public class Viking : PlayerController
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0f);
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, skill_2Transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
@@ -106,6 +106,7 @@ public class Viking : PlayerController
                  isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
                 obj.GetComponent<BuffsOfPlayer>().levelSkill = levelSkill;
             });
+        playerStat.isUnstopAble = true;
     }
     
 }
