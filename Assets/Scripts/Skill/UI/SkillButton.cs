@@ -191,7 +191,6 @@ public class SkillButton : NetworkBehaviour
                 if (player.playerStat.isBeingStun) return;
                 player.NormalAttack(VfxEffect, damageSkill,isPhysicDamage,isMakeStun,isMakeSlow,isMakeSilen
                     ,timerTrigger,timeEffect);
-                
             }
             if (skillButtonType == SkillButtonTypes.Ultimate)
             {
@@ -213,7 +212,6 @@ public class SkillButton : NetworkBehaviour
              timerTrigger, timeEffect, posMouseUp, levelSkill);
                 
             }
-            
             m_skillController.Trigger();
         }
     }

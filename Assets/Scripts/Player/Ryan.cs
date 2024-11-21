@@ -7,6 +7,7 @@ public class Ryan : PlayerController
 {
     TickTimer timerSkill2;
     [SerializeField] public Transform effectSkill2;
+    [Networked] public int attackTimes { get;set; }
     public override void Spawned()
     {
         base.Spawned();
@@ -16,9 +17,34 @@ public class Ryan : PlayerController
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
         float TimeEffect = 0f)
     {
-        base.NormalAttack(VFXEffect, levelDamage, isPhysicDamage, timeTrigger: timeTrigger);
-        StartCoroutine(DelaySpawnAttack(VFXEffect, levelDamage, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+        if (effectSkill2.gameObject.activeInHierarchy)
+        {
+            AnimatorRPC("SpecialAttack");
+            foreach (var buffkatana in FindObjectsOfType<RyanKatana>())
+            {
+                Destroy(buffkatana.gameObject);
+            }
+            StartCoroutine(ActiveKatana(false,1.5f*100/playerStat.attackSpeed));
+            attackTimes = 0;
+        }
+        else
+        {
+            attackTimes++;
+            if(attackTimes==3)
+            {
+                NetworkObject obj = Runner.Spawn(networkObjs.listNetworkObj[7], transform.position, Quaternion.identity, Object.InputAuthority,
+            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+            {
+                obj.GetComponent<RyanKatana>().SetUp(this, levelDamage, isPhysicDamage, null,
+             isMakeStun, isMakeSlow, isMakeSilen, 15, TimeEffect);
+                obj.GetComponent<BuffsOfPlayer>().levelSkill = 1;
+            });
+                SetParentRPC(obj.Id);
+            }
+            AnimatorRPC("Attack");
+            StartCoroutine(DelaySpawnAttack(VFXEffect, levelDamage, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
           timeTrigger, TimeEffect));
+        }
     }
     IEnumerator DelaySpawnAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
@@ -30,10 +56,9 @@ public class Ryan : PlayerController
      {
          obj.GetComponent<AttackObjects>().SetUp(this, playerStat.damage, isPhysicDamage, normalAttackTransform,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
-     }
-                        );
+     });
     }
-
+    
     public override void Skill_1(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
@@ -63,16 +88,17 @@ public class Ryan : PlayerController
             });
         SetParentRPC(obj.Id);
     }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void ActiveKatanaRPC()
+    public IEnumerator ActiveKatana(bool isActive, float timeDelay)
     {
-        effectSkill2.gameObject.SetActive(true);
+        yield return new WaitForSeconds(timeDelay);
+        ActiveKatanaRPC(isActive);
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void DeactiveKatanaRPC()
+    public void ActiveKatanaRPC(bool isActive)
     {
-       effectSkill2.gameObject.SetActive(false);
+        effectSkill2.gameObject.SetActive(isActive);
     }
+    
 
     public override void Ultimate(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
@@ -95,7 +121,6 @@ public class Ryan : PlayerController
                 obj.GetComponent<BuffsOfPlayer>().levelSkill = levelSkill;
             });
         SetParentRPC(obj.Id);
-        
     }
 }
 

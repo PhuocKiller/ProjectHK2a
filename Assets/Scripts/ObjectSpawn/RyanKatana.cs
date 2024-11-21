@@ -20,7 +20,7 @@ public class RyanKatana: NetworkBehaviour
         if (HasStateAuthority && HasInputAuthority)
         {
             timer = TickTimer.CreateFromSeconds(Runner, timerDespawn);
-            player.GetComponent<Ryan>().ActiveKatanaRPC();
+            StartCoroutine(player.GetComponent<Ryan>().ActiveKatana(true,0.7f*100/player.playerStat.attackSpeed));
         }
     }
     public void SetUp(PlayerController player, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
@@ -46,7 +46,7 @@ public class RyanKatana: NetworkBehaviour
         if (HasStateAuthority && timer.Expired(Runner)
             )
         {
-            player.GetComponent<Ryan>().DeactiveKatanaRPC();
+            StartCoroutine(player.GetComponent<Ryan>().ActiveKatana(false, 0));
             Destroy(gameObject);
         }
 

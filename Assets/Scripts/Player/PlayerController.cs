@@ -491,12 +491,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         
         if (HasStateAuthority)
         {
-            /*if (playerStat.isUnstopAble)
-            {
-                TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-                TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-                TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            }*/
             if (TimeOfStunDebuff.RemainingTime(Runner)>0)
             {
                 currentStunTimeStatus = (float)TimeOfStunDebuff.RemainingTime(Runner); 
