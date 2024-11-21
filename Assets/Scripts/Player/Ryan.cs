@@ -26,6 +26,8 @@ public class Ryan : PlayerController
             }
             StartCoroutine(ActiveKatana(false,1.5f*100/playerStat.attackSpeed));
             attackTimes = 0;
+            StartCoroutine(DelaySpawnSpecialAttack(VFXEffect, levelDamage, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+          timeTrigger, TimeEffect));
         }
         else
         {
@@ -58,7 +60,19 @@ public class Ryan : PlayerController
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
      });
     }
-    
+    IEnumerator DelaySpawnSpecialAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
+        float TimeEffect = 0f)
+    {
+        yield return new WaitForSeconds(1.3f * 100f / playerStat.attackSpeed);
+        Runner.Spawn(networkObjs.listNetworkObj[8], normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
+     , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+     {
+         obj.GetComponent<AttackObjects>().SetUp(this, playerStat.damage, isPhysicDamage, normalAttackTransform,
+             isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
+     });
+    }
+
     public override void Skill_1(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
