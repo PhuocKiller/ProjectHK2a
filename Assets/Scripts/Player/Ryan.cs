@@ -6,6 +6,7 @@ using UnityEngine;
 public class Ryan : PlayerController
 {
     TickTimer timerSkill2;
+    [SerializeField] public Transform effectSkill2;
     public override void Spawned()
     {
         base.Spawned();
@@ -53,10 +54,26 @@ public class Ryan : PlayerController
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
         base.Skill_2(VFXEffect, levelDamage, manaCost, isPhysicDamage, timeTrigger: timeTrigger);
-        
-        
+        NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, transform.position, Quaternion.identity, Object.InputAuthority,
+            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+            {
+                obj.GetComponent<RyanKatana>().SetUp(this, levelDamage, isPhysicDamage, null,
+             isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
+                obj.GetComponent<BuffsOfPlayer>().levelSkill = levelSkill;
+            });
+        SetParentRPC(obj.Id);
     }
-    
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void ActiveKatanaRPC()
+    {
+        effectSkill2.gameObject.SetActive(true);
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void DeactiveKatanaRPC()
+    {
+       effectSkill2.gameObject.SetActive(false);
+    }
+
     public override void Ultimate(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)

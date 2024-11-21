@@ -529,12 +529,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     void CalculateCanvas()
     {
-        if (HasStateAuthority)
-        {
-            Debug.Log(TimeOfStunDebuff.RemainingTime(Runner)>0);
-            Debug.Log(TimeOfSilenDebuff.RemainingTime(Runner)>0);
-            Debug.Log(TimeOfSlowDebuff.RemainingTime(Runner) > 0);
-        }
         statusCanvas.TimeRemainingBar.gameObject.SetActive
             ((TimeOfStunDebuff.RemainingTime(Runner) > 0|| TimeOfSilenDebuff.RemainingTime(Runner) > 0
             || TimeOfSlowDebuff.RemainingTime(Runner) > 0)&& state!=3);
