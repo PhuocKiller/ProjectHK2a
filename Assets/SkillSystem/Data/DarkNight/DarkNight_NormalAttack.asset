@@ -14,17 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerTrigger: 0.4
   cooldownTime: 0
-  levelManaCosts:
-  - 0
-  - 0
+  levelManaCosts: 0000000000000000
   skillIcon: {fileID: 21300000, guid: 41e62e7a24c13dc4fbebfeb5dadaed80, type: 3}
   triggerSoundFX: {fileID: 0}
-  levelDamages:
-  - 0
-  - 10
+  levelDamages: 000000000a000000
   isPhysicDamage: 1
   isMakeStun: 0
-  isMakeSlow: 1
-  isMakeSilen: 0
+  isMakeSlow: 0
+  isMakeSilen: 1
   timeEffect: 1.5
   VfxEffect: {fileID: 5172160001909256603, guid: fff7f279e72ca2842b2c5c4fdc43c7bf, type: 3}

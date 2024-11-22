@@ -11,7 +11,7 @@ public class AttackObjects : NetworkBehaviour
     private List<Collider> collisions = new List<Collider>();
     private TickTimer timer;
     public float timerDespawn, timeEffect;
-    public int damage;
+    public int damage, levelSkill;
     public bool isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider;
     public override void Spawned()
     {
@@ -31,7 +31,7 @@ public class AttackObjects : NetworkBehaviour
     }
     public void SetUp(PlayerController player, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
-        float timeEffect = 0f, bool isDestroyWhenCollider = false)
+        float timeEffect = 0f, bool isDestroyWhenCollider = false, int levelSkill = 1)
     {
         this.player = player;
         transform.SetParent(parentObject);
@@ -43,6 +43,7 @@ public class AttackObjects : NetworkBehaviour
         this.timeEffect = timeEffect;
         this.isDestroyWhenCollider = isDestroyWhenCollider;
         timerDespawn = timeTrigger;
+        this.levelSkill = levelSkill;
     }
     
     public override void FixedUpdateNetwork()
@@ -71,13 +72,17 @@ public class AttackObjects : NetworkBehaviour
         {
             collisions.Add(other);
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, Object.InputAuthority,
-                callback: () => 
+                counter: (int counterDamage) => 
                 {
-                  
+                    player.playerStat.currentHealth -= counterDamage;
                 }
                 ,isKillPlayer: (int levelHeroKilled)  => // Nhận exp khi giêt địch ở đây
                 {
                     player.playerStat.currentXP += 100 * levelHeroKilled;
+                    if(player.playerType==Player_Types.DumbleDore)
+                    {
+                        player.playerStat.currentMana += (int)(player.playerStat.maxMana * 0.2 * levelSkill);
+                    }
                 }
                 );
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(Object.InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,

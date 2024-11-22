@@ -22,7 +22,6 @@ public class Dumbledore : PlayerController
      {
         obj.GetComponent<AttackObjects>().SetUp(this, playerStat.b_damage, isPhysicDamage, null,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
-         Debug.Log(isMakeSlow);
          obj.GetComponent<AttackObjects>().SetDirection(transform.forward);
      }
                         );
@@ -43,8 +42,8 @@ public class Dumbledore : PlayerController
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, posMouseUp, skill_1Transform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AttackObjects>().SetUp(this,  levelDamage, isPhysicDamage,skill_1Transform,
-                 isMakeStun, isMakeSlow, isMakeSilen,timeTrigger,TimeEffect);
+                obj.GetComponent<AttackObjects>().SetUp(this,  levelDamage, isPhysicDamage,null,
+                 isMakeStun, isMakeSlow, isMakeSilen,timeTrigger,TimeEffect,false,levelSkill);
                 StartCoroutine(DelaySkill_1_Collider(obj));
             });
     }
@@ -78,9 +77,8 @@ public class Dumbledore : PlayerController
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, posMouseUp, ultimateTransform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AttackObjects>().SetUp(this, levelDamage, isPhysicDamage, ultimateTransform,
+                obj.GetComponent<AttackObjects>().SetUp(this, levelDamage, isPhysicDamage, null,
                  isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
-                Debug.Log(isMakeStun);
             });
         StartCoroutine(DelayActiveUltimateCollider(obj));
     }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class DarkNight : PlayerController
 {
-    TickTimer timerSkill2;
     public override void Spawned()
     {
         base.Spawned();
@@ -27,10 +26,9 @@ public class DarkNight : PlayerController
         Runner.Spawn(VFXEffect.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<AttackObjects>().SetUp(this, playerStat.b_damage, isPhysicDamage, normalAttackTransform,
+         obj.GetComponent<DarkNightAttackObjects>().SetUp(this,"NormalAttack", playerStat.b_damage, isPhysicDamage, normalAttackTransform,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
-     }
-                        );
+     });
     }
    
     public override void Skill_1(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
@@ -64,19 +62,19 @@ public class DarkNight : PlayerController
     {
         base.Ultimate(VFXEffect, levelDamage, manaCost, isPhysicDamage, timeTrigger: timeTrigger);
         StartCoroutine(DelayUltimate(VFXEffect, levelDamage, isPhysicDamage,
-            isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect));
+            isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, levelSkill));
 
         
     }
     IEnumerator DelayUltimate(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f, int levelSkill = 1)
     {
         yield return new WaitForSeconds(1f);
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, ultimateTransform.position, ultimateTransform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AttackObjects>().SetUp(this, levelDamage, isPhysicDamage, ultimateTransform,
-             isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
+                obj.GetComponent<DarkNightAttackObjects>().SetUp(this,"Ultimate", levelDamage, isPhysicDamage, ultimateTransform,
+             isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect,false, levelSkill);
             });
         StartCoroutine(DelayUltimateCollider(obj));
     }

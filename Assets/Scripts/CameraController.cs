@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
         freeLookCamera.m_YAxis.m_MaxSpeed = 5f;
 #elif UNITY_ANDROID || UNITY_IOS
 freeLookCamera.m_XAxis.m_MaxSpeed = 150f;
-freeLookCamera.m_YAxis.m_MaxSpeed = 2f;
+freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
 #endif
 
     }
@@ -40,17 +40,22 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 2f;
         freeLookCamera.Follow = null;
     }
 
-
+    public void MoveCameraUp()
+    {
+        freeLookCamera.m_YAxis.Value = Mathf.Lerp(freeLookCamera.m_YAxis.Value, 1, 0.5f * Time.deltaTime); //nâng cao camera khi xài skill
+    }
     public float GetAxisCustom(string axisName)
     {
-        if(player == null) return 0f;
+
+#if UNITY_EDITOR
+        if (player == null) return 0f;
         if (axisName == "Mouse X")
         {
-            if (Input.GetKey("mouse 0") && player.GetCurrentState()==0
-                && Input.mousePosition.x>Screen.width/2)
+            if (Input.GetKey("mouse 0") && player.GetCurrentState() == 0
+                && Input.mousePosition.x > Screen.width / 2)
             {
                 return UnityEngine.Input.GetAxis("Mouse X");
-             
+
             }
             else
             {
@@ -70,6 +75,37 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 2f;
             }
         }
         return UnityEngine.Input.GetAxis(axisName);
+#elif UNITY_ANDROID || UNITY_IOS
+        
+        if(player == null) return 0f;
+        for (int i = 0; i < Input.touchCount; i++)
+        {
+        Touch touch = Input.GetTouch(i);
+        if (axisName == "Mouse X")
+        {
+            if (player.GetCurrentState() == 0)
+            {
+                if(touch.position.x > Screen.width / 2) return UnityEngine.Input.GetAxis("Mouse X");
+            }
+            else return 0;
+        }
+        else if (axisName == "Mouse Y")
+        {
+            if (player.GetCurrentState() == 0)
+            {
+                if(touch.position.x > Screen.width / 2) return UnityEngine.Input.GetAxis("Mouse Y");
+            }
+            else return 0;
+        }
+        }
+        return UnityEngine.Input.GetAxis(axisName);
+       
+#elif UNITY_STANDALONE
+        Debug.Log("Chạy trên PC (Windows, macOS, Linux)");
+#else
+        Debug.Log("Nền tảng khác");
+
+#endif
     }
 
     public Transform targetLookAt;  // Tham chiếu đến đối tượng mà camera sẽ nhìn vào

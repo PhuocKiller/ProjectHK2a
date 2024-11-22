@@ -85,7 +85,7 @@ public class SkillButton : NetworkBehaviour
         }
         if (skillButtonType != SkillButtonTypes.Ultimate) return;
         int maxSkillPointCanHave = (int)(player.playerStat.level / 3);
-        AddSkill_LevelBtn.gameObject.SetActive(levelSkill<maxSkillPointCanHave);
+        AddSkill_LevelBtn.gameObject.SetActive(levelSkill<maxSkillPointCanHave && levelSkill < 4);
 
     }
     public void Initialize(SkillName skillName)
@@ -244,9 +244,9 @@ public class SkillButton : NetworkBehaviour
             if (state == 5 && !player.playerStat.isBeingStun && !player.playerStat.isBeingSilen)
             {
                 Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-                
                player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, look, 720 * Time.deltaTime);
-                           }
+                Singleton<CameraController>.Instance.MoveCameraUp();
+            }
         }
     }
     public void PointerUp() 

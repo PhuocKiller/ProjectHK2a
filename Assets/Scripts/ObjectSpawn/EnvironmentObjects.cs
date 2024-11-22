@@ -80,8 +80,9 @@ public class EnvironmentObjects : NetworkBehaviour
                     {
                         other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, Object.InputAuthority,
                     activeInjureAnim: false,
-                    callback: () =>
+                    counter: (int counterDamage) =>
                     {
+                        player.playerStat.currentHealth -= counterDamage;
                     }
                     , isKillPlayer: (int levelHeroKilled) => // Nhận exp khi giêt địch ở đây
                     {

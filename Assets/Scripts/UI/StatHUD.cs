@@ -17,11 +17,11 @@ public class StatHUD : MonoBehaviour
     void Update()
     {
         if (player==null) return;
-        attackTMP.text= ((int)player.playerStat.damage).ToString();
+        attackTMP.text= player.playerStat.damage.ToString();
         defTMP.text = player.playerStat.defend.ToString();
         attackSpeedTMP.text = player.playerStat.attackSpeed.ToString();
         magicAmpliTMP.text = ((player.playerStat.magicAmpli*100)).ToString() + "%";
-        magicResisTMP.text = ((int)(player.playerStat.magicResistance*100)).ToString() + "%";
+        magicResisTMP.text = player.playerStat.magicResistance.ToString();
         moveSpeedTMP.text = player.playerStat.moveSpeed.ToString();
 
     }

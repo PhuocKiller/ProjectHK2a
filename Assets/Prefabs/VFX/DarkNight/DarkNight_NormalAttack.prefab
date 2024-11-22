@@ -9833,7 +9833,7 @@ GameObject:
   - component: {fileID: 2496036427053014715}
   - component: {fileID: 5620401622971878522}
   - component: {fileID: 5172160001909256603}
-  - component: {fileID: 4372206524705028076}
+  - component: {fileID: -3450175564111216642}
   m_Layer: 0
   m_Name: DarkNight_NormalAttack
   m_TagString: Untagged
@@ -9933,9 +9933,9 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 5620401622971878522}
-  - {fileID: 4372206524705028076}
+  - {fileID: -3450175564111216642}
   SimulationBehaviours: []
---- !u!114 &4372206524705028076
+--- !u!114 &-3450175564111216642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9944,7 +9944,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5157850387996107450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4adba983eb5c91949a51414cf778d361, type: 3}
+  m_Script: {fileID: 11500000, guid: 11c3c79f57dcec246aa36c212a7fd203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WordOffset: 0

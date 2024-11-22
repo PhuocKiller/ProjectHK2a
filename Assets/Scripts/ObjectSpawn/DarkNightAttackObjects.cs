@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RyanKatana: NetworkBehaviour
+public class DarkNightAttackObjects: NetworkBehaviour
 {
     PlayerController player;
     private Vector3 direction;
-    private NetworkRigidbody rb;
     private List<Collider> collisions = new List<Collider>();
     private TickTimer timer;
     public float timerDespawn, timeEffect;
-    public int damage;
+    public int damage, levelSkill;
+    string skillName;
     public bool isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider;
     public override void Spawned()
     {
@@ -20,14 +20,14 @@ public class RyanKatana: NetworkBehaviour
         if (HasStateAuthority && HasInputAuthority)
         {
             timer = TickTimer.CreateFromSeconds(Runner, timerDespawn);
-            StartCoroutine(player.GetComponent<Ryan>().ActiveKatana(true,0.7f*100/player.playerStat.attackSpeed));
-        }
+                   }
     }
-    public void SetUp(PlayerController player, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
+    public void SetUp(PlayerController player,string skillName, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
-        float timeEffect = 0f, bool isDestroyWhenCollider = false)
+        float timeEffect = 0f, bool isDestroyWhenCollider = false, int levelSkill=1)
     {
         this.player = player;
+        this.skillName = skillName;
         transform.SetParent(parentObject);
         damage = levelDamage;
         this.isPhysicDamage = isPhysicDamage;
@@ -37,27 +37,18 @@ public class RyanKatana: NetworkBehaviour
         this.timeEffect = timeEffect;
         this.isDestroyWhenCollider = isDestroyWhenCollider;
         timerDespawn = timeTrigger;
+        this.levelSkill = levelSkill;
     }
-    
 
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        if (HasStateAuthority && timer.Expired(Runner)
-            )
+        if (HasStateAuthority && timer.Expired(Runner))
         {
-            StartCoroutine(player.GetComponent<Ryan>().ActiveKatana(false, 0));
             Destroy(gameObject);
         }
 
     }
-
-    public void SetDirection(Vector3 newDirection)
-    {
-        direction = newDirection;
-    }
-
-
     private void OnTriggerEnter(Collider other)
     {
         if (HasStateAuthority
@@ -66,7 +57,8 @@ public class RyanKatana: NetworkBehaviour
             && other.gameObject.GetComponent<PlayerController>().state != 3)
         {
             collisions.Add(other);
-            other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, Object.InputAuthority,
+            other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(CalculateAttackDamage(other.gameObject.GetComponent<PlayerController>())
+                , isPhysicDamage, Object.InputAuthority,
                 counter: (int counterDamage) =>
                 {
                     player.playerStat.currentHealth -= counterDamage;
@@ -82,7 +74,21 @@ public class RyanKatana: NetworkBehaviour
                     if (isDestroyWhenCollider) Destroy(gameObject);//khi chạm vào địch thì hủy vật thể
                 }
                 );
-
         }
     }
+    int CalculateAttackDamage(PlayerController playerBeingAttack)
+    {
+        if (skillName=="NormalAttack")
+        {
+            return damage + (int)(playerBeingAttack.playerStat.currentHealth * 0.015 * ((int)(player.playerStat.level / 3) + 1));
+        }
+        else if (skillName =="Ultimate")
+        {
+            return damage + (int)((playerBeingAttack.playerStat.maxHealth- playerBeingAttack.playerStat.currentHealth) * 0.25
+                * (int)(player.playerStat.level / 3) );
+        }
+        else { return 0; }
+        
+    }
+    
 }

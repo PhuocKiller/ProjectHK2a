@@ -24630,7 +24630,7 @@ GameObject:
   - component: {fileID: 318424617361301651}
   - component: {fileID: 2865572806765571778}
   - component: {fileID: 6331758913082590399}
-  - component: {fileID: 8961565534829630191}
+  - component: {fileID: -106806654662919550}
   m_Layer: 0
   m_Name: DarkNight_Ultimate
   m_TagString: Untagged
@@ -24708,7 +24708,7 @@ MonoBehaviour:
   - {fileID: 5657519215792369846}
   NetworkedBehaviours:
   - {fileID: 318424617361301651}
-  - {fileID: 8961565534829630191}
+  - {fileID: -106806654662919550}
   SimulationBehaviours: []
 --- !u!135 &6331758913082590399
 SphereCollider:
@@ -24731,7 +24731,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 6
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8961565534829630191
+--- !u!114 &-106806654662919550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24740,7 +24740,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7413357162941872214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4adba983eb5c91949a51414cf778d361, type: 3}
+  m_Script: {fileID: 11500000, guid: 11c3c79f57dcec246aa36c212a7fd203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WordOffset: 0

@@ -94,9 +94,9 @@ public class AxeController: NetworkBehaviour
         {
             collisions.Add(other);
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, Object.InputAuthority,
-                callback: () =>
+                counter: (int counterDamage) =>
                 {
-                   
+                   player.playerStat.currentHealth-=counterDamage;
                 }
                 , isKillPlayer: (int levelHeroKilled) => // Nhận exp khi giêt địch ở đây
                 {

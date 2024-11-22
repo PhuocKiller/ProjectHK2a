@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2879537371439112757}
   - component: {fileID: 802411000936358748}
   - component: {fileID: 4941050230053513004}
-  - component: {fileID: -1250906945034316455}
   - component: {fileID: -3121823306722707029}
+  - component: {fileID: 7991989189100704587}
   m_Layer: 0
   m_Name: Dumbledore_Skill2
   m_TagString: Untagged
@@ -90,32 +90,9 @@ MonoBehaviour:
   - {fileID: 251903718937042930}
   NetworkedBehaviours:
   - {fileID: 802411000936358748}
-  - {fileID: -1250906945034316455}
   - {fileID: -3121823306722707029}
+  - {fileID: 7991989189100704587}
   SimulationBehaviours: []
---- !u!114 &-1250906945034316455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4686722564777009213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4adba983eb5c91949a51414cf778d361, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WordOffset: 0
-  WordCount: 0
-  _interpolationDataSource: 0
-  timerDespawn: 0
-  timeEffect: 0
-  damage: 0
-  isPhysicDamage: 0
-  isMakeStun: 0
-  isMakeSlow: 0
-  isMakeSilen: 0
-  isDestroyWhenCollider: 0
 --- !u!114 &-3121823306722707029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,13 +112,38 @@ MonoBehaviour:
   _maxMana: 30
   _damage: 0
   _defend: 0
-  _magicResistance: 0.2
-  _magicAmpli: 0.2
+  _magicResistance: 10
+  _magicAmpli: 0.1
   _criticalChance: 0
   _criticalDamage: 0
   _moveSpeed: 15
   _attackSpeed: 0
+  _levelSkill: 0
   canHeal: 0
+--- !u!114 &7991989189100704587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686722564777009213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9737b49e27f460841a7eb63d998e0854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
+  timerDespawn: 0
+  timeEffect: 0
+  damage: 0
+  levelSkill: 0
+  isPhysicDamage: 0
+  isMakeStun: 0
+  isMakeSlow: 0
+  isMakeSilen: 0
+  isDestroyWhenCollider: 0
 --- !u!1 &5750370291223301842
 GameObject:
   m_ObjectHideFlags: 0

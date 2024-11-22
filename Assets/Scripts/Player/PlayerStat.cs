@@ -20,6 +20,7 @@ public class PlayerStat: NetworkBehaviour
     [Networked] public float b_criticalDamage { get; set; }
     [Networked] public int b_moveSpeed { get; set; }
     [Networked] public int b_attackSpeed { get; set; }
+    [Networked] public int counterDamage { get; set; }
     [Header("Full Stat")]
     public int maxHealth;
     public int maxMana;
@@ -52,6 +53,7 @@ public class PlayerStat: NetworkBehaviour
     [HideInInspector][Networked] public bool isLifeSteal { get; set; }
     [Networked] public bool isVisible { get; set; }
     [Networked] public bool isUnstopAble { get; set; }
+    [Networked] public bool isCounter { get; set; }
 
     public override void Spawned()
     {
@@ -86,12 +88,9 @@ public class PlayerStat: NetworkBehaviour
     private void UpdateFullStat()
     {
         maxHealth = b_maxHealth + playerBuffManager.maxHealth;
-        if(maxHealth<1) maxHealth = 1;
-        if(currentHealth > maxHealth)
-        {
-            currentHealth = maxHealth;
-        }
+        if(maxHealth<1) maxHealth = 1; if (currentHealth > maxHealth) currentHealth = maxHealth;
         maxMana = b_maxMana + playerBuffManager.maxMana;
+        if(currentMana > maxMana) { currentMana = maxMana; }
         damage = b_damage + playerBuffManager.damage;
         defend = b_defend + playerBuffManager.defend;
         magicResistance = b_magicResistance + playerBuffManager.magicResistance;

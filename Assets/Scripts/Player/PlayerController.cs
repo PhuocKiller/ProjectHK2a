@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using static Fusion.SimulationInput;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
@@ -399,10 +400,14 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     #endregion
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerRef player,
-        Action callback = null, Action<int> isKillPlayer = null, bool activeInjureAnim = true)
+        Action<int> counter = null, Action<int> isKillPlayer = null, bool activeInjureAnim = true)
     {
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim);
-        callback?.Invoke();
+        if(playerStat.isCounter)
+        {
+            counter?.Invoke(playerStat.counterDamage);
+        }
+        
         if (state==3)
         {
             isKillPlayer?.Invoke(playerStat.level);
@@ -569,9 +574,19 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             NetworkObject obj = Runner.Spawn(networkObjs.listNetworkObj[objectList], transform.position, transform.rotation,
                        Object.InputAuthority,
           onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-          { 
-               obj.GetComponent<AttackObjects>().SetUp(this, 0, isPhysicDamage, null,
+          {
+              AttackObjects attObj = obj.GetComponent<AttackObjects>();
+              if(attObj)
+              {
+                  attObj.SetUp(this, 0, isPhysicDamage, null,
                 isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
+              }
+              DumbleAttackObjects dumObj = obj.GetComponent<DumbleAttackObjects>();
+              if(dumObj)
+              {
+                  dumObj.SetUp(this, levelDamage, isPhysicDamage, null,
+                isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
+              }
               Shield newshield = obj.GetComponent<Shield>();
               if(newshield)
               {
@@ -608,10 +623,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             obj.transform.SetParent(skill_2Transform);
         }
-        /*if (obj.GetComponent<AxeController>() != null && playerType == Player_Types.Viking)
-        {
-            obj.transform.SetParent(skill_1Transform);
-        }*/
     }
 }
 
