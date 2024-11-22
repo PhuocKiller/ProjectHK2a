@@ -1,15 +1,13 @@
-using Fusion;
+﻿using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Sagittarius : PlayerController
 {
-    public string playerLayer = "Player";
-
-    TickTimer timerSkill2;
-
     public override void Spawned()
     { base.Spawned(); }
 
@@ -36,9 +34,9 @@ public class Sagittarius : PlayerController
     {
         base.Skill_1(VFXEffect, levelDamage, manaCost, isPhysicDamage, isMakeStun: isMakeStun,
             TimeEffect: TimeEffect, timeTrigger: timeTrigger);
-        if(CheckHitPlayer())
+        if(CheckHitPlayer() && CheckHitPlayer().playerTeam==playerTeam)
         {
-            CheckHitPlayer().GetComponent<PlayerController>().SkillRPC
+            CheckHitPlayer().SkillRPC
          (0, levelDamage, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
         }
         else
@@ -47,15 +45,15 @@ public class Sagittarius : PlayerController
         }
     }
 
-    Transform CheckHitPlayer()
+    PlayerController CheckHitPlayer()
     {
-        int layer = LayerMask.NameToLayer(playerLayer);
-        LayerMask layerMask = 1 << layer;
+        
         Vector3 mousePosition = Input.mousePosition;
         mousePosition.z = Camera.main.nearClipPlane;
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-       Physics.Raycast(rayCastTransform.position,transform.forward,out RaycastHit hit, 500, 1<<layer);
-        return hit.transform;
+       Physics.Raycast(rayCastTransform.position,transform.forward,out RaycastHit hit, 500, 1<<7);
+        if (hit.transform == null) return null;
+        else return hit.transform.gameObject.GetComponent<PlayerController>();
     }
     
     public override void Skill_2(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
@@ -65,8 +63,27 @@ public class Sagittarius : PlayerController
         base.Skill_2(VFXEffect, levelDamage, manaCost, isPhysicDamage, timeTrigger: timeTrigger);
         if (CheckHitPlayer())
         {
-            CheckHitPlayer().GetComponent<PlayerController>().SkillRPC
+            if(CheckHitPlayer().playerTeam == playerTeam) //cùng team là hồi máu
+            {
+                CheckHitPlayer().SkillRPC
          (1, levelDamage, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, levelSkill);
+            }
+            else //khác team là gây dam
+            {
+                CheckHitPlayer().SkillRPC
+         (9,0, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, levelSkill);
+                CheckHitPlayer().ApplyDamage(levelDamage, isPhysicDamage, this,
+                counter: (int counterDamage, bool isPhysicDamage) =>
+                {
+                    ApplyDamage(counterDamage, isPhysicDamage, CheckHitPlayer());
+                }
+                , isKillPlayer: (int levelHeroKilled) => // Nhận exp khi giêt địch ở đây
+                {
+                    playerStat.currentXP += 100 * levelHeroKilled;
+                    playerStat.currentMana += (int)(playerStat.maxMana * 0.2 * levelSkill);
+                }
+                );
+            }
         }
         else
         {

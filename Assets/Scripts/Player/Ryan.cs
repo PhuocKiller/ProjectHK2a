@@ -20,7 +20,7 @@ public class Ryan : PlayerController
         if (effectSkill2.gameObject.activeInHierarchy)
         {
             AnimatorRPC("SpecialAttack");
-            foreach (var buffkatana in FindObjectsOfType<RyanKatana>())
+            foreach (var buffkatana in FindObjectsOfType<RyanAttackObjects>())
             {
                 Destroy(buffkatana.gameObject);
             }
@@ -37,7 +37,7 @@ public class Ryan : PlayerController
                 NetworkObject obj = Runner.Spawn(networkObjs.listNetworkObj[7], transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<RyanKatana>().SetUp(this, levelDamage, isPhysicDamage, null,
+                obj.GetComponent<RyanAttackObjects>().SetUp(this, levelDamage, isPhysicDamage, null,
              isMakeStun, isMakeSlow, isMakeSilen, 15, TimeEffect);
                 obj.GetComponent<BuffsOfPlayer>().levelSkill = 1;
             });
@@ -96,7 +96,7 @@ public class Ryan : PlayerController
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<RyanKatana>().SetUp(this, levelDamage, isPhysicDamage, null,
+                obj.GetComponent<RyanAttackObjects>().SetUp(this, levelDamage, isPhysicDamage, null,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
                 obj.GetComponent<BuffsOfPlayer>().levelSkill = levelSkill;
             });

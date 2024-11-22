@@ -58,9 +58,9 @@ public class Viking : PlayerController
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, skill_1Transform.position, skill_1Transform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AxeController>().SetUp(this, levelDamage, isPhysicDamage, null,
+                obj.GetComponent<AxeAttackObject>().SetUp(this, levelDamage, isPhysicDamage, null,
                  isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, posMouseUp);
-                obj.GetComponent<AxeController>().SetDirection(transform.forward);
+                obj.GetComponent<AxeAttackObject>().SetDirection(transform.forward);
             });
     }
    

@@ -78,11 +78,11 @@ public class EnvironmentObjects : NetworkBehaviour
                     if (other.gameObject.GetComponent<PlayerController>().state != 3
                         && timerToApply[index].Expired(Runner))
                     {
-                        other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, Object.InputAuthority,
+                        other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, player,
                     activeInjureAnim: false,
-                    counter: (int counterDamage) =>
+                    counter: (int counterDamage, bool isPhysicDamage) =>
                     {
-                        player.playerStat.currentHealth -= counterDamage;
+                        player.ApplyDamage(counterDamage, isPhysicDamage,player);
                     }
                     , isKillPlayer: (int levelHeroKilled) => // Nhận exp khi giêt địch ở đây
                     {

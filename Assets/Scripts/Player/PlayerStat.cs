@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using Fusion;
 using UnityEngine;
@@ -47,6 +47,7 @@ public class PlayerStat: NetworkBehaviour
     public int multipleMoveSpeed;
     public int multipleAttackSpeed;
 
+    PlayerController player;
     [HideInInspector][Networked] public bool isBeingStun { get; set; }
     [HideInInspector][Networked] public bool isBeingSlow { get; set; }
     [HideInInspector][Networked] public bool isBeingSilen { get; set; }
@@ -58,7 +59,10 @@ public class PlayerStat: NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
-        isVisible=true;
+        player=transform.parent.parent.GetComponent<PlayerController>();
+        currentHealth = 1; //tránh bị bằng =0 trong lần đầu tiên cập nhật
+        UpgradeLevel();
+        isVisible =true;
     }
 
     public void UpdateBaseStat(int level, int multipleHealth, int multipleMana, int multipleDamage, int multipleDefend,
@@ -87,8 +91,11 @@ public class PlayerStat: NetworkBehaviour
 
     private void UpdateFullStat()
     {
+        if (player.state == 3) return;
         maxHealth = b_maxHealth + playerBuffManager.maxHealth;
-        if(maxHealth<1) maxHealth = 1; if (currentHealth > maxHealth) currentHealth = maxHealth;
+        if(maxHealth<1) maxHealth = 1;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+        
         maxMana = b_maxMana + playerBuffManager.maxMana;
         if(currentMana > maxMana) { currentMana = maxMana; }
         damage = b_damage + playerBuffManager.damage;

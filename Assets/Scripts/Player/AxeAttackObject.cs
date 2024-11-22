@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AxeController: NetworkBehaviour
+public class AxeAttackObject: NetworkBehaviour
 {
     PlayerController player;
     private Vector3 direction, velocity;
@@ -90,13 +90,15 @@ public class AxeController: NetworkBehaviour
         if (HasStateAuthority
             && other.gameObject.layer == 7 && collisions.Count == 0
             && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
-            && other.gameObject.GetComponent<PlayerController>().state != 3)
+            && other.gameObject.GetComponent<PlayerController>().state != 3
+            && other.gameObject.GetComponent<PlayerController>().playerTeam != player.playerTeam)
         {
             collisions.Add(other);
-            other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, Object.InputAuthority,
-                counter: (int counterDamage) =>
+            other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage,player,
+                counter: (int counterDamage, bool isPhysicDamage) =>
                 {
-                   player.playerStat.currentHealth-=counterDamage;
+                    player.ApplyDamage(counterDamage, isPhysicDamage,
+                          other.gameObject.GetComponent<PlayerController>());
                 }
                 , isKillPlayer: (int levelHeroKilled) => // Nhận exp khi giêt địch ở đây
                 {

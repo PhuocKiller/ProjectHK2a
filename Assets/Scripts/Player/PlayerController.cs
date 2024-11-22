@@ -6,8 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using static Fusion.SimulationInput;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+
 
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
@@ -18,6 +17,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public List<Collider> collisionsEnvi = new List<Collider>();
     public BuffsOfPlayer buffsFromEnvi;
     public PlayerStat playerStat;
+    public PlayerScore playerScore;
     public StatusCanvas statusCanvas;
     Vector2 moveInput;
     Vector3 moveDirection;
@@ -75,7 +75,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             Singleton<CameraController>.Instance.SetFollowCharacter(transform);
             Singleton<PlayerManager>.Instance.SetRunner(Runner);
-            playerStat.UpgradeLevel();
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner,0);
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
@@ -237,7 +236,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     public void SwithCharacterState(int newstate)
     {
-        //Khi ket thuc trang thai cu thi toi lam gi do...
         switch (state)
         {
             case 0: { break; }
@@ -245,7 +243,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             case 2: { break; }
             case 3: { break; }
         }
-        //Bat dau trang thai moi thi toi lam gi do...
         switch (newstate)
         {
             case 0: { break; }
@@ -399,13 +396,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
     }
     #endregion
-    public void ApplyDamage(int damage, bool isPhysicDamage, PlayerRef player,
-        Action<int> counter = null, Action<int> isKillPlayer = null, bool activeInjureAnim = true)
+    public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
+        Action<int,bool> counter = null, Action<int> isKillPlayer = null, bool activeInjureAnim = true)
     {
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim);
         if(playerStat.isCounter)
         {
-            counter?.Invoke(playerStat.counterDamage);
+            counter?.Invoke(playerStat.counterDamage, isPhysicDamage);
         }
         
         if (state==3)
@@ -415,9 +412,20 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void CalculateHealthRPC
-        (int damage, bool isPhysicDamage, PlayerRef player, bool activeInjureAnim = true)
+        (int damage, bool isPhysicDamage, PlayerController player, bool activeInjureAnim = true)
     {
         if (state == 3) return;
+        if (!playerScore.playersMakeDamages.Contains(player))
+        {
+            Debug.Log("vo day");
+            playerScore.playersMakeDamages.Add(player);
+        }
+        foreach(var playerDamage in playerScore.playersMakeDamages)
+        {
+
+            Debug.Log(playerDamage);
+        }
+        Debug.Log("count" + playerScore.playersMakeDamages.Count);
         if ((playerStat.currentHealth + statusCanvas.GetCurrentDamageAbsorbShield()) > damage)
         {
             if (activeInjureAnim) SwithCharacterState(2);
@@ -435,7 +443,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         else
         {
             playerStat.currentHealth = 0;
-            SwithCharacterState(3);
+            SwithCharacterState (3);
         }
     }
     public void ApplyEffect(PlayerRef player,bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
@@ -597,14 +605,16 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
               if(buff)
               {
                   buff.levelSkill = levelSkill;
-                  Debug.Log(levelSkill);
                   if (buff.canHeal)
                   {
                       playerStat.currentHealth += levelDamage;
+                      if(playerStat.currentHealth < 0)
+                      {
+                          state = 3;
+                          AnimatorRPC("Die");
+                      }
                   }
               }
-             
-
           });
             SetParentRPC(obj.Id);
         }
