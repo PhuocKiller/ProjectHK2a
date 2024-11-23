@@ -55,6 +55,7 @@ public class PlayerStat: NetworkBehaviour
     [Networked] public bool isVisible { get; set; }
     [Networked] public bool isUnstopAble { get; set; }
     [Networked] public bool isCounter { get; set; }
+    [Networked] public bool isLive { get; set; }
 
     public override void Spawned()
     {
@@ -63,6 +64,7 @@ public class PlayerStat: NetworkBehaviour
         currentHealth = 1; //tránh bị bằng =0 trong lần đầu tiên cập nhật
         UpgradeLevel();
         isVisible =true;
+        isLive =true;
     }
     public override void FixedUpdateNetwork()
     {

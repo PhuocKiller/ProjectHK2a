@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class InviManager : NetworkBehaviour
 {
@@ -17,7 +18,12 @@ public class InviManager : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        CheckInviVisual(player.playerStat.isVisible);
+        if(player.playerStat.isLive)
+        {
+            CheckInviVisual(player.playerStat.isVisible);
+        }
+        
+       // VisualOfPlayer(player.playerStat.isLive);
     }
 
     private void CheckInviVisual(bool isVisible)
@@ -28,6 +34,14 @@ public class InviManager : NetworkBehaviour
             {
                 visual.gameObject.SetActive(isVisible);
             }
+        }
+    }
+    public void VisualOfPlayer(bool isLive)
+    {
+        player.GetComponent<CapsuleCollider>().enabled = isLive;
+        foreach (var visual in visuals)
+        {
+            visual.gameObject.SetActive(isLive);
         }
     }
 }

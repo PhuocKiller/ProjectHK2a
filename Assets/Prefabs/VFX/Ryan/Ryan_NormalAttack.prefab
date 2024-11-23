@@ -9833,7 +9833,7 @@ GameObject:
   - component: {fileID: 2496036427053014715}
   - component: {fileID: 5620401622971878522}
   - component: {fileID: 5172160001909256603}
-  - component: {fileID: 4372206524705028076}
+  - component: {fileID: 4053889492152407856}
   m_Layer: 0
   m_Name: Ryan_NormalAttack
   m_TagString: Untagged
@@ -9933,9 +9933,9 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 5620401622971878522}
-  - {fileID: 4372206524705028076}
+  - {fileID: 4053889492152407856}
   SimulationBehaviours: []
---- !u!114 &4372206524705028076
+--- !u!114 &4053889492152407856
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9953,6 +9953,7 @@ MonoBehaviour:
   timerDespawn: 0
   timeEffect: 0
   damage: 0
+  levelSkill: 0
   isPhysicDamage: 0
   isMakeStun: 0
   isMakeSlow: 0

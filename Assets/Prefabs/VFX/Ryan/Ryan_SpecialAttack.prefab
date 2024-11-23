@@ -9832,8 +9832,8 @@ GameObject:
   - component: {fileID: 4216045789228451356}
   - component: {fileID: 5620401622971878522}
   - component: {fileID: 5172160001909256603}
-  - component: {fileID: 4372206524705028076}
   - component: {fileID: 8332717330567677283}
+  - component: {fileID: -7049607195453951642}
   m_Layer: 0
   m_Name: Ryan_SpecialAttack
   m_TagString: Untagged
@@ -9910,9 +9910,30 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 5620401622971878522}
-  - {fileID: 4372206524705028076}
+  - {fileID: -7049607195453951642}
   SimulationBehaviours: []
---- !u!114 &4372206524705028076
+--- !u!135 &8332717330567677283
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5157850387996107450}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-7049607195453951642
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9930,32 +9951,12 @@ MonoBehaviour:
   timerDespawn: 0
   timeEffect: 0
   damage: 0
+  levelSkill: 0
   isPhysicDamage: 0
   isMakeStun: 0
   isMakeSlow: 0
   isMakeSilen: 0
   isDestroyWhenCollider: 0
---- !u!135 &8332717330567677283
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5157850387996107450}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 3
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6982067714073744344
 GameObject:
   m_ObjectHideFlags: 0

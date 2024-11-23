@@ -66,6 +66,7 @@ public class RyanAttackObjects: NetworkBehaviour
             && other.gameObject.GetComponent<PlayerController>().state != 3
             && other.gameObject.GetComponent<PlayerController>().playerTeam != player.playerTeam)
         {
+            Debug.Log("vo dya");
             collisions.Add(other);
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, player,
                 counter: (int counterDamage, bool isPhysicDamage) =>

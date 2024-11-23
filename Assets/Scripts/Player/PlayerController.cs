@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -95,10 +96,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         CalculateStatusDebuff();
         if (state == 3)
         {
-            if (timeDie.RemainingTime(Runner) <= 0)
+            if (timeDie.RemainingTime(Runner) <= 0 || timeDie.ExpiredOrNotRunning(Runner))
             {
+                playerStat.isLive = true;
                 state = 0;
-                playerStat.currentHealth=playerStat.maxHealth;
+                playerStat.currentHealth = playerStat.maxHealth;
+                AnimatorSetBoolRPC("isLive",true);
+                statusCanvas.GetBehaviour<InviManager>().VisualOfPlayer(playerStat.isLive);
             }
             return;
         }
@@ -113,7 +117,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
     }
-
+    #region Jump
     private void CalculateJump()
     {
         if (HasStateAuthority)
@@ -137,7 +141,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             }
         }
     }
-
+    
     public void Jump(NetworkObject VFXEffect)
     {
         isJumping = true;
@@ -151,7 +155,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         yield return new WaitForSeconds(0.5f);
         Runner.Despawn(jumpVFX);
     }
-    
+    #endregion
 
     #region "SkillButton"
     public virtual void NormalAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
@@ -193,8 +197,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             return;
         }
-
-        //   moveInput = state != 5 ? characterInput.Character.Move.ReadValue<Vector2>() : Vector2.zero;
         if (HasStateAuthority)
         {
             moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -203,14 +205,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 moveInput = new Vector2(joystick.Horizontal, joystick.Vertical).normalized;
             }
         }
-        
         if (isGround)
         {
             velocity = Vector3.zero;
         }
         
     }
-   
+    #region Move
     void CalculateMove()
     {
         if (HasStateAuthority)
@@ -230,45 +231,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         
         }
     }
-    void CalculateEXP()
-    {
-        if (playerStat.currentXP >= playerStat.maxXP)
-        {
-            playerStat.currentXP -= playerStat.maxXP;
-            playerStat.UpgradeLevel();
-        }
-    }
-    protected static void listenState(Changed<PlayerController> changed)
-    {
-
-    }
-    public void SwithCharacterState(int newstate)
-    {
-        switch (state)
-        {
-            case 0: { break; }
-            case 1: { break; }
-            case 2: { break; }
-            case 3: { break; }
-        }
-        switch (newstate)
-        {
-            case 0: { break; }
-            case 1: { break; }
-            case 2: { animator.SetTrigger("Injured"); break; }
-            case 3:
-                {
-                    animator.SetTrigger("Die");
-                    break;
-                }
-        }
-        state = newstate;
-    }
-    public int GetCurrentState()
-    {
-        return state;
-    }
-
     private void CalculateAnimSpeed(string animationName, float speed, bool isMoveX)
     {
         if (isMoveX)
@@ -307,7 +269,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         float targetTime = 1 / x;
         while (time <= targetTime)
         {
-            //doi lai 1 khung hinh
             if (Speedtarget != null
                 && Speedtarget != (isMoveX ? currentSpeedX : currentSpeedY))
             {
@@ -319,6 +280,45 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             animator.SetFloat(animationName, valueRandomSmooth);
             time += Runner.DeltaTime;
         }
+    }
+    #endregion
+    void CalculateEXP()
+    {
+        if (playerStat.currentXP >= playerStat.maxXP)
+        {
+            playerStat.currentXP -= playerStat.maxXP;
+            playerStat.UpgradeLevel();
+        }
+    }
+    protected static void listenState(Changed<PlayerController> changed)
+    {
+
+    }
+    public void SwithCharacterState(int newstate)
+    {
+        switch (state)
+        {
+            case 0: { break; }
+            case 1: { break; }
+            case 2: { break; }
+            case 3: { break; }
+        }
+        switch (newstate)
+        {
+            case 0: { break; }
+            case 1: { break; }
+            case 2: { animator.SetTrigger("Injured"); break; }
+            case 3:
+                {
+                    animator.SetTrigger("Die");
+                    break;
+                }
+        }
+        state = newstate;
+    }
+    public int GetCurrentState()
+    {
+        return state;
     }
 
     public void CheckCamera(PlayerRef player, bool isFollow)
@@ -450,11 +450,23 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         playerStat.currentHealth = 0;
         SwithCharacterState(3);
+        playerStat.isLive=false;
         foreach (var playerDamage in playerScore.playersMakeDamages)
         {
             playerDamage.playerStat.CalculateWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
         }
-        timeDie = TickTimer.CreateFromSeconds(Runner, 3 * playerStat.level);
+        timeDie = TickTimer.CreateFromSeconds(Runner,5+ 3 * playerStat.level);
+        animator.SetBool("isLive", false);
+        StartCoroutine(DelayHideVisualWhenDie());
+    }
+    public IEnumerator DelayHideVisualWhenDie ()
+    {
+        yield return new WaitForSeconds(3f);
+        statusCanvas.GetBehaviour<InviManager>().VisualOfPlayer(playerStat.isLive);
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)] public void AnimatorSetBoolRPC(string aniName, bool isActive)
+    {
+        animator.SetBool(aniName, isActive);
     }
     [Networked] TickTimer timeDie {  get; set; }
     #endregion
@@ -510,6 +522,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         if (state == 3) return;
         playerStat.currentHealth += heal;
     }
+    #region Status Canvas
     void CalculateStatusDebuff()
     {
         if(state==3) { playerStat.isBeingStun = false;playerStat.isBeingSlow = false;playerStat.isBeingSilen = false; }
@@ -570,7 +583,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         
         //xoay các bar để mọi player nhìn rõ
     }
-
+    #endregion
     public Player_Types GetPlayerTypes()
     {
         return playerType;

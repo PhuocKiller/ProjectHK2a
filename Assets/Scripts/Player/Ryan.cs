@@ -20,11 +20,7 @@ public class Ryan : PlayerController
         if (effectSkill2.gameObject.activeInHierarchy)
         {
             AnimatorRPC("SpecialAttack");
-            foreach (var buffkatana in FindObjectsOfType<RyanAttackObjects>())
-            {
-                Destroy(buffkatana.gameObject);
-            }
-            StartCoroutine(ActiveKatana(false,1.5f*100/playerStat.attackSpeed));
+            StartCoroutine(ActiveKatana(false,0.5f*100/playerStat.attackSpeed));
             attackTimes = 0;
             StartCoroutine(DelaySpawnSpecialAttack(VFXEffect, levelDamage, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
           timeTrigger, TimeEffect));
@@ -32,7 +28,9 @@ public class Ryan : PlayerController
         else
         {
             attackTimes++;
-            if(attackTimes==3)
+            StartCoroutine(DelaySpawnAttack(VFXEffect, playerStat.damage, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+          timeTrigger, TimeEffect));
+            if (attackTimes==3)
             {
                 NetworkObject obj = Runner.Spawn(networkObjs.listNetworkObj[7], transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
@@ -44,8 +42,7 @@ public class Ryan : PlayerController
                 SetParentRPC(obj.Id);
             }
             AnimatorRPC("Attack");
-            StartCoroutine(DelaySpawnAttack(VFXEffect, levelDamage, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
-          timeTrigger, TimeEffect));
+            
         }
     }
     IEnumerator DelaySpawnAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
@@ -56,7 +53,7 @@ public class Ryan : PlayerController
         Runner.Spawn(VFXEffect.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<AttackObjects>().SetUp(this, playerStat.damage, isPhysicDamage, normalAttackTransform,
+         obj.GetComponent<AttackObjects>().SetUp(this, levelDamage, isPhysicDamage, normalAttackTransform,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
      });
     }
@@ -64,13 +61,17 @@ public class Ryan : PlayerController
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
         float TimeEffect = 0f)
     {
-        yield return new WaitForSeconds(1.3f * 100f / playerStat.attackSpeed);
+        yield return new WaitForSeconds(0.45f * 100f / playerStat.attackSpeed);
         Runner.Spawn(networkObjs.listNetworkObj[8], normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
          obj.GetComponent<AttackObjects>().SetUp(this, playerStat.damage, isPhysicDamage, normalAttackTransform,
-             isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
+             true, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
      });
+        foreach (var buffkatana in FindObjectsOfType<RyanAttackObjects>())
+        {
+            Destroy(buffkatana.gameObject);
+        }
     }
 
     public override void Skill_1(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
