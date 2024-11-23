@@ -21,6 +21,7 @@ public class PlayerStat: NetworkBehaviour
     [Networked] public int b_moveSpeed { get; set; }
     [Networked] public int b_attackSpeed { get; set; }
     [Networked] public int counterDamage { get; set; }
+    [Networked] public float b_lifeSteal { get; set; }
     [Header("Full Stat")]
     public int maxHealth;
     public int maxMana;
@@ -34,6 +35,7 @@ public class PlayerStat: NetworkBehaviour
     public float criticalDamage;
     public int moveSpeed;
     public int attackSpeed;
+    public float lifeSteal;
     [Space(1)]
     [Header("Multiple Stat")]
     public int multipleHealth;
@@ -46,6 +48,7 @@ public class PlayerStat: NetworkBehaviour
     public float multipleCriticalDamage;
     public int multipleMoveSpeed;
     public int multipleAttackSpeed;
+    public float multipleLifeSteal;
 
     PlayerController player;
     [HideInInspector][Networked] public bool isBeingStun { get; set; }
@@ -63,8 +66,7 @@ public class PlayerStat: NetworkBehaviour
         player=transform.parent.parent.GetComponent<PlayerController>();
         currentHealth = 1; //tránh bị bằng =0 trong lần đầu tiên cập nhật
         UpgradeLevel();
-        isVisible =true;
-        isLive =true;
+        isVisible =true; isLive =true; isLifeSteal =true;
     }
     public override void FixedUpdateNetwork()
     {
@@ -73,7 +75,7 @@ public class PlayerStat: NetworkBehaviour
     }
     public void UpdateBaseStat(int level, int multipleHealth, int multipleMana, int multipleDamage, int multipleDefend,
         float multipleMagicResistance, float multipleMagicAmpli,
-        float multipleCriticalChance,float multipleCriticalDamage,int multipleMoveSpeed,int multipleAttackSpeed)
+        float multipleCriticalChance,float multipleCriticalDamage,int multipleMoveSpeed,int multipleAttackSpeed, float multipleLifeSteal)
     {
         b_maxHealth = 300 + (level-1) * multipleHealth; b_maxMana = 100 + (level - 1) * multipleMana;
         if(level>=12) currentXP = 0;
@@ -83,13 +85,14 @@ public class PlayerStat: NetworkBehaviour
         b_criticalChance =0+ (level - 1) * multipleCriticalChance; b_criticalDamage= 1+ (level - 1) * multipleCriticalDamage;
         b_moveSpeed=300+((level - 1) * multipleMoveSpeed);
         b_attackSpeed=100 + ((level - 1) * multipleAttackSpeed);
+        b_lifeSteal=0 + ((level - 1) * multipleLifeSteal);
     }
     public void UpgradeLevel()
     {
         level++; levelPoint++;
         UpdateBaseStat(level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
             multipleMagicResistance,multipleMagicAmpli, 
-            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed);
+            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
         UpdateFullStat();
         currentHealth=maxHealth;
         currentMana=maxMana;
@@ -111,9 +114,10 @@ public class PlayerStat: NetworkBehaviour
         criticalDamage = b_criticalDamage + playerBuffManager.criticalDamage;
         moveSpeed = b_moveSpeed + playerBuffManager.moveSpeed;
         attackSpeed = b_attackSpeed + playerBuffManager.attackSpeed;
+        lifeSteal = b_lifeSteal + playerBuffManager.lifeSteal;
         if (attackSpeed < 25) attackSpeed = 25;
     }
-    public void CalculateWhenKill (int XPGain)
+    public void GainXPWhenKill (int XPGain)
     {
         currentXP += XPGain;
         player.playerScore.assistScore += 1;

@@ -4955,6 +4955,7 @@ MonoBehaviour:
   _criticalDamage: 0.25
   _moveSpeed: 0
   _attackSpeed: 25
+  _lifeSteal: 0.1
   _levelSkill: 0
   canHeal: 0
 --- !u!114 &4017715387373570023
@@ -4975,6 +4976,7 @@ MonoBehaviour:
   timerDespawn: 0
   timeEffect: 0
   damage: 0
+  levelSkill: 0
   isPhysicDamage: 0
   isMakeStun: 0
   isMakeSlow: 0

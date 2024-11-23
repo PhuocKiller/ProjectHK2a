@@ -26,7 +26,7 @@ public class DarkNight : PlayerController
         Runner.Spawn(VFXEffect.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<DarkNightAttackObjects>().SetUp(this,"NormalAttack", playerStat.b_damage, isPhysicDamage, normalAttackTransform,
+         obj.GetComponent<DarkNightAttackObjects>().SetUp(this,"NormalAttack", playerStat.damage, isPhysicDamage, normalAttackTransform,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
      });
     }

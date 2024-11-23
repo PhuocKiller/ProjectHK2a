@@ -20,7 +20,7 @@ public class Dumbledore : PlayerController
         Runner.Spawn(VFXEffect.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-        obj.GetComponent<AttackObjects>().SetUp(this, playerStat.b_damage, isPhysicDamage, null,
+        obj.GetComponent<AttackObjects>().SetUp(this, playerStat.damage, isPhysicDamage, null,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
          obj.GetComponent<AttackObjects>().SetDirection(transform.forward);
      }

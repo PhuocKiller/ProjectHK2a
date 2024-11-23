@@ -12,7 +12,7 @@ public class ClockManager : MonoBehaviour
     public float currentTime;
     void CalculateTime()
     {
-        if(FindObjectOfType<GameManager>().GetComponent<NetworkObject>().IsValid)
+        if(FindObjectOfType<GameManager>()!=null)
         {
             currentTime = FindObjectOfType<GameManager>().currentTime;
             minuteTime = Mathf.FloorToInt(currentTime / 60f);

@@ -15,6 +15,7 @@ public class BuffsOfPlayer : NetworkBehaviour
     [Networked] public float criticalDamage { get; set; }
     [Networked] public int moveSpeed { get; set; }
     [Networked] public int attackSpeed { get; set; }
+    [Networked] public float lifeSteal { get; set; }
     [Networked] public int levelSkill { get; set; }
     [SerializeField] public bool canHeal;
 
@@ -35,5 +36,6 @@ public class BuffsOfPlayer : NetworkBehaviour
         criticalDamage = level * criticalDamage;
         moveSpeed = level * moveSpeed;
         attackSpeed = level * attackSpeed;
+        lifeSteal= level * lifeSteal;
     }
 }

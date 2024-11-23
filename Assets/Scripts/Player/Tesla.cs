@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class Tesla : PlayerController
 {
-    TickTimer timerSkill2;
     public Transform shootGun;
+    public Transform EffectShotGun;
+    public NetworkObject passiveWhenKillVFX;
     public override void Spawned()
     { base.Spawned(); }
 
@@ -29,7 +30,7 @@ public class Tesla : PlayerController
         Runner.Spawn(VFXEffect.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<AttackObjects>().SetUp(this, playerStat.b_damage, isPhysicDamage, null,
+         obj.GetComponent<AttackObjects>().SetUp(this, playerStat.damage, isPhysicDamage, null,
               isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
          obj.GetComponent<AttackObjects>().SetDirection(transform.forward);
      });
@@ -105,6 +106,20 @@ public class Tesla : PlayerController
                 obj.GetComponent<AttackObjects>().SetDirection(transform.forward);
             });
     }
-   
+   public void PassiveWhenKill()
+    {
+        EffectShotGun.gameObject.SetActive(true);
+        if (HasStateAuthority)
+        {
+            NetworkObject obj = Runner.Spawn(passiveWhenKillVFX, transform.position, Quaternion.identity, Object.InputAuthority,
+            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+            {
+                obj.GetComponent<AttackObjects>().SetUp(this, 0, true, null,
+             false, false, true, 15, 1);
+                obj.GetComponent<BuffsOfPlayer>().levelSkill = 1;
+            });
+            SetParentRPC(obj.Id);
+        }
+    }
 }
 

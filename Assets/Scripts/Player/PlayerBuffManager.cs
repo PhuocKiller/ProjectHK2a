@@ -16,6 +16,8 @@ public class PlayerBuffManager : NetworkBehaviour
     [Networked] public float criticalDamage { get; set; }
     [Networked] public int moveSpeed { get; set; }
     [Networked] public int attackSpeed { get; set; }
+    [Networked] public float lifeSteal { get; set; }
+     
 
     public override void FixedUpdateNetwork()
     {
@@ -45,9 +47,10 @@ public class PlayerBuffManager : NetworkBehaviour
             criticalDamage = 0; foreach (var buff in listBuffsofPlayer) criticalDamage += buff.criticalDamage;
             moveSpeed = 0; foreach (var buff in listBuffsofPlayer) moveSpeed += buff.moveSpeed;
             attackSpeed = 0; foreach (var buff in listBuffsofPlayer) attackSpeed += buff.attackSpeed;
+            lifeSteal = 0; foreach (var buff in listBuffsofPlayer) lifeSteal += buff.lifeSteal;
             if (player.state==3)
             {
-                for (int i = 1; i < listBuffsofPlayer.Length; i++)
+                for (int i = 2; i < listBuffsofPlayer.Length; i++) //i=0 là environment, 1 là passive
                 {
                     Destroy(listBuffsofPlayer[i].gameObject);
                 }

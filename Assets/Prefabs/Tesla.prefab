@@ -339,6 +339,66 @@ Transform:
   - {fileID: 534826838800645106}
   m_Father: {fileID: 6882491856607542257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1064815234062125170
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6920359044878551031}
+  - component: {fileID: 397640410642536962}
+  m_Layer: 7
+  m_Name: BuffFromPassive
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6920359044878551031
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064815234062125170}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8871884497050879423}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &397640410642536962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064815234062125170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1316d456b63868e40b1506b9799ce6ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
+  _maxHealth: 0
+  _maxMana: 0
+  _damage: 0
+  _defend: 0
+  _magicResistance: 0
+  _magicAmpli: 0
+  _criticalChance: 0
+  _criticalDamage: 0
+  _moveSpeed: 0
+  _attackSpeed: 0
+  _lifeSteal: 0
+  _levelSkill: 0
+  canHeal: 0
 --- !u!1 &1163779364503012047
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,6 +766,7 @@ MonoBehaviour:
   _criticalDamage: 0
   _moveSpeed: 0
   _attackSpeed: 0
+  _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0
 --- !u!1 &2277285866264858491
@@ -1201,6 +1262,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5755531133801711612}
+  - {fileID: 6920359044878551031}
   m_Father: {fileID: 8008798076204352372}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1529176466362380737
@@ -1228,6 +1290,7 @@ MonoBehaviour:
   _criticalDamage: 0
   _moveSpeed: 0
   _attackSpeed: 0
+  _lifeSteal: 0
 --- !u!1 &3898718723364406138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1243,7 +1306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6818623417026519827
 Transform:
   m_ObjectHideFlags: 0
@@ -2335,6 +2398,7 @@ MonoBehaviour:
   _b_moveSpeed: 0
   _b_attackSpeed: 0
   _counterDamage: 0
+  _b_lifeSteal: 0
   maxHealth: 0
   maxMana: 0
   _maxXP: 0
@@ -2347,6 +2411,7 @@ MonoBehaviour:
   criticalDamage: 0
   moveSpeed: 0
   attackSpeed: 0
+  lifeSteal: 0
   multipleHealth: 15
   multipleMana: 20
   multipleDamage: 5
@@ -2357,6 +2422,7 @@ MonoBehaviour:
   multipleCriticalDamage: 0
   multipleMoveSpeed: 5
   multipleAttackSpeed: 2
+  multipleLifeSteal: 0
   _isBeingStun: 0
   _isBeingSlow: 0
   _isBeingSilen: 0
@@ -7827,6 +7893,7 @@ MonoBehaviour:
   - {fileID: 195540909243418254}
   - {fileID: 1529176466362380737}
   - {fileID: 5028916409302765684}
+  - {fileID: 397640410642536962}
   SimulationBehaviours: []
 --- !u!114 &1002137448909909735
 MonoBehaviour:
@@ -7977,6 +8044,7 @@ MonoBehaviour:
   networkObjs: {fileID: 8388264208586685474}
   collisionsEnvi: []
   buffsFromEnvi: {fileID: 5028916409302765684}
+  buffsFromPassive: {fileID: 397640410642536962}
   playerStat: {fileID: 4469887668483679920}
   playerScore: {fileID: 53068671851718112}
   statusCanvas: {fileID: 3410825836797733571}
@@ -7997,6 +8065,8 @@ MonoBehaviour:
   - {fileID: 7930311946593818978}
   - {fileID: 730891664571767673}
   shootGun: {fileID: 4925662225076749959}
+  EffectShotGun: {fileID: 6818623417026519827}
+  passiveWhenKillVFX: {fileID: 1915372749519699729, guid: 69ca239d1b3536641b09ca3cb8504601, type: 3}
 --- !u!1 &8526155711134271043
 GameObject:
   m_ObjectHideFlags: 0

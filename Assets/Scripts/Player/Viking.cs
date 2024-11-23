@@ -16,6 +16,8 @@ public class Viking : PlayerController
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
+        buffsFromPassive.lifeSteal = 0.2f * (playerStat.maxHealth - playerStat.currentHealth) / playerStat.maxHealth;
+        buffsFromPassive.attackSpeed =(int)(100f * (playerStat.maxHealth - playerStat.currentHealth) / playerStat.maxHealth);
     }
 
     public override void NormalAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
@@ -82,6 +84,7 @@ public class Viking : PlayerController
         base.Skill_2(VFXEffect, levelDamage, manaCost, isPhysicDamage, timeTrigger: timeTrigger);
         SkillRPC
          (6, levelDamage, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, levelSkill);
+        playerStat.isLifeSteal = true;
     }
     
     public override void Ultimate(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,

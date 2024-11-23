@@ -106,6 +106,10 @@ public class AxeAttackObject: NetworkBehaviour
                     player.playerScore.killScore += 1;
                     player.playerScore.assistScore -= 1;
                 }
+                ,lifeSteal:(int damage) =>
+                {
+                    if (player.playerStat.isLifeSteal) player.playerStat.currentHealth += (int)(player.playerStat.lifeSteal* damage);
+                }
                 );
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(Object.InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,
                 TimeEffect: timeEffect, callback: () =>

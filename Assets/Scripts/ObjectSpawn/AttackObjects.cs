@@ -52,6 +52,7 @@ public class AttackObjects : NetworkBehaviour
         if (HasStateAuthority && timer.Expired(Runner)
             )
         {
+           player.GetComponent<Tesla>()?.EffectShotGun.gameObject.SetActive(false);
            Destroy(gameObject);
         }
 
@@ -83,6 +84,10 @@ public class AttackObjects : NetworkBehaviour
                     player.playerStat.currentXP += (int)(100 * Mathf.Lerp(1 / playerMakeDamage.Count, 1, 0.5f) * levelHeroKilled);
                     player.playerScore.killScore += 1;
                     player.playerScore.assistScore -= 1;
+                }
+                , lifeSteal: (int damage) =>
+                {
+                    if (player.playerStat.isLifeSteal) player.playerStat.currentHealth += (int)(player.playerStat.lifeSteal * damage);
                 }
                 );
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(Object.InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,

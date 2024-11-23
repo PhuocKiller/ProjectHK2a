@@ -73,6 +73,10 @@ public class DumbleAttackObjects : NetworkBehaviour
                     player.playerScore.assistScore -= 1;
                     player.playerStat.currentMana += (int)(player.playerStat.maxMana * 0.2 * levelSkill);
                 }
+                , lifeSteal: (int damage) =>
+                {
+                    if (player.playerStat.isLifeSteal) player.playerStat.currentHealth += (int)(player.playerStat.lifeSteal * damage);
+                }
                 );
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(Object.InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,
                 TimeEffect: timeEffect, callback: () =>

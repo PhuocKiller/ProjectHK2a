@@ -21,6 +21,6 @@ MonoBehaviour:
   isPhysicDamage: 0
   isMakeStun: 0
   isMakeSlow: 0
-  isMakeSilen: 1
+  isMakeSilen: 0
   timeEffect: 1
   VfxEffect: {fileID: 134134790892129091, guid: 7be5ce509da431c42b53d7f9ae9ddc5c, type: 3}

@@ -209,6 +209,66 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &589559365134223519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2583736698859540550}
+  - component: {fileID: 6679923688922619981}
+  m_Layer: 7
+  m_Name: BuffFromPassive
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2583736698859540550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589559365134223519}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 809253093459767222}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6679923688922619981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589559365134223519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1316d456b63868e40b1506b9799ce6ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
+  _maxHealth: 0
+  _maxMana: 0
+  _damage: 0
+  _defend: 0
+  _magicResistance: 0
+  _magicAmpli: 0
+  _criticalChance: 0
+  _criticalDamage: 0
+  _moveSpeed: 0
+  _attackSpeed: 0
+  _lifeSteal: 0
+  _levelSkill: 0
+  canHeal: 0
 --- !u!1 &693960129766936461
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +529,7 @@ MonoBehaviour:
   _b_moveSpeed: 0
   _b_attackSpeed: 0
   _counterDamage: 0
+  _b_lifeSteal: 0
   maxHealth: 0
   maxMana: 0
   _maxXP: 0
@@ -481,6 +542,7 @@ MonoBehaviour:
   criticalDamage: 0
   moveSpeed: 0
   attackSpeed: 0
+  lifeSteal: 0
   multipleHealth: 50
   multipleMana: 10
   multipleDamage: 10
@@ -491,6 +553,7 @@ MonoBehaviour:
   multipleCriticalDamage: 0.1
   multipleMoveSpeed: 5
   multipleAttackSpeed: 5
+  multipleLifeSteal: 0
   _isBeingStun: 0
   _isBeingSlow: 0
   _isBeingSilen: 0
@@ -498,6 +561,7 @@ MonoBehaviour:
   _isVisible: 0
   _isUnstopAble: 0
   _isCounter: 0
+  _isLive: 0
 --- !u!114 &6042097651088533609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,6 +1810,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4610429848102284789}
+  - {fileID: 2583736698859540550}
   m_Father: {fileID: 2233996510804273533}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7285963775858432968
@@ -1773,6 +1838,7 @@ MonoBehaviour:
   _criticalDamage: 0
   _moveSpeed: 0
   _attackSpeed: 0
+  _lifeSteal: 0
 --- !u!1 &5130681569329772749
 GameObject:
   m_ObjectHideFlags: 0
@@ -2647,6 +2713,7 @@ MonoBehaviour:
   _criticalDamage: 0
   _moveSpeed: 0
   _attackSpeed: 0
+  _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0
 --- !u!1 &8178115747695403801
@@ -2781,6 +2848,7 @@ MonoBehaviour:
   - {fileID: 2282218703741554972}
   - {fileID: 7285963775858432968}
   - {fileID: 3886048214470802045}
+  - {fileID: 6679923688922619981}
   SimulationBehaviours: []
 --- !u!114 &1002137448909909735
 MonoBehaviour:
@@ -2931,6 +2999,7 @@ MonoBehaviour:
   networkObjs: {fileID: 5376915690271877304}
   collisionsEnvi: []
   buffsFromEnvi: {fileID: 3886048214470802045}
+  buffsFromPassive: {fileID: 6679923688922619981}
   playerStat: {fileID: 5633004440527244473}
   playerScore: {fileID: 8057463714775739037}
   statusCanvas: {fileID: 3625136827944140113}

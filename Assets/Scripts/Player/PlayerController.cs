@@ -16,7 +16,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [Networked]  public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
     public List<Collider> collisionsEnvi = new List<Collider>();
-    public BuffsOfPlayer buffsFromEnvi;
+    public BuffsOfPlayer buffsFromEnvi,buffsFromPassive;
     public PlayerStat playerStat;
     public PlayerScore playerScore;
     public StatusCanvas statusCanvas;
@@ -102,7 +102,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 state = 0;
                 playerStat.currentHealth = playerStat.maxHealth;
                 AnimatorSetBoolRPC("isLive",true);
-                statusCanvas.GetBehaviour<InviManager>().VisualOfPlayer(playerStat.isLive);
+                statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
             }
             return;
         }
@@ -294,6 +294,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
 
     }
+    #region State
     public void SwithCharacterState(int newstate)
     {
         switch (state)
@@ -320,7 +321,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         return state;
     }
-
+    #endregion
     public void CheckCamera(PlayerRef player, bool isFollow)
     {
         if (player == Runner.LocalPlayer)
@@ -406,7 +407,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     #endregion
     #region Apply Damage
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
-        Action<int,bool> counter = null, Action<int, List<PlayerController>> isKillPlayer = null, bool activeInjureAnim = true)
+        Action<int,bool> counter = null, Action<int, List<PlayerController>> isKillPlayer = null,
+        Action<int> lifeSteal = null,bool activeInjureAnim = true)
     {
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim);
         if(playerStat.isCounter)
@@ -418,6 +420,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             isKillPlayer?.Invoke(playerStat.level, playerScore.playersMakeDamages);
         }
+        lifeSteal?.Invoke(damage);
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void CalculateHealthRPC
@@ -453,16 +456,22 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         playerStat.isLive=false;
         foreach (var playerDamage in playerScore.playersMakeDamages)
         {
-            playerDamage.playerStat.CalculateWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
+            CalculateWhenKill(playerDamage);
         }
         timeDie = TickTimer.CreateFromSeconds(Runner,5+ 3 * playerStat.level);
         animator.SetBool("isLive", false);
         StartCoroutine(DelayHideVisualWhenDie());
     }
+    void CalculateWhenKill(PlayerController playerDamage)
+    {
+        playerDamage.playerStat.GainXPWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
+        playerDamage.GetComponent<Tesla>()?.PassiveWhenKill();
+        
+    }
     public IEnumerator DelayHideVisualWhenDie ()
     {
         yield return new WaitForSeconds(3f);
-        statusCanvas.GetBehaviour<InviManager>().VisualOfPlayer(playerStat.isLive);
+        statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
     }
     [Rpc(RpcSources.All, RpcTargets.All)] public void AnimatorSetBoolRPC(string aniName, bool isActive)
     {
@@ -470,6 +479,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     [Networked] TickTimer timeDie {  get; set; }
     #endregion
+
+    #region Apply Effect
     public void ApplyEffect(PlayerRef player,bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float TimeEffect = 0, Action callback = null)
     {
@@ -522,6 +533,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         if (state == 3) return;
         playerStat.currentHealth += heal;
     }
+    #endregion
     #region Status Canvas
     void CalculateStatusDebuff()
     {
