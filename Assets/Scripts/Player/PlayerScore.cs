@@ -12,7 +12,7 @@ public class PlayerScore : NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
-        playersMakeDamages= new List<PlayerController>();
+        playersMakeDamages.Clear();
     }
 }
 

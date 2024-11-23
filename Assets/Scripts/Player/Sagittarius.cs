@@ -77,10 +77,11 @@ public class Sagittarius : PlayerController
                 {
                     ApplyDamage(counterDamage, isPhysicDamage, CheckHitPlayer());
                 }
-                , isKillPlayer: (int levelHeroKilled) => // Nhận exp khi giêt địch ở đây
+                , isKillPlayer: (int levelHeroKilled, List<PlayerController> playerMakeDamage) => // Nhận exp khi giêt địch ở đây
                 {
-                    playerStat.currentXP += 100 * levelHeroKilled;
-                    playerStat.currentMana += (int)(playerStat.maxMana * 0.2 * levelSkill);
+                    playerStat.currentXP += (int)(100 * Mathf.Lerp(1 / playerMakeDamage.Count,1,0.5f) * levelHeroKilled);
+                    playerScore.killScore += 1;
+                    playerScore.assistScore -= 1;
                 }
                 );
             }

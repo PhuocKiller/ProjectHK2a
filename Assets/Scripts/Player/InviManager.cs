@@ -1,4 +1,4 @@
-using Fusion;
+﻿using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ public class InviManager : NetworkBehaviour
 
     private void CheckInviVisual(bool isVisible)
     {
-        if(!HasStateAuthority)
+        if(!HasStateAuthority) //con nào chủ thế của invi thì ko bị ảnh hưởng
         {
             foreach (var visual in visuals)
             {

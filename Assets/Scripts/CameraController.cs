@@ -77,28 +77,36 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
         return UnityEngine.Input.GetAxis(axisName);
 #elif UNITY_ANDROID || UNITY_IOS
         
-        if(player == null) return 0f;
+        if(player == null ||player.GetCurrentState() != 0) return 0f;
+        int touchX; int touchY;
         for (int i = 0; i < Input.touchCount; i++)
         {
         Touch touch = Input.GetTouch(i);
         if (axisName == "Mouse X")
         {
-            if (player.GetCurrentState() == 0)
+            if (touch.position.x > Screen.width / 2)
             {
-                if(touch.position.x > Screen.width / 2) return UnityEngine.Input.GetAxis("Mouse X");
+                 return touch.deltaPosition.x *0.1f;
             }
-            else return 0;
+            else 
+            {
+                touchX=0;
+            }
         }
         else if (axisName == "Mouse Y")
         {
-            if (player.GetCurrentState() == 0)
+            if (touch.position.x > Screen.width / 2)
             {
-                if(touch.position.x > Screen.width / 2) return UnityEngine.Input.GetAxis("Mouse Y");
+                return touch.deltaPosition.y *0.1f;
             }
-            else return 0;
+            else 
+            {
+                touchY=0;
+            }
         }
+        
         }
-        return UnityEngine.Input.GetAxis(axisName);
+        return 0;
        
 #elif UNITY_STANDALONE
         Debug.Log("Chạy trên PC (Windows, macOS, Linux)");

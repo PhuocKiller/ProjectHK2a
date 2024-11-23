@@ -93,7 +93,15 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         base.FixedUpdateNetwork();
         CalculateCanvas();
         CalculateStatusDebuff();
-        if (state == 3)return;
+        if (state == 3)
+        {
+            if (timeDie.RemainingTime(Runner) <= 0)
+            {
+                state = 0;
+                playerStat.currentHealth=playerStat.maxHealth;
+            }
+            return;
+        }
 
         if (!playerStat.isBeingStun && state != 4)
         {
@@ -396,8 +404,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
     }
     #endregion
+    #region Apply Damage
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
-        Action<int,bool> counter = null, Action<int> isKillPlayer = null, bool activeInjureAnim = true)
+        Action<int,bool> counter = null, Action<int, List<PlayerController>> isKillPlayer = null, bool activeInjureAnim = true)
     {
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim);
         if(playerStat.isCounter)
@@ -407,7 +416,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         
         if (state==3)
         {
-            isKillPlayer?.Invoke(playerStat.level);
+            isKillPlayer?.Invoke(playerStat.level, playerScore.playersMakeDamages);
         }
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -417,15 +426,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         if (state == 3) return;
         if (!playerScore.playersMakeDamages.Contains(player))
         {
-            Debug.Log("vo day");
             playerScore.playersMakeDamages.Add(player);
         }
-        foreach(var playerDamage in playerScore.playersMakeDamages)
-        {
-
-            Debug.Log(playerDamage);
-        }
-        Debug.Log("count" + playerScore.playersMakeDamages.Count);
         if ((playerStat.currentHealth + statusCanvas.GetCurrentDamageAbsorbShield()) > damage)
         {
             if (activeInjureAnim) SwithCharacterState(2);
@@ -438,14 +440,24 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             {
                 playerStat.currentHealth -= damage;
             }
-
         }
         else
         {
-            playerStat.currentHealth = 0;
-            SwithCharacterState (3);
+            WhenPlayerDie();
         }
     }
+    void WhenPlayerDie()
+    {
+        playerStat.currentHealth = 0;
+        SwithCharacterState(3);
+        foreach (var playerDamage in playerScore.playersMakeDamages)
+        {
+            playerDamage.playerStat.CalculateWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
+        }
+        timeDie = TickTimer.CreateFromSeconds(Runner, 3 * playerStat.level);
+    }
+    [Networked] TickTimer timeDie {  get; set; }
+    #endregion
     public void ApplyEffect(PlayerRef player,bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float TimeEffect = 0, Action callback = null)
     {

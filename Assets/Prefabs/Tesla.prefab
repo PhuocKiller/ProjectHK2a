@@ -2238,8 +2238,8 @@ MonoBehaviour:
   multipleMagicAmpli: 5
   multipleCriticalChance: 0
   multipleCriticalDamage: 0
-  multipleMoveSpeed: 0
-  multipleAttackSpeed: 0
+  multipleMoveSpeed: 5
+  multipleAttackSpeed: 2
   _isBeingStun: 0
   _isBeingSlow: 0
   _isBeingSilen: 0
@@ -3025,7 +3025,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   projectConfig: {fileID: -755480892457977500, guid: 4f0a91afb8df93343bc600f71fa38824, type: 3}
   joystick: {fileID: 0}
-  _playerTeam: 1
+  _playerTeam: 0
   networkObjs: {fileID: 8388264208586685474}
   collisionsEnvi: []
   buffsFromEnvi: {fileID: 5028916409302765684}

@@ -2637,7 +2637,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   projectConfig: {fileID: 0}
   joystick: {fileID: 0}
-  _playerTeam: 0
+  _playerTeam: 1
   networkObjs: {fileID: 3079810927183693620}
   collisionsEnvi: []
   buffsFromEnvi: {fileID: 3016691639719520469}

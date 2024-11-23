@@ -9,12 +9,35 @@ public enum GameState
     None,
     Lobby,
     Transition,
-    InGame
+    InGame,
 }
 public class GameManager : NetworkBehaviour
 {
     [Networked(OnChanged = nameof(CurrentStateChanged))]
     private int currentState { get; set; }
+    public ClockManager clock;
+
+   [Networked] public float currentTime { get; set; }
+    [Networked] public float startTime { get; set; }
+    public override void Spawned()
+    {
+        base.Spawned();
+
+        currentState = (int)GameState.Lobby;
+        
+        clock=FindObjectOfType<ClockManager>();
+        startTime=Time.time;
+        currentTime=startTime;
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        base.FixedUpdateNetwork();
+       if(HasStateAuthority && Object.IsValid)
+        {
+          SyncTime();
+        }
+    }
 
     public GameState TypeOfGameState(int value)
     {
@@ -60,14 +83,16 @@ public class GameManager : NetworkBehaviour
     {
         onCurrentStateChanged -= listener;
     }
-    public override void Spawned()
-    {
-        base.Spawned();
-
-        currentState = (int)GameState.Lobby;
-    }
+    
     public void SwitchState(GameState state)
     {
         currentState = (int)state;
+    }
+    
+
+    //[Rpc(RpcSources.All, RpcTargets.All)]
+    public void SyncTime()
+    {
+        currentTime = Time.time - startTime;
     }
 }

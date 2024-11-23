@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerBuffManager : NetworkBehaviour
 {
+    PlayerController player;
     [Networked] public int maxHealth { get; set; }
     [Networked] public int maxMana { get; set; }
     [Networked] public int damage { get; set; }
@@ -25,6 +26,7 @@ public class PlayerBuffManager : NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
+        player=transform.parent.parent.GetComponent<PlayerController>();
     }
 
     public void GetBuffChildren()
@@ -43,6 +45,13 @@ public class PlayerBuffManager : NetworkBehaviour
             criticalDamage = 0; foreach (var buff in listBuffsofPlayer) criticalDamage += buff.criticalDamage;
             moveSpeed = 0; foreach (var buff in listBuffsofPlayer) moveSpeed += buff.moveSpeed;
             attackSpeed = 0; foreach (var buff in listBuffsofPlayer) attackSpeed += buff.attackSpeed;
+            if (player.state==3)
+            {
+                for (int i = 1; i < listBuffsofPlayer.Length; i++)
+                {
+                    Destroy(listBuffsofPlayer[i].gameObject);
+                }
+            }
         }
     }
 }

@@ -64,7 +64,11 @@ public class PlayerStat: NetworkBehaviour
         UpgradeLevel();
         isVisible =true;
     }
-
+    public override void FixedUpdateNetwork()
+    {
+        base.FixedUpdateNetwork();
+        UpdateFullStat();
+    }
     public void UpdateBaseStat(int level, int multipleHealth, int multipleMana, int multipleDamage, int multipleDefend,
         float multipleMagicResistance, float multipleMagicAmpli,
         float multipleCriticalChance,float multipleCriticalDamage,int multipleMoveSpeed,int multipleAttackSpeed)
@@ -73,7 +77,7 @@ public class PlayerStat: NetworkBehaviour
         if(level>=12) currentXP = 0;
         maxXP = 100 + (level - 1) * (level - 1) * 50;
         b_damage = 50 + (level - 1) * multipleDamage; b_defend= 5 + ((level - 1) * multipleDefend);
-        b_magicResistance = 0.2f + (level - 1) * multipleMagicResistance; b_magicAmpli = 0 + (level - 1) * multipleMagicAmpli;
+        b_magicResistance = 5 + (level - 1) * multipleMagicResistance; b_magicAmpli = 0 + (level - 1) * multipleMagicAmpli;
         b_criticalChance =0+ (level - 1) * multipleCriticalChance; b_criticalDamage= 1+ (level - 1) * multipleCriticalDamage;
         b_moveSpeed=300+((level - 1) * multipleMoveSpeed);
         b_attackSpeed=100 + ((level - 1) * multipleAttackSpeed);
@@ -107,10 +111,10 @@ public class PlayerStat: NetworkBehaviour
         attackSpeed = b_attackSpeed + playerBuffManager.attackSpeed;
         if (attackSpeed < 25) attackSpeed = 25;
     }
-
-    public override void FixedUpdateNetwork()
+    public void CalculateWhenKill (int XPGain)
     {
-        base.FixedUpdateNetwork();
-        UpdateFullStat();
+        currentXP += XPGain;
+        player.playerScore.assistScore += 1;
     }
+    
 }

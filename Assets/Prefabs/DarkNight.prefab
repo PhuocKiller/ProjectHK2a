@@ -103,7 +103,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4482536036856000530}
-  - component: {fileID: 740434217615148470}
   m_Layer: 0
   m_Name: Rig
   m_TagString: Untagged
@@ -127,25 +126,6 @@ Transform:
   - {fileID: 2448624940070315359}
   m_Father: {fileID: 5195282222050242245}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &740434217615148470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 532215717396379946}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94fb255a338ddbd4093ed70eecd4064d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WordOffset: 0
-  WordCount: 0
-  _interpolationDataSource: 0
-  handSlotTransform: {fileID: 3458442146648083841}
-  weaponTransform: {fileID: 2361677104092516963}
-  positionOffset: {x: 0, y: 0, z: 0}
-  rotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &553746893612303190
 GameObject:
   m_ObjectHideFlags: 0
@@ -2801,7 +2781,6 @@ MonoBehaviour:
   - {fileID: 2282218703741554972}
   - {fileID: 7285963775858432968}
   - {fileID: 3886048214470802045}
-  - {fileID: 740434217615148470}
   SimulationBehaviours: []
 --- !u!114 &1002137448909909735
 MonoBehaviour:

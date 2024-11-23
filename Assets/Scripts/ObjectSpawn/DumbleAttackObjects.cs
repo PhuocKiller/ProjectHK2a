@@ -66,9 +66,11 @@ public class DumbleAttackObjects : NetworkBehaviour
                     player.ApplyDamage(counterDamage, isPhysicDamage,
                          other.gameObject.GetComponent<PlayerController>());
                 }
-                , isKillPlayer: (int levelHeroKilled) => // Nhận exp khi giêt địch ở đây
+                , isKillPlayer: (int levelHeroKilled, List<PlayerController> playerMakeDamage) => // Nhận exp khi giêt địch ở đây
                 {
-                    player.playerStat.currentXP += 100 * levelHeroKilled;
+                    player.playerStat.currentXP += (int)(100 * Mathf.Lerp(1 / playerMakeDamage.Count, 1, 0.5f) * levelHeroKilled);
+                    player.playerScore.killScore += 1;
+                    player.playerScore.assistScore -= 1;
                     player.playerStat.currentMana += (int)(player.playerStat.maxMana * 0.2 * levelSkill);
                 }
                 );
