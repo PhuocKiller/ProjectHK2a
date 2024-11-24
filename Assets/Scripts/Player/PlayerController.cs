@@ -96,10 +96,12 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         base.FixedUpdateNetwork();
         CalculateCanvas();
         CalculateStatusDebuff();
+        if (state != 2) animator.enabled = !playerStat.isBeingStun;
         if (state == 3)
         {
             if (timeDie.RemainingTime(Runner) <= 0 || timeDie.ExpiredOrNotRunning(Runner))
             {
+                Debug.Log("hoisinh");
                 playerStat.isLive = true;
                 state = 0;
                 playerStat.currentHealth = playerStat.maxHealth;
@@ -118,7 +120,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             CalculateMove();
             CalculateJump();
         }
-        if(state!=2) animator.enabled = !playerStat.isBeingStun;
         CalculateEXP();
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
@@ -243,13 +244,11 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                     {
                         characterControllerPrototype.Move(-directionToCenter.normalized * speed * 0.015f
                 * playerStat.moveSpeed*Runner.DeltaTime);
-                        Debug.Log("directionToCenter" + directionToCenter.magnitude);
                     }
                     else
                     {
                         characterControllerPrototype.Move(look * moveDirection * speed * 0.015f
                 * playerStat.moveSpeed * (playerStat.isBeingSlow ? 0.3f : 1f) * Runner.DeltaTime);
-                        Debug.Log("vo <");
                     }
                 }
             
@@ -486,6 +485,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             CalculateWhenKill(playerDamage);
         }
         timeDie = TickTimer.CreateFromSeconds(Runner,5+ 2 * playerStat.level); //thời gian hồi sinh
+        Debug.Log("tao giay");
         animator.SetBool("isLive", false);
         StartCoroutine(DelayHideVisualWhenDie());
     }

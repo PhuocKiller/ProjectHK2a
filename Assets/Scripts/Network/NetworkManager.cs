@@ -18,6 +18,7 @@ public class NetworkManager : MonoBehaviour
     UnityEvent onConnected;
     [SerializeField]
     public Transform[] spawnPointTeam;
+    public int playerIndex, playerTeam;
 
     private void Awake()
     {
@@ -37,12 +38,12 @@ public class NetworkManager : MonoBehaviour
         if (player == runner.LocalPlayer)
         {
            // Transform spawn = spawnPointTeam[players[runner.LocalPlayer.PlayerId].GetComponent<PlayerController>().playerTeam];
-            NetworkObject characterObj = runner.Spawn(players[runner.LocalPlayer.PlayerId],
-                spawnPointTeam[runner.LocalPlayer.PlayerId%2].position, spawnPointTeam[runner.LocalPlayer.PlayerId % 2].rotation,
+            NetworkObject characterObj = runner.Spawn(players[playerIndex],
+                spawnPointTeam[playerTeam].position, spawnPointTeam[playerTeam].rotation,
                 inputAuthority: player,
                 onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                 {
-
+                    obj.GetComponent<PlayerController>().playerTeam = playerTeam;
                 });
         }
 
@@ -62,33 +63,14 @@ public class NetworkManager : MonoBehaviour
                 CustomLobbyName = "VN",
                 SceneManager = GetComponent<LoadSceneManager>()
             });
-            
+            btn.interactable = true;
             onConnected?.Invoke();
             Singleton<Loading>.Instance.HideLoading();
             
         }
     }
-    /*[SerializeField] Transform[] m_gridRoot;
-    [SerializeField] SkillButton m_skillBtnPrefab;
-    private Dictionary<SkillName, int> m_skillCollecteds;
-    public IEnumerator DrawSkillButton(NetworkRunner m_runner, PlayerRef player)
+    public void ShutdownRunner()
     {
-        yield return new WaitForSeconds(0.1f);
-        m_skillCollecteds = FindObjectOfType<SkillManager>().SkillCollecteds;
-        //if (m_skillCollecteds == null || m_skillCollecteds.Count <= 0) return;
-        int index = -1;
-        Debug.Log(m_skillCollecteds.Count);
-        foreach (var skillCollected in m_skillCollecteds)
-        {
-            index++;
-            Helper.ClearChilds(m_gridRoot[index]);
-            var skillButtonClone = runner.Spawn(m_skillBtnPrefab, inputAuthority: player);
-            Helper.AssignToRoot(m_gridRoot[index], skillButtonClone.transform,
-                Vector3.zero, index == 4 ? Vector3.one * 1f : (index==0? 0.5f* Vector3.one:  0.7f *Vector3.one));
-            skillButtonClone.Initialize(skillCollected.Key);
-            skillButtonClone.skillButtonType = skillButtonClone.m_skillButtonTypes[index];
-
-        }
-
-    }*/
+        runner.Shutdown(false, ShutdownReason.GameClosed);
+    }
 }

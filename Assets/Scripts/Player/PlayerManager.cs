@@ -57,4 +57,5 @@ public class PlayerManager : NetworkBehaviour
         state = null;
         player = null;
     }
+    
 }

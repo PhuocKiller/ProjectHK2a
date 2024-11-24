@@ -2752,9 +2752,11 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  runnerManager: {fileID: 0}
+  gameManager: {fileID: 0}
   projectConfig: {fileID: -755480892457977500, guid: 4f0a91afb8df93343bc600f71fa38824, type: 3}
   joystick: {fileID: 0}
-  _playerTeam: 0
+  _playerTeam: 1
   networkObjs: {fileID: 5376915690271877304}
   collisionsEnvi: []
   buffsFromEnvi: {fileID: 3886048214470802045}

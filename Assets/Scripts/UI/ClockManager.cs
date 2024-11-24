@@ -7,7 +7,7 @@ using UnityEngine;
 public class ClockManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timeClockText;
-    GameManager gameManager;
+    public GameManager gameManager;
     public int minuteTime;
     public int secondTime;
     public float currentTime;

@@ -8,25 +8,29 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Fusion;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
     PlayerController player;
-
+    NetworkManager networkManager;
     int numberHealPotionInt, numberManaPotionInt;
     [SerializeField] Transform inventoryPanel;
     void Start()
     {
-       Singleton<Inventory>.Instance.ItemAdded += InventoryScript_ItemAdded;
+        networkManager=FindObjectOfType<NetworkManager>();
+        Singleton<Inventory>.Instance.ItemAdded += InventoryScript_ItemAdded;
         Singleton<Inventory>.Instance.ItemRemoved += Inventory_ItemRemoved;
         Singleton<Inventory>.Instance.InventoryUpdate += Inventory_Update;
         
     }
-
-    // Update is called once per frame
-    void Update()
+    public void ChosePlayer(int playerIndex)
     {
-
+        networkManager.playerIndex = playerIndex;
+    }
+    public void ChoseTeam(int teamIndex)
+    {
+        networkManager.playerTeam = teamIndex;
     }
     void InventoryScript_ItemAdded(object sender, InventoryEventArgs e)
     {

@@ -65,6 +65,7 @@ public class PlayerStat: NetworkBehaviour
         base.Spawned();
         player=transform.parent.parent.GetComponent<PlayerController>();
         currentHealth = 1; //tránh bị bằng =0 trong lần đầu tiên cập nhật
+        levelPoint = 0;
         UpgradeLevel();
         isVisible =true; isLive =true; isLifeSteal =true;
     }

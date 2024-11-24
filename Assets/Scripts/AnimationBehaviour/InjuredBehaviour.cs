@@ -22,7 +22,7 @@ public class InjuredBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerController ??= animator.gameObject.GetComponent<PlayerController>();
-        playerController.SwithCharacterState(0);
+        if (playerController.state!=3) playerController.SwithCharacterState(0);
     }
 
     // OnStateMove is called before OnStateMove is called on any state inside this state machine
