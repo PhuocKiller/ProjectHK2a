@@ -10,14 +10,14 @@ public class NetworkManager : MonoBehaviour
 {
    NetworkRunner runner;
     [SerializeField]
-    GameObject playerStat, gameManagerObj, playerManagerObj;
+    GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
     GameObject[] players;
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
     UnityEvent onConnected;
     [SerializeField]
-    Transform spawnPoint;
+    public Transform[] spawnPointTeam;
 
     private void Awake()
     {
@@ -36,7 +36,14 @@ public class NetworkManager : MonoBehaviour
 
         if (player == runner.LocalPlayer)
         {
-            NetworkObject characterObj = runner.Spawn(players[runner.LocalPlayer.PlayerId], spawnPoint.position, Quaternion.identity, inputAuthority: player);
+           // Transform spawn = spawnPointTeam[players[runner.LocalPlayer.PlayerId].GetComponent<PlayerController>().playerTeam];
+            NetworkObject characterObj = runner.Spawn(players[runner.LocalPlayer.PlayerId],
+                spawnPointTeam[runner.LocalPlayer.PlayerId%2].position, spawnPointTeam[runner.LocalPlayer.PlayerId % 2].rotation,
+                inputAuthority: player,
+                onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                {
+
+                });
         }
 
     }
@@ -61,7 +68,7 @@ public class NetworkManager : MonoBehaviour
             
         }
     }
-    [SerializeField] Transform[] m_gridRoot;
+    /*[SerializeField] Transform[] m_gridRoot;
     [SerializeField] SkillButton m_skillBtnPrefab;
     private Dictionary<SkillName, int> m_skillCollecteds;
     public IEnumerator DrawSkillButton(NetworkRunner m_runner, PlayerRef player)
@@ -83,5 +90,5 @@ public class NetworkManager : MonoBehaviour
 
         }
 
-    }
+    }*/
 }

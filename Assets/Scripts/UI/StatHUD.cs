@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,7 +8,7 @@ public class StatHUD : MonoBehaviour
 {
     public PlayerController player;
     [SerializeField] TextMeshProUGUI attackTMP, defTMP, attackSpeedTMP, magicAmpliTMP, magicResisTMP, moveSpeedTMP;
-        
+    
     void Start()
     {
         StartCoroutine(DelayCheckPlay());
@@ -23,7 +24,6 @@ public class StatHUD : MonoBehaviour
         magicAmpliTMP.text = ((player.playerStat.magicAmpli*100)).ToString() + "%";
         magicResisTMP.text = player.playerStat.magicResistance.ToString();
         moveSpeedTMP.text = player.playerStat.moveSpeed.ToString();
-
     }
     IEnumerator DelayCheckPlay()
     {

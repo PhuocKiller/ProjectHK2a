@@ -31,7 +31,7 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
     {
         freeLookCamera.Follow = characterTransform;
         freeLookCamera.LookAt = characterTransform;
-        //targetLookAt = transformCamera;
+        freeLookCamera.m_XAxis.Value = characterTransform.rotation.eulerAngles.y;
         player = characterTransform.gameObject.GetComponent<PlayerController>();
         //endRotation = Quaternion.LookRotation(targetLookAt.position - freeLookCamera.transform.position);
     }

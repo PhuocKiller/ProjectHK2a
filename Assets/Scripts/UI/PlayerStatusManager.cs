@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,6 +9,8 @@ public class PlayerStatusManager : MonoBehaviour
     [SerializeField] Bars hpBarHUD, manaBarHUD, expBarHUD;
     [SerializeField] TextMeshProUGUI levelText;
     public PlayerController player;
+    [SerializeField] TextMeshProUGUI timeDie;
+    [SerializeField] GameObject panelAvaterWhenDie;
     private void Start()
     {
         StartCoroutine(DelayCheckPlay());
@@ -20,6 +23,11 @@ public class PlayerStatusManager : MonoBehaviour
         manaBarHUD.UpdateBar(player.playerStat.currentMana, player.playerStat.maxMana);
         expBarHUD.UpdateBar(player.playerStat.currentXP, player.playerStat.maxXP);
         levelText.text = player.playerStat.level.ToString();
+        panelAvaterWhenDie.SetActive(player.state == 3);
+        if (player.state == 3)
+        {
+            timeDie.text = Mathf.FloorToInt((float)player.timeDie.RemainingTime(player.runnerManager.GetComponent<NetworkRunner>())).ToString();
+        }
     }
     IEnumerator DelayCheckPlay()
     {

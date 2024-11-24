@@ -11,8 +11,11 @@ using UnityEngine.Events;
 
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
+    public NetworkManager runnerManager;
+    public GameManager gameManager;
     public NetworkProjectConfigAsset projectConfig;
     public Joystick joystick;
+    Transform spawnTransform;
     [Networked]  public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
     public List<Collider> collisionsEnvi = new List<Collider>();
@@ -67,6 +70,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         characterControllerPrototype = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        
     }
     public override void Spawned()
     {
@@ -74,6 +78,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         
         if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
         {
+            runnerManager = FindObjectOfType<NetworkManager>();
+            gameManager=FindObjectOfType<GameManager>();
+            spawnTransform = runnerManager.spawnPointTeam[playerTeam];
             Singleton<CameraController>.Instance.SetFollowCharacter(transform);
             Singleton<PlayerManager>.Instance.SetRunner(Runner);
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner,0);
@@ -82,11 +89,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             statusCanvas=GetComponentInChildren<StatusCanvas>();
             joystick=FindObjectOfType<Joystick>();
         }
-        
-    }
-
-    public void Start()
-    {
         
     }
     public override void FixedUpdateNetwork()
@@ -103,16 +105,20 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 playerStat.currentHealth = playerStat.maxHealth;
                 AnimatorSetBoolRPC("isLive",true);
                 statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
+                if(HasStateAuthority)
+                {
+                    SpawnAtStartPos();
+                    Singleton<CameraController>.Instance.SetFollowCharacter(transform);
+                }
             }
             return;
         }
-
         if (!playerStat.isBeingStun && state != 4)
         {
             CalculateMove();
             CalculateJump();
         }
-        animator.enabled = !playerStat.isBeingStun;
+        if(state!=2) animator.enabled = !playerStat.isBeingStun;
         CalculateEXP();
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
@@ -191,6 +197,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         animator.SetTrigger(name);
     }
     #endregion
+    #region Update
     void Update()
     {
         if (state == 3 || state == 4)
@@ -209,8 +216,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             velocity = Vector3.zero;
         }
-        
     }
+    #endregion
     #region Move
     void CalculateMove()
     {
@@ -224,8 +231,28 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
             if (moveDirection.magnitude > 0)
             {
-            characterControllerPrototype.Move(look * moveDirection * speed * 0.015f
-                *playerStat.moveSpeed*(playerStat.isBeingSlow ?0.3f:1f) * Runner.DeltaTime);
+                if(gameManager.state==GameState.InGame)
+                {
+                    characterControllerPrototype.Move(look * moveDirection * speed * 0.015f
+                * playerStat.moveSpeed * (playerStat.isBeingSlow ? 0.3f : 1f) * Runner.DeltaTime);
+                }
+                if(gameManager.state == GameState.WaitBeforeStart)
+                {
+                    Vector3 directionToCenter = transform.position - spawnTransform.position; // Vector3.zero là vị trí của sphere center
+                    if (directionToCenter.magnitude > 5f)
+                    {
+                        characterControllerPrototype.Move(-directionToCenter.normalized * speed * 0.015f
+                * playerStat.moveSpeed*Runner.DeltaTime);
+                        Debug.Log("directionToCenter" + directionToCenter.magnitude);
+                    }
+                    else
+                    {
+                        characterControllerPrototype.Move(look * moveDirection * speed * 0.015f
+                * playerStat.moveSpeed * (playerStat.isBeingSlow ? 0.3f : 1f) * Runner.DeltaTime);
+                        Debug.Log("vo <");
+                    }
+                }
+            
             transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
             }
         
@@ -281,19 +308,14 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             time += Runner.DeltaTime;
         }
     }
+    void SpawnAtStartPos()
+    {
+        Vector3 directionSpawn = spawnTransform.position - transform.position;
+        characterControllerPrototype.Move(directionSpawn);
+        transform.rotation = spawnTransform.rotation;
+    }
     #endregion
-    void CalculateEXP()
-    {
-        if (playerStat.currentXP >= playerStat.maxXP)
-        {
-            playerStat.currentXP -= playerStat.maxXP;
-            playerStat.UpgradeLevel();
-        }
-    }
-    protected static void listenState(Changed<PlayerController> changed)
-    {
-
-    }
+    
     #region State
     public void SwithCharacterState(int newstate)
     {
@@ -320,6 +342,10 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public int GetCurrentState()
     {
         return state;
+    }
+    protected static void listenState(Changed<PlayerController> changed)
+    {
+
     }
     #endregion
     public void CheckCamera(PlayerRef player, bool isFollow)
@@ -433,7 +459,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
         if ((playerStat.currentHealth + statusCanvas.GetCurrentDamageAbsorbShield()) > damage)
         {
-            if (activeInjureAnim) SwithCharacterState(2);
+            if (activeInjureAnim) SwithCharacterState(2); //kích hoạt anim injure
             if (statusCanvas.GetCurrentDamageAbsorbShield() > 0)
             {
                 statusCanvas.ReduceDamageAbsoreShield(damage, out int overBalanceDmg);
@@ -453,12 +479,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         playerStat.currentHealth = 0;
         SwithCharacterState(3);
+        playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive=false;
         foreach (var playerDamage in playerScore.playersMakeDamages)
         {
             CalculateWhenKill(playerDamage);
         }
-        timeDie = TickTimer.CreateFromSeconds(Runner,5+ 3 * playerStat.level);
+        timeDie = TickTimer.CreateFromSeconds(Runner,5+ 2 * playerStat.level); //thời gian hồi sinh
         animator.SetBool("isLive", false);
         StartCoroutine(DelayHideVisualWhenDie());
     }
@@ -466,7 +493,14 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         playerDamage.playerStat.GainXPWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
         playerDamage.GetComponent<Tesla>()?.PassiveWhenKill();
-        
+    }
+    void CalculateEXP()
+    {
+        if (playerStat.currentXP >= playerStat.maxXP)
+        {
+            playerStat.currentXP -= playerStat.maxXP;
+            playerStat.UpgradeLevel();
+        }
     }
     public IEnumerator DelayHideVisualWhenDie ()
     {
@@ -477,7 +511,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         animator.SetBool(aniName, isActive);
     }
-    [Networked] TickTimer timeDie {  get; set; }
+    [Networked] public TickTimer timeDie {  get; set; }
     #endregion
 
     #region Apply Effect
@@ -490,7 +524,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [Rpc(RpcSources.All, RpcTargets.All)] public void CalculateEffectRPC(PlayerRef player, bool isMakeStun = false,
         bool isMakeSlow = false, bool isMakeSilen = false, float TimeEffect = 0)
     {
-        if (playerStat.isUnstopAble) return;
+        if (playerStat.isUnstopAble || !playerStat.isLive) return;
         if(isMakeStun)
         {
             if (TimeOfStunDebuff.RemainingTime(Runner) == null||
@@ -537,7 +571,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     #region Status Canvas
     void CalculateStatusDebuff()
     {
-        if(state==3) { playerStat.isBeingStun = false;playerStat.isBeingSlow = false;playerStat.isBeingSilen = false; }
         
         if (HasStateAuthority)
         {

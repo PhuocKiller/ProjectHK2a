@@ -9,6 +9,7 @@ public enum GameState
     None,
     Lobby,
     Transition,
+    WaitBeforeStart,
     InGame,
 }
 public class GameManager : NetworkBehaviour
@@ -19,15 +20,14 @@ public class GameManager : NetworkBehaviour
 
    [Networked] public float currentTime { get; set; }
     [Networked] public float startTime { get; set; }
+    [Networked] public TickTimer waitBeforeStartTime {  get; set; }
     public override void Spawned()
     {
         base.Spawned();
 
-        currentState = (int)GameState.Lobby;
-        
+        currentState = 3;
         clock=FindObjectOfType<ClockManager>();
-        startTime=Time.time;
-        currentTime=startTime;
+        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 10f);
     }
 
     public override void FixedUpdateNetwork()
@@ -36,6 +36,12 @@ public class GameManager : NetworkBehaviour
        if(HasStateAuthority && Object.IsValid)
         {
           SyncTime();
+        }
+       if(waitBeforeStartTime.ExpiredOrNotRunning(Runner) && currentState==3)
+        {
+            currentState = 4;
+            startTime = Time.time;
+            Debug.Log("hetgio");
         }
     }
 
@@ -46,7 +52,8 @@ public class GameManager : NetworkBehaviour
             case 0: return GameState.None;
             case 1: return GameState.Lobby;
             case 2: return GameState.Transition;
-            case 3: return GameState.InGame;
+            case 3: return GameState.WaitBeforeStart;
+            case 4: return GameState.InGame;
             default: return GameState.None;
         }
     }
@@ -64,7 +71,6 @@ public class GameManager : NetworkBehaviour
             }
         }
     }
-
     private Action<GameState, GameState> onCurrentStateChanged;
 
     protected static void CurrentStateChanged(Changed<GameManager> changed)
@@ -88,11 +94,9 @@ public class GameManager : NetworkBehaviour
     {
         currentState = (int)state;
     }
-    
-
-    //[Rpc(RpcSources.All, RpcTargets.All)]
     public void SyncTime()
     {
-        currentTime = Time.time - startTime;
+        if (state == GameState.WaitBeforeStart) currentTime= (float)waitBeforeStartTime.RemainingTime(Runner);
+        if (state == GameState.InGame)currentTime = Time.time - startTime;
     }
 }
