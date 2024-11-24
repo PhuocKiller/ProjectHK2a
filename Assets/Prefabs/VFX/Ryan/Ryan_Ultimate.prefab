@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 0
+  DestroyWhenStateAuthorityLeaves: 1
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 2305
@@ -109,14 +109,15 @@ MonoBehaviour:
   _interpolationDataSource: 0
   _maxHealth: 0
   _maxMana: 0
-  _damage: 50
+  _damage: 0
   _defend: 0
   _magicResistance: 0
   _magicAmpli: 0
-  _criticalChance: 0.1
-  _criticalDamage: 0.2
+  _criticalChance: 1
+  _criticalDamage: 0.3
   _moveSpeed: 30
   _attackSpeed: 0
+  _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0
 --- !u!114 &-1272137195127237215
@@ -184,7 +185,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372769390862568251}
   serializedVersion: 8
-  lengthInSec: 4
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0

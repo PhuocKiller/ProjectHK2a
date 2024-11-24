@@ -111,6 +111,7 @@ public class PlayerStat: NetworkBehaviour
         defend = b_defend + playerBuffManager.defend;
         magicResistance = b_magicResistance + playerBuffManager.magicResistance;
         criticalChance = b_criticalChance + playerBuffManager.criticalChance;
+        if(criticalChance>1) criticalChance = 1;    
         criticalDamage = b_criticalDamage + playerBuffManager.criticalDamage;
         moveSpeed = b_moveSpeed + playerBuffManager.moveSpeed;
         attackSpeed = b_attackSpeed + playerBuffManager.attackSpeed;

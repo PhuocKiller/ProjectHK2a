@@ -3595,8 +3595,8 @@ MonoBehaviour:
   gameManagerObj: {fileID: 1113951832087527282, guid: c37c820e186ca8c4c8d1c58edc5da70e, type: 3}
   playerManagerObj: {fileID: 4972084282100277471, guid: 811a59c4b0655be4a82f08cf229278f4, type: 3}
   players:
-  - {fileID: 8523547410306454324, guid: af72436c77fceca40ad02536e82499c9, type: 3}
   - {fileID: 8523547410306454324, guid: 58e6657a04d8afd40abee898c944ebe4, type: 3}
+  - {fileID: 8523547410306454324, guid: af72436c77fceca40ad02536e82499c9, type: 3}
   - {fileID: 8523547410306454324, guid: 0af9bafe433dd0f4c80f35e5cdb1c742, type: 3}
   - {fileID: 8523547410306454324, guid: 850ea70c68e89a34e9a4fe1ad9531b48, type: 3}
   - {fileID: 8523547410306454324, guid: 147e94081f6f09149a738ffd981b30f6, type: 3}
