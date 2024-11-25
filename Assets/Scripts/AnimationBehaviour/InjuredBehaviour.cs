@@ -5,11 +5,13 @@ using UnityEngine;
 public class InjuredBehaviour : StateMachineBehaviour
 {
     PlayerController playerController;
+    CreepController creepController;
     // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerController??=animator.gameObject.GetComponent<PlayerController>();
-      //  playerController.SwithCharacterState(2);
+        creepController ??= animator.gameObject.GetComponent<CreepController>();
+        //  playerController.SwithCharacterState(2);
     }
 
     // OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine
@@ -22,7 +24,9 @@ public class InjuredBehaviour : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerController ??= animator.gameObject.GetComponent<PlayerController>();
-        if (playerController.state!=3) playerController.SwithCharacterState(0);
+        creepController ??= animator.gameObject.GetComponent<CreepController>();
+        if (playerController&&playerController.state!=3) playerController.SwithCharacterState(0);
+        if (creepController && creepController.state != 3) creepController.SwithCharacterState(0);
     }
 
     // OnStateMove is called before OnStateMove is called on any state inside this state machine

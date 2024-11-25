@@ -29,16 +29,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     float speed;
     private int targetX, targetY, beforeTarget;
     float previousSpeedX, currentSpeedX, previousSpeedY, currentSpeedY;
-    [HideInInspector] public bool isGround;
-    [Networked]
-    bool isJumping { get; set; }
-    [Networked]
-    bool isBasicAttackAttack { get; set; }
-    [Networked]
-    float jumpHeight { get; set; }
-    Vector3 velocity;
-
-
+    
     // 0 là normal
     // 1 là jump
     // 2 là injured
@@ -48,7 +39,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     [Networked]public int state { get; set; }
    
     [SerializeField]
-    public Transform jumpTransform, normalAttackTransform, skill_1Transform, skill_2Transform, ultimateTransform, rayCastTransform, transformCamera;
+    public Transform  normalAttackTransform;
 
     [SerializeField] public Player_Types playerType;
     [HideInInspector] public SkillButton[] skillButtons;
@@ -91,72 +82,16 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         CalculateCanvas();
         CalculateStatusDebuff();
         if (state != 2) animator.enabled = !playerStat.isBeingStun;
-        if (state == 3)
-        {
-            if (timeDie.RemainingTime(Runner) <= 0 || timeDie.ExpiredOrNotRunning(Runner))
-            {
-                Debug.Log("hoisinh");
-                playerStat.isLive = true;
-                state = 0;
-                playerStat.currentHealth = playerStat.maxHealth;
-                AnimatorSetBoolRPC("isLive", true);
-                statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
-                if (HasStateAuthority)
-                {
-                    SpawnAtStartPos();
-                    Singleton<CameraController>.Instance.SetFollowCharacter(transform);
-                }
-            }
-            return;
-        }
+        if (state == 3) return;
         if (!playerStat.isBeingStun && state != 4)
         {
             CalculateMove();
-            CalculateJump();
         }
         CalculateEXP();
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
     }
-    #region Jump
-    private void CalculateJump()
-    {
-        if (HasStateAuthority)
-        {
-            if (isJumping)
-            {
-                isGround = false;
-                isJumping = false;
-                velocity += new Vector3(0, 50f, 0);
-            }
-            if (isGround)
-            {
-                velocity.y = 0;
-                characterControllerPrototype.Move(velocity * Runner.DeltaTime);
-            }
-            else
-            {
-                velocity += new Vector3(0, -100f * Runner.DeltaTime, 0);
 
-                characterControllerPrototype.Move(velocity * Runner.DeltaTime);
-            }
-        }
-    }
-
-    public void Jump(NetworkObject VFXEffect)
-    {
-        isJumping = true;
-        AnimatorRPC("Jump");
-        NetworkObject jumpVFX = Runner.Spawn(VFXEffect, jumpTransform.transform.position,
-            jumpTransform.rotation, inputAuthority: Object.InputAuthority);
-        StartCoroutine(DespawnJumpVFX(jumpVFX));
-    }
-    IEnumerator DespawnJumpVFX(NetworkObject jumpVFX)
-    {
-        yield return new WaitForSeconds(0.5f);
-        Runner.Despawn(jumpVFX);
-    }
-    #endregion
 
     #region "SkillButton"
     public virtual void NormalAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
@@ -164,28 +99,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         AnimatorRPC("Attack");
     }
-    public virtual void Skill_1(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
-        float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
-    {
-        AnimatorRPC("Skill_1");
-        playerStat.currentMana -= manaCost;
-    }
-
-    public virtual void Skill_2(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
-        float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
-    {
-        AnimatorRPC("Skill_2");
-        playerStat.currentMana -= manaCost;
-    }
-    public virtual void Ultimate(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
-        float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
-    {
-        AnimatorRPC("Ultimate");
-        playerStat.currentMana -= manaCost;
-    }
+    
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void AnimatorRPC(string name)
     {
@@ -317,28 +231,9 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     }
 
     #endregion
-    public void CheckCamera(PlayerRef player, bool isFollow)
-    {
-        if (player == Runner.LocalPlayer)
-        {
-            if (isFollow)
-            {
-                Singleton<CameraController>.Instance.SetFollowCharacter(transform);
-            }
-            else
-            {
-                Singleton<CameraController>.Instance.RemoveFollowCharacter();
-            }
-        }
-    }
+    
     #region Collider
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.collider.CompareTag("Ground") && !isGround)
-        {
-            isGround = true;
-        }
-    }
+   
     private void OnTriggerStay(Collider otherColi)
     {
         if (!HasStateAuthority) return;
@@ -455,8 +350,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             CalculateWhenKill(playerDamage);
         }
         timeDie = TickTimer.CreateFromSeconds(Runner, 5 + 2 * playerStat.level); //thời gian hồi sinh
-        animator.SetBool("isLive", false);
-        StartCoroutine(DelayHideVisualWhenDie());
+        StartCoroutine(DelayDie());
     }
     void CalculateWhenKill(PlayerController playerDamage)
     {
@@ -471,10 +365,10 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             playerStat.UpgradeLevel();
         }
     }
-    public IEnumerator DelayHideVisualWhenDie()
+    public IEnumerator DelayDie()
     {
         yield return new WaitForSeconds(3f);
-        statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
+        Runner.Despawn(GetComponent<NetworkObject>());
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void AnimatorSetBoolRPC(string aniName, bool isActive)
@@ -619,10 +513,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         {
             obj.transform.SetParent(transform.GetChild(2).GetChild(1));
         }
-        if (obj.GetComponent<GrenadeController>() != null && playerType == Player_Types.Tesla)
-        {
-            obj.transform.SetParent(skill_2Transform);
-        }
+        
     }
 }
 

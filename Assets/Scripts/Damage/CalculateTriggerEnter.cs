@@ -5,16 +5,9 @@ using UnityEngine;
 
 public class CalculateTriggerEnter : MonoBehaviour
 {
-    public void ControlTrigger(Collider other, List<Collider> collisions, PlayerController player, int damage,float timeEffect,
+    public void ControlTriggerPlayer(Collider other, List<Collider> collisions, PlayerController player, int damage,float timeEffect,
         bool isPhysicDamage, bool isMakeStun, bool isMakeSlow, bool isMakeSilen, bool isDestroyWhenCollider,PlayerRef InputAuthority,int levelSkill=1)
     {
-        if ( other.gameObject.layer == 7 && collisions.Count == 0
-            && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
-            && other.gameObject.GetComponent<PlayerController>().state != 3
-            && other.gameObject.GetComponent<PlayerController>().playerTeam != player.playerTeam)
-        {
-            Debug.Log("voday");
-
             collisions.Add(other);
             other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, player,
                 counter: (int counterDamage, bool isPhysicDamage) =>
@@ -40,6 +33,5 @@ public class CalculateTriggerEnter : MonoBehaviour
                     if (isDestroyWhenCollider) Destroy(gameObject);//khi chạm vào địch thì hủy vật thể
                 }
                 );
-        }
     }
 }

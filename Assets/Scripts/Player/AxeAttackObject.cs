@@ -91,8 +91,23 @@ public class AxeAttackObject: NetworkBehaviour
     {
         if (HasStateAuthority)
         {
-            trigger.ControlTrigger(other, collisions, player, damage, timeEffect, isPhysicDamage,
+            if (other.gameObject.layer == 7 && collisions.Count == 0
+            && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
+            && other.gameObject.GetComponent<PlayerController>().state != 3
+            && other.gameObject.GetComponent<PlayerController>().playerTeam != player.playerTeam)
+            {
+                trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
+            }
+            if (other.gameObject.layer == 8 && collisions.Count == 0
+            && other.gameObject.GetComponent<CreepController>().state != 3
+            && other.gameObject.GetComponent<CreepController>().playerTeam != player.playerTeam)
+            {
+                trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
+                isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
+                if (player.playerType == Player_Types.DumbleDore) collisions.Clear();
+            }
+
         }
     }
     private void OnTriggerExit(Collider other)
