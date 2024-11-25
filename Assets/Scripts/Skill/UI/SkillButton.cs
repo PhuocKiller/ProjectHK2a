@@ -75,9 +75,11 @@ public class SkillButton : NetworkBehaviour
     }
     private void Update()
     {
-        if (player == null||skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack) return;
+        if (player == null||skillButtonType == SkillButtonTypes.Jump ||
+            skillButtonType == SkillButtonTypes.NormalAttack || !player.playerStat.GetComponent<NetworkObject>().IsValid) return;
         skillLevelImage.fillAmount = levelSkill * 0.25f;
-        AddSkill_LevelBtn.gameObject.SetActive(player.playerStat.levelPoint > 0 && levelSkill<4);
+        if(player.playerStat.GetComponent<NetworkObject>().IsValid) AddSkill_LevelBtn.gameObject.SetActive(player.playerStat.levelPoint > 0 && levelSkill < 4);
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
@@ -255,8 +257,6 @@ public class SkillButton : NetworkBehaviour
         {
             
             Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-            StartCoroutine(DelayCameraActiveAgain(0.5f));
-
             if (skillType == SkillTypes.Direction_Active)
             {
                 if (state == 5)
@@ -273,12 +273,7 @@ public class SkillButton : NetworkBehaviour
             }
         }
     }
-    IEnumerator DelayCameraActiveAgain(float time)
-    {
-        yield return new WaitForSeconds(time);
-        FindObjectOfType<CinemachineFreeLook>().enabled = true;
-        Singleton<CameraController>.Instance.StartTransition();
-    }
+    
 
 
 }

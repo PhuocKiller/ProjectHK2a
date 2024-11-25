@@ -14,8 +14,6 @@ public class CameraController : MonoBehaviour
         freeLookCamera = GetComponent<CinemachineFreeLook>();
         Singleton<CinemachineBrain>.Instance.m_ShowDebugText = true;
         CinemachineCore.GetInputAxis = GetAxisCustom;
-        // Lưu lại góc quay ban đầu của camera
-        startRotation = freeLookCamera.transform.rotation;
         
 #if UNITY_EDITOR
         freeLookCamera.m_XAxis.m_MaxSpeed = 1000f;
@@ -114,24 +112,5 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
         Debug.Log("Nền tảng khác");
 
 #endif
-    }
-
-    public Transform targetLookAt;  // Tham chiếu đến đối tượng mà camera sẽ nhìn vào
-    public float transitionTime = 0.01f;  // Thời gian chuyển đổi (s)
-
-    private Quaternion startRotation;  // Vị trí quay ban đầu của camera
-    private Quaternion endRotation;    // Vị trí quay mục tiêu của camera
-    private float startTime;           // Thời gian bắt đầu chuyển đổi
-
-    
-
-    void Update()
-    {
-    }
-
-    // Gọi hàm này khi muốn bắt đầu chuyển đổi
-    public void StartTransition()
-    {
-        startTime = Time.time;  // Ghi lại thời gian bắt đầu
     }
 }

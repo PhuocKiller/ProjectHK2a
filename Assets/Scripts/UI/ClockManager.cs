@@ -22,12 +22,17 @@ public class ClockManager : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(DelayFindObject());
+        
     }
+    
     IEnumerator DelayFindObject()
     {
         yield return new WaitForSeconds(0.2f);
         gameManager = FindObjectOfType<GameManager>();
+    }
+    private void OnEnable()
+    {
+        StartCoroutine(DelayFindObject());
     }
     void ShowInClock()
     {
@@ -43,7 +48,10 @@ public class ClockManager : MonoBehaviour
     }
     void CalculateTime()
     {
-        currentTime = gameManager.currentTime;
-        ShowInClock();
+        if(gameManager.GetComponent<NetworkObject>().IsValid)
+        {
+            currentTime = gameManager.currentTime;
+            ShowInClock();
+        }
     }
 }

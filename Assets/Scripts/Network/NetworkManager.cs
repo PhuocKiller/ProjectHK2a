@@ -71,6 +71,9 @@ public class NetworkManager : MonoBehaviour
     }
     public void ShutdownRunner()
     {
-        runner.Shutdown(false, ShutdownReason.GameClosed);
+        if (runner.IsRunning)
+        {
+            runner.Shutdown(false, forceShutdownProcedure: true);
+        }
     }
 }
