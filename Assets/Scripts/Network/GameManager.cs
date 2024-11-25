@@ -27,7 +27,7 @@ public class GameManager : NetworkBehaviour
 
         currentState = 3;
         clock=FindObjectOfType<ClockManager>();
-        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 10f);
+        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 5f);
     }
 
     public override void FixedUpdateNetwork()

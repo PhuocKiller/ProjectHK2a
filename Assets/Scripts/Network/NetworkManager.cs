@@ -24,7 +24,6 @@ public class NetworkManager : MonoBehaviour
     {
         runner = GetComponent<NetworkRunner>();
         gameNetworkCallBack = GetComponent<GameNetworkCallBack>();
-
     }
    
     private void SpawnPlayer(NetworkRunner m_runner, PlayerRef player)
@@ -32,12 +31,12 @@ public class NetworkManager : MonoBehaviour
         if (player == runner.LocalPlayer && runner.IsSharedModeMasterClient)
         {
             runner.Spawn(gameManagerObj, inputAuthority: player);
-          runner.Spawn(playerManagerObj, inputAuthority: player);
+            runner.Spawn(playerManagerObj, inputAuthority: player);
+           
         }
-
         if (player == runner.LocalPlayer)
         {
-           // Transform spawn = spawnPointTeam[players[runner.LocalPlayer.PlayerId].GetComponent<PlayerController>().playerTeam];
+            // Transform spawn = spawnPointTeam[players[runner.LocalPlayer.PlayerId].GetComponent<PlayerController>().playerTeam];
             NetworkObject characterObj = runner.Spawn(players[playerIndex],
                 spawnPointTeam[playerTeam].position, spawnPointTeam[playerTeam].rotation,
                 inputAuthority: player,
@@ -45,8 +44,13 @@ public class NetworkManager : MonoBehaviour
                 {
                     obj.GetComponent<PlayerController>().playerTeam = playerTeam;
                 });
+/*            runner.Spawn(players[6], spawnPointTeam[playerTeam].position, spawnPointTeam[playerTeam].rotation,
+                inputAuthority: player,
+                onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                {
+                    obj.GetComponent<CreepController>().playerTeam = playerTeam;
+                });*/
         }
-
     }
     public async void OnClickBtn(Button btn)
     {

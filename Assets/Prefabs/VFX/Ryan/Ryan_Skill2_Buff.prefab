@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1915372749519699729}
   - component: {fileID: 757806220620612467}
   - component: {fileID: -8107468071151954767}
+  - component: {fileID: 8891107464589596122}
   m_Layer: 0
   m_Name: Ryan_Skill2_Buff
   m_TagString: Untagged
@@ -117,6 +118,7 @@ MonoBehaviour:
   _criticalDamage: 0
   _moveSpeed: 0
   _attackSpeed: 0
+  _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0
 --- !u!114 &-8107468071151954767
@@ -142,6 +144,18 @@ MonoBehaviour:
   isMakeSlow: 0
   isMakeSilen: 0
   isDestroyWhenCollider: 0
+--- !u!114 &8891107464589596122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499149489698105432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2319014667125888430
 GameObject:
   m_ObjectHideFlags: 0

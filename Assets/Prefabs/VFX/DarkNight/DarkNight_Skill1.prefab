@@ -19565,6 +19565,7 @@ GameObject:
   - component: {fileID: 1312815501908661557}
   - component: {fileID: 5731706619311085417}
   - component: {fileID: 1422924265876791772}
+  - component: {fileID: 7815550845680219524}
   m_Layer: 0
   m_Name: DarkNight_Skill1
   m_TagString: Untagged
@@ -19682,7 +19683,26 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   timerDespawn: 0
+  timeEffect: 0
   damage: 0
+  levelSkill: 0
+  isPhysicDamage: 0
+  isMakeStun: 0
+  isMakeSlow: 0
+  isMakeSilen: 0
+  isDestroyWhenCollider: 0
+--- !u!114 &7815550845680219524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5988736940883986072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7149901491418400255
 GameObject:
   m_ObjectHideFlags: 0

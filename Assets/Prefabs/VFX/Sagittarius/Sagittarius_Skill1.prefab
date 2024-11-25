@@ -4912,6 +4912,7 @@ GameObject:
   - component: {fileID: 1905595267133527212}
   - component: {fileID: -1547518742725134230}
   - component: {fileID: -3934702670791719021}
+  - component: {fileID: 7502378273921162331}
   m_Layer: 0
   m_Name: Sagittarius_Skill1
   m_TagString: Untagged
@@ -5081,8 +5082,21 @@ MonoBehaviour:
   _criticalDamage: 0.1
   _moveSpeed: 15
   _attackSpeed: 0
+  _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0
+--- !u!114 &7502378273921162331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404846990678171593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2353095221243550863
 GameObject:
   m_ObjectHideFlags: 0

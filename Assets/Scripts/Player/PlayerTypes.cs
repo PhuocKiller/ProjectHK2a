@@ -10,4 +10,6 @@ public enum Player_Types
     Sagittarius,
     Tesla,
     Viking,
+    MeleeCreep,
+    RangeCreep,
 }

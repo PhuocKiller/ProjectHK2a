@@ -24631,6 +24631,7 @@ GameObject:
   - component: {fileID: 2865572806765571778}
   - component: {fileID: 6331758913082590399}
   - component: {fileID: -106806654662919550}
+  - component: {fileID: 7483586983356651949}
   m_Layer: 0
   m_Name: DarkNight_Ultimate
   m_TagString: Untagged
@@ -24749,11 +24750,24 @@ MonoBehaviour:
   timerDespawn: 0
   timeEffect: 0
   damage: 0
+  levelSkill: 0
   isPhysicDamage: 0
   isMakeStun: 0
   isMakeSlow: 0
   isMakeSilen: 0
   isDestroyWhenCollider: 0
+--- !u!114 &7483586983356651949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7413357162941872214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8833350378283832169
 GameObject:
   m_ObjectHideFlags: 0

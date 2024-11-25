@@ -6,6 +6,7 @@ using UnityEngine;
 public class AttackObjects : NetworkBehaviour
 {
     PlayerController player;
+    CalculateTriggerEnter trigger;
     private Vector3 direction;
     private NetworkRigidbody rb;
     private List<Collider> collisions = new List<Collider>();
@@ -18,6 +19,7 @@ public class AttackObjects : NetworkBehaviour
         base.Spawned();
         collisions.Clear();
         rb = GetComponent<NetworkRigidbody>();
+        trigger=GetComponent<CalculateTriggerEnter>();
         if (HasStateAuthority && HasInputAuthority)
         {
             timer = TickTimer.CreateFromSeconds(Runner, timerDespawn);
@@ -66,37 +68,11 @@ public class AttackObjects : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (HasStateAuthority
-            && other.gameObject.layer == 7 && collisions.Count == 0
-            && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
-            && other.gameObject.GetComponent<PlayerController>().state!=3
-            && other.gameObject.GetComponent<PlayerController>().playerTeam != player.playerTeam)
+        if(HasStateAuthority)
         {
-            collisions.Add(other);
-            other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, player,
-                counter: (int counterDamage, bool isPhysicDamage) => 
-                {
-                    player.ApplyDamage(counterDamage, isPhysicDamage,
-                         other.gameObject.GetComponent<PlayerController>());
-                }
-                ,isKillPlayer: (int levelHeroKilled, List<PlayerController> playerMakeDamage)  => // Nhận exp khi giêt địch ở đây
-                {
-                    player.playerStat.currentXP += (int)(100 * Mathf.Lerp(1 / playerMakeDamage.Count, 1, 0.5f) * levelHeroKilled);
-                    player.playerScore.killScore += 1;
-                    player.playerScore.assistScore -= 1;
-                }
-                , lifeSteal: (int damage) =>
-                {
-                    if (player.playerStat.isLifeSteal) player.playerStat.currentHealth += (int)(player.playerStat.lifeSteal * damage);
-                }
-                );
-            other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(Object.InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,
-                TimeEffect: timeEffect, callback: () =>
-                {
-                    if (isDestroyWhenCollider) Destroy(gameObject);//khi chạm vào địch thì hủy vật thể
-                }
-                );
-
+            trigger.ControlTrigger(other,collisions,player,damage,timeEffect,isPhysicDamage,
+                isMakeStun, isMakeSlow, isMakeSilen,isDestroyWhenCollider,Object.InputAuthority);
+            if (player.playerType==Player_Types.DumbleDore) collisions.Clear();
         }
     }
 }

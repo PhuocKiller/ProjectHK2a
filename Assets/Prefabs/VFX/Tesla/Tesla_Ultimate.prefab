@@ -9572,6 +9572,7 @@ GameObject:
   - component: {fileID: 992137648451232974}
   - component: {fileID: -8273604589772202014}
   - component: {fileID: 8822518999054035446}
+  - component: {fileID: 4973121326699600571}
   m_Layer: 0
   m_Name: Tesla_Ultimate
   m_TagString: Untagged
@@ -9659,6 +9660,7 @@ MonoBehaviour:
   timerDespawn: 0
   timeEffect: 0
   damage: 0
+  levelSkill: 0
   isPhysicDamage: 0
   isMakeStun: 0
   isMakeSlow: 0
@@ -9721,6 +9723,18 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
+--- !u!114 &4973121326699600571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2716214547483795300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3724188416387259570
 GameObject:
   m_ObjectHideFlags: 0

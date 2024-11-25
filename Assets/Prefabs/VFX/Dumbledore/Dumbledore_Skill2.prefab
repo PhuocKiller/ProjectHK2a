@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4941050230053513004}
   - component: {fileID: -3121823306722707029}
   - component: {fileID: 7991989189100704587}
+  - component: {fileID: -728246377893006807}
   m_Layer: 0
   m_Name: Dumbledore_Skill2
   m_TagString: Untagged
@@ -118,6 +119,7 @@ MonoBehaviour:
   _criticalDamage: 0
   _moveSpeed: 15
   _attackSpeed: 0
+  _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0
 --- !u!114 &7991989189100704587
@@ -144,6 +146,18 @@ MonoBehaviour:
   isMakeSlow: 0
   isMakeSilen: 0
   isDestroyWhenCollider: 0
+--- !u!114 &-728246377893006807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686722564777009213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5750370291223301842
 GameObject:
   m_ObjectHideFlags: 0

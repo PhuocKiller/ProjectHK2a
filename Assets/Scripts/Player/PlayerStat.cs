@@ -3,18 +3,18 @@ using System.ComponentModel;
 using Fusion;
 using UnityEngine;
 
-public class PlayerStat: NetworkBehaviour
+public class PlayerStat : NetworkBehaviour
 {
     [SerializeField] PlayerBuffManager playerBuffManager;
-    [Networked] public int level {  get; set; }
+    [Networked] public int level { get; set; }
     [Networked] public int levelPoint { get; set; }
-    [Networked] public int b_maxHealth {  get; set; }
+    [Networked] public int b_maxHealth { get; set; }
     [Networked] public int currentHealth { get; set; }
     [Networked] public int b_maxMana { get; set; }
     [Networked] public int currentMana { get; set; }
     [Networked] public int b_damage { get; set; }
     [Networked] public int b_defend { get; set; }
-    [Networked] public float b_magicResistance { get; set; }
+    [Networked] public int b_magicResistance { get; set; }
     [Networked] public float b_magicAmpli { get; set; }
     [Networked] public float b_criticalChance { get; set; }
     [Networked] public float b_criticalDamage { get; set; }
@@ -42,8 +42,8 @@ public class PlayerStat: NetworkBehaviour
     public int multipleMana;
     public int multipleDamage;
     public int multipleDefend;
-    public float multipleMagicResistance;
-    public float multipleMagicAmpli;
+    public int multipleMagicResistance;
+    public int multipleMagicAmpli;
     public float multipleCriticalChance;
     public float multipleCriticalDamage;
     public int multipleMoveSpeed;
@@ -51,6 +51,7 @@ public class PlayerStat: NetworkBehaviour
     public float multipleLifeSteal;
 
     PlayerController player;
+    CreepController creep;
     [HideInInspector][Networked] public bool isBeingStun { get; set; }
     [HideInInspector][Networked] public bool isBeingSlow { get; set; }
     [HideInInspector][Networked] public bool isBeingSilen { get; set; }
@@ -63,11 +64,12 @@ public class PlayerStat: NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
-        player=transform.parent.parent.GetComponent<PlayerController>();
+        player = transform.parent.parent.GetComponent<PlayerController>();
+        creep = transform.parent.parent.GetComponent<CreepController>();
         currentHealth = 1; //tránh bị bằng =0 trong lần đầu tiên cập nhật
         levelPoint = 0;
         UpgradeLevel();
-        isVisible =true; isLive =true; isLifeSteal =true;
+        isVisible = true; isLive = true; isLifeSteal = true;
     }
     public override void FixedUpdateNetwork()
     {
@@ -75,33 +77,58 @@ public class PlayerStat: NetworkBehaviour
         UpdateFullStat();
     }
     public void UpdateBaseStat(int level, int multipleHealth, int multipleMana, int multipleDamage, int multipleDefend,
-        float multipleMagicResistance, float multipleMagicAmpli,
-        float multipleCriticalChance,float multipleCriticalDamage,int multipleMoveSpeed,int multipleAttackSpeed, float multipleLifeSteal)
+        int multipleMagicResistance, int multipleMagicAmpli,
+        float multipleCriticalChance, float multipleCriticalDamage, int multipleMoveSpeed, int multipleAttackSpeed, float multipleLifeSteal)
     {
-        b_maxHealth = 300 + (level-1) * multipleHealth; b_maxMana = 100 + (level - 1) * multipleMana;
-        if(level>=12) currentXP = 0;
-        maxXP = 100 + (level - 1) * (level - 1) * 50;
-        b_damage = 50 + (level - 1) * multipleDamage; b_defend= 5 + ((level - 1) * multipleDefend);
-        b_magicResistance = 5 + (level - 1) * multipleMagicResistance; b_magicAmpli = 0 + (level - 1) * multipleMagicAmpli;
-        b_criticalChance =0+ (level - 1) * multipleCriticalChance; b_criticalDamage= 1+ (level - 1) * multipleCriticalDamage;
-        b_moveSpeed=300+((level - 1) * multipleMoveSpeed);
-        b_attackSpeed=100 + ((level - 1) * multipleAttackSpeed);
-        b_lifeSteal=0 + ((level - 1) * multipleLifeSteal);
+        if (creep)
+        {
+            BaseStatOnType(150, 0, 10, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+            multipleMagicResistance, multipleMagicAmpli,
+            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
+        }
+        /*if (player.playerType == Player_Types.RangeCreep)
+        {
+            BaseStatOnType(100, 0, 15, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+            multipleMagicResistance, multipleMagicAmpli,
+            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
+        }*/
+        else
+        {
+            BaseStatOnType(300, 100, 50, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+            multipleMagicResistance, multipleMagicAmpli,
+            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
+        }
+    }
+    void BaseStatOnType(int b_maxHealth, int b_maxMana, int b_damage, int b_defend, int b_magicResistance, float b_magicAmpli,
+        float b_criticalChance, float b_criticalDamage, int b_moveSpeed, int b_attackSpeed, float b_lifeSteal,
+        int level, int multipleHealth, int multipleMana, int multipleDamage, int multipleDefend,
+        int multipleMagicResistance, float multipleMagicAmpli,
+        float multipleCriticalChance, float multipleCriticalDamage, int multipleMoveSpeed, int multipleAttackSpeed, float multipleLifeSteal)
+    {
+        this.b_maxHealth = b_maxHealth + (level - 1) * multipleHealth; this.b_maxMana = b_maxMana + (level - 1) * multipleMana;
+        if (level >= 12) this.currentXP = 0;
+        this.maxXP = 100 + (level - 1) * (level - 1) * 50;
+        this.b_damage = b_damage + (level - 1) * multipleDamage; this.b_defend = b_defend + ((level - 1) * multipleDefend);
+        this.b_magicResistance = b_magicResistance + (level - 1) * multipleMagicResistance; this.b_magicAmpli = b_magicAmpli + (level - 1) * multipleMagicAmpli;
+        this.b_criticalChance = b_criticalChance + (level - 1) * multipleCriticalChance; this.b_criticalDamage = b_criticalDamage + (level - 1) * multipleCriticalDamage;
+        this.b_moveSpeed = b_moveSpeed + ((level - 1) * multipleMoveSpeed);
+        this.b_attackSpeed = b_attackSpeed + ((level - 1) * multipleAttackSpeed);
+        this.b_lifeSteal = b_lifeSteal + ((level - 1) * multipleLifeSteal);
     }
     public void UpgradeLevel()
     {
         level++; levelPoint++;
         UpdateBaseStat(level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
-            multipleMagicResistance,multipleMagicAmpli, 
+            multipleMagicResistance, multipleMagicAmpli,
             multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
         UpdateFullStat();
-        currentHealth=maxHealth;
-        currentMana=maxMana;
+        currentHealth = maxHealth;
+        currentMana = maxMana;
     }
 
     private void UpdateFullStat()
     {
-        if (player.state == 3) return;
+        if (player?.state == 3 ||creep?.state==3) return;
         maxHealth = b_maxHealth + playerBuffManager.maxHealth;
         if(maxHealth<1) maxHealth = 1;
         if (currentHealth > maxHealth) currentHealth = maxHealth;

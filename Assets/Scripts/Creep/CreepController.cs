@@ -9,17 +9,16 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-public class PlayerController : NetworkBehaviour, ICanTakeDamage
+public class CreepController : NetworkBehaviour, ICanTakeDamage
 {
     public NetworkManager runnerManager;
     public GameManager gameManager;
-    public NetworkProjectConfigAsset projectConfig;
     public Joystick joystick;
     Transform spawnTransform;
-    [Networked]  public int playerTeam { get; set; }
+    [Networked] public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
     public List<Collider> collisionsEnvi = new List<Collider>();
-    public BuffsOfPlayer buffsFromEnvi,buffsFromPassive;
+    public BuffsOfPlayer buffsFromEnvi, buffsFromPassive;
     public PlayerStat playerStat;
     public PlayerScore playerScore;
     public StatusCanvas statusCanvas;
@@ -46,21 +45,16 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     // 3 là die
     // 4 là active attack
     // 5 là đang cast skill
-    [Networked(OnChanged = nameof(listenState))]
+    [Networked]public int state { get; set; }
+   
     [SerializeField]
-    public int state { get; set; }
-    protected static void listenState(Changed<PlayerController> changed)
-    {
+    public Transform jumpTransform, normalAttackTransform, skill_1Transform, skill_2Transform, ultimateTransform, rayCastTransform, transformCamera;
 
-    }
-    [SerializeField]
-    public Transform jumpTransform,normalAttackTransform, skill_1Transform, skill_2Transform, ultimateTransform, rayCastTransform, transformCamera;
-    
     [SerializeField] public Player_Types playerType;
     [HideInInspector] public SkillButton[] skillButtons;
     [SerializeField] GameObject[] statusDebuffs;
-    
-    [SerializeField] [Networked] TickTimer TimeOfStunDebuff { get; set; }
+
+    [SerializeField][Networked] TickTimer TimeOfStunDebuff { get; set; }
     [SerializeField][Networked] TickTimer TimeOfSlowDebuff { get; set; }
     [SerializeField][Networked] TickTimer TimeOfSilenDebuff { get; set; }
     [Networked] float maxStunTimeStatus { get; set; }
@@ -73,26 +67,23 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         characterControllerPrototype = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        
+
     }
     public override void Spawned()
     {
         base.Spawned();
-        
+
         if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
         {
             runnerManager = FindObjectOfType<NetworkManager>();
-            gameManager=FindObjectOfType<GameManager>();
+            gameManager = FindObjectOfType<GameManager>();
             spawnTransform = runnerManager.spawnPointTeam[playerTeam];
-            Singleton<CameraController>.Instance.SetFollowCharacter(transform);
-            Singleton<PlayerManager>.Instance.SetRunner(Runner);
-            TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner,0);
+            TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            statusCanvas=GetComponentInChildren<StatusCanvas>();
-            joystick=FindObjectOfType<Joystick>();
+            statusCanvas = GetComponentInChildren<StatusCanvas>();
         }
-        
+
     }
     public override void FixedUpdateNetwork()
     {
@@ -108,9 +99,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 playerStat.isLive = true;
                 state = 0;
                 playerStat.currentHealth = playerStat.maxHealth;
-                AnimatorSetBoolRPC("isLive",true);
+                AnimatorSetBoolRPC("isLive", true);
                 statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
-                if(HasStateAuthority)
+                if (HasStateAuthority)
                 {
                     SpawnAtStartPos();
                     Singleton<CameraController>.Instance.SetFollowCharacter(transform);
@@ -151,12 +142,12 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             }
         }
     }
-    
+
     public void Jump(NetworkObject VFXEffect)
     {
         isJumping = true;
         AnimatorRPC("Jump");
-        NetworkObject jumpVFX= Runner.Spawn(VFXEffect, jumpTransform.transform.position,
+        NetworkObject jumpVFX = Runner.Spawn(VFXEffect, jumpTransform.transform.position,
             jumpTransform.rotation, inputAuthority: Object.InputAuthority);
         StartCoroutine(DespawnJumpVFX(jumpVFX));
     }
@@ -183,7 +174,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
 
     public virtual void Skill_2(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
-        float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp= null,int levelSkill = 1)
+        float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
         AnimatorRPC("Skill_2");
         playerStat.currentMana -= manaCost;
@@ -201,27 +192,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         animator.SetTrigger(name);
     }
     #endregion
-    #region Update
-    void Update()
-    {
-        if (state == 3 || state == 4)
-        {
-            return;
-        }
-        if (HasStateAuthority)
-        {
-            moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            if (moveInput.magnitude == 0)
-            {
-                moveInput = new Vector2(joystick.Horizontal, joystick.Vertical).normalized;
-            }
-        }
-        if (isGround)
-        {
-            velocity = Vector3.zero;
-        }
-    }
-    #endregion
     #region Move
     void CalculateMove()
     {
@@ -235,18 +205,18 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
             if (moveDirection.magnitude > 0)
             {
-                if(gameManager.state==GameState.InGame)
+                if (gameManager.state == GameState.InGame)
                 {
                     characterControllerPrototype.Move(look * moveDirection * speed * 0.015f
                 * playerStat.moveSpeed * (playerStat.isBeingSlow ? 0.3f : 1f) * Runner.DeltaTime);
                 }
-                if(gameManager.state == GameState.WaitBeforeStart)
+                if (gameManager.state == GameState.WaitBeforeStart)
                 {
                     Vector3 directionToCenter = transform.position - spawnTransform.position; // Vector3.zero là vị trí của sphere center
                     if (directionToCenter.magnitude > 5f)
                     {
                         characterControllerPrototype.Move(-directionToCenter.normalized * speed * 0.015f
-                * playerStat.moveSpeed*Runner.DeltaTime);
+                * playerStat.moveSpeed * Runner.DeltaTime);
                     }
                     else
                     {
@@ -254,10 +224,10 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 * playerStat.moveSpeed * (playerStat.isBeingSlow ? 0.3f : 1f) * Runner.DeltaTime);
                     }
                 }
-            
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
+
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
             }
-        
+
         }
     }
     private void CalculateAnimSpeed(string animationName, float speed, bool isMoveX)
@@ -317,7 +287,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         transform.rotation = spawnTransform.rotation;
     }
     #endregion
-    
+
     #region State
     public void SwithCharacterState(int newstate)
     {
@@ -345,7 +315,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         return state;
     }
-    
+
     #endregion
     public void CheckCamera(PlayerRef player, bool isFollow)
     {
@@ -374,52 +344,52 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         if (!HasStateAuthority) return;
         if (!collisionsEnvi.Contains(otherColi) && otherColi.gameObject.CompareTag("Environment")) //Nếu là environment
         {
-          collisionsEnvi.Add(otherColi);
+            collisionsEnvi.Add(otherColi);
         }
         buffsFromEnvi.maxHealth = 0;
-        buffsFromEnvi.maxMana = 0; 
-        buffsFromEnvi.damage = 0; 
+        buffsFromEnvi.maxMana = 0;
+        buffsFromEnvi.damage = 0;
         buffsFromEnvi.defend = 0;
         buffsFromEnvi.magicResistance = 0;
         buffsFromEnvi.magicAmpli = 0;
-        buffsFromEnvi.criticalChance = 0; 
-        buffsFromEnvi.criticalDamage = 0; 
+        buffsFromEnvi.criticalChance = 0;
+        buffsFromEnvi.criticalDamage = 0;
         buffsFromEnvi.moveSpeed = 0;
         buffsFromEnvi.attackSpeed = 0;
         foreach (var other in collisionsEnvi)
         {
-            if (other != null &&other.GetComponent<NetworkObject>().IsValid)
+            if (other != null && other.GetComponent<NetworkObject>().IsValid)
             {
-                if(other.GetComponent<EnvironmentObjects>().playerTeam ==playerTeam)
+                if (other.GetComponent<EnvironmentObjects>().playerTeam == playerTeam)
                 {
                     BuffsOfPlayer buffs = other.GetComponent<BuffsOfPlayer>();
                     buffsFromEnvi.maxHealth += buffs.maxHealth;
-                    buffsFromEnvi.maxMana += buffs.maxMana ;
-                    buffsFromEnvi.damage += buffs.damage ;
-                    buffsFromEnvi.defend += buffs.defend ;
-                    buffsFromEnvi.magicResistance += buffs.magicResistance ;
-                    buffsFromEnvi.magicAmpli += buffs.magicAmpli ;
-                    buffsFromEnvi.criticalChance += buffs.criticalChance ;
-                    buffsFromEnvi.criticalDamage += buffs.criticalDamage ;
-                    buffsFromEnvi.moveSpeed += buffs.moveSpeed ;
-                    buffsFromEnvi.attackSpeed += buffs.attackSpeed ;
+                    buffsFromEnvi.maxMana += buffs.maxMana;
+                    buffsFromEnvi.damage += buffs.damage;
+                    buffsFromEnvi.defend += buffs.defend;
+                    buffsFromEnvi.magicResistance += buffs.magicResistance;
+                    buffsFromEnvi.magicAmpli += buffs.magicAmpli;
+                    buffsFromEnvi.criticalChance += buffs.criticalChance;
+                    buffsFromEnvi.criticalDamage += buffs.criticalDamage;
+                    buffsFromEnvi.moveSpeed += buffs.moveSpeed;
+                    buffsFromEnvi.attackSpeed += buffs.attackSpeed;
                 }
                 else
                 {
                     BuffsOfPlayer buffs = other.GetComponent<BuffsOfPlayer>();
-                    buffsFromEnvi.maxHealth -= buffs.maxHealth ;
-                    buffsFromEnvi.maxMana -= buffs.maxMana ;
-                    buffsFromEnvi.damage -= buffs.damage ;
-                    buffsFromEnvi.defend -= buffs.defend ;
-                    buffsFromEnvi.magicResistance -= buffs.magicResistance ;
-                    buffsFromEnvi.magicAmpli -= buffs.magicAmpli ;
-                    buffsFromEnvi.criticalChance -= buffs.criticalChance ;
-                    buffsFromEnvi.criticalDamage -= buffs.criticalDamage ;
-                    buffsFromEnvi.moveSpeed -= buffs.moveSpeed ;
-                    buffsFromEnvi.attackSpeed -= buffs.attackSpeed ;
+                    buffsFromEnvi.maxHealth -= buffs.maxHealth;
+                    buffsFromEnvi.maxMana -= buffs.maxMana;
+                    buffsFromEnvi.damage -= buffs.damage;
+                    buffsFromEnvi.defend -= buffs.defend;
+                    buffsFromEnvi.magicResistance -= buffs.magicResistance;
+                    buffsFromEnvi.magicAmpli -= buffs.magicAmpli;
+                    buffsFromEnvi.criticalChance -= buffs.criticalChance;
+                    buffsFromEnvi.criticalDamage -= buffs.criticalDamage;
+                    buffsFromEnvi.moveSpeed -= buffs.moveSpeed;
+                    buffsFromEnvi.attackSpeed -= buffs.attackSpeed;
                 }
             }
-            
+
         }
     }
     private void OnTriggerExit(Collider otherColi)
@@ -432,16 +402,16 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     #endregion
     #region Apply Damage
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
-        Action<int,bool> counter = null, Action<int, List<PlayerController>> isKillPlayer = null,
-        Action<int> lifeSteal = null,bool activeInjureAnim = true)
+        Action<int, bool> counter = null, Action<int, List<PlayerController>> isKillPlayer = null,
+        Action<int> lifeSteal = null, bool activeInjureAnim = true)
     {
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim);
-        if(playerStat.isCounter)
+        if (playerStat.isCounter)
         {
             counter?.Invoke(playerStat.counterDamage, isPhysicDamage);
         }
-        
-        if (state==3)
+
+        if (state == 3)
         {
             isKillPlayer?.Invoke(playerStat.level, playerScore.playersMakeDamages);
         }
@@ -479,12 +449,12 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         playerStat.currentHealth = 0;
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
-        playerStat.isLive=false;
+        playerStat.isLive = false;
         foreach (var playerDamage in playerScore.playersMakeDamages)
         {
             CalculateWhenKill(playerDamage);
         }
-        timeDie = TickTimer.CreateFromSeconds(Runner,5+ 2 * playerStat.level); //thời gian hồi sinh
+        timeDie = TickTimer.CreateFromSeconds(Runner, 5 + 2 * playerStat.level); //thời gian hồi sinh
         animator.SetBool("isLive", false);
         StartCoroutine(DelayHideVisualWhenDie());
     }
@@ -501,32 +471,34 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             playerStat.UpgradeLevel();
         }
     }
-    public IEnumerator DelayHideVisualWhenDie ()
+    public IEnumerator DelayHideVisualWhenDie()
     {
         yield return new WaitForSeconds(3f);
         statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
     }
-    [Rpc(RpcSources.All, RpcTargets.All)] public void AnimatorSetBoolRPC(string aniName, bool isActive)
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void AnimatorSetBoolRPC(string aniName, bool isActive)
     {
         animator.SetBool(aniName, isActive);
     }
-    [Networked] public TickTimer timeDie {  get; set; }
+    [Networked] public TickTimer timeDie { get; set; }
     #endregion
 
     #region Apply Effect
-    public void ApplyEffect(PlayerRef player,bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
+    public void ApplyEffect(PlayerRef player, bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float TimeEffect = 0, Action callback = null)
     {
-        CalculateEffectRPC(player,isMakeStun,isMakeSlow,isMakeSilen,TimeEffect);
+        CalculateEffectRPC(player, isMakeStun, isMakeSlow, isMakeSilen, TimeEffect);
         callback?.Invoke();
     }
-    [Rpc(RpcSources.All, RpcTargets.All)] public void CalculateEffectRPC(PlayerRef player, bool isMakeStun = false,
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void CalculateEffectRPC(PlayerRef player, bool isMakeStun = false,
         bool isMakeSlow = false, bool isMakeSilen = false, float TimeEffect = 0)
     {
         if (playerStat.isUnstopAble || !playerStat.isLive) return;
-        if(isMakeStun)
+        if (isMakeStun)
         {
-            if (TimeOfStunDebuff.RemainingTime(Runner) == null||
+            if (TimeOfStunDebuff.RemainingTime(Runner) == null ||
                 TimeEffect >= (float)TimeOfStunDebuff.RemainingTime(Runner))
             {
                 TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, TimeEffect);
@@ -547,7 +519,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
         if (isMakeSlow)
         {
-            if(TimeEffect>=(float)TimeOfSlowDebuff.RemainingTime(Runner))
+            if (TimeEffect >= (float)TimeOfSlowDebuff.RemainingTime(Runner))
             {
                 TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, TimeEffect);
                 maxSlowTimeStatus = TimeEffect;
@@ -555,13 +527,14 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             }
             playerStat.isBeingSlow = true;
         }
-        
+
     }
     public void ApplyHeal(int heal)
     {
         CalculateHealRPC(heal);
     }
-    [Rpc(RpcSources.All, RpcTargets.All)] public void CalculateHealRPC(int heal)
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void CalculateHealRPC(int heal)
     {
         if (state == 3) return;
         playerStat.currentHealth += heal;
@@ -570,27 +543,27 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     #region Status Canvas
     void CalculateStatusDebuff()
     {
-        
+
         if (HasStateAuthority)
         {
-            if (TimeOfStunDebuff.RemainingTime(Runner)>0)
+            if (TimeOfStunDebuff.RemainingTime(Runner) > 0)
             {
-                currentStunTimeStatus = (float)TimeOfStunDebuff.RemainingTime(Runner); 
+                currentStunTimeStatus = (float)TimeOfStunDebuff.RemainingTime(Runner);
             }
             else if (TimeOfSilenDebuff.RemainingTime(Runner) > 0)
             {
-                currentSilenTimeStatus = (float)TimeOfSilenDebuff.RemainingTime(Runner); 
+                currentSilenTimeStatus = (float)TimeOfSilenDebuff.RemainingTime(Runner);
             }
-            else if(TimeOfSlowDebuff.RemainingTime(Runner) > 0)
+            else if (TimeOfSlowDebuff.RemainingTime(Runner) > 0)
             {
-                currentSlowTimeStatus = (float)TimeOfSlowDebuff.RemainingTime(Runner); 
+                currentSlowTimeStatus = (float)TimeOfSlowDebuff.RemainingTime(Runner);
             }
         }
-        
+
         if (HasStateAuthority && TimeOfStunDebuff.Expired(Runner))
-            {
+        {
             playerStat.isBeingStun = false;
-            } 
+        }
         statusDebuffs[0].SetActive(playerStat.isBeingStun);
         if (HasStateAuthority && TimeOfSlowDebuff.Expired(Runner))
         {
@@ -606,8 +579,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     void CalculateCanvas()
     {
         statusCanvas.TimeRemainingBar.gameObject.SetActive
-            ((TimeOfStunDebuff.RemainingTime(Runner) > 0|| TimeOfSilenDebuff.RemainingTime(Runner) > 0
-            || TimeOfSlowDebuff.RemainingTime(Runner) > 0)&& state!=3);
+            ((TimeOfStunDebuff.RemainingTime(Runner) > 0 || TimeOfSilenDebuff.RemainingTime(Runner) > 0
+            || TimeOfSlowDebuff.RemainingTime(Runner) > 0) && state != 3);
 
         if (TimeOfStunDebuff.RemainingTime(Runner) > 0)
         {
@@ -624,14 +597,11 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         statusCanvas.healthBarPlayer.UpdateBar(playerStat.currentHealth, playerStat.maxHealth);
         statusCanvas.statusBeingTMP.text =
          (playerStat.isBeingStun ? "Stunned " : "") + (playerStat.isBeingSlow ? "Slowed " : "") + (playerStat.isBeingSilen ? "Silened " : "");
-        
+
         //xoay các bar để mọi player nhìn rõ
     }
     #endregion
-    public Player_Types GetPlayerTypes()
-    {
-        return playerType;
-    }
+    
     private void OnTriggerEnter(Collider other)
     {
         InventoryItemBase item = other.GetComponent<InventoryItemBase>();
@@ -641,64 +611,15 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             item.OnPickUp();
         }
     }
- 
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SkillRPC(int objectList, int levelDamage, int manaCost, bool isPhysicDamage,
-        bool isMakeStun, bool isMakeSlow, bool isMakeSilen, float timeTrigger = 0f, float TimeEffect = 0f, int levelSkill = 1)
-    {
-        if(HasStateAuthority)
-        {
-            NetworkObject obj = Runner.Spawn(networkObjs.listNetworkObj[objectList], transform.position, transform.rotation,
-                       Object.InputAuthority,
-          onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-          {
-              AttackObjects attObj = obj.GetComponent<AttackObjects>();
-              if(attObj)
-              {
-                  attObj.SetUp(this, 0, isPhysicDamage, null,
-                isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
-              }
-              DumbleAttackObjects dumObj = obj.GetComponent<DumbleAttackObjects>();
-              if(dumObj)
-              {
-                  dumObj.SetUp(this, levelDamage, isPhysicDamage, null,
-                isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
-              }
-              Shield newshield = obj.GetComponent<Shield>();
-              if(newshield)
-              {
-                  newshield.maxDamageAbsorb = levelDamage;
-                  newshield.currentDamageAbsorb = levelDamage;
-              }
-              BuffsOfPlayer buff= obj.GetComponent<BuffsOfPlayer>();
-              if(buff)
-              {
-                  buff.levelSkill = levelSkill;
-                  if (buff.canHeal)
-                  {
-                      playerStat.currentHealth += levelDamage;
-                      if(playerStat.currentHealth < 0)
-                      {
-                          state = 3;
-                          AnimatorRPC("Die");
-                      }
-                  }
-              }
-          });
-            SetParentRPC(obj.Id);
-        }
-        
-    }
-
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void SetParentRPC(NetworkId id)
     {
-       if (! Runner.TryFindObject(id, out NetworkObject obj) ) return;
-       if(obj.GetComponent<BuffsOfPlayer>() != null )
+        if (!Runner.TryFindObject(id, out NetworkObject obj)) return;
+        if (obj.GetComponent<BuffsOfPlayer>() != null)
         {
             obj.transform.SetParent(transform.GetChild(2).GetChild(1));
         }
-        if (obj.GetComponent<GrenadeController>() != null && playerType==Player_Types.Tesla)
+        if (obj.GetComponent<GrenadeController>() != null && playerType == Player_Types.Tesla)
         {
             obj.transform.SetParent(skill_2Transform);
         }

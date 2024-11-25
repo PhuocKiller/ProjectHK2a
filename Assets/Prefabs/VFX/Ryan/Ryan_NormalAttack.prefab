@@ -9834,6 +9834,7 @@ GameObject:
   - component: {fileID: 5620401622971878522}
   - component: {fileID: 5172160001909256603}
   - component: {fileID: 4053889492152407856}
+  - component: {fileID: -8281975813529261947}
   m_Layer: 0
   m_Name: Ryan_NormalAttack
   m_TagString: Untagged
@@ -9959,6 +9960,18 @@ MonoBehaviour:
   isMakeSlow: 0
   isMakeSilen: 0
   isDestroyWhenCollider: 0
+--- !u!114 &-8281975813529261947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5157850387996107450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6982067714073744344
 GameObject:
   m_ObjectHideFlags: 0

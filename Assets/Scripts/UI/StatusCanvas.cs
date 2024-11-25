@@ -9,6 +9,7 @@ public class StatusCanvas : NetworkBehaviour
 {
     [SerializeField] GameObject playerBuffs;
     [SerializeField] PlayerController player;
+    [SerializeField] CreepController creep;
     Shield firstShield;
     public Bars healthBarPlayer, manaBarPlayer, XPbar, TimeRemainingBar, timeShieldRemainingBar;
     public TextMeshProUGUI statusBeingTMP;
@@ -17,6 +18,10 @@ public class StatusCanvas : NetworkBehaviour
     {
         base.Spawned();
         player=GetComponentInParent<PlayerController>();
+        if(!player)
+        {
+            creep = GetComponentInParent<CreepController>();
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -32,8 +37,18 @@ public class StatusCanvas : NetworkBehaviour
             }
         }
         timeShieldRemainingBar.transform.rotation= Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-        healthBarPlayer.UpdateBar(player.playerStat.currentHealth, player.playerStat.maxHealth);
-        player.transform.GetChild(0).GetChild(0).rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
+
+        if(player)
+        {
+            healthBarPlayer.UpdateBar(player.playerStat.currentHealth, player.playerStat.maxHealth);
+            player.transform.GetChild(0).GetChild(0).rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
+        }
+        else
+        {
+            healthBarPlayer.UpdateBar(creep.playerStat.currentHealth, creep.playerStat.maxHealth);
+            creep.transform.GetChild(0).GetChild(0).rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
+        }
+        
         statusBeingTMP.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
         TimeRemainingBar.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
     }

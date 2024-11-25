@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1915372749519699729}
   - component: {fileID: 757806220620612467}
   - component: {fileID: 2277721127097542908}
+  - component: {fileID: 3393137495079836966}
   m_Layer: 0
   m_Name: Tesla_BuffPassive
   m_TagString: Untagged
@@ -117,6 +118,7 @@ MonoBehaviour:
   _criticalDamage: 0
   _moveSpeed: 0
   _attackSpeed: 30
+  _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0
 --- !u!114 &2277721127097542908
@@ -143,6 +145,18 @@ MonoBehaviour:
   isMakeSlow: 0
   isMakeSilen: 0
   isDestroyWhenCollider: 0
+--- !u!114 &3393137495079836966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499149489698105432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2319014667125888430
 GameObject:
   m_ObjectHideFlags: 0

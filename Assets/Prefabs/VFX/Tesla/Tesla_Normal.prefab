@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -1342188652899991904}
   - component: {fileID: 509438644733372495}
   - component: {fileID: 6833396492295660585}
+  - component: {fileID: -4265680700029996252}
   m_Layer: 0
   m_Name: Tesla_Normal
   m_TagString: Untagged
@@ -137,6 +138,7 @@ MonoBehaviour:
   timerDespawn: 0
   timeEffect: 0
   damage: 0
+  levelSkill: 0
   isPhysicDamage: 0
   isMakeStun: 0
   isMakeSlow: 0
@@ -163,6 +165,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.2226901
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4265680700029996252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119238374190343436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &794671473853594078
 GameObject:
   m_ObjectHideFlags: 0

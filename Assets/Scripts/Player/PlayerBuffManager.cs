@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerBuffManager : NetworkBehaviour
 {
     PlayerController player;
+    CreepController creep;
     [Networked] public int maxHealth { get; set; }
     [Networked] public int maxMana { get; set; }
     [Networked] public int damage { get; set; }
@@ -29,11 +30,12 @@ public class PlayerBuffManager : NetworkBehaviour
     {
         base.Spawned();
         player=transform.parent.parent.GetComponent<PlayerController>();
+        creep = transform.parent.parent.GetComponent<CreepController>();
     }
 
     public void GetBuffChildren()
-    {  
-        if(HasStateAuthority)
+    {
+        if (HasStateAuthority)
         {
             BuffsOfPlayer[] listBuffsofPlayer = GetComponentsInChildren<BuffsOfPlayer>();
 
@@ -48,7 +50,7 @@ public class PlayerBuffManager : NetworkBehaviour
             moveSpeed = 0; foreach (var buff in listBuffsofPlayer) moveSpeed += buff.moveSpeed;
             attackSpeed = 0; foreach (var buff in listBuffsofPlayer) attackSpeed += buff.attackSpeed;
             lifeSteal = 0; foreach (var buff in listBuffsofPlayer) lifeSteal += buff.lifeSteal;
-            if (player.state==3)
+            if (player?.state == 3 || creep?.state==3)
             {
                 for (int i = 2; i < listBuffsofPlayer.Length; i++) //i=0 là environment, 1 là passive
                 {
