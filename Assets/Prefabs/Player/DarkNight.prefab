@@ -2199,7 +2199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillName: 2
-  skillType: 2
+  skillType: 3
   VFXPrefab: {fileID: 0}
   skillStat: {fileID: 11400000, guid: 6ed89ea9f66b1cf48a740920ed381f57, type: 2}
   OnTriggerEnter:
@@ -2993,6 +2993,8 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  runnerManager: {fileID: 0}
+  gameManager: {fileID: 0}
   projectConfig: {fileID: -755480892457977500, guid: 4f0a91afb8df93343bc600f71fa38824, type: 3}
   joystick: {fileID: 0}
   _playerTeam: 1

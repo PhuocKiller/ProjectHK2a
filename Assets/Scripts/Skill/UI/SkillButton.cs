@@ -85,9 +85,19 @@ public class SkillButton : NetworkBehaviour
             Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
             player.playerStat.UpgradeLevel();
         }
-        if (skillButtonType != SkillButtonTypes.Ultimate) return;
-        int maxSkillPointCanHave = (int)(player.playerStat.level / 3);
-        AddSkill_LevelBtn.gameObject.SetActive(levelSkill<maxSkillPointCanHave && levelSkill < 4);
+        if (skillButtonType == SkillButtonTypes.Ultimate)
+        {
+            int maxSkillPointCanHave = (int)(player.playerStat.level / 3);
+            AddSkill_LevelBtn.gameObject.SetActive(levelSkill < maxSkillPointCanHave && levelSkill < 4&& player.playerStat.levelPoint > 0);
+        }
+        if (skillButtonType == SkillButtonTypes.Skill_1 || skillButtonType == SkillButtonTypes.Skill_2)
+        {
+            int maxSkillPointCanHave = Mathf.CeilToInt((float)player.playerStat.level / 3);
+            AddSkill_LevelBtn.gameObject.SetActive(levelSkill < maxSkillPointCanHave && levelSkill < 4 && player.playerStat.levelPoint > 0);
+        }
+
+
+
 
     }
     public void Initialize(SkillName skillName)

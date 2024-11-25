@@ -44,12 +44,12 @@ public class NetworkManager : MonoBehaviour
                 {
                     obj.GetComponent<PlayerController>().playerTeam = playerTeam;
                 });
-            runner.Spawn(players[6], spawnPointTeam[playerTeam].position, spawnPointTeam[playerTeam].rotation,
-                inputAuthority: player,
-                onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-                {
-                    obj.GetComponent<CreepController>().playerTeam = playerTeam;
-                });
+            //runner.Spawn(players[6], spawnPointTeam[playerTeam].position, spawnPointTeam[playerTeam].rotation,
+            //    inputAuthority: player,
+            //    onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+            //    {
+            //        obj.GetComponent<CreepController>().playerTeam = playerTeam;
+            //    });
         }
     }
     public async void OnClickBtn(Button btn)
