@@ -188,44 +188,39 @@ public class SkillButton : NetworkBehaviour
         
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         if (m_skillController == null || m_skillController.IsCooldowning 
-            ||levelSkill==0 ||player.playerStat.currentMana < manaCost) return;
-        if (state == 0)
-        {
-            
+            ||levelSkill==0 ||player.playerStat.currentMana < manaCost
+            ||state!=0 || player.playerStat.isBeingStun) return;
             if (skillButtonType == SkillButtonTypes.Jump)
             {
-                if (player.playerStat.isBeingStun) return;
                 player.Jump(VfxEffect);
                 player.playerStat.UpgradeLevel();
             }
             if (skillButtonType == SkillButtonTypes.NormalAttack)
             {
-                if (player.playerStat.isBeingStun) return;
                 player.NormalAttack(VfxEffect, damageSkill,isPhysicDamage,isMakeStun,isMakeSlow,isMakeSilen
                     ,timerTrigger,timeEffect);
             }
             if (skillButtonType == SkillButtonTypes.Ultimate)
             {
-                if (player.playerStat.isBeingStun ||player.playerStat.isBeingSilen) return;
+                if (player.playerStat.isBeingSilen) return;
                 player.Ultimate(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
              timerTrigger, timeEffect,posMouseUp,levelSkill);
                 
             }
             if (skillButtonType == SkillButtonTypes.Skill_2)
             {
-                if (player.playerStat.isBeingStun || player.playerStat.isBeingSilen) return;
+                if (player.playerStat.isBeingSilen) return;
                 player.Skill_2(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
              timerTrigger, timeEffect, posMouseUp, levelSkill);
             }
             if (skillButtonType == SkillButtonTypes.Skill_1)
             {
-                if (player.playerStat.isBeingStun || player.playerStat.isBeingSilen) return;
+                if (player.playerStat.isBeingSilen) return;
                 player.Skill_1(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
              timerTrigger, timeEffect, posMouseUp, levelSkill);
                 
             }
             m_skillController.Trigger();
-        }
     }
     private void OnDestroy()
     {
@@ -233,58 +228,37 @@ public class SkillButton : NetworkBehaviour
     }
     public void PointerDown() //khóa camera khi giữ chuột trái tại skill
     {
-        if(levelSkill!=0)
-        {
-            Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-
-            if (skillType == SkillTypes.Direction_Active)
-            {
-                if (state != 0 || m_skillController.IsCooldowning) return;
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (m_skillController == null || m_skillController.IsCooldowning
+            || levelSkill == 0 || player.playerStat.currentMana < manaCost|| state != 0
+            || skillType != SkillTypes.Direction_Active || player.playerStat.isBeingStun
+            || player.playerStat.isBeingSilen) return;
                 player.state = 5;
                 player.gameObject.GetComponent<SkillDirection>().GetMouseDown();
                 return;
-            }
-        }
-        
-
     }
     public void PointDrag()
     {
-        if (levelSkill != 0)
-        {
-            Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-            if (state == 5 && !player.playerStat.isBeingStun && !player.playerStat.isBeingSilen)
-            {
-                Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-               player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, look, 720 * Time.deltaTime);
-                Singleton<CameraController>.Instance.MoveCameraUp();
-            }
-        }
-    }
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (m_skillController == null || m_skillController.IsCooldowning
+             || levelSkill == 0 || player.playerStat.currentMana < manaCost || state != 5
+             || skillType != SkillTypes.Direction_Active || player.playerStat.isBeingStun
+             || player.playerStat.isBeingSilen) return;
+        Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
+        player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, look, 720 * Time.deltaTime);
+        Singleton<CameraController>.Instance.MoveCameraUp();
+                }
     public void PointerUp() 
     {
-        if (levelSkill != 0)
-        {
-            
-            Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-            if (skillType == SkillTypes.Direction_Active)
-            {
-                if (state == 5)
-                {
-                    player.gameObject.GetComponent<SkillDirection>().GetMouseUp(out Vector3? posMouseUp);
-                    if (posMouseUp != null)
-                    {
-                        this.posMouseUp = posMouseUp;
-                        player.state = 0;
-                        m_btnComp.onClick.Invoke();
-                    }
-                    player.state = 0;
-                }
-            }
-        }
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (m_skillController == null || m_skillController.IsCooldowning
+                || levelSkill == 0 || player.playerStat.currentMana < manaCost || state != 5
+                || skillType != SkillTypes.Direction_Active || player.playerStat.isBeingStun
+                || player.playerStat.isBeingSilen) return;
+        player.gameObject.GetComponent<SkillDirection>().GetMouseUp(out Vector3? posMouseUp);
+        this.posMouseUp = posMouseUp != null? posMouseUp: player.transform.position + player.transform.forward * 15;
+        player.state = 0;
+        m_btnComp.onClick.Invoke();
     }
-    
-
-
 }
 
