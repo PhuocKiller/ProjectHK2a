@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ryan_Skill1
   m_EditorClassIdentifier: 
   timerTrigger: 5
-  cooldownTime: 5
+  cooldownTime: 10
   levelManaCosts: 0000000014000000190000001e00000023000000
   skillIcon: {fileID: 21300000, guid: 187bdb7e4a609a743a473e66eca4b0c9, type: 3}
   triggerSoundFX: {fileID: 0}

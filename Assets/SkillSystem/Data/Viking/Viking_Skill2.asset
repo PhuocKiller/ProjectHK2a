@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Viking_Skill2
   m_EditorClassIdentifier: 
-  timerTrigger: 15
-  cooldownTime: 5
+  timerTrigger: 10
+  cooldownTime: 15
   levelManaCosts: 000000000a0000000f0000001400000019000000
   skillIcon: {fileID: 21300000, guid: b09578e5603465d4fb63c087263bb8a6, type: 3}
   triggerSoundFX: {fileID: 0}

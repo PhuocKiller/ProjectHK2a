@@ -11,7 +11,7 @@ public class PlayerStatusManager : MonoBehaviour
     public PlayerController player;
     [SerializeField] TextMeshProUGUI timeDie;
     [SerializeField] GameObject panelAvaterWhenDie;
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(DelayCheckPlay());
     }

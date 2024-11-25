@@ -4962,6 +4962,7 @@ GameObject:
   - component: {fileID: 4615281442255729605}
   - component: {fileID: 5737411983568040328}
   - component: {fileID: 5185884464753859345}
+  - component: {fileID: -7499346777480776463}
   m_Layer: 0
   m_Name: Viking_Skill1
   m_TagString: Untagged
@@ -5137,6 +5138,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-7499346777480776463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070258913059292201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3634948102738115348
 GameObject:
   m_ObjectHideFlags: 0

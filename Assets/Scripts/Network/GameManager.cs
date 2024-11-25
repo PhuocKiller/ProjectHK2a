@@ -41,7 +41,6 @@ public class GameManager : NetworkBehaviour
         {
             currentState = 4;
             startTime = Time.time;
-            Debug.Log("hetgio");
         }
     }
 

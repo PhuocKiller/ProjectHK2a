@@ -16,7 +16,8 @@ public class Ryan : PlayerController
     public override void NormalAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
         float TimeEffect = 0f)
-    {
+    { //ryan ko xài base
+        state = 4;
         if (effectSkill2.gameObject.activeInHierarchy)
         {
             AnimatorRPC("SpecialAttack");
@@ -42,7 +43,6 @@ public class Ryan : PlayerController
                 SetParentRPC(obj.Id);
             }
             AnimatorRPC("Attack");
-            
         }
     }
     IEnumerator DelaySpawnAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,

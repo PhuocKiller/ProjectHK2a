@@ -22,5 +22,5 @@ MonoBehaviour:
   isMakeStun: 1
   isMakeSlow: 0
   isMakeSilen: 0
-  timeEffect: 2
+  timeEffect: 3
   VfxEffect: {fileID: 5484937385305069163, guid: e2b431ba9bbdff241a33726203ae502d, type: 3}

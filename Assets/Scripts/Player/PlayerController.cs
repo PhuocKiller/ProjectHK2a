@@ -104,7 +104,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             if (timeDie.RemainingTime(Runner) <= 0 || timeDie.ExpiredOrNotRunning(Runner))
             {
-                Debug.Log("hoisinh");
                 playerStat.isLive = true;
                 state = 0;
                 playerStat.currentHealth = playerStat.maxHealth;
@@ -118,7 +117,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             }
             return;
         }
-        if (!playerStat.isBeingStun && state != 4)
+        if (!playerStat.isBeingStun && (state==0 ||state ==5 ||state==1))
         {
             CalculateMove();
             CalculateJump();
@@ -172,6 +171,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
     {
         AnimatorRPC("Attack");
+        state = 4;
     }
     public virtual void Skill_1(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
@@ -332,7 +332,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             case 0: { break; }
             case 1: { break; }
-            case 2: { animator.SetTrigger("Injured"); break; }
+            case 2: { break; }
             case 3:
                 {
                     animator.SetTrigger("Die");
@@ -458,7 +458,11 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
         if ((playerStat.currentHealth + statusCanvas.GetCurrentDamageAbsorbShield()) > damage)
         {
-            if (activeInjureAnim) SwithCharacterState(2); //kích hoạt anim injure
+            if (activeInjureAnim)
+            {
+                state = 2;
+                animator.SetTrigger("Injured");
+            }
             if (statusCanvas.GetCurrentDamageAbsorbShield() > 0)
             {
                 statusCanvas.ReduceDamageAbsoreShield(damage, out int overBalanceDmg);

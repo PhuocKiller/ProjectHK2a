@@ -4851,6 +4851,7 @@ GameObject:
   - component: {fileID: 9116274004945008405}
   - component: {fileID: 6802659213146385915}
   - component: {fileID: 4017715387373570023}
+  - component: {fileID: -1678033707412333278}
   m_Layer: 0
   m_Name: Viking_Skill2
   m_TagString: Untagged
@@ -4982,3 +4983,15 @@ MonoBehaviour:
   isMakeSlow: 0
   isMakeSilen: 0
   isDestroyWhenCollider: 0
+--- !u!114 &-1678033707412333278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016225852805837627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

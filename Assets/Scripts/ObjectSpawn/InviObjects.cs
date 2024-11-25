@@ -54,5 +54,10 @@ public class InviObjects : NetworkBehaviour
         player.playerStat.isVisible = true;
         Destroy(gameObject);
     }
-   
+
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        base.Despawned(runner, hasState);
+        if (gameObject != null) player.playerStat.isVisible = true;
+    }
 }

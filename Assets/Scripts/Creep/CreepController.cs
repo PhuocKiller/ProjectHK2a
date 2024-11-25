@@ -22,7 +22,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public PlayerStat playerStat;
     public PlayerScore playerScore;
     public StatusCanvas statusCanvas;
-    Vector2 moveInput;
     Vector3 moveDirection;
     public CharacterController characterControllerPrototype;
     Animator animator;
@@ -112,36 +111,15 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         if (HasStateAuthority)
         {
 
-            moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
-            CalculateAnimSpeed("MoveX", moveInput.x, true);
-            CalculateAnimSpeed("MoveY", moveInput.y, false);
-            speed = 2f + Vector2.Dot(moveInput, Vector2.up);
-            Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-            if (moveDirection.magnitude > 0)
-            {
-                if (gameManager.state == GameState.InGame)
-                {
-                    characterControllerPrototype.Move(look * moveDirection * speed * 0.015f
-                * playerStat.moveSpeed * (playerStat.isBeingSlow ? 0.3f : 1f) * Runner.DeltaTime);
-                }
-                if (gameManager.state == GameState.WaitBeforeStart)
-                {
-                    Vector3 directionToCenter = transform.position - spawnTransform.position; // Vector3.zero là vị trí của sphere center
-                    if (directionToCenter.magnitude > 5f)
-                    {
-                        characterControllerPrototype.Move(-directionToCenter.normalized * speed * 0.015f
-                * playerStat.moveSpeed * Runner.DeltaTime);
-                    }
-                    else
-                    {
-                        characterControllerPrototype.Move(look * moveDirection * speed * 0.015f
-                * playerStat.moveSpeed * (playerStat.isBeingSlow ? 0.3f : 1f) * Runner.DeltaTime);
-                    }
-                }
-
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
-            }
-
+            moveDirection =(runnerManager.spawnPointTeam[1].position- runnerManager.spawnPointTeam[0].position)
+                * (playerTeam==0?1:-1);
+            /*CalculateAnimSpeed("MoveX", moveInput.x, true);
+            CalculateAnimSpeed("MoveY", moveInput.y, false);*/
+           
+            characterControllerPrototype.Move(moveDirection.normalized  * 0.015f
+                * playerStat.moveSpeed *Runner.DeltaTime);
+            Quaternion look=Quaternion.LookRotation(moveDirection.normalized);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
         }
     }
     private void CalculateAnimSpeed(string animationName, float speed, bool isMoveX)
