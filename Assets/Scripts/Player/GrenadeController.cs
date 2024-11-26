@@ -104,7 +104,7 @@ public class GrenadeController : NetworkBehaviour
                 transform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AttackObjects>().SetUp(player, damage, isPhysicDamage, null,
+                obj.GetComponent<AttackObjects>().SetUpPlayer(player, damage, isPhysicDamage, null,
              isMakeStun, isMakeSlow, isMakeSilen, timerDespawn, timeEffect);
             });
         Destroy(gameObject,0.1f);

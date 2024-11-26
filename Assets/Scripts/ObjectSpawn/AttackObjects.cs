@@ -6,6 +6,7 @@ using UnityEngine;
 public class AttackObjects : NetworkBehaviour
 {
     PlayerController player;
+    CreepController creep;
     CalculateTriggerEnter trigger;
     private Vector3 direction;
     private NetworkRigidbody rb;
@@ -31,7 +32,7 @@ public class AttackObjects : NetworkBehaviour
             }
         }
     }
-    public void SetUp(PlayerController player, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
+    public void SetUpPlayer(PlayerController player, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
         float timeEffect = 0f, bool isDestroyWhenCollider = false, int levelSkill = 1)
     {
@@ -47,7 +48,22 @@ public class AttackObjects : NetworkBehaviour
         timerDespawn = timeTrigger;
         this.levelSkill = levelSkill;
     }
-    
+    public void SetUpCreep(CreepController creep, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
+        float timeEffect = 0f, bool isDestroyWhenCollider = false, int levelSkill = 1)
+    {
+        this.creep = creep;
+        transform.SetParent(parentObject);
+        damage = levelDamage;
+        this.isPhysicDamage = isPhysicDamage;
+        this.isMakeStun = isMakeStun;
+        this.isMakeSlow = isMakeSlow;
+        this.isMakeSilen = isMakeSilen;
+        this.timeEffect = timeEffect;
+        this.isDestroyWhenCollider = isDestroyWhenCollider;
+        timerDespawn = timeTrigger;
+        this.levelSkill = levelSkill;
+    }
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
@@ -70,10 +86,11 @@ public class AttackObjects : NetworkBehaviour
     {
         if(HasStateAuthority)
         {
-            if(other.gameObject.layer == 7&&collisions.Count == 0
+            if (other.gameObject.layer == 7 && collisions.Count == 0
             && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
             && other.gameObject.GetComponent<PlayerController>().state != 3
-            && other.gameObject.GetComponent<PlayerController>().playerTeam != player.playerTeam)
+            && other.gameObject.GetComponent<PlayerController>().playerTeam
+            != (player != null ? player.playerTeam : creep.playerTeam))
             {
                 trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
@@ -81,7 +98,8 @@ public class AttackObjects : NetworkBehaviour
             }
             if(other.gameObject.layer == 8 && collisions.Count == 0
             && other.gameObject.GetComponent<CreepController>().state != 3
-            && other.gameObject.GetComponent<CreepController>().playerTeam != player.playerTeam)
+            && other.gameObject.GetComponent<CreepController>().playerTeam
+            != (player != null ? player.playerTeam : creep.playerTeam))
             {
                 trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);

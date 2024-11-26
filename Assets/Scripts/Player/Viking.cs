@@ -36,7 +36,7 @@ public class Viking : PlayerController
         Runner.Spawn(VFXEffect.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<AttackObjects>().SetUp(this, playerStat.b_damage, isPhysicDamage, normalAttackTransform,
+         obj.GetComponent<AttackObjects>().SetUpPlayer(this, playerStat.b_damage, isPhysicDamage, normalAttackTransform,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
      }
                         );

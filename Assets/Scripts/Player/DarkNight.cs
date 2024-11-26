@@ -39,7 +39,7 @@ public class DarkNight : PlayerController
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, skill_1Transform.position, skill_1Transform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AttackObjects>().SetUp(this, levelDamage, isPhysicDamage, skill_1Transform,
+                obj.GetComponent<AttackObjects>().SetUpPlayer(this, levelDamage, isPhysicDamage, skill_1Transform,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
                 StartCoroutine(DelaySkill_1_Collider(obj));
             });

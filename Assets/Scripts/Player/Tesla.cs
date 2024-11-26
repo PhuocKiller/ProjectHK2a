@@ -30,7 +30,7 @@ public class Tesla : PlayerController
         Runner.Spawn(VFXEffect.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<AttackObjects>().SetUp(this, playerStat.damage, isPhysicDamage, null,
+         obj.GetComponent<AttackObjects>().SetUpPlayer(this, playerStat.damage, isPhysicDamage, null,
               isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
          obj.GetComponent<AttackObjects>().SetDirection(transform.forward);
      });
@@ -101,7 +101,7 @@ public class Tesla : PlayerController
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, skill_1Transform.position, skill_1Transform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AttackObjects>().SetUp(this, levelDamage, isPhysicDamage, null,
+                obj.GetComponent<AttackObjects>().SetUpPlayer(this, levelDamage, isPhysicDamage, null,
                  isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
                 obj.GetComponent<AttackObjects>().SetDirection(transform.forward);
             });
@@ -114,7 +114,7 @@ public class Tesla : PlayerController
             NetworkObject obj = Runner.Spawn(passiveWhenKillVFX, transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AttackObjects>().SetUp(this, 0, true, null,
+                obj.GetComponent<AttackObjects>().SetUpPlayer(this, 0, true, null,
              false, false, true, 15, 1);
                 obj.GetComponent<BuffsOfPlayer>().levelSkill = 1;
             });

@@ -5,18 +5,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class OverlapSphere : NetworkBehaviour
+public class OverlapSpherePlayer : NetworkBehaviour
 {
     PlayerController player;
     public PlayerController closestEnemyPlayer;
-    CreepController creep;
     public List<PlayerController> enemyPlayers =new List<PlayerController>();
     RectTransform crossHair;
     public override void Spawned()
     {
         base.Spawned();
         player=GetComponentInParent<PlayerController>();
-        creep= GetComponentInParent<CreepController>();
         crossHair = FindObjectOfType<UIManager>().crossHair;
     }
 
@@ -26,7 +24,6 @@ public class OverlapSphere : NetworkBehaviour
         if(HasStateAuthority)
         {
             CheckPlayerAround();
-            if (player == null) return; //nếu là creep thì ko chạy đoạn dưới
             crossHair.gameObject.SetActive(enemyPlayers.Count > 0);
             if (enemyPlayers.Count > 0)
             {
@@ -52,20 +49,10 @@ public class OverlapSphere : NetworkBehaviour
 
             if (enemyPlayer != null)
             {
-                if (player != null)
-                {
                     if (enemyPlayer.playerTeam != player.playerTeam)
                     {
                         enemyPlayers.Add(enemyPlayer);
                     }
-                }
-                else //nếu là creep
-                {
-                    if (enemyPlayer.playerTeam != creep.playerTeam)
-                    {
-                        enemyPlayers.Add(enemyPlayer);
-                    }
-                }
             }
         }
     }

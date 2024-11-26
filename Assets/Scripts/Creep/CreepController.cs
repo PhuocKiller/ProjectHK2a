@@ -14,6 +14,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public NetworkManager runnerManager;
     public GameManager gameManager;
     public Joystick joystick;
+    public OverlapSpherePlayer overlapSphere;
     Transform spawnTransform;
     [Networked] public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
@@ -72,6 +73,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             statusCanvas = GetComponentInChildren<StatusCanvas>();
+            overlapSphere=GetComponentInChildren<OverlapSpherePlayer>();
         }
 
     }
@@ -116,7 +118,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             /*CalculateAnimSpeed("MoveX", moveInput.x, true);
             CalculateAnimSpeed("MoveY", moveInput.y, false);*/
            
-            characterControllerPrototype.Move(moveDirection.normalized  * 0.015f
+            characterControllerPrototype.Move(moveDirection.normalized  * 0.005f
                 * playerStat.moveSpeed *Runner.DeltaTime);
             Quaternion look=Quaternion.LookRotation(moveDirection.normalized);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
@@ -301,7 +303,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         }
         if ((playerStat.currentHealth + statusCanvas.GetCurrentDamageAbsorbShield()) > damage)
         {
-            if (activeInjureAnim) SwithCharacterState(2); //kích hoạt anim injure
             if (statusCanvas.GetCurrentDamageAbsorbShield() > 0)
             {
                 statusCanvas.ReduceDamageAbsoreShield(damage, out int overBalanceDmg);

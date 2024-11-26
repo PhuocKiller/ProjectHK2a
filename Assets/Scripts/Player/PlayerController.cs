@@ -14,7 +14,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public NetworkManager runnerManager;
     public GameManager gameManager;
     public NetworkProjectConfigAsset projectConfig;
-    public OverlapSphere overlapSphere;
+    public OverlapSpherePlayer overlapSphere;
     public Joystick joystick;
     Transform spawnTransform;
     [Networked]  public int playerTeam { get; set; }
@@ -91,7 +91,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             statusCanvas=GetComponentInChildren<StatusCanvas>();
-            overlapSphere=GetComponentInChildren<OverlapSphere>();
+            overlapSphere=GetComponentInChildren<OverlapSpherePlayer>();
             joystick =FindObjectOfType<Joystick>();
         }
         
@@ -665,7 +665,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
               AttackObjects attObj = obj.GetComponent<AttackObjects>();
               if(attObj)
               {
-                  attObj.SetUp(this, 0, isPhysicDamage, null,
+                  attObj.SetUpPlayer(this, 0, isPhysicDamage, null,
                 isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
               }
               DumbleAttackObjects dumObj = obj.GetComponent<DumbleAttackObjects>();

@@ -53,7 +53,7 @@ public class Ryan : PlayerController
         Runner.Spawn(VFXEffect.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<AttackObjects>().SetUp(this, levelDamage, isPhysicDamage, normalAttackTransform,
+         obj.GetComponent<AttackObjects>().SetUpPlayer(this, levelDamage, isPhysicDamage, normalAttackTransform,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
      });
     }
@@ -65,7 +65,7 @@ public class Ryan : PlayerController
         Runner.Spawn(networkObjs.listNetworkObj[8], normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
-         obj.GetComponent<AttackObjects>().SetUp(this, playerStat.damage, isPhysicDamage, normalAttackTransform,
+         obj.GetComponent<AttackObjects>().SetUpPlayer(this, playerStat.damage, isPhysicDamage, normalAttackTransform,
              true, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
      });
         foreach (var buffkatana in FindObjectsOfType<RyanAttackObjects>())
