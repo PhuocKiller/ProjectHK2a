@@ -8,7 +8,6 @@ public class StatHUD : MonoBehaviour
 {
     public PlayerController player;
     [SerializeField] TextMeshProUGUI attackTMP, defTMP, attackSpeedTMP, magicAmpliTMP, magicResisTMP, moveSpeedTMP;
-
     private void OnEnable()
     {
         StartCoroutine(DelayCheckPlay());
@@ -31,4 +30,5 @@ public class StatHUD : MonoBehaviour
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         this.player = player;
     }
+    
 }

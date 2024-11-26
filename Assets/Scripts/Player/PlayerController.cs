@@ -14,6 +14,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public NetworkManager runnerManager;
     public GameManager gameManager;
     public NetworkProjectConfigAsset projectConfig;
+    public OverlapSphere overlapSphere;
     public Joystick joystick;
     Transform spawnTransform;
     [Networked]  public int playerTeam { get; set; }
@@ -51,7 +52,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public int state { get; set; }
     protected static void listenState(Changed<PlayerController> changed)
     {
-
+        
     }
     [SerializeField]
     public Transform jumpTransform,normalAttackTransform, skill_1Transform, skill_2Transform, ultimateTransform, rayCastTransform, transformCamera;
@@ -90,7 +91,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             statusCanvas=GetComponentInChildren<StatusCanvas>();
-            joystick=FindObjectOfType<Joystick>();
+            overlapSphere=GetComponentInChildren<OverlapSphere>();
+            joystick =FindObjectOfType<Joystick>();
         }
         
     }

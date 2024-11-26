@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using Cinemachine;
 using Fusion;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStat : NetworkBehaviour
 {
@@ -60,7 +62,29 @@ public class PlayerStat : NetworkBehaviour
     [Networked] public bool isUnstopAble { get; set; }
     [Networked] public bool isCounter { get; set; }
     [Networked] public bool isLive { get; set; }
-
+    [Networked(OnChanged = nameof(FollowEnemyChange))] public bool isFollowEnemy { get; set; }
+    protected static void FollowEnemyChange(Changed<PlayerStat> changed)
+    {
+        if(changed.Behaviour.HasStateAuthority)
+        {
+            if (changed.Behaviour.isFollowEnemy == true)
+            {
+                if(changed.Behaviour.player.overlapSphere.closestEnemyPlayer!=null)
+                {
+                    FindObjectOfType<CameraController>().CameraFollowEnemy();
+                    FindObjectOfType<HudManager>().unFollowBtn.SetActive(true);
+                }
+                else { changed.Behaviour.isFollowEnemy = false; }
+                
+            }
+            else
+            {
+                FindObjectOfType<CameraController>().CameraUnFollowEnemy();
+                FindObjectOfType<HudManager>().unFollowBtn.GetComponent<Button>().onClick.Invoke();
+                FindObjectOfType<HudManager>().unFollowBtn.SetActive(false);
+            }
+        }
+    }
     public override void Spawned()
     {
         base.Spawned();

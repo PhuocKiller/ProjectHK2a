@@ -8,7 +8,9 @@ public class CameraController : MonoBehaviour
 {
     CinemachineFreeLook freeLookCamera;
     PlayerController player;
+    public PlayerController closestEnemyPlayer;
     public float m_SplineCurvature;
+    bool isFollowEnemy;
     void Start()
     {
         freeLookCamera = GetComponent<CinemachineFreeLook>();
@@ -24,20 +26,37 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
 #endif
 
     }
-
+    private void Update()
+    {
+     if(isFollowEnemy)
+        {
+            Quaternion look=Quaternion.LookRotation(closestEnemyPlayer.transform.position- player.transform.position,Vector3.up);
+            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, look, 15 * Time.deltaTime);
+            freeLookCamera.m_XAxis.Value =Mathf.LerpAngle(freeLookCamera.m_XAxis.Value, player.transform.rotation.eulerAngles.y, 15 * Time.deltaTime);
+        }   
+    }
     public void SetFollowCharacter(Transform characterTransform)
     {
         freeLookCamera.Follow = characterTransform;
         freeLookCamera.LookAt = characterTransform;
         freeLookCamera.m_XAxis.Value = characterTransform.rotation.eulerAngles.y;
         player = characterTransform.gameObject.GetComponent<PlayerController>();
-        //endRotation = Quaternion.LookRotation(targetLookAt.position - freeLookCamera.transform.position);
     }
     public void RemoveFollowCharacter()
     {
         freeLookCamera.Follow = null;
+        
     }
-
+    public void CameraFollowEnemy()
+    {
+        isFollowEnemy = true;
+        closestEnemyPlayer = player.overlapSphere.closestEnemyPlayer;
+    }
+    public void CameraUnFollowEnemy()
+    {
+        isFollowEnemy = false;
+        closestEnemyPlayer = null;
+    }
     public void MoveCameraUp()
     {
         freeLookCamera.m_YAxis.Value = Mathf.Lerp(freeLookCamera.m_YAxis.Value, 1, 0.5f * Time.deltaTime); //nâng cao camera khi xài skill

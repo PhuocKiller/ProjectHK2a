@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     int numberHealPotionInt, numberManaPotionInt;
     [SerializeField] Transform inventoryPanel;
     public RectTransform crossHair;
+    
     void Start()
     {
         networkManager=FindObjectOfType<NetworkManager>();
@@ -33,6 +34,8 @@ public class UIManager : MonoBehaviour
     {
         networkManager.playerTeam = teamIndex;
     }
+    
+    #region Inventory
     void InventoryScript_ItemAdded(object sender, InventoryEventArgs e)
     {
         int index = -1;
@@ -129,6 +132,6 @@ public class UIManager : MonoBehaviour
         }
        
     }
-    
-    
+    #endregion
+
 }
