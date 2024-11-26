@@ -37,7 +37,7 @@ public class InviManager : NetworkBehaviour
     }
     public void VisualOfPlayer(bool isLive)
     {
-        player.GetComponent<CapsuleCollider>().enabled = isLive;
+        player.GetComponent<CharacterController>().enabled = isLive;
         foreach (var visual in visuals)
         {
             visual.gameObject.SetActive(isLive);

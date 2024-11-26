@@ -266,7 +266,7 @@ public class SkillButton : NetworkBehaviour
         }
         else
         {
-            this.posMouseUp = player.transform.position + player.transform.forward * 15;
+            this.posMouseUp = player.transform.position + player.transform.forward * 20;
         }
         player.state = 0;
         m_btnComp.onClick.Invoke();

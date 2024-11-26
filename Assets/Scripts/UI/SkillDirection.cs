@@ -81,10 +81,11 @@ public class SkillDirection : NetworkBehaviour
             direction = (Vector3)posMouseUp - Position_y0;
             if (Vector3.Dot(player.transform.forward, direction) > 0)
             {
-                if (direction.magnitude > 20)
+                if (direction.magnitude > 20 || direction.magnitude<2)
                 {
                     posMouseUp = Position_y0 + direction.normalized * 20;
                 }
+               
                 ImageParent.transform.rotation = Quaternion.LookRotation(player.transform.forward);
 
                 ImageParent.transform.localScale = new Vector3(1, 1, 0.22f * ((Vector3)posMouseUp - Position_y0).magnitude);
@@ -95,7 +96,6 @@ public class SkillDirection : NetworkBehaviour
     }
     public void GetMouseDown()
     {
-        //  fixPosition = ImageParent.transform.position;
         ImageParent.GetComponentInChildren<Image>().enabled = true;
     }
 

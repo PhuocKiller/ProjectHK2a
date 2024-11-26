@@ -109,6 +109,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 playerStat.isLive = true;
                 state = 0;
                 playerStat.currentHealth = playerStat.maxHealth;
+                playerStat.currentMana=playerStat.maxMana;  
                 AnimatorSetBoolRPC("isLive",true);
                 statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
                 if(HasStateAuthority)
@@ -647,7 +648,10 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             item.OnPickUp();
         }
     }
- 
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("collision" + collision);
+    }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void SkillRPC(int objectList, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun, bool isMakeSlow, bool isMakeSilen, float timeTrigger = 0f, float TimeEffect = 0f, int levelSkill = 1)

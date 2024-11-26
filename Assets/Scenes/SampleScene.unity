@@ -2008,6 +2008,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 511785174}
   m_CullTransparentMesh: 1
+--- !u!1 &559146142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 239806351482394399, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
+  m_PrefabInstance: {fileID: 943871433}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &559146149
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559146142}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 0.8571198
+  m_Radius: 0.26619506
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &583764421
 GameObject:
   m_ObjectHideFlags: 0
@@ -3482,6 +3513,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 39702050827575494, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 39702050827575494, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 39702050827575494, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 39702050827575494, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.385183
       objectReference: {fileID: 0}
@@ -3521,14 +3564,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 39702050827575494, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 239806351482394399, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
       propertyPath: m_Name
       value: HealPotion
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9001975466820357471, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 239806351482394399, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 559146149}
   m_SourcePrefab: {fileID: 100100000, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
 --- !u!1 &963194225
 GameObject:
