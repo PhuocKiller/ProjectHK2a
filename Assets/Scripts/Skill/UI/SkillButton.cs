@@ -256,7 +256,18 @@ public class SkillButton : NetworkBehaviour
                 || skillType != SkillTypes.Direction_Active || player.playerStat.isBeingStun
                 || player.playerStat.isBeingSilen) return;
         player.gameObject.GetComponent<SkillDirection>().GetMouseUp(out Vector3? posMouseUp);
-        this.posMouseUp = posMouseUp != null? posMouseUp: player.transform.position + player.transform.forward * 15;
+        if(posMouseUp != null)
+        {
+            this.posMouseUp = posMouseUp;
+        }
+        else if (player.playerStat.isFollowEnemy)
+        {
+            this.posMouseUp=player.overlapSphere.closestEnemyPlayer.transform.position;
+        }
+        else
+        {
+            this.posMouseUp = player.transform.position + player.transform.forward * 15;
+        }
         player.state = 0;
         m_btnComp.onClick.Invoke();
     }
