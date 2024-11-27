@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -49,7 +50,7 @@ public class OverlapSpherePlayer : NetworkBehaviour
 
             if (enemyPlayer != null)
             {
-                    if (enemyPlayer.playerTeam != player.playerTeam)
+                    if (enemyPlayer.GetComponent<NetworkObject>().IsValid&& enemyPlayer.playerTeam != player.playerTeam)
                     {
                         enemyPlayers.Add(enemyPlayer);
                     }

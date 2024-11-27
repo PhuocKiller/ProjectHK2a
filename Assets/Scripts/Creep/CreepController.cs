@@ -12,6 +12,7 @@ using UnityEngine.Events;
 public class CreepController : NetworkBehaviour, ICanTakeDamage
 {
     public NetworkManager runnerManager;
+    public CharacterController targetCharacter;
     public GameManager gameManager;
     public Joystick joystick;
     public OverlapSphereCreep overlapSphere;
@@ -86,28 +87,63 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         if (state != 2) animator.enabled = !playerStat.isBeingStun;
         if (state == 3) return;
         
-        if (!playerStat.isBeingStun && state != 4)
+        
+       if (HasStateAuthority)
         {
-            CalculateMove();
+            if (overlapSphere.CheckAllEnemyAround().Count == 0)
+            {
+                moveDirection = (runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position - transform.position);
+                AnimatorSetBoolRPC("isAttack", false);
+                state = 0;
+            }     
+            else //có enemy xung quanh
+            {
+                Debug.Log("co enemy xung quanh");
+                if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround()).Count == 0)// nhưng ko có player follow
+                {
+                    Debug.Log("ko player follow");
+                    targetCharacter = overlapSphere.FindClosestCharacterInRadius(overlapSphere.CheckAllEnemyAround(), transform.position);
+                    moveDirection = targetCharacter.transform.position - transform.position;
+                    if (moveDirection.magnitude < 1.5)
+                    {
+                        Debug.Log("distance<2");
+                        AnimatorSetBoolRPC("isAttack", true);
+                        state =4;
+                    }
+                    else
+                    {
+                        Debug.Log("distance>5"+ moveDirection.magnitude);
+                        Debug.Log("targetCharacter" + targetCharacter);
+                        AnimatorSetBoolRPC("isAttack", false);
+                        state = 0;
+                    }
+                }
+                else //có player follow
+                {
+                    Debug.Log("co player follow");
+                    targetCharacter = overlapSphere.FindClosestPlayerFollowInRadius
+                        (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround()), transform.position)
+                        .GetComponent<CharacterController>();
+                    moveDirection = targetCharacter.transform.position - transform.position;
+                    if (moveDirection.sqrMagnitude < 2)
+                    {
+                        AnimatorSetBoolRPC("isAttack", true);
+                        state = 4;
+                    }
+                    else
+                    {
+                        AnimatorSetBoolRPC("isAttack", false);
+                        state = 0;
+                    }
+                }
+            }
+            if (!playerStat.isBeingStun && state != 4)
+            {
+                CalculateMove();
+            }
+
         }
-        if (overlapSphere.closestCharac)
-        {
-            moveDirection = overlapSphere.closestCharac.transform.position - transform.position;
-        }
-        else
-        {
-            moveDirection = (runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position - transform.position);
-        }
-        if (moveDirection.magnitude < 2)
-        {
-            AnimatorSetBoolRPC("isAttack", true);
-            state = 4;
-        }
-        else
-        {
-            AnimatorSetBoolRPC("isAttack", false);
-            state = 0;
-        }
+       
         CalculateEXP();
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
@@ -237,9 +273,12 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     }
 
     #endregion
-    
+
     #region Collider
-   
+    private void OnTriggerEnter(Collider other)
+    {
+
+    }
     private void OnTriggerStay(Collider otherColi)
     {
         if (!HasStateAuthority) return;

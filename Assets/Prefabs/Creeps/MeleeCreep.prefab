@@ -10445,8 +10445,8 @@ GameObject:
   - component: {fileID: 4927144916628676602}
   - component: {fileID: 4088737157923126879}
   - component: {fileID: 8372778842534423884}
-  - component: {fileID: 6646094095273682627}
   - component: {fileID: 8739464981750799616}
+  - component: {fileID: 4581940765892146288}
   m_Layer: 8
   m_Name: MeleeCreep
   m_TagString: Untagged
@@ -10617,29 +10617,6 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
---- !u!136 &6646094095273682627
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386069877820134307}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Height: 3
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &8739464981750799616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10656,6 +10633,7 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   runnerManager: {fileID: 0}
+  targetCharacter: {fileID: 0}
   gameManager: {fileID: 0}
   joystick: {fileID: 0}
   overlapSphere: {fileID: 0}
@@ -10677,6 +10655,27 @@ MonoBehaviour:
   - {fileID: 7656987445486467007}
   - {fileID: 5008018405886279575}
   - {fileID: 5232838576839202047}
+--- !u!65 &4581940765892146288
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386069877820134307}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2, y: 2.5, z: 1.2}
+  m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!1 &1532194381578532808
 GameObject:
   m_ObjectHideFlags: 0
@@ -106672,7 +106671,6 @@ MonoBehaviour:
   _interpolationDataSource: 0
   closestCharac: {fileID: 0}
   enemyPlayers: []
-  allEnemies: []
 --- !u!114 &3615448377954182583 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7499518240902706101, guid: 40b54220d870405469e43efcb4e8dfc0, type: 3}
