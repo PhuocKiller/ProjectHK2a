@@ -38,7 +38,7 @@ public class CalculateTriggerEnter : MonoBehaviour
        bool isPhysicDamage, bool isMakeStun, bool isMakeSlow, bool isMakeSilen, bool isDestroyWhenCollider, PlayerRef InputAuthority, int levelSkill = 1)
     {
         collisions.Add(other);
-        other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, null,
+        other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, null, activeInjureAnim:false,
             counter: (int counterDamage, bool isPhysicDamage) =>
             {
                 creep.ApplyDamage(counterDamage, isPhysicDamage,null);

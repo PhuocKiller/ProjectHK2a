@@ -69,7 +69,6 @@ public class AttackObjectsCreep : NetworkBehaviour
         if (HasStateAuthority)
         {
             if (other.gameObject.layer == 7 && collisions.Count == 0
-            && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
             && other.gameObject.GetComponent<PlayerController>().state != 3
             && other.gameObject.GetComponent<PlayerController>().playerTeam
             != (creep != null ? creep.playerTeam : creep.playerTeam))

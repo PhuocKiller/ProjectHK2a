@@ -2,11 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 
 
 public class CreepController : NetworkBehaviour, ICanTakeDamage
@@ -65,19 +61,16 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public override void Spawned()
     {
         base.Spawned();
-
-        if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
-        {
-            runnerManager = FindObjectOfType<NetworkManager>();
+       // Debug.Log("Object.InputAuthority.PlayerId" + Object.InputAuthority.PlayerId);
+       // Debug.Log("Runner.LocalPlayer.PlayerId" + Runner.LocalPlayer.PlayerId);
+                    runnerManager = FindObjectOfType<NetworkManager>();
             gameManager = FindObjectOfType<GameManager>();
             spawnTransform = runnerManager.spawnPointTeam[playerTeam];
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             statusCanvas = GetComponentInChildren<StatusCanvas>();
-            overlapSphere=GetComponentInChildren<OverlapSphereCreep>();
-        }
-
+            overlapSphere = GetComponentInChildren<OverlapSphereCreep>();
     }
     public override void FixedUpdateNetwork()
     {
@@ -98,43 +91,17 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             }     
             else //có enemy xung quanh
             {
-                Debug.Log("co enemy xung quanh");
                 if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround()).Count == 0)// nhưng ko có player follow
                 {
-                    Debug.Log("ko player follow");
                     targetCharacter = overlapSphere.FindClosestCharacterInRadius(overlapSphere.CheckAllEnemyAround(), transform.position);
-                    moveDirection = targetCharacter.transform.position - transform.position;
-                    if (moveDirection.magnitude < 1.5)
-                    {
-                        Debug.Log("distance<2");
-                        AnimatorSetBoolRPC("isAttack", true);
-                        state =4;
-                    }
-                    else
-                    {
-                        Debug.Log("distance>5"+ moveDirection.magnitude);
-                        Debug.Log("targetCharacter" + targetCharacter);
-                        AnimatorSetBoolRPC("isAttack", false);
-                        state = 0;
-                    }
+                    CalculateMoveDirection();
                 }
                 else //có player follow
                 {
-                    Debug.Log("co player follow");
                     targetCharacter = overlapSphere.FindClosestPlayerFollowInRadius
                         (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround()), transform.position)
                         .GetComponent<CharacterController>();
-                    moveDirection = targetCharacter.transform.position - transform.position;
-                    if (moveDirection.sqrMagnitude < 2)
-                    {
-                        AnimatorSetBoolRPC("isAttack", true);
-                        state = 4;
-                    }
-                    else
-                    {
-                        AnimatorSetBoolRPC("isAttack", false);
-                        state = 0;
-                    }
+                    CalculateMoveDirection();
                 }
             }
             if (!playerStat.isBeingStun && state != 4)
@@ -148,7 +115,20 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
     }
-
+    void CalculateMoveDirection()
+    {
+        moveDirection = targetCharacter.transform.position - transform.position;
+        if (moveDirection.magnitude < 1.5)
+        {
+            AnimatorSetBoolRPC("isAttack", true);
+            state = 4;
+        }
+        else
+        {
+            AnimatorSetBoolRPC("isAttack", false);
+            state = 0;
+        }
+    }
 
     #region "SkillButton"
     public virtual void NormalAttack()
@@ -353,7 +333,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
 
         if (state == 3)
         {
-            isKillPlayer?.Invoke(playerStat.level, playerScore.playersMakeDamages);
+          //  isKillPlayer?.Invoke(playerStat.level, overlapSphere.CheckPlayerAround());
         }
         lifeSteal?.Invoke(damage);
     }
@@ -361,11 +341,12 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public void CalculateHealthRPC
         (int damage, bool isPhysicDamage, PlayerController player, bool activeInjureAnim = true)
     {
-        if (state == 3) return;
         if (!playerScore.playersMakeDamages.Contains(player))
         {
             playerScore.playersMakeDamages.Add(player);
         }
+        if (state == 3) return;
+        
         if ((playerStat.currentHealth + statusCanvas.GetCurrentDamageAbsorbShield()) > damage)
         {
             if (statusCanvas.GetCurrentDamageAbsorbShield() > 0)
@@ -380,30 +361,31 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         }
         else
         {
-            WhenPlayerDie();
+            WhenCreepDie();
         }
     }
-    void WhenPlayerDie()
+    void WhenCreepDie()
     {
         playerStat.currentHealth = 0;
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive = false;
-        foreach (var playerDamage in playerScore.playersMakeDamages)
+        foreach (var playerAround in overlapSphere.CheckPlayerAround())
         {
-            if(playerDamage)
+            Debug.Log(playerAround);
+            if(playerAround)
             {
-                CalculateWhenKill(playerDamage);
+                CalculateXPWhenKill(playerAround);
             }
             
         }
-        timeDie = TickTimer.CreateFromSeconds(Runner, 5 + 2 * playerStat.level); //thời gian hồi sinh
+        GetComponent<CharacterController>().enabled = false;
+        GetComponent<BoxCollider>().enabled = false;
         StartCoroutine(DelayDie());
     }
-    void CalculateWhenKill(PlayerController playerDamage)
+    void CalculateXPWhenKill(PlayerController playerAround)
     {
-        playerDamage.playerStat.GainXPWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
-        playerDamage.GetComponent<Tesla>()?.PassiveWhenKill();
+        playerAround.playerStat.GainXPWhenKill((int)(20 * playerStat.level / overlapSphere.CheckPlayerAround().Count));
     }
     void CalculateEXP()
     {
@@ -416,6 +398,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public IEnumerator DelayDie()
     {
         yield return new WaitForSeconds(3f);
+        
         Runner.Despawn(GetComponent<NetworkObject>());
     }
     

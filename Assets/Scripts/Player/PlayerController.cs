@@ -455,7 +455,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         (int damage, bool isPhysicDamage, PlayerController player, bool activeInjureAnim = true)
     {
         if (state == 3) return;
-        if (!playerScore.playersMakeDamages.Contains(player))
+        if (!playerScore.playersMakeDamages.Contains(player) &&player!=null)
         {
             playerScore.playersMakeDamages.Add(player);
         }
@@ -486,17 +486,22 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         playerStat.currentHealth = 0;
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
-        playerStat.isLive=false;
-        foreach (var playerDamage in playerScore.playersMakeDamages)
+        playerStat.isLive=false; playerStat.isFollowEnemy = false;
+        if (playerScore.playersMakeDamages.Count>0)
         {
-            CalculateWhenKill(playerDamage);
+            foreach (var playerDamage in playerScore.playersMakeDamages)
+            {
+                CalculateWhenKill(playerDamage);
+            }
         }
+        
         timeDie = TickTimer.CreateFromSeconds(Runner,5+ 2 * playerStat.level); //thời gian hồi sinh
         animator.SetBool("isLive", false);
         StartCoroutine(DelayHideVisualWhenDie());
     }
     void CalculateWhenKill(PlayerController playerDamage)
     {
+        Debug.Log("playerDamage" + playerDamage);
         playerDamage.playerStat.GainXPWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
         playerDamage.GetComponent<Tesla>()?.PassiveWhenKill();
     }

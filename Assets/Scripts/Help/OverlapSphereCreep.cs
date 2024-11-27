@@ -9,14 +9,12 @@ public class OverlapSphereCreep : NetworkBehaviour
 {
     CreepController creep;
     public CharacterController closestCharac;
-    public List<PlayerController> enemyPlayers = new List<PlayerController>();
     
-    RectTransform crossHair;
+    
     public override void Spawned()
     {
         base.Spawned();
         creep = GetComponentInParent<CreepController>();
-        crossHair = FindObjectOfType<UIManager>().crossHair;
     }
 
     public override void FixedUpdateNetwork()
@@ -27,14 +25,14 @@ public class OverlapSphereCreep : NetworkBehaviour
     public List<CharacterController> CheckAllEnemyAround()
     {   List<CharacterController> allEnemies = new List<CharacterController>();
         allEnemies.Clear();
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 5f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 7f);
 
         foreach (var hitCollider in hitColliders)
         {
             PlayerController enemyPlayer = hitCollider.gameObject.GetComponent<PlayerController>();
             if(enemyPlayer != null && enemyPlayer.GetComponent<NetworkObject>().IsValid)
             {
-                if (enemyPlayer.playerTeam != creep.playerTeam)
+                if (enemyPlayer.playerTeam != creep.playerTeam && enemyPlayer.state!=3)
                 {
                     allEnemies.Add(enemyPlayer.gameObject.GetComponent<CharacterController>());
                 }
@@ -42,7 +40,7 @@ public class OverlapSphereCreep : NetworkBehaviour
             CreepController enemyCreep = hitCollider.gameObject.GetComponent<CreepController>();
             if (enemyCreep != null && enemyCreep.GetComponent<NetworkObject>().IsValid)
             {
-                if (enemyCreep.playerTeam != creep.playerTeam)
+                if (enemyCreep.playerTeam != creep.playerTeam && enemyCreep.state != 3)
                 {
                     allEnemies.Add(enemyCreep.gameObject.GetComponent<CharacterController>());
                 }
@@ -65,8 +63,9 @@ public class OverlapSphereCreep : NetworkBehaviour
         }
         return listPlayerFollowEnemy;
     }
-    public void CheckPlayerAround()
+    public List<PlayerController> CheckPlayerAround()
     {
+       List<PlayerController> enemyPlayers = new List<PlayerController>();
         enemyPlayers.Clear();
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 15f);
 
@@ -76,12 +75,14 @@ public class OverlapSphereCreep : NetworkBehaviour
 
             if (enemyPlayer != null && enemyPlayer.GetComponent<NetworkObject>().IsValid)
             {
-                if (enemyPlayer.playerTeam != creep.playerTeam)
+                if (enemyPlayer.playerTeam != creep.playerTeam && !enemyPlayers.Contains(enemyPlayer)
+                    && enemyPlayer.state!=3)
                 {
                     enemyPlayers.Add(enemyPlayer);
                 }
             }
         }
+        return enemyPlayers;
     }
     public CharacterController FindClosestCharacterInRadius(List<CharacterController> enemyCharac, Vector3 currentPos)
     {
