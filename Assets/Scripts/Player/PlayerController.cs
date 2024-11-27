@@ -501,7 +501,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     void CalculateWhenKill(PlayerController playerDamage)
     {
-        Debug.Log("playerDamage" + playerDamage);
         playerDamage.playerStat.GainXPWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
         playerDamage.GetComponent<Tesla>()?.PassiveWhenKill();
     }

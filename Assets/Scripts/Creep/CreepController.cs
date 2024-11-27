@@ -104,9 +104,12 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                     CalculateMoveDirection();
                 }
             }
+            Quaternion look = Quaternion.LookRotation(moveDirection.normalized);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
             if (!playerStat.isBeingStun && state != 4)
             {
-                CalculateMove();
+                characterControllerPrototype.Move(moveDirection.normalized * 0.02f * playerStat.moveSpeed * Runner.DeltaTime);
+                
             }
 
         }
@@ -161,9 +164,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         if (HasStateAuthority)
         {
             
-            characterControllerPrototype.Move(moveDirection.normalized  * 0.02f * playerStat.moveSpeed *Runner.DeltaTime);
-            Quaternion look=Quaternion.LookRotation(moveDirection.normalized);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
         }
     }
     private void CalculateAnimSpeed(string animationName, float speed, bool isMoveX)
@@ -372,7 +372,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         playerStat.isLive = false;
         foreach (var playerAround in overlapSphere.CheckPlayerAround())
         {
-            Debug.Log(playerAround);
             if(playerAround)
             {
                 CalculateXPWhenKill(playerAround);

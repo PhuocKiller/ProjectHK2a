@@ -89,21 +89,19 @@ public class AttackObjects : NetworkBehaviour
             if (other.gameObject.layer == 7 && collisions.Count == 0
             && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
             && other.gameObject.GetComponent<PlayerController>().state != 3
-            && other.gameObject.GetComponent<PlayerController>().playerTeam
-            != (player != null ? player.playerTeam : creep.playerTeam))
+            && other.gameObject.GetComponent<PlayerController>().playerTeam!= player.playerTeam)
             {
                 trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
                 if (player.playerType == Player_Types.DumbleDore) collisions.Clear();
             }
             
+            Debug.Log("other" + other);
             if (other.gameObject.layer == 8 && collisions.Count == 0
             && other.gameObject.GetComponent<CreepController>().state != 3
-            && other.gameObject.GetComponent<CreepController>().playerTeam
-            != (player != null ? player.playerTeam : creep.playerTeam))
+            && other.gameObject.GetComponent<CreepController>().playerTeam!= player.playerTeam)
             {
-                Debug.Log("collisions" + collisions);
-                Debug.Log("other" + other);
+              //  Debug.Log("other" + other);
                 trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
                 if (player.playerType == Player_Types.DumbleDore) collisions.Clear();

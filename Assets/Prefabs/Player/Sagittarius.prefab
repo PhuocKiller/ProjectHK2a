@@ -2019,6 +2019,7 @@ MonoBehaviour:
   _isUnstopAble: 0
   _isCounter: 0
   _isLive: 0
+  _isFollowEnemy: 0
 --- !u!114 &2593404170964288096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2494,6 +2495,7 @@ GameObject:
   - component: {fileID: 4141041976188049337}
   - component: {fileID: 6344799376450209239}
   - component: {fileID: 1846960661458983758}
+  - component: {fileID: 8496985805217618466}
   m_Layer: 7
   m_Name: Sagittarius
   m_TagString: Untagged
@@ -2632,13 +2634,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 5
-  m_Radius: 2
+  m_Height: 2
+  m_Radius: 0
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 2.5, z: 0}
+  m_Center: {x: 0, y: 1.05, z: 0}
 --- !u!114 &4141041976188049337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2704,6 +2706,7 @@ MonoBehaviour:
   runnerManager: {fileID: 0}
   gameManager: {fileID: 0}
   projectConfig: {fileID: -755480892457977500, guid: 4f0a91afb8df93343bc600f71fa38824, type: 3}
+  overlapSphere: {fileID: 0}
   joystick: {fileID: 0}
   _playerTeam: 1
   networkObjs: {fileID: 8388264208586685474}
@@ -2729,6 +2732,27 @@ MonoBehaviour:
   - {fileID: 1529022787771948039}
   - {fileID: 7930311946593818978}
   - {fileID: 730891664571767673}
+--- !u!65 &8496985805217618466
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8523547410306454324}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 4.5, z: 1.7}
+  m_Center: {x: 0, y: 2.2, z: 0}
 --- !u!1 &8526155711134271043
 GameObject:
   m_ObjectHideFlags: 0
