@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7633485897180923274}
   - component: {fileID: 2687238469488314583}
   - component: {fileID: 1620554528767842668}
-  - component: {fileID: 8756989514772361629}
   - component: {fileID: 455799804659864169}
+  - component: {fileID: 859242146862886516}
+  - component: {fileID: 2724975514876811854}
   m_Layer: 8
   m_Name: MeleeNormalAttack
   m_TagString: Untagged
@@ -88,32 +89,8 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 2687238469488314583}
-  - {fileID: 8756989514772361629}
+  - {fileID: 859242146862886516}
   SimulationBehaviours: []
---- !u!114 &8756989514772361629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4810440926288004768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4adba983eb5c91949a51414cf778d361, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WordOffset: 0
-  WordCount: 0
-  _interpolationDataSource: 0
-  timerDespawn: 0
-  timeEffect: 0
-  damage: 0
-  levelSkill: 0
-  isPhysicDamage: 0
-  isMakeStun: 0
-  isMakeSlow: 0
-  isMakeSilen: 0
-  isDestroyWhenCollider: 0
 --- !u!135 &455799804659864169
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -133,5 +110,41 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &859242146862886516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4810440926288004768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0696b783fd020346bb70c7dfed43b16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
+  timerDespawn: 0
+  timeEffect: 0
+  damage: 0
+  levelSkill: 0
+  isPhysicDamage: 0
+  isMakeStun: 0
+  isMakeSlow: 0
+  isMakeSilen: 0
+  isDestroyWhenCollider: 0
+--- !u!114 &2724975514876811854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4810440926288004768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

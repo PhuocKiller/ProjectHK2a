@@ -32,7 +32,18 @@ public class NetworkManager : MonoBehaviour
         {
             runner.Spawn(gameManagerObj, inputAuthority: player);
             runner.Spawn(playerManagerObj, inputAuthority: player);
-           
+            runner.Spawn(players[6], spawnPointTeam[0].position, spawnPointTeam[0].rotation,
+                 inputAuthority: player,
+               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+               {
+                   obj.GetComponent<CreepController>().playerTeam = 0;
+               });
+            runner.Spawn(players[6], spawnPointTeam[1].position, spawnPointTeam[1].rotation,
+                 inputAuthority: player,
+               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+               {
+                   obj.GetComponent<CreepController>().playerTeam = 1;
+               });
         }
         if (player == runner.LocalPlayer)
         {
@@ -44,12 +55,7 @@ public class NetworkManager : MonoBehaviour
                 {
                     obj.GetComponent<PlayerController>().playerTeam = playerTeam;
                 });
-            runner.Spawn(players[6], spawnPointTeam[playerTeam].position, spawnPointTeam[playerTeam].rotation,
-                inputAuthority: player,
-              onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-              {
-                   obj.GetComponent<CreepController>().playerTeam = playerTeam;
-              });
+            
         }
     }
     public async void OnClickBtn(Button btn)

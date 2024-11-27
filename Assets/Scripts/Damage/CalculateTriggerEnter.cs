@@ -34,4 +34,29 @@ public class CalculateTriggerEnter : MonoBehaviour
                 }
                 );
     }
+    public void ControlTriggerCreep(Collider other, List<Collider> collisions,CreepController creep, int damage, float timeEffect,
+       bool isPhysicDamage, bool isMakeStun, bool isMakeSlow, bool isMakeSilen, bool isDestroyWhenCollider, PlayerRef InputAuthority, int levelSkill = 1)
+    {
+        collisions.Add(other);
+        other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, null,
+            counter: (int counterDamage, bool isPhysicDamage) =>
+            {
+                creep.ApplyDamage(counterDamage, isPhysicDamage,null);
+            }
+            , isKillPlayer: (int levelHeroKilled, List<PlayerController> playerMakeDamage) => // Nhận exp khi giêt địch ở đây
+            {
+               
+            }
+            , lifeSteal: (int damage) =>
+            {
+                if (creep.playerStat.isLifeSteal) creep.playerStat.currentHealth += (int)(creep.playerStat.lifeSteal * damage);
+            }
+            );
+        other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,
+            TimeEffect: timeEffect, callback: () =>
+            {
+                if (isDestroyWhenCollider) Destroy(gameObject);//khi chạm vào địch thì hủy vật thể
+            }
+            );
+    }
 }

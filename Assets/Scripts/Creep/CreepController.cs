@@ -14,7 +14,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public NetworkManager runnerManager;
     public GameManager gameManager;
     public Joystick joystick;
-    public OverlapSpherePlayer overlapSphere;
+    public OverlapSphereCreep overlapSphere;
+    public NetworkObject normalAttackObj;
     Transform spawnTransform;
     [Networked] public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
@@ -73,7 +74,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             statusCanvas = GetComponentInChildren<StatusCanvas>();
-            overlapSphere=GetComponentInChildren<OverlapSpherePlayer>();
+            overlapSphere=GetComponentInChildren<OverlapSphereCreep>();
         }
 
     }
@@ -84,9 +85,28 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         CalculateStatusDebuff();
         if (state != 2) animator.enabled = !playerStat.isBeingStun;
         if (state == 3) return;
+        
         if (!playerStat.isBeingStun && state != 4)
         {
             CalculateMove();
+        }
+        if (overlapSphere.closestCharac)
+        {
+            moveDirection = overlapSphere.closestCharac.transform.position - transform.position;
+        }
+        else
+        {
+            moveDirection = (runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position - transform.position);
+        }
+        if (moveDirection.magnitude < 2)
+        {
+            AnimatorSetBoolRPC("isAttack", true);
+            state = 4;
+        }
+        else
+        {
+            AnimatorSetBoolRPC("isAttack", false);
+            state = 0;
         }
         CalculateEXP();
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
@@ -95,16 +115,28 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
 
 
     #region "SkillButton"
-    public virtual void NormalAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
+    public virtual void NormalAttack()
     {
-        AnimatorRPC("Attack");
+        if(HasStateAuthority)
+        {
+            Runner.Spawn(normalAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
+     , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+     {
+         obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, normalAttackTransform,
+             false, false, false, 0.5f, 0);
+     });
+        }
     }
     
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void AnimatorRPC(string name)
+    public void AnimatorSetTriggerRPC(string name)
     {
         animator.SetTrigger(name);
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void AnimatorSetBoolRPC(string name, bool isActive)
+    {
+        animator.SetBool(name,isActive);
     }
     #endregion
     #region Move
@@ -112,14 +144,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         if (HasStateAuthority)
         {
-
-            moveDirection =(runnerManager.spawnPointTeam[1].position- runnerManager.spawnPointTeam[0].position)
-                * (playerTeam==0?1:-1);
-            /*CalculateAnimSpeed("MoveX", moveInput.x, true);
-            CalculateAnimSpeed("MoveY", moveInput.y, false);*/
-           
-            characterControllerPrototype.Move(moveDirection.normalized  * 0.005f
-                * playerStat.moveSpeed *Runner.DeltaTime);
+            
+            characterControllerPrototype.Move(moveDirection.normalized  * 0.02f * playerStat.moveSpeed *Runner.DeltaTime);
             Quaternion look=Quaternion.LookRotation(moveDirection.normalized);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
         }
@@ -181,7 +207,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         transform.rotation = spawnTransform.rotation;
     }
     #endregion
-
+    
     #region State
     public void SwithCharacterState(int newstate)
     {
@@ -326,7 +352,11 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         playerStat.isLive = false;
         foreach (var playerDamage in playerScore.playersMakeDamages)
         {
-            CalculateWhenKill(playerDamage);
+            if(playerDamage)
+            {
+                CalculateWhenKill(playerDamage);
+            }
+            
         }
         timeDie = TickTimer.CreateFromSeconds(Runner, 5 + 2 * playerStat.level); //thời gian hồi sinh
         StartCoroutine(DelayDie());
@@ -349,11 +379,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         yield return new WaitForSeconds(3f);
         Runner.Despawn(GetComponent<NetworkObject>());
     }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void AnimatorSetBoolRPC(string aniName, bool isActive)
-    {
-        animator.SetBool(aniName, isActive);
-    }
+    
     [Networked] public TickTimer timeDie { get; set; }
     #endregion
 
@@ -475,24 +501,5 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     }
     #endregion
     
-    private void OnTriggerEnter(Collider other)
-    {
-        InventoryItemBase item = other.GetComponent<InventoryItemBase>();
-        if (item != null)
-        {
-            Singleton<Inventory>.Instance.AddItem(item);
-            item.OnPickUp();
-        }
-    }
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void SetParentRPC(NetworkId id)
-    {
-        if (!Runner.TryFindObject(id, out NetworkObject obj)) return;
-        if (obj.GetComponent<BuffsOfPlayer>() != null)
-        {
-            obj.transform.SetParent(transform.GetChild(2).GetChild(1));
-        }
-        
-    }
 }
 

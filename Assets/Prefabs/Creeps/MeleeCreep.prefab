@@ -10560,7 +10560,7 @@ MonoBehaviour:
     _inverse: 0
     _hash: -814817977
   StateHashes: 0000000033fcc29f104cc13946980c4f14c2736674822bd61b594c2e7d60556569089f1e
-  TriggerHashes: 000000000d286c4037b93501
+  TriggerHashes: 0000000037b93501
 --- !u!143 &4088737157923126879
 CharacterController:
   m_ObjectHideFlags: 0
@@ -10659,6 +10659,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   joystick: {fileID: 0}
   overlapSphere: {fileID: 0}
+  normalAttackObj: {fileID: 1620554528767842668, guid: 0536b49b8c227cd42aa48ac17f942f4c, type: 3}
   _playerTeam: 0
   networkObjs: {fileID: 1481342673320959658}
   collisionsEnvi: []
@@ -106669,7 +106670,7 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
-  closestEnemyPlayer: {fileID: 0}
+  closestCharac: {fileID: 0}
   enemyPlayers: []
   allEnemies: []
 --- !u!114 &3615448377954182583 stripped

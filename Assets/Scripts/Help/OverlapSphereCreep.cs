@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class OverlapSphereCreep : NetworkBehaviour
 {
     CreepController creep;
-    public PlayerController closestEnemyPlayer;
+    public CharacterController closestCharac;
     public List<PlayerController> enemyPlayers = new List<PlayerController>();
     public List<CharacterController> allEnemies = new List<CharacterController>();
     RectTransform crossHair;
@@ -26,13 +26,13 @@ public class OverlapSphereCreep : NetworkBehaviour
         {
             CheckPlayerAround();
             CheckAllEnemyAround();
-            if (enemyPlayers.Count > 0)
+            if (allEnemies.Count > 0)
             {
-                closestEnemyPlayer = FindClosestObjectInRadius(enemyPlayers, transform.position);
+                closestCharac = FindClosestObjectInRadius(allEnemies, transform.position);
             }
             else
             {
-                closestEnemyPlayer = null;
+                closestCharac = null;
             }
         }
     }
@@ -60,10 +60,6 @@ public class OverlapSphereCreep : NetworkBehaviour
                 }
             }
         }
-        foreach(var charac in allEnemies)
-        {
-            Debug.Log(charac);
-        }
     }
     public void CheckPlayerAround()
     {
@@ -83,9 +79,9 @@ public class OverlapSphereCreep : NetworkBehaviour
             }
         }
     }
-    PlayerController FindClosestObjectInRadius(List<PlayerController> enemyPlayers, Vector3 currentPos)
+    CharacterController FindClosestObjectInRadius(List<CharacterController> enemyCharac, Vector3 currentPos)
     {
-        return enemyPlayers
-            .OrderBy(player => Vector3.Distance(player.transform.position, currentPos)).FirstOrDefault();
+        return enemyCharac
+            .OrderBy(charac => Vector3.Distance(charac.transform.position, currentPos)).FirstOrDefault();
     }
 }

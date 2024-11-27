@@ -5,10 +5,12 @@ using UnityEngine;
 public class BasicAttackBehaviour : StateMachineBehaviour
 {
     PlayerController playerController;
+    CreepController creepController;
     // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         playerController??=animator.gameObject.GetComponent<PlayerController>();
+        creepController??=animator?.gameObject.GetComponent<CreepController>();
     }
 
     // OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine

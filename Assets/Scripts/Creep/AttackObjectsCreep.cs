@@ -1,11 +1,10 @@
-﻿using Fusion;
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackObjects : NetworkBehaviour
+public class AttackObjectsCreep : NetworkBehaviour
 {
-    PlayerController player;
     CreepController creep;
     CalculateTriggerEnter trigger;
     private Vector3 direction;
@@ -20,33 +19,17 @@ public class AttackObjects : NetworkBehaviour
         base.Spawned();
         collisions.Clear();
         rb = GetComponent<NetworkRigidbody>();
-        trigger=GetComponent<CalculateTriggerEnter>();
+        trigger = GetComponent<CalculateTriggerEnter>();
         if (HasStateAuthority && HasInputAuthority)
         {
             timer = TickTimer.CreateFromSeconds(Runner, timerDespawn);
-            if (rb!=null)
+            if (rb != null)
             {
                 isDestroyWhenCollider = true;
                 rb.Rigidbody.AddForce(direction * 1500);
                 transform.forward = direction;
             }
         }
-    }
-    public void SetUpPlayer(PlayerController player, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
-        float timeEffect = 0f, bool isDestroyWhenCollider = false, int levelSkill = 1)
-    {
-        this.player = player;
-        transform.SetParent(parentObject);
-        damage = levelDamage;
-        this.isPhysicDamage = isPhysicDamage;
-        this.isMakeStun = isMakeStun;
-        this.isMakeSlow = isMakeSlow;
-        this.isMakeSilen = isMakeSilen;
-        this.timeEffect = timeEffect;
-        this.isDestroyWhenCollider = isDestroyWhenCollider;
-        timerDespawn = timeTrigger;
-        this.levelSkill = levelSkill;
     }
     public void SetUpCreep(CreepController creep, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
@@ -70,8 +53,7 @@ public class AttackObjects : NetworkBehaviour
         if (HasStateAuthority && timer.Expired(Runner)
             )
         {
-           player?.GetComponent<Tesla>()?.EffectShotGun.gameObject.SetActive(false);
-           Destroy(gameObject);
+            Destroy(gameObject);
         }
 
     }
@@ -80,30 +62,28 @@ public class AttackObjects : NetworkBehaviour
     {
         direction = newDirection;
     }
-    
+
 
     private void OnTriggerEnter(Collider other)
     {
-        if(HasStateAuthority)
+        if (HasStateAuthority)
         {
             if (other.gameObject.layer == 7 && collisions.Count == 0
             && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
             && other.gameObject.GetComponent<PlayerController>().state != 3
             && other.gameObject.GetComponent<PlayerController>().playerTeam
-            != (player != null ? player.playerTeam : creep.playerTeam))
+            != (creep != null ? creep.playerTeam : creep.playerTeam))
             {
-                trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
+                trigger.ControlTriggerCreep(other, collisions, creep, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
-                if (player.playerType == Player_Types.DumbleDore) collisions.Clear();
             }
-            if(other.gameObject.layer == 8 && collisions.Count == 0
+            if (other.gameObject.layer == 8 && collisions.Count == 0
             && other.gameObject.GetComponent<CreepController>().state != 3
             && other.gameObject.GetComponent<CreepController>().playerTeam
-            != (player != null ? player.playerTeam : creep.playerTeam))
+            != (creep != null ? creep.playerTeam : creep.playerTeam))
             {
-                trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
+                trigger.ControlTriggerCreep(other, collisions, creep, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
-                if (player.playerType == Player_Types.DumbleDore) collisions.Clear();
             }
         }
     }
