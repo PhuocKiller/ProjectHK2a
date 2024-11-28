@@ -157,9 +157,9 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                 Runner.Spawn(normalRangeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
                      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                      {
-                         obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, normalAttackTransform,
+                         obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, null,
                              false, false, false, 0.5f, 0);
-                         obj.GetComponent<AttackObjects>().SetDirection(transform.forward);
+                         obj.GetComponent<AttackObjectsCreep>().SetDirection(transform.forward);
                      });
             }
         }

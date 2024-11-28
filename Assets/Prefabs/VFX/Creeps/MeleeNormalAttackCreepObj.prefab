@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 455799804659864169}
   - component: {fileID: 859242146862886516}
   - component: {fileID: 2724975514876811854}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: MeleeNormalAttackCreepObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}

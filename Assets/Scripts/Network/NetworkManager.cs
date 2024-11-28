@@ -32,33 +32,8 @@ public class NetworkManager : MonoBehaviour
         {
             runner.Spawn(gameManagerObj, inputAuthority: player);
             runner.Spawn(playerManagerObj, inputAuthority: player);
-            for (int i = -1; i < 2; i++)
-            {
-                runner.Spawn(creeps[0], spawnPointTeam[0].position + Vector3.back * 2f * i, spawnPointTeam[0].rotation,
-                                 inputAuthority: player,
-                               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-                               {
-                                   obj.GetComponent<CreepController>().playerTeam = 0;
-                               });
-                runner.Spawn(creeps[0], spawnPointTeam[1].position + Vector3.back * 2f * i, spawnPointTeam[1].rotation,
-                     inputAuthority: player,
-                   onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-                   {
-                       obj.GetComponent<CreepController>().playerTeam = 1;
-                   });
-            }
-            runner.Spawn(creeps[1], spawnPointTeam[0].position + Vector3.left*3, spawnPointTeam[0].rotation,
-                                 inputAuthority: player,
-                               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-                               {
-                                   obj.GetComponent<CreepController>().playerTeam = 0;
-                               });
-            runner.Spawn(creeps[1], spawnPointTeam[1].position + Vector3.right * 3, spawnPointTeam[1].rotation,
-                                 inputAuthority: player,
-                               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-                               {
-                                   obj.GetComponent<CreepController>().playerTeam = 1;
-                               });
+            SpawnMeleeCreep(player);
+            SpawnRangeCreep(player);
         }
         if (player == runner.LocalPlayer)
         {
@@ -70,8 +45,40 @@ public class NetworkManager : MonoBehaviour
                 {
                     obj.GetComponent<PlayerController>().playerTeam = playerTeam;
                 });
-            
         }
+    }
+    void SpawnMeleeCreep(PlayerRef player)
+    {
+        for (int i = -1; i < 2; i++)
+        {
+            runner.Spawn(creeps[0], spawnPointTeam[0].position + Vector3.right * 3 + Vector3.back * 2f * i, spawnPointTeam[0].rotation,
+                             inputAuthority: player,
+                           onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                           {
+                               obj.GetComponent<CreepController>().playerTeam = 0;
+                           });
+            runner.Spawn(creeps[0], spawnPointTeam[1].position + Vector3.left * 3 + Vector3.back * 2f * i, spawnPointTeam[1].rotation,
+                 inputAuthority: player,
+               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+               {
+                   obj.GetComponent<CreepController>().playerTeam = 1;
+               });
+        }
+    }
+    void SpawnRangeCreep(PlayerRef player)
+    {
+        runner.Spawn(creeps[1], spawnPointTeam[0].position + Vector3.right * 1, spawnPointTeam[0].rotation,
+                                inputAuthority: player,
+                              onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                              {
+                                  obj.GetComponent<CreepController>().playerTeam = 0;
+                              });
+        runner.Spawn(creeps[1], spawnPointTeam[1].position + Vector3.left * 1, spawnPointTeam[1].rotation,
+                             inputAuthority: player,
+                           onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                           {
+                               obj.GetComponent<CreepController>().playerTeam = 1;
+                           });
     }
     public async void OnClickBtn(Button btn)
     {
