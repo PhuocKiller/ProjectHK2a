@@ -12,7 +12,7 @@ public class NetworkManager : MonoBehaviour
     [SerializeField]
     GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
-    GameObject[] players;
+    GameObject[] players, creeps;
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
     UnityEvent onConnected;
@@ -34,19 +34,31 @@ public class NetworkManager : MonoBehaviour
             runner.Spawn(playerManagerObj, inputAuthority: player);
             for (int i = -1; i < 2; i++)
             {
-                runner.Spawn(players[6], spawnPointTeam[0].position + Vector3.back * 2f * i, spawnPointTeam[0].rotation,
+                runner.Spawn(creeps[0], spawnPointTeam[0].position + Vector3.back * 2f * i, spawnPointTeam[0].rotation,
                                  inputAuthority: player,
                                onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                                {
                                    obj.GetComponent<CreepController>().playerTeam = 0;
                                });
-                runner.Spawn(players[6], spawnPointTeam[1].position + Vector3.back * 2f * i, spawnPointTeam[1].rotation,
+                runner.Spawn(creeps[0], spawnPointTeam[1].position + Vector3.back * 2f * i, spawnPointTeam[1].rotation,
                      inputAuthority: player,
                    onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                    {
                        obj.GetComponent<CreepController>().playerTeam = 1;
                    });
             }
+            runner.Spawn(creeps[1], spawnPointTeam[0].position + Vector3.left*3, spawnPointTeam[0].rotation,
+                                 inputAuthority: player,
+                               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                               {
+                                   obj.GetComponent<CreepController>().playerTeam = 0;
+                               });
+            runner.Spawn(creeps[1], spawnPointTeam[1].position + Vector3.right * 3, spawnPointTeam[1].rotation,
+                                 inputAuthority: player,
+                               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                               {
+                                   obj.GetComponent<CreepController>().playerTeam = 1;
+                               });
         }
         if (player == runner.LocalPlayer)
         {

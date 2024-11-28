@@ -4,7 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+public enum Creep_Types
+{
+    Melee,
+    Range,
+}
 public class CreepController : NetworkBehaviour, ICanTakeDamage
 {
     public NetworkManager runnerManager;
@@ -12,7 +16,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public GameManager gameManager;
     public Joystick joystick;
     public OverlapSphereCreep overlapSphere;
-    public NetworkObject normalAttackObj;
+    public NetworkObject normalMeleeAttackObj, normalRangeAttackObj;
+    public Creep_Types creepType;
     Transform spawnTransform;
     [Networked] public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
@@ -26,7 +31,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     Animator animator;
     float speed;
     private int targetX, targetY, beforeTarget;
-    float previousSpeedX, currentSpeedX, previousSpeedY, currentSpeedY;
+    float previousSpeedX, currentSpeedX, previousSpeedY, currentSpeedY, attackRange;
     
     // 0 là normal
     // 1 là jump
@@ -79,8 +84,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         CalculateStatusDebuff();
         if (state != 2) animator.enabled = !playerStat.isBeingStun;
         if (state == 3) return;
-        
-        
        if (HasStateAuthority)
         {
             if (overlapSphere.CheckAllEnemyAround().Count == 0)
@@ -120,8 +123,10 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     }
     void CalculateMoveDirection()
     {
+        if (creepType == Creep_Types.Melee) attackRange = 1.5f;
+        else if(creepType == Creep_Types.Range) attackRange = 7f;
         moveDirection = targetCharacter.transform.position - transform.position;
-        if (moveDirection.magnitude < 1.5)
+        if (moveDirection.magnitude < attackRange)
         {
             AnimatorSetBoolRPC("isAttack", true);
             state = 4;
@@ -138,12 +143,25 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         if(HasStateAuthority)
         {
-            Runner.Spawn(normalAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
-     , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-     {
-         obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, normalAttackTransform,
-             false, false, false, 0.5f, 0);
-     });
+            if(creepType==Creep_Types.Melee)
+            {
+                Runner.Spawn(normalMeleeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
+                     , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                     {
+                         obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, normalAttackTransform,
+                             false, false, false, 0.5f, 0);
+                     });
+            }
+            else if(creepType == Creep_Types.Range)
+            {
+                Runner.Spawn(normalRangeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
+                     , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                     {
+                         obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, normalAttackTransform,
+                             false, false, false, 0.5f, 0);
+                         obj.GetComponent<AttackObjects>().SetDirection(transform.forward);
+                     });
+            }
         }
     }
     
@@ -216,12 +234,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             time += Runner.DeltaTime;
         }
     }
-    void SpawnAtStartPos()
-    {
-        Vector3 directionSpawn = spawnTransform.position - transform.position;
-        characterControllerPrototype.Move(directionSpawn);
-        transform.rotation = spawnTransform.rotation;
-    }
+    
     #endregion
     
     #region State
