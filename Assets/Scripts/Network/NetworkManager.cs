@@ -32,9 +32,7 @@ public class NetworkManager : MonoBehaviour
         {
             runner.Spawn(gameManagerObj, inputAuthority: player);
             runner.Spawn(playerManagerObj, inputAuthority: player);
-            SpawnMeleeCreep(player);
-            SpawnRangeCreep(player);
-        }
+                    }
         if (player == runner.LocalPlayer)
         {
             // Transform spawn = spawnPointTeam[players[runner.LocalPlayer.PlayerId].GetComponent<PlayerController>().playerTeam];
@@ -46,6 +44,12 @@ public class NetworkManager : MonoBehaviour
                     obj.GetComponent<PlayerController>().playerTeam = playerTeam;
                 });
         }
+    }
+    public void SpawnCreep(PlayerRef player)
+    {
+        if (!runner.IsSharedModeMasterClient) return;
+        SpawnMeleeCreep(player);
+        SpawnRangeCreep(player);
     }
     void SpawnMeleeCreep(PlayerRef player)
     {

@@ -25,7 +25,7 @@ public class OverlapSphereCreep : NetworkBehaviour
     public List<CharacterController> CheckAllEnemyAround()
     {   List<CharacterController> allEnemies = new List<CharacterController>();
         allEnemies.Clear();
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 10f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 12f);
 
         foreach (var hitCollider in hitColliders)
         {

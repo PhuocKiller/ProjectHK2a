@@ -86,7 +86,7 @@ public class AttackObjects : NetworkBehaviour
     {
         if(HasStateAuthority)
         {
-            if (other.gameObject.layer == 7 && collisions.Count == 0
+            if (other.gameObject.layer == 7 && !collisions.Contains(other)
             && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
             && other.gameObject.GetComponent<PlayerController>().state != 3
             && other.gameObject.GetComponent<PlayerController>().playerTeam!= player.playerTeam)
@@ -96,8 +96,7 @@ public class AttackObjects : NetworkBehaviour
                 if (player.playerType == Player_Types.DumbleDore) collisions.Clear();
             }
             
-            Debug.Log("other" + other);
-            if (other.gameObject.layer == 8 && collisions.Count == 0
+            if (other.gameObject.layer == 8 && !collisions.Contains(other)
             && other.gameObject.GetComponent<CreepController>().state != 3
             && other.gameObject.GetComponent<CreepController>().playerTeam!= player.playerTeam)
             {

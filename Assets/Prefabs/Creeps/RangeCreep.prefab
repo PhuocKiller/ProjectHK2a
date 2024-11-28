@@ -5539,16 +5539,16 @@ MonoBehaviour:
   moveSpeed: 0
   attackSpeed: 0
   lifeSteal: 0
-  multipleHealth: 20
+  multipleHealth: 10
   multipleMana: 0
-  multipleDamage: 1
+  multipleDamage: 2
   multipleDefend: 0
-  multipleMagicResistance: 10
+  multipleMagicResistance: 0
   multipleMagicAmpli: 0
-  multipleCriticalChance: 0.01
-  multipleCriticalDamage: 0.1
-  multipleMoveSpeed: 5
-  multipleAttackSpeed: 5
+  multipleCriticalChance: 0
+  multipleCriticalDamage: 0
+  multipleMoveSpeed: 0
+  multipleAttackSpeed: 0
   multipleLifeSteal: 0
   _isBeingStun: 0
   _isBeingSlow: 0
@@ -106406,7 +106406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 4.18}
+  m_AnchoredPosition: {x: 0, y: 4.6}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5977804555439583847

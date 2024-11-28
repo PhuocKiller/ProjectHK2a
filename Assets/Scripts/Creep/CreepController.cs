@@ -68,7 +68,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         base.Spawned();
        // Debug.Log("Object.InputAuthority.PlayerId" + Object.InputAuthority.PlayerId);
        // Debug.Log("Runner.LocalPlayer.PlayerId" + Runner.LocalPlayer.PlayerId);
-                    runnerManager = FindObjectOfType<NetworkManager>();
+            runnerManager = FindObjectOfType<NetworkManager>();
             gameManager = FindObjectOfType<GameManager>();
             spawnTransform = runnerManager.spawnPointTeam[playerTeam];
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
@@ -76,6 +76,9 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             statusCanvas = GetComponentInChildren<StatusCanvas>();
             overlapSphere = GetComponentInChildren<OverlapSphereCreep>();
+            playerStat.level = gameManager.levelCreep;
+            playerStat.CalculateBaseStatForCreep();
+        Debug.Log("playerStat.level" + playerStat.level);
     }
     public override void FixedUpdateNetwork()
     {
@@ -116,15 +119,13 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             }
 
         }
-       
-        CalculateEXP();
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
     }
     void CalculateMoveDirection()
     {
         if (creepType == Creep_Types.Melee) attackRange = 1.5f;
-        else if(creepType == Creep_Types.Range) attackRange = 7f;
+        else if(creepType == Creep_Types.Range) attackRange = 9f;
         moveDirection = targetCharacter.transform.position - transform.position;
         if (moveDirection.magnitude < attackRange)
         {
@@ -138,7 +139,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         }
     }
 
-    #region "SkillButton"
+    #region "Attack"
     public virtual void NormalAttack()
     {
         if(HasStateAuthority)
@@ -383,28 +384,39 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive = false;
-        foreach (var playerAround in overlapSphere.CheckPlayerAround())
+        if(overlapSphere.CheckPlayerAround().Count>0)
         {
-            if(playerAround)
+            foreach (var playerAround in overlapSphere.CheckPlayerAround())
             {
-                CalculateXPWhenKill(playerAround);
+                if (playerAround)
+                {
+                    CalculateXPWhenKill(playerAround);
+                }
+
             }
-            
         }
+        
         GetComponent<CharacterController>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
         StartCoroutine(DelayDie());
     }
     void CalculateXPWhenKill(PlayerController playerAround)
     {
-        playerAround.playerStat.GainXPWhenKill((int)(20 * playerStat.level / overlapSphere.CheckPlayerAround().Count));
+        playerAround.playerStat.GainXPWhenKill((int)(EXPBaseOnCreepType(playerStat.level) / overlapSphere.CheckPlayerAround().Count));
     }
-    void CalculateEXP()
+    int EXPBaseOnCreepType(int level)
     {
-        if (playerStat.currentXP >= playerStat.maxXP)
+        if (creepType==Creep_Types.Melee)
         {
-            playerStat.currentXP -= playerStat.maxXP;
-            playerStat.UpgradeLevel();
+            return 20 + (level-1) * 5;
+        } 
+        else if(creepType == Creep_Types.Range)
+        {
+            return 30 + (level - 1) * 8;
+        }
+        else
+        {
+            return 0;
         }
     }
     public IEnumerator DelayDie()

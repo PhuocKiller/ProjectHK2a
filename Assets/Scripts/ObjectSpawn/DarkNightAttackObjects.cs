@@ -55,7 +55,7 @@ public class DarkNightAttackObjects: NetworkBehaviour
     {
         if (HasStateAuthority)
         {
-            if (other.gameObject.layer == 7 && collisions.Count == 0
+            if (other.gameObject.layer == 7 && !collisions.Contains(other)
             && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
             && other.gameObject.GetComponent<PlayerController>().state != 3
             && other.gameObject.GetComponent<PlayerController>().playerTeam != player.playerTeam)
@@ -64,7 +64,7 @@ public class DarkNightAttackObjects: NetworkBehaviour
                 CalculateAttackDamage(other.gameObject.GetComponent<PlayerController>()), timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
             }
-            if (other.gameObject.layer == 8 && collisions.Count == 0
+            if (other.gameObject.layer == 8 && !collisions.Contains(other)
             && other.gameObject.GetComponent<CreepController>().state != 3
             && other.gameObject.GetComponent<CreepController>().playerTeam != player.playerTeam)
             {

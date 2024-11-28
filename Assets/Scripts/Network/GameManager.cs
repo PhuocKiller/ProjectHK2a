@@ -21,6 +21,7 @@ public class GameManager : NetworkBehaviour
    [Networked] public float currentTime { get; set; }
     [Networked] public float startTime { get; set; }
     [Networked] public TickTimer waitBeforeStartTime {  get; set; }
+    [Networked] public int levelCreep { get; set; }
     public override void Spawned()
     {
         base.Spawned();
@@ -28,6 +29,7 @@ public class GameManager : NetworkBehaviour
         currentState = 3;
         clock=FindObjectOfType<ClockManager>();
         waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 5f);
+        levelCreep = 0;
     }
 
     public override void FixedUpdateNetwork()
@@ -41,6 +43,9 @@ public class GameManager : NetworkBehaviour
         {
             currentState = 4;
             startTime = Time.time;
+            levelCreep = 1;
+            FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
+            
         }
     }
 
@@ -96,6 +101,15 @@ public class GameManager : NetworkBehaviour
     public void SyncTime()
     {
         if (state == GameState.WaitBeforeStart) currentTime= (float)waitBeforeStartTime.RemainingTime(Runner);
-        if (state == GameState.InGame)currentTime = Time.time - startTime;
+        if (state == GameState.InGame)
+        {
+            currentTime = Time.time - startTime;
+            if (Mathf.FloorToInt(currentTime) / 20 > (levelCreep-1))
+            {
+                Debug.Log("voday");
+                levelCreep++;
+                FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
+            };
+        }
     }
 }

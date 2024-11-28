@@ -106,16 +106,22 @@ public class PlayerStat : NetworkBehaviour
     {
         if (creep)
         {
-            BaseStatOnType(100, 0, 10, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
-            multipleMagicResistance, multipleMagicAmpli,
-            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
+            if(creep.creepType==Creep_Types.Melee)
+            {
+                
+                BaseStatOnType(200, 0, 10, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+                            multipleMagicResistance, multipleMagicAmpli,
+                            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
+            }
+            else if (creep.creepType == Creep_Types.Range)
+            {
+                BaseStatOnType(100, 0, 20, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+                            multipleMagicResistance, multipleMagicAmpli,
+                            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
+            }
+
         }
-        /*if (player.playerType == Player_Types.RangeCreep)
-        {
-            BaseStatOnType(100, 0, 15, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
-            multipleMagicResistance, multipleMagicAmpli,
-            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
-        }*/
+       
         else
         {
             BaseStatOnType(300, 100, 50, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
@@ -141,7 +147,8 @@ public class PlayerStat : NetworkBehaviour
     }
     public void UpgradeLevel()
     {
-        level++; levelPoint++;
+        if (!creep) level++;
+        levelPoint++;
         UpdateBaseStat(level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
             multipleMagicResistance, multipleMagicAmpli,
             multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
@@ -175,5 +182,12 @@ public class PlayerStat : NetworkBehaviour
         currentXP += XPGain;
         player.playerScore.assistScore += 1;
     }
-    
+    public void CalculateBaseStatForCreep()
+    {
+        if (!creep) return;
+        UpdateBaseStat(level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+            multipleMagicResistance, multipleMagicAmpli,
+            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
+    }
+
 }
