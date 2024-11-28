@@ -25,7 +25,7 @@ public class OverlapSpherePlayer : NetworkBehaviour
         if(HasStateAuthority)
         {
             CheckPlayerAround();
-            crossHair.gameObject.SetActive(enemyPlayers.Count > 0);
+            crossHair.gameObject.SetActive(enemyPlayers.Count > 0); //hiện hình crossHair
             if (enemyPlayers.Count > 0)
             {
                 closestEnemyPlayer = FindClosestObjectInRadius(enemyPlayers, transform.position);
@@ -50,7 +50,7 @@ public class OverlapSpherePlayer : NetworkBehaviour
 
             if (enemyPlayer != null)
             {
-                    if (enemyPlayer.GetComponent<NetworkObject>().IsValid&& enemyPlayer.playerTeam != player.playerTeam)
+                    if (enemyPlayer.GetComponent<NetworkObject>().IsValid&& enemyPlayer.playerTeam != player.playerTeam&& enemyPlayer.state!=3)
                     {
                         enemyPlayers.Add(enemyPlayer);
                     }

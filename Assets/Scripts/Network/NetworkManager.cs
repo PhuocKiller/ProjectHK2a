@@ -32,18 +32,21 @@ public class NetworkManager : MonoBehaviour
         {
             runner.Spawn(gameManagerObj, inputAuthority: player);
             runner.Spawn(playerManagerObj, inputAuthority: player);
-            runner.Spawn(players[6], spawnPointTeam[0].position, spawnPointTeam[0].rotation,
-                 inputAuthority: player,
-               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-               {
-                   obj.GetComponent<CreepController>().playerTeam = 0;
-               });
-            runner.Spawn(players[6], spawnPointTeam[1].position, spawnPointTeam[1].rotation,
-                 inputAuthority: player,
-               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-               {
-                   obj.GetComponent<CreepController>().playerTeam = 1;
-               });
+            for (int i = -1; i < 2; i++)
+            {
+                runner.Spawn(players[6], spawnPointTeam[0].position + Vector3.back * 2f * i, spawnPointTeam[0].rotation,
+                                 inputAuthority: player,
+                               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                               {
+                                   obj.GetComponent<CreepController>().playerTeam = 0;
+                               });
+                runner.Spawn(players[6], spawnPointTeam[1].position + Vector3.back * 2f * i, spawnPointTeam[1].rotation,
+                     inputAuthority: player,
+                   onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                   {
+                       obj.GetComponent<CreepController>().playerTeam = 1;
+                   });
+            }
         }
         if (player == runner.LocalPlayer)
         {

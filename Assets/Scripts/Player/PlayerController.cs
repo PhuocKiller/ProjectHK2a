@@ -106,12 +106,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             if (timeDie.RemainingTime(Runner) <= 0 || timeDie.ExpiredOrNotRunning(Runner))
             {
+                
                 playerStat.isLive = true;
                 state = 0;
                 playerStat.currentHealth = playerStat.maxHealth;
                 playerStat.currentMana=playerStat.maxMana;  
                 AnimatorSetBoolRPC("isLive",true);
-                statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
+                statusCanvas.GetComponent<InviManager>().VisualOfPlayer(true);
                 if(HasStateAuthority)
                 {
                     SpawnAtStartPos();

@@ -79,9 +79,9 @@ public class SkillDirection : NetworkBehaviour
             posMouseUp = Position_y0 + t * player.transform.forward;
 
             direction = (Vector3)posMouseUp - Position_y0;
-            if (Vector3.Dot(player.transform.forward, direction) > 0)
+            if (Vector3.Dot(player.transform.forward, direction) > 0 && direction.magnitude > 2)
             {
-                if (direction.magnitude > 20 || direction.magnitude<2)
+                if (direction.magnitude > 20)
                 {
                     posMouseUp = Position_y0 + direction.normalized * 20;
                 }

@@ -37,10 +37,14 @@ public class InviManager : NetworkBehaviour
     }
     public void VisualOfPlayer(bool isLive)
     {
-        player.GetComponent<CharacterController>().enabled = isLive;
+        CharacterControllerActiveRPC(isLive);
         foreach (var visual in visuals)
         {
             visual.gameObject.SetActive(isLive);
         }
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)] public void CharacterControllerActiveRPC(bool isLive)
+    {
+        player.GetComponent<CharacterController>().enabled = isLive;
     }
 }
