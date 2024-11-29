@@ -66,8 +66,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public override void Spawned()
     {
         base.Spawned();
-       // Debug.Log("Object.InputAuthority.PlayerId" + Object.InputAuthority.PlayerId);
-       // Debug.Log("Runner.LocalPlayer.PlayerId" + Runner.LocalPlayer.PlayerId);
             runnerManager = FindObjectOfType<NetworkManager>();
             gameManager = FindObjectOfType<GameManager>();
             spawnTransform = runnerManager.spawnPointTeam[playerTeam];
@@ -78,7 +76,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             overlapSphere = GetComponentInChildren<OverlapSphereCreep>();
             playerStat.level = gameManager.levelCreep;
             playerStat.CalculateBaseStatForCreep();
-        Debug.Log("playerStat.level" + playerStat.level);
     }
     public override void FixedUpdateNetwork()
     {
@@ -384,15 +381,18 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive = false;
-        if(overlapSphere.CheckPlayerAround().Count>0)
+        if(overlapSphere.CheckPlayerAround() !=null)
         {
-            foreach (var playerAround in overlapSphere.CheckPlayerAround())
+            if(overlapSphere.CheckPlayerAround().Count > 0)
             {
-                if (playerAround)
+                foreach (var playerAround in overlapSphere.CheckPlayerAround())
                 {
-                    CalculateXPWhenKill(playerAround);
-                }
+                    if (playerAround)
+                    {
+                        CalculateXPWhenKill(playerAround);
+                    }
 
+                }
             }
         }
         

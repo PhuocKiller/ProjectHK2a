@@ -11,12 +11,13 @@ public class OverlapSpherePlayer : NetworkBehaviour
     PlayerController player;
     public PlayerController closestEnemyPlayer;
     public List<PlayerController> enemyPlayers =new List<PlayerController>();
-    RectTransform crossHair;
+    RectTransform crossHairFollow, crossHairUnFollow;
     public override void Spawned()
     {
         base.Spawned();
         player=GetComponentInParent<PlayerController>();
-        crossHair = FindObjectOfType<UIManager>().crossHair;
+        crossHairFollow = FindObjectOfType<UIManager>().crossHairFollow;
+        crossHairUnFollow = FindObjectOfType<UIManager>().crossHairUnFollow;
     }
 
     public override void FixedUpdateNetwork()
@@ -25,12 +26,15 @@ public class OverlapSpherePlayer : NetworkBehaviour
         if(HasStateAuthority)
         {
             CheckPlayerAround();
-            crossHair.gameObject.SetActive(enemyPlayers.Count > 0); //hiện hình crossHair
+            crossHairFollow.gameObject.SetActive(enemyPlayers.Count > 0 && player.playerStat.isFollowEnemy);
+            crossHairUnFollow.gameObject.SetActive(enemyPlayers.Count > 0 && !player.playerStat.isFollowEnemy);
+            //hiện hình crossHair
             if (enemyPlayers.Count > 0)
             {
                 closestEnemyPlayer = FindClosestObjectInRadius(enemyPlayers, transform.position);
                 Vector3 posViewPort = Camera.main.WorldToScreenPoint(closestEnemyPlayer.transform.position+Vector3.up*2);
-                crossHair.position = posViewPort;
+                crossHairFollow.position = posViewPort;
+                crossHairUnFollow.position = posViewPort;
             }
             else 
             { 

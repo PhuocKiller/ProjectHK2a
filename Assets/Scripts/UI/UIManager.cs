@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     NetworkManager networkManager;
     int numberHealPotionInt, numberManaPotionInt;
     [SerializeField] Transform inventoryPanel;
-    public RectTransform crossHair;
+    public RectTransform crossHairFollow, crossHairUnFollow;
     
     void Start()
     {

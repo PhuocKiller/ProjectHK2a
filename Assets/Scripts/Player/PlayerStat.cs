@@ -124,7 +124,7 @@ public class PlayerStat : NetworkBehaviour
        
         else
         {
-            BaseStatOnType(300, 100, 50, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+            BaseStatOnType(500, 100, 50, 5, 5, 0, 0, 0, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
             multipleMagicResistance, multipleMagicAmpli,
             multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
         }
