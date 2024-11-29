@@ -53,7 +53,7 @@ public class NetworkManager : MonoBehaviour
     }
     void SpawnMeleeCreep(PlayerRef player)
     {
-        for (int i = -1; i < 2; i++)
+        for (int i = -1; i < 1; i++)
         {
             runner.Spawn(creeps[0], spawnPointTeam[0].position + Vector3.right * 3 + Vector3.back * 2f * i, spawnPointTeam[0].rotation,
                              inputAuthority: player,

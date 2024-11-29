@@ -104,7 +104,7 @@ public class GameManager : NetworkBehaviour
         if (state == GameState.InGame)
         {
             currentTime = Time.time - startTime;
-            if (Mathf.FloorToInt(currentTime) / 20 > (levelCreep-1))
+            if (Mathf.FloorToInt(currentTime) / 30 > (levelCreep-1))
             {
                 Debug.Log("voday");
                 levelCreep++;

@@ -61,7 +61,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         characterControllerPrototype = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-
+        statusCanvas = GetComponentInChildren<StatusCanvas>();
+        overlapSphere = GetComponentInChildren<OverlapSphereCreep>();
     }
     public override void Spawned()
     {
@@ -72,8 +73,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            statusCanvas = GetComponentInChildren<StatusCanvas>();
-            overlapSphere = GetComponentInChildren<OverlapSphereCreep>();
+            
             playerStat.level = gameManager.levelCreep;
             playerStat.CalculateBaseStatForCreep();
     }
@@ -381,9 +381,11 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive = false;
-        if(overlapSphere !=null)
+       
+        if (overlapSphere !=null)
         {
-            if(overlapSphere.CheckPlayerAround().Count > 0)
+            Debug.Log("team " + playerTeam);
+            if (overlapSphere.CheckPlayerAround().Count > 0)
             {
                 foreach (var playerAround in overlapSphere.CheckPlayerAround())
                 {

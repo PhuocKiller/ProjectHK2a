@@ -67,7 +67,7 @@ public class OverlapSphereCreep : NetworkBehaviour
     {
        List<PlayerController> enemyPlayers = new List<PlayerController>();
         enemyPlayers.Clear();
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 15f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 25f);
 
         foreach (var hitCollider in hitColliders)
         {

@@ -10,7 +10,6 @@ public class OverlapSpherePlayer : NetworkBehaviour
 {
     PlayerController player;
     public PlayerController closestEnemyPlayer;
-    public List<PlayerController> enemyPlayers =new List<PlayerController>();
     RectTransform crossHairFollow, crossHairUnFollow;
     public override void Spawned()
     {
@@ -25,13 +24,13 @@ public class OverlapSpherePlayer : NetworkBehaviour
         base.FixedUpdateNetwork();
         if(HasStateAuthority)
         {
-            CheckPlayerAround();
-            crossHairFollow.gameObject.SetActive(enemyPlayers.Count > 0 && player.playerStat.isFollowEnemy);
-            crossHairUnFollow.gameObject.SetActive(enemyPlayers.Count > 0 && !player.playerStat.isFollowEnemy);
+            
+            crossHairFollow.gameObject.SetActive(CheckPlayerAround().Count > 0 && player.playerStat.isFollowEnemy);
+            crossHairUnFollow.gameObject.SetActive(CheckPlayerAround().Count > 0 && !player.playerStat.isFollowEnemy);
             //hiện hình crossHair
-            if (enemyPlayers.Count > 0)
+            if (CheckPlayerAround().Count > 0)
             {
-                closestEnemyPlayer = FindClosestObjectInRadius(enemyPlayers, transform.position);
+                closestEnemyPlayer = FindClosestObjectInRadius(CheckPlayerAround(), transform.position);
                 Vector3 posViewPort = Camera.main.WorldToScreenPoint(closestEnemyPlayer.transform.position+Vector3.up*2);
                 crossHairFollow.position = posViewPort;
                 crossHairUnFollow.position = posViewPort;
@@ -43,23 +42,26 @@ public class OverlapSpherePlayer : NetworkBehaviour
             }
         }
     }
-    public void CheckPlayerAround()
+    public List<PlayerController> CheckPlayerAround()
     {
+        List<PlayerController> enemyPlayers = new List<PlayerController>();
         enemyPlayers.Clear();
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 15f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 25f);
 
         foreach (var hitCollider in hitColliders)
         {
             PlayerController enemyPlayer = hitCollider.gameObject.GetComponent<PlayerController>();
 
-            if (enemyPlayer != null)
+            if (enemyPlayer != null && enemyPlayer.GetComponent<NetworkObject>().IsValid)
             {
-                    if (enemyPlayer.GetComponent<NetworkObject>().IsValid&& enemyPlayer.playerTeam != player.playerTeam&& enemyPlayer.state!=3)
-                    {
-                        enemyPlayers.Add(enemyPlayer);
-                    }
+                if (enemyPlayer.playerTeam != player.playerTeam && !enemyPlayers.Contains(enemyPlayer)
+                    && enemyPlayer.state != 3)
+                {
+                    enemyPlayers.Add(enemyPlayer);
+                }
             }
         }
+        return enemyPlayers;
     }
     PlayerController FindClosestObjectInRadius(List<PlayerController> enemyPlayers, Vector3 currentPos)
     {

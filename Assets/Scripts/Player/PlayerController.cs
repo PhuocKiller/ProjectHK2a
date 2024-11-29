@@ -74,6 +74,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         characterControllerPrototype = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        statusCanvas = GetComponentInChildren<StatusCanvas>();
+        overlapSphere = GetComponentInChildren<OverlapSpherePlayer>();
+        runnerManager = FindObjectOfType<NetworkManager>();
         
     }
     public override void Spawned()
@@ -82,16 +85,14 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         
         if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
         {
-            runnerManager = FindObjectOfType<NetworkManager>();
-            gameManager=FindObjectOfType<GameManager>();
+            gameManager = FindObjectOfType<GameManager>();
             spawnTransform = runnerManager.spawnPointTeam[playerTeam];
             Singleton<CameraController>.Instance.SetFollowCharacter(transform);
             Singleton<PlayerManager>.Instance.SetRunner(Runner);
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner,0);
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            statusCanvas=GetComponentInChildren<StatusCanvas>();
-            overlapSphere=GetComponentInChildren<OverlapSpherePlayer>();
+            
             joystick =FindObjectOfType<Joystick>();
         }
         
@@ -485,19 +486,19 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     void WhenPlayerDie()
     {
         playerStat.currentHealth = 0;
-        SwithCharacterState(3);
-        playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
-        playerStat.isLive=false; playerStat.isFollowEnemy = false;
+        
         if (overlapSphere!= null)
         {
-            foreach (var enemyPlayers in overlapSphere.enemyPlayers)
+            foreach (var enemyPlayers in overlapSphere.CheckPlayerAround())
             {
+                
                 if (!playerScore.playersMakeDamages.Contains(enemyPlayers))
                 {
                     playerScore.playersMakeDamages.Add(enemyPlayers);
                 }
             }
         }
+        
         if (playerScore.playersMakeDamages.Count>0)
         {
             foreach (var playerDamage in playerScore.playersMakeDamages)
@@ -508,12 +509,16 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         
         timeDie = TickTimer.CreateFromSeconds(Runner,5+ 2 * playerStat.level); //thời gian hồi sinh
         animator.SetBool("isLive", false);
+        SwithCharacterState(3);
+        playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
+        playerStat.isLive = false; playerStat.isFollowEnemy = false;
+        playerScore.playersMakeDamages.Clear();
         StartCoroutine(DelayHideVisualWhenDie());
     }
     void CalculateWhenKill(PlayerController playerDamage)
     {
-        playerDamage.playerStat.GainXPWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
-        Debug.Log("playerScore.playersMakeDamages.Count " + playerScore.playersMakeDamages.Count);
+        playerDamage.playerStat.GainXPWhenKill((int)100*(playerScore.playersMakeDamages.Count+1) * playerStat.level / playerScore.playersMakeDamages.Count);
+        playerDamage.playerStat.GainCoinWhenKill((int)100 * (playerScore.playersMakeDamages.Count + 1) * playerStat.level / playerScore.playersMakeDamages.Count);
         playerDamage.GetComponent<Tesla>()?.PassiveWhenKill();
     }
     void CalculateEXP()
