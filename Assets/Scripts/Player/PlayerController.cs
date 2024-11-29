@@ -488,6 +488,16 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive=false; playerStat.isFollowEnemy = false;
+        if (overlapSphere!= null)
+        {
+            foreach (var enemyPlayers in overlapSphere.enemyPlayers)
+            {
+                if (!playerScore.playersMakeDamages.Contains(enemyPlayers))
+                {
+                    playerScore.playersMakeDamages.Add(enemyPlayers);
+                }
+            }
+        }
         if (playerScore.playersMakeDamages.Count>0)
         {
             foreach (var playerDamage in playerScore.playersMakeDamages)
@@ -503,6 +513,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     void CalculateWhenKill(PlayerController playerDamage)
     {
         playerDamage.playerStat.GainXPWhenKill((int)100 * playerStat.level / playerScore.playersMakeDamages.Count);
+        Debug.Log("playerScore.playersMakeDamages.Count " + playerScore.playersMakeDamages.Count);
         playerDamage.GetComponent<Tesla>()?.PassiveWhenKill();
     }
     void CalculateEXP()

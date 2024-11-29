@@ -381,7 +381,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive = false;
-        if(overlapSphere.CheckPlayerAround() !=null)
+        if(overlapSphere !=null)
         {
             if(overlapSphere.CheckPlayerAround().Count > 0)
             {
@@ -390,8 +390,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                     if (playerAround)
                     {
                         CalculateXPWhenKill(playerAround);
+                        CalculateCoinsWhenKill(playerAround);
                     }
-
                 }
             }
         }
@@ -404,6 +404,10 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         playerAround.playerStat.GainXPWhenKill((int)(EXPBaseOnCreepType(playerStat.level) / overlapSphere.CheckPlayerAround().Count));
     }
+    void CalculateCoinsWhenKill(PlayerController playerAround)
+    {
+        playerAround.playerStat.GainCoinWhenKill((int)(CoinBaseOnCreepType(playerStat.level) / overlapSphere.CheckPlayerAround().Count));
+    }
     int EXPBaseOnCreepType(int level)
     {
         if (creepType==Creep_Types.Melee)
@@ -413,6 +417,21 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         else if(creepType == Creep_Types.Range)
         {
             return 30 + (level - 1) * 8;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    int CoinBaseOnCreepType(int level)
+    {
+        if (creepType == Creep_Types.Melee)
+        {
+            return 40 + (level - 1) * 5;
+        }
+        else if (creepType == Creep_Types.Range)
+        {
+            return 50 + (level - 1) * 8;
         }
         else
         {

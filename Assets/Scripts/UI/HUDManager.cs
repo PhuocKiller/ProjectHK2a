@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class HudManager : MonoBehaviour
 {
     PlayerController player;
     public GameObject followBtn, unFollowBtn;
+    [SerializeField] TextMeshProUGUI coinsValue;
     private void OnEnable()
     {
         StartCoroutine(DelayCheckPlay());
@@ -14,7 +16,8 @@ public class HudManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (player == null) return;
+        coinsValue.text=player.playerStat.coinsValue.ToString();
     }
     IEnumerator DelayCheckPlay()
     {

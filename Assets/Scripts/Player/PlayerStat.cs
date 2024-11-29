@@ -29,6 +29,7 @@ public class PlayerStat : NetworkBehaviour
     public int maxMana;
     [Networked] public int maxXP { get; set; }
     [Networked] public int currentXP { get; set; }
+    [Networked] public int coinsValue { get; set; }
     public int damage;
     public int defend;
     public float magicResistance;
@@ -181,6 +182,10 @@ public class PlayerStat : NetworkBehaviour
     {
         currentXP += XPGain;
         player.playerScore.assistScore += 1;
+    }
+    public void GainCoinWhenKill(int CoinGain)
+    {
+        coinsValue += CoinGain;
     }
     public void CalculateBaseStatForCreep()
     {
