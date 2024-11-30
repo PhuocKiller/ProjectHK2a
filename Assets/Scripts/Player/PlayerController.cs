@@ -736,5 +736,10 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             obj.transform.SetParent(skill_2Transform);
         }
     }
+    [Rpc(RpcSources.All, RpcTargets.All)] public void SetParentItemRPC(NetworkId id, int indexItemSlot)
+    {
+        if (!Runner.TryFindObject(id, out NetworkObject item)) return;
+        item.transform.SetParent(buffFromItemManager.transform.GetChild(indexItemSlot));
+    }
 }
 
