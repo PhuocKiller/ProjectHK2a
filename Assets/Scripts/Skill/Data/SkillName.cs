@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum SkillName
-{    Jump,
+{    Jump, NormalAttack,
     DarkNight_Swordsmanship, DarkNight_ElectricSword, DarkNight_LightningShield, DarkNight_Invicible,
     Dumbledore_MasterOfAntiquities, Dumbledore_FireShard, Dumbledore_GuardianStar, Dumbledore_FlameFury,
     Sagittarius_Salvation, Sagittarius_SunShield, Sagittarius_Healing, Sagittarius_GuardianStar,
-    Tesla_VengefulPower, Tesla_InfernoBullet, Tesla_CannonGrenade, Tesla_CannonBarrage,
+    Tesla_VengefulPower,Tesla_Accelerate,Tesla_CannonGrenade,Tesla_InfernoBullet,
     Viking_Frenzy, Viking_AxeThrow, Viking_Rage, Viking_Unstoppable,
     Ryan_KenDo, Ryan_Assassinate, Ryan_Jujitsu, Ryan_MarkofDeath,
 }

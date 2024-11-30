@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Viking_NormalAttack
   m_EditorClassIdentifier: 
+  skillName: 18
+  skillType: 0
   timerTrigger: 0.4
   cooldownTime: 0
   levelManaCosts: 0000000000000000

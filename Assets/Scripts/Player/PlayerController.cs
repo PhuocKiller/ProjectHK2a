@@ -662,6 +662,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("other" + other);
         InventoryItemBase item = other.GetComponent<InventoryItemBase>();
         if (item != null)
         {

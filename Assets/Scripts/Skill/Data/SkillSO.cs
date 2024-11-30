@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SkillSystem/Create Skill Data")]
 public class SkillSO : ScriptableObject
 {
+    public SkillName skillName;
+    public SkillTypes skillType;
     public float timerTrigger;
     public float cooldownTime;
     public int[] levelManaCosts;

@@ -7,6 +7,8 @@ using UnityEngine.Events;
 
 public class SkillController : MonoBehaviour
 {
+    public SkillManager skillManager;
+    public PlayerController player;
     public SkillName skillName;
     public SkillTypes skillType;
     public NetworkObject VFXPrefab;
@@ -29,18 +31,25 @@ public class SkillController : MonoBehaviour
     public bool IsTriggered { get => m_isTriggered; }
     public bool IsCooldowning { get => m_isCooldowning; }
     public float CooldownTime { get => m_cooldownTime; }
+    private void Awake()
+    {
+        skillManager=GetComponentInParent<SkillManager>();
+    }
+
     public virtual void LoadStat()
     {
         if (skillStat == null) return;
         m_cooldownTime = skillStat.cooldownTime;
         m_triggerTime = skillStat.timerTrigger;
+        skillName = skillStat.skillName;
+        skillType = skillStat.skillType;
         VFXPrefab = skillStat.VfxEffect;
     }
     public void Trigger() //khi ấn button lệnh ở đây
     {
         if (m_isTriggered || m_isCooldowning) return;
         m_isCooldowning = true;
-       // m_isTriggered = true;
+        skillManager.RemoveSkill(skillName);
         OnTriggerEnter?.Invoke();
     }
     private void Update()

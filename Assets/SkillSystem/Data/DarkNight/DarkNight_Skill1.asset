@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: DarkNight_Skill1
   m_EditorClassIdentifier: 
+  skillName: 3
+  skillType: 3
   timerTrigger: 2.5
   cooldownTime: 10
   levelManaCosts: 00000000140000001e0000002800000032000000

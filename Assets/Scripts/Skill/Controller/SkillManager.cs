@@ -35,7 +35,7 @@ public class SkillManager : NetworkBehaviour
             if (skillController == null) continue;
             skillController.LoadStat();
             skillController.OnStopWithType.AddListener(RemoveSkill);
-            m_skillCollecteds.Add(skillController.skillName, 1);
+            m_skillCollecteds.Add(skillController.skillName, 3);
         }
 
     }

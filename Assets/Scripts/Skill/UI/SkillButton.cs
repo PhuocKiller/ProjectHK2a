@@ -61,13 +61,13 @@ public class SkillButton : NetworkBehaviour
     
     private void Start()
     {
-        StartCoroutine(DelayCheckPlay());
+        StartCoroutine(DelayCheckPlayer());
         if(skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack)
         {
             AddSkill_LevelBtn.gameObject.SetActive(false);
         }
     }
-    IEnumerator DelayCheckPlay()
+    IEnumerator DelayCheckPlayer()
     {
         yield return new WaitForSeconds(0.2f);
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
@@ -134,7 +134,7 @@ public class SkillButton : NetworkBehaviour
         if (m_skillController == null) return;
         if (m_skillIcon)
             m_skillIcon.sprite = m_skillController.skillStat.skillIcon;
-        //UpdateAmountTxt();
+        UpdateAmountTxt();
         UpdateCooldown();
         //UpdateTimerTrigger();
         //bool canActiveMe = m_currentAmount > 0 || m_skillController.IsCooldowning;
@@ -163,7 +163,7 @@ public class SkillButton : NetworkBehaviour
 
     private void UpdateAmountTxt()
     {
-        m_currentAmount = FindObjectOfType<SkillManager>().GetSkillAmount(m_skillName);
+        m_currentAmount =FindObjectOfType<SkillManager>().GetSkillAmount(m_skillName);
         if (m_amountTxt)
         {
             m_amountTxt.text = $"x {m_currentAmount}";

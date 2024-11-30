@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Sagittarius_Skill1
   m_EditorClassIdentifier: 
+  skillName: 11
+  skillType: 2
   timerTrigger: 12
   cooldownTime: 20
   levelManaCosts: 000000000f00000014000000190000001e000000

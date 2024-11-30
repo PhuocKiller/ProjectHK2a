@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Ryan_Ultimate
   m_EditorClassIdentifier: 
+  skillName: 25
+  skillType: 3
   timerTrigger: 10
   cooldownTime: 20
   levelManaCosts: 00000000280000003c0000005000000064000000

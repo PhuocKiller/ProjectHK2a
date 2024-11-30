@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Tesla_Skill1
   m_EditorClassIdentifier: 
+  skillName: 15
+  skillType: 3
   timerTrigger: 10
   cooldownTime: 20
   levelManaCosts: 000000000f00000014000000190000001e000000
