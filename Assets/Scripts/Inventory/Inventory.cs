@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour
     public event EventHandler<InventoryEventArgs> ItemUsed;
     public event EventHandler<InventoryEventArgs> InventoryUpdate;
     public InventoryItemBase[] inventoryItems, inventory_9_Items;
+    int indexItemSlot;
     InventoryItemBase item;
     private void Awake()
     {
@@ -22,7 +23,7 @@ public class Inventory : MonoBehaviour
     {
     }
 
-    public void AddItem(InventoryItemBase item)
+    public void AddItem(InventoryItemBase item, out int indexItem)
     {
        /* if (mItems.Count < SLOTS)
         {
@@ -58,6 +59,7 @@ public class Inventory : MonoBehaviour
                 ItemAdded(this, new InventoryEventArgs(item));
             }
         }
+        indexItem=this.indexItemSlot;
     }
     public void RemoveItem(IInventoryItem item) //Quăng item ra đất
     {
@@ -162,10 +164,13 @@ public class Inventory : MonoBehaviour
     }
     private InventorySlot FindNextEmptySlot()
     {
+        indexItemSlot = -1;
         foreach (InventorySlot slot in mSlots)
         {
+            indexItemSlot++;
             if (slot.IsEmpty) return slot;
         }
+        indexItemSlot = -1;
         return null;
     }
     

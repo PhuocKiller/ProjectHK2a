@@ -1,4 +1,6 @@
 using Fusion;
+using Fusion.Editor;
+using Fusion.Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,7 +10,7 @@ using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviour
 {
-   NetworkRunner runner;
+   public NetworkRunner runner;
     [SerializeField]
     GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
@@ -83,6 +85,12 @@ public class NetworkManager : MonoBehaviour
                            {
                                obj.GetComponent<CreepController>().playerTeam = 1;
                            });
+    }
+    public void SpawnItem(int indexItem, int indexItemSlot)
+    {
+        NetworkObject item=runner.Spawn(shopItems[indexItem]);
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        item.gameObject.transform.SetParent(player.buffFromItemManager.transform.GetChild(indexItemSlot));
     }
     public async void OnClickBtn(Button btn)
     {

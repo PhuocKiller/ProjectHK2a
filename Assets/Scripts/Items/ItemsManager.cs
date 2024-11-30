@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class ItemsManager : MonoBehaviour
 {
     GameObject[] itemButton;
     GameObject itemToBuy;
-    int priceToBuy;
+    int priceToBuy; int indexItem;
     NetworkManager networkManager;
     [SerializeField] Transform backGroundShopItem;
     public TextMeshProUGUI priceValue;
@@ -40,6 +39,7 @@ public class ItemsManager : MonoBehaviour
         itemToBuy = networkManager.shopItems[index];
         priceToBuy = itemToBuy.GetComponent<InventoryItemBase>().Price;
         priceValue.text= priceToBuy.ToString();
+        indexItem=index;
     }
     public void BuyItem()
     {
@@ -51,7 +51,8 @@ public class ItemsManager : MonoBehaviour
         else
         {
             player.playerStat.coinsValue-= priceToBuy;
-            Singleton<Inventory>.Instance.AddItem(itemToBuy.GetComponent<InventoryItemBase>());
+            Singleton<Inventory>.Instance.AddItem(itemToBuy.GetComponent<InventoryItemBase>(), out int indexItemSlot);
+            networkManager.SpawnItem(indexItem, indexItemSlot);
         }
     }
 }

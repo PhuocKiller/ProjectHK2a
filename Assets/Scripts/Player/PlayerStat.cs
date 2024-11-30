@@ -91,6 +91,12 @@ public class PlayerStat : NetworkBehaviour
         base.Spawned();
         player = transform.parent.parent.GetComponent<PlayerController>();
         creep = transform.parent.parent.GetComponent<CreepController>();
+        if(player)
+        {
+            playerBuffManager = player.GetComponentInChildren<PlayerBuffManager>();
+        }
+        else { playerBuffManager = creep.GetComponentInChildren<PlayerBuffManager>(); }
+        
         currentHealth = 1; //tránh bị bằng =0 trong lần đầu tiên cập nhật
         levelPoint = 0;
         UpgradeLevel();

@@ -11,6 +11,7 @@ using UnityEngine.Events;
 
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
+    public Transform buffFromItemManager;
     public NetworkManager runnerManager;
     public GameManager gameManager;
     public NetworkProjectConfigAsset projectConfig;
@@ -77,7 +78,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         statusCanvas = GetComponentInChildren<StatusCanvas>();
         overlapSphere = GetComponentInChildren<OverlapSpherePlayer>();
         runnerManager = FindObjectOfType<NetworkManager>();
-        
+        buffFromItemManager= GetComponentInChildren<BuffFromItemManager>().transform;
     }
     public override void Spawned()
     {
@@ -666,7 +667,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         InventoryItemBase item = other.GetComponent<InventoryItemBase>();
         if (item != null)
         {
-            Singleton<Inventory>.Instance.AddItem(item);
+            Singleton<Inventory>.Instance.AddItem(item, out int indexItem);
             item.OnPickUp();
         }
     }
