@@ -16,6 +16,14 @@ public class InventoryItemBase : MonoBehaviour, IInventoryItem
             return _Image;
         }
     }
+    public int _Price;
+    public int Price
+    {
+        get
+        {
+            return _Price;
+        }
+    }
     public void Start()
     {
       //  StartCoroutine(FadeItemNoPick());

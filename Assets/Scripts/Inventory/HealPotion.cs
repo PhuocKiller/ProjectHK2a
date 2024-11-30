@@ -12,6 +12,7 @@ public class HealPotion : InventoryItemBase
     {
         get { return ItemTypes.HealPotion; }
     }
+    
     public override void OnUse()
     {
         base.OnUse();

@@ -20,6 +20,7 @@ public interface IInventoryItem
     ItemTypes itemTypes { get; set; }
     string Name { get; }
     Sprite Image { get; }
+    int Price { get; }
     void OnPickUp();
     void OnDrop();
     void OnUse();

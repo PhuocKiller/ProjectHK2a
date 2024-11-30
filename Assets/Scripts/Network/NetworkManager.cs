@@ -12,7 +12,7 @@ public class NetworkManager : MonoBehaviour
     [SerializeField]
     GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
-    GameObject[] players, creeps;
+    public GameObject[] players, creeps, shopItems;
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
     UnityEvent onConnected;
