@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ItemsManager : MonoBehaviour
 {
     GameObject[] itemButton;
     GameObject itemToBuy;
-    int priceToBuy; int indexItem;
+    IInventoryItem itemToSell;
+    [SerializeField] GameObject buyButton, sellButton;
+    int priceItem; int indexItem;
     NetworkManager networkManager;
     [SerializeField] Transform backGroundShopItem;
     public TextMeshProUGUI priceValue;
+    [SerializeField] TextMeshProUGUI itemInfoText;
     
     private void Awake()
     {
@@ -21,8 +25,10 @@ public class ItemsManager : MonoBehaviour
     private void OnEnable()
     {
         itemToBuy = null;
-        priceToBuy = 0;
+        priceItem = 0;
         priceValue.text = "0";
+        itemInfoText.text = "";
+        buyButton.SetActive(true); sellButton.SetActive(false);
     }
     void LoadStatItemButton()
     {
@@ -37,22 +43,43 @@ public class ItemsManager : MonoBehaviour
     public void UpdatePrice(int index)
     {
         itemToBuy = networkManager.shopItems[index];
-        priceToBuy = itemToBuy.GetComponent<InventoryItemBase>().Price;
-        priceValue.text= priceToBuy.ToString();
+        priceItem = itemToBuy.GetComponent<InventoryItemBase>().Price;
+        priceValue.text= priceItem.ToString();
         indexItem=index;
+        ShowInfoItem(itemToBuy.GetComponent<InventoryItemBase>());
+        buyButton.SetActive(true); sellButton.SetActive(false);  
     }
+
     public void BuyItem()
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-        if (player.playerStat.coinsValue< priceToBuy)
+        if (player.playerStat.coinsValue< priceItem)
         {
 
         }
         else
         {
-            player.playerStat.coinsValue-= priceToBuy;
+            player.playerStat.coinsValue-= priceItem;
             Singleton<Inventory>.Instance.AddItem(itemToBuy.GetComponent<InventoryItemBase>(), out int indexItemSlot);
             networkManager.SpawnItem(indexItem, indexItemSlot);
         }
+    }
+    public void SellItem()
+    {
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        Singleton<Inventory>.Instance.RemoveItem(itemToSell);
+        player.playerStat.coinsValue += priceItem;
+    }
+    public void ShowInfoItem(IInventoryItem item)
+    {
+        itemInfoText.text = item.Info;
+    }
+    public void CheckInfoToSell(IInventoryItem item)
+    {
+        ShowInfoItem(item);
+        buyButton.SetActive(false); sellButton.SetActive(true);
+        itemToSell = item;
+        priceItem = (int)(item.Price * 0.7);
+        priceValue.text= priceItem.ToString();
     }
 }

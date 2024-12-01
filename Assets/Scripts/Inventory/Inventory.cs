@@ -6,7 +6,6 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     private const int SLOTS = 6;
-    public List<IInventoryItem> mItems = new List<IInventoryItem>();
     private IList<InventorySlot> mSlots = new List<InventorySlot>();
     public event EventHandler<InventoryEventArgs> ItemAdded,ItemRemoved,ItemUsed,InventoryUpdate;
     public Action<ItemDragHandler> OnItemClicked, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
@@ -14,6 +13,7 @@ public class Inventory : MonoBehaviour
     public InventoryItemBase[] inventoryItems, inventory_9_Items;
     public int indexItemSlot_1, indexItemSlot_2;
     InventoryItemBase item;
+    public GameObject buyItemPanel;
     public Inventory()
     {
         for (int i = 0; i < SLOTS; i++)
@@ -69,47 +69,27 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-#region old code
     internal void UseItemClickInventory(IInventoryItem item) //Use item khi click trực tiếp trong inventory
     {
-        if (ItemUsed != null)
+        if (!buyItemPanel.activeInHierarchy)
         {
-            ItemUsed(this, new InventoryEventArgs(item));
-        }
-
-        item.OnUse();
-        
-
-        if (InventoryUpdate != null)
+            if (ItemUsed != null)
             {
-                InventoryUpdate(this, new InventoryEventArgs(item));
+                ItemUsed(this, new InventoryEventArgs(item));
             }
-        
-    }
-    
-    internal void UseItemClickButton(InventoryItemBase item) //Use item khi click button
-    {
-        if (mItems.Contains(item))
-        {
-            mItems.Remove(item);
-            item.OnUse();
-            if (ItemRemoved != null)
-            {
-                ItemRemoved(this, new InventoryEventArgs(item));
-            }
+            item.OnUse(); //item remove nằm trong đây
             if (InventoryUpdate != null)
             {
                 InventoryUpdate(this, new InventoryEventArgs(item));
             }
         }
+        else
+        {
+            buyItemPanel.GetComponent<ItemsManager>().CheckInfoToSell(item);
+        }
     }
-   
-    /*void BuyItemSuccess(int itemCost)
-    {
-        PlayerController.instance.coins -= itemCost;
-        UIManager.instance.coinValues.text = PlayerController.instance.coins.ToString();
-        AudioManager.instance.PlaySound(AudioManager.instance.buyItem);
-    }*/
+    #region old code
+
     public void CreateNewItem(Vector3 pos, ItemTypes itemTypes) //tạo ra item khi quăng ra đất
     {
         int i;

@@ -120,6 +120,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                     SpawnAtStartPos();
                     Singleton<CameraController>.Instance.SetFollowCharacter(transform);
                 }
+                playerScore.playersMakeDamages.Clear();
             }
             return;
         }
@@ -513,7 +514,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive = false; playerStat.isFollowEnemy = false;
-        playerScore.playersMakeDamages.Clear();
         StartCoroutine(DelayHideVisualWhenDie());
     }
     void CalculateWhenKill(PlayerController playerDamage)

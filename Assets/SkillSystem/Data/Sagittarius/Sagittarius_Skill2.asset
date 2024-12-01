@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Sagittarius_Skill2
   m_EditorClassIdentifier: 
-  skillName: 12
+  skillName: 11
   skillType: 2
   timerTrigger: 8
   cooldownTime: 15
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 6342372748393257929, guid: ac9dd74917b5923478047f2bc54fef04, type: 3}
+  info: 

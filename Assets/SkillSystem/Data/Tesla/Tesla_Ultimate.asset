@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Tesla_Ultimate
   m_EditorClassIdentifier: 
-  skillName: 17
+  skillName: 16
   skillType: 3
   timerTrigger: 2
   cooldownTime: 30
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 3
   VfxEffect: {fileID: 5484937385305069163, guid: e2b431ba9bbdff241a33726203ae502d, type: 3}
+  info: 

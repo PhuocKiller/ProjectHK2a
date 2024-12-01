@@ -17,4 +17,8 @@ public class ManaPotion : InventoryItemBase
         base.OnUse();
         Singleton<Inventory>.Instance.RemoveItem(this);
     }
+    public override string Info
+    {
+        get { return "The Potion will recover the Mana of player"; }
+    }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Sagittarius_Ultimate
   m_EditorClassIdentifier: 
-  skillName: 13
+  skillName: 12
   skillType: 2
   timerTrigger: 10
   cooldownTime: 25
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0.5
   VfxEffect: {fileID: 7301577350532398276, guid: 1df6ea42f18061d49bcd663fccea81e3, type: 3}
+  info: 

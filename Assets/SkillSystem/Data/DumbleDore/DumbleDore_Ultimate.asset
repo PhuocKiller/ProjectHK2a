@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: DumbleDore_Ultimate
   m_EditorClassIdentifier: 
-  skillName: 9
+  skillName: 8
   skillType: 2
   timerTrigger: 4
   cooldownTime: 30
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0.5
   VfxEffect: {fileID: 4974241977427462673, guid: d223d896fbfed854c909e6cee1bedbca, type: 3}
+  info: 

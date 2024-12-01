@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public RectTransform crossHairFollow, crossHairUnFollow;
     public MouseFollower mouseFollower;
     private int currentlyDraggedItemIndex = -1;
+    [SerializeField] Sprite defaulteSpriteItemBackGround;
 
     void Start()
     {
@@ -127,7 +128,6 @@ public class UIManager : MonoBehaviour
 
             if (index==e.Item.Slot.Id)
             {
-                image.enabled = true;
                 image.sprite = e.Item.Image;
                 int itemCount=e.Item.Slot.Count;
                 if (itemCount > 1)
@@ -165,8 +165,7 @@ public class UIManager : MonoBehaviour
                 else txtCount.text= itemCount.ToString();
                 if (itemCount == 0)
                 {
-                    image.enabled = false;
-                    image.sprite = null;
+                    image.sprite = defaulteSpriteItemBackGround;
                 }
                 break;
             }

@@ -49,7 +49,7 @@ public class SkillController : MonoBehaviour
     {
         if (m_isTriggered || m_isCooldowning) return;
         m_isCooldowning = true;
-        skillManager.RemoveSkill(skillName);
+       // skillManager.RemoveSkill(skillName);
         OnTriggerEnter?.Invoke();
     }
     private void Update()

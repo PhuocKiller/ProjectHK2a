@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Viking_Ultimate
   m_EditorClassIdentifier: 
-  skillName: 21
+  skillName: 20
   skillType: 3
   timerTrigger: 10
   cooldownTime: 25
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0.5
   VfxEffect: {fileID: 8520361629872622870, guid: d1d5f35b0d7e5c84493dc100af6f2aee, type: 3}
+  info: 

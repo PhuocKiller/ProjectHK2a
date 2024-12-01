@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: DumbleDore_NormalAttack
   m_EditorClassIdentifier: 
-  skillName: 6
+  skillName: 5
   skillType: 0
   timerTrigger: 1
   cooldownTime: 0
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 1
   VfxEffect: {fileID: 2731230676116146205, guid: 58cc1d4b079cb3d439006b04187f2145, type: 3}
+  info: 

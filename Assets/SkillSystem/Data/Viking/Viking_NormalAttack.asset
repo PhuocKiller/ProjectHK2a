@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Viking_NormalAttack
   m_EditorClassIdentifier: 
-  skillName: 18
+  skillName: 17
   skillType: 0
   timerTrigger: 0.4
   cooldownTime: 0
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0.5
   VfxEffect: {fileID: 2517323084352533629, guid: 39c9aab0de11d9f4bbdbf8227f5b55e3, type: 3}
+  info: 

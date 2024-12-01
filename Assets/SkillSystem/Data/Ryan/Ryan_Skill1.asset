@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Ryan_Skill1
   m_EditorClassIdentifier: 
-  skillName: 23
+  skillName: 22
   skillType: 2
   timerTrigger: 5
   cooldownTime: 10
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 4
   VfxEffect: {fileID: 1433071667842740772, guid: 4dce0892078fd8b4594a5a28de165f34, type: 3}
+  info: 

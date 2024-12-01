@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Ryan_NormalAttack
   m_EditorClassIdentifier: 
-  skillName: 22
+  skillName: 21
   skillType: 0
   timerTrigger: 0.4
   cooldownTime: 0
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 1
   VfxEffect: {fileID: 5172160001909256603, guid: 7bdc5a1e680eaef4f991da4102d80a03, type: 3}
+  info: 

@@ -134,7 +134,7 @@ public class SkillButton : NetworkBehaviour
         if (m_skillController == null) return;
         if (m_skillIcon)
             m_skillIcon.sprite = m_skillController.skillStat.skillIcon;
-        UpdateAmountTxt();
+       // UpdateAmountTxt();
         UpdateCooldown();
         //UpdateTimerTrigger();
         //bool canActiveMe = m_currentAmount > 0 || m_skillController.IsCooldowning;

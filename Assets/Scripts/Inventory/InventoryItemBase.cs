@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,27 @@ public class InventoryItemBase : MonoBehaviour, IInventoryItem
             return _Price;
         }
     }
+    public bool isDecreaseAlpha, isIncreaseAlpha;
+    public virtual ItemTypes itemTypes { get; set; }
+    public InventorySlot Slot
+    {
+        get; set;
+    }
+    public SkillName skillName;
+    public SkillTypes skillType;
+    public float timerTrigger;
+    public float cooldownTime;
+    public int[] levelManaCosts;
+    public Sprite skillIcon;
+    public AudioClip triggerSoundFX;
+    public int[] levelDamages;
+    public bool isPhysicDamage;
+    public bool isMakeStun;
+    public bool isMakeSlow;
+    public bool isMakeSilen;
+    public float timeEffect;
+    public NetworkObject VfxEffect;
+    public virtual string Info {  get; set; }
     public void Start()
     {
       //  StartCoroutine(FadeItemNoPick());
@@ -57,19 +79,6 @@ public class InventoryItemBase : MonoBehaviour, IInventoryItem
             }
         }
     }
-
-    public virtual ItemTypes itemTypes { get; set; }
-    public InventorySlot Slot
-    {
-        get; set;
-    }
-
-    public bool isDecreaseAlpha, isIncreaseAlpha;
-
-    public virtual void OnPickUp()
-    {
-
-    }
     public IEnumerator FadeItemNoPick()
     {
         yield return new WaitForSeconds(2);
@@ -82,6 +91,12 @@ public class InventoryItemBase : MonoBehaviour, IInventoryItem
 
         Destroy(gameObject);
     }
+   
+    public virtual void OnPickUp()
+    {
+
+    }
+    
     public virtual void OnDrop()
     {
         /*Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

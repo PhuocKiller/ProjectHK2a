@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: DarkNight_Skill1
   m_EditorClassIdentifier: 
-  skillName: 3
+  skillName: 2
   skillType: 3
   timerTrigger: 2.5
   cooldownTime: 10
@@ -26,3 +26,4 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 2
   VfxEffect: {fileID: 6439487993757146498, guid: 30b3672ab749f2b44af957dbeef1c399, type: 3}
+  info: 

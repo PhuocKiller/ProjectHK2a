@@ -18,4 +18,8 @@ public class HealPotion : InventoryItemBase
         base.OnUse();
         Singleton<Inventory>.Instance.RemoveItem(this);
     }
+    public override string Info
+    {
+        get { return "The Potion will heal the Health of player"; }
+    }
 }
