@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 9001724981266368316}
   - component: {fileID: 5772328069739655923}
   - component: {fileID: 4847079640383744947}
+  - component: {fileID: 196203017646081148}
   m_Layer: 0
   m_Name: Arctic Reaper
   m_TagString: Untagged
@@ -165,7 +166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927974901596744607}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23823489, y: -0.26276308, z: 0.5978759, w: 0.7188492}
+  m_LocalRotation: {x: 0.23823485, y: -0.26275837, z: 0.5978737, w: 0.71885276}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -256,3 +257,20 @@ MonoBehaviour:
   _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0
+--- !u!114 &196203017646081148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927974901596744607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f14a104c8476ebb44a327816440f8782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ItemType: 0
+  _Image: {fileID: 0}
+  _Price: 300
+  isDecreaseAlpha: 0
+  isIncreaseAlpha: 0

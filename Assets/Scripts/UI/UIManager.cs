@@ -186,19 +186,7 @@ public class UIManager : MonoBehaviour
                 ItemDragHandler itemDragHandler = imageTransform.GetComponent<ItemDragHandler>();
                 if (itemDragHandler.Item != null)
                 {
-                    if (itemDragHandler.Item.itemTypes == ItemTypes.HealPotion || itemDragHandler.Item.itemTypes == ItemTypes.LargeHealPotion)
-                    {
-                        numberHealPotionInt += 1;
-
-                    }
-                    if (itemDragHandler.Item.itemTypes == ItemTypes.ManaPotion || itemDragHandler.Item.itemTypes == ItemTypes.LargeManaPotion)
-                    {
-                        numberManaPotionInt += 1;
-
-                    }
-                    if (itemDragHandler.Item.itemTypes == ItemTypes.Key)
-                    {
-                    }
+                    
                 }
             }
 

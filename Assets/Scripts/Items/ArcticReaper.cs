@@ -1,21 +1,22 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealPotion : InventoryItemBase
+public class ArcticReaper : InventoryItemBase
 {
     public override string Name
     {
-        get { return "HealPotion"; }
+        get { return "ArcticReaper"; }
     }
     public override ItemTypes itemTypes
     {
-        get { return ItemTypes.HealPotion; }
+        get { return ItemTypes.ActiveSkill; }
     }
-    
+
     public override void OnUse()
     {
         base.OnUse();
-        Singleton<Inventory>.Instance.RemoveItem(this);
     }
 }
+

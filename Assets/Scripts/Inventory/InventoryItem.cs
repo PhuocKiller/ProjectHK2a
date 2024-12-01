@@ -5,11 +5,8 @@ using UnityEngine;
 
 public enum ItemTypes
 {
-    HealPotion,
-    ManaPotion,
-    LargeHealPotion,
-    LargeManaPotion,
-    Key
+    Consumable,
+    ActiveSkill,
 }
 public class InventoryItem : MonoBehaviour
 {
