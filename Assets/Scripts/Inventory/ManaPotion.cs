@@ -15,6 +15,7 @@ public class ManaPotion : InventoryItemBase
     public override void OnUse()
     {
         base.OnUse();
+        Singleton<Inventory>.Instance.RemoveItem(this);
     }
 
 }

@@ -17,6 +17,5 @@ public class HealPotion : InventoryItemBase
     {
         base.OnUse();
         Singleton<Inventory>.Instance.RemoveItem(this);
-       // Destroy(gameObject);
     }
 }

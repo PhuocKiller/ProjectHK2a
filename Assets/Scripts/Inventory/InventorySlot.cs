@@ -6,12 +6,8 @@ using UnityEngine;
 public class InventorySlot 
 {
     private Stack<IInventoryItem> mItemStack = new Stack<IInventoryItem>();
-    int mID = 0;   
-    public InventorySlot(int id)
-    {
-        mID = id;
-    }
-    public int Id { get { return mID; } }
+
+    public int Id;
     public void AddItem(IInventoryItem item)
     {
         item.Slot = this;

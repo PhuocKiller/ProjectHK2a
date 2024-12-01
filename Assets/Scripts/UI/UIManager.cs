@@ -27,7 +27,11 @@ public class UIManager : MonoBehaviour
         Singleton<Inventory>.Instance.ItemAdded += InventoryScript_ItemAdded;
         Singleton<Inventory>.Instance.ItemRemoved += Inventory_ItemRemoved;
         Singleton<Inventory>.Instance.InventoryUpdate += Inventory_Update;
-        InitializeInventoryUI();
+        Singleton<Inventory>.Instance.OnItemClicked += HandleItemSelection;
+        Singleton<Inventory>.Instance.OnItemBeginDrag += HandleBeginDrag;
+        Singleton<Inventory>.Instance.OnItemDroppedOn += HandleSwap;
+        Singleton<Inventory>.Instance.OnItemEndDrag += HandleEndDrag;
+        Singleton<Inventory>.Instance.OnRightMouseBtnClick += HandleShowItemActions;
     }
     public void InitializeInventoryUI()
     {
@@ -38,11 +42,7 @@ public class UIManager : MonoBehaviour
             Transform imageTransform = slot.GetChild(0).GetChild(0);
             UnityEngine.UI.Image image = imageTransform.GetComponent<Image>();
             ItemDragHandler itemDragHandler = imageTransform.GetComponent<ItemDragHandler>();
-            itemDragHandler.OnItemClicked += HandleItemSelection;
-            itemDragHandler.OnItemBeginDrag += HandleBeginDrag;
-            itemDragHandler.OnItemDroppedOn += HandleSwap;
-            itemDragHandler.OnItemEndDrag += HandleEndDrag;
-            itemDragHandler.OnRightMouseBtnClick += HandleShowItemActions;
+            
         }
     }
 
@@ -56,10 +56,31 @@ public class UIManager : MonoBehaviour
         mouseFollower.Toggle(false);
     }
 
-    private void HandleSwap(ItemDragHandler itemDrag)
+    private void HandleSwap(int indexItemSlot_1,int indexItemSlot_2)
     {
-        Debug.Log("vo swap");
-        Debug.Log(itemDrag.transform.parent.parent.name);
+        Transform imageTransform1=inventoryPanel.transform.GetChild(indexItemSlot_1).GetChild(0).GetChild(0);
+        Image image1 = imageTransform1.GetComponent<Image>();
+        ItemDragHandler itemDragHandler1 = imageTransform1.GetComponent<ItemDragHandler>();
+        Transform textTransform1 = inventoryPanel.transform.GetChild(indexItemSlot_1).GetChild(0).GetChild(0).GetChild(0);
+        Text txtCount1 = textTransform1.GetComponent<Text>();
+
+        Transform imageTransform2 = inventoryPanel.transform.GetChild(indexItemSlot_2).GetChild(0).GetChild(0);
+        Image image2 = imageTransform2.GetComponent<Image>();
+        ItemDragHandler itemDragHandler2 = imageTransform2.GetComponent<ItemDragHandler>();
+        Transform textTransform2 = inventoryPanel.transform.GetChild(indexItemSlot_2).GetChild(0).GetChild(0).GetChild(0);
+        Text txtCount2 = textTransform2.GetComponent<Text>();
+
+        InventoryItemBase newItem = new InventoryItemBase();
+        newItem = (InventoryItemBase)itemDragHandler1.Item;
+        itemDragHandler1.Item = itemDragHandler2.Item;
+        itemDragHandler2.Item = newItem;
+
+        image1.sprite = itemDragHandler1.Item.Image;
+        image2.sprite= itemDragHandler2.Item.Image;
+
+
+        txtCount1.text = itemDragHandler1.Item.Slot.Count.ToString();
+        txtCount2.text = itemDragHandler2.Item.Slot.Count.ToString();
     }
 
     private void HandleBeginDrag(ItemDragHandler itemDrag)
@@ -88,7 +109,6 @@ public class UIManager : MonoBehaviour
         int index = -1;
         foreach (Transform slot in inventoryPanel)
         {
-            
             index++;
             Transform imageTransform = slot.GetChild(0).GetChild(0);
                         UnityEngine.UI.Image image = imageTransform.GetComponent<Image>();
@@ -122,7 +142,7 @@ public class UIManager : MonoBehaviour
             Transform imageTransform = slot.GetChild(0).GetChild(0);
             UnityEngine.UI.Image image = imageTransform.GetComponent<Image>();
             ItemDragHandler itemDragHandler = imageTransform.GetComponent<ItemDragHandler>();
-            Transform textTransform = slot.GetChild(0).GetChild(1);
+            Transform textTransform = slot.GetChild(0).GetChild(0).GetChild(0);
             Text txtCount = textTransform.GetComponent<Text>();
           
             if (itemDragHandler.Item == null) continue;

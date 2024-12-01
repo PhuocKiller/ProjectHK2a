@@ -8,44 +8,37 @@ public class Inventory : MonoBehaviour
     private const int SLOTS = 6;
     public List<IInventoryItem> mItems = new List<IInventoryItem>();
     private IList<InventorySlot> mSlots = new List<InventorySlot>();
-    public event EventHandler<InventoryEventArgs> ItemAdded;
-    public event EventHandler<InventoryEventArgs> ItemRemoved;
-    public event EventHandler<InventoryEventArgs> ItemUsed;
-    public event EventHandler<InventoryEventArgs> InventoryUpdate;
+    public event EventHandler<InventoryEventArgs> ItemAdded,ItemRemoved,ItemUsed,InventoryUpdate;
+    public Action<ItemDragHandler> OnItemClicked, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
+    public Action<int, int> OnItemDroppedOn;
     public InventoryItemBase[] inventoryItems, inventory_9_Items;
-    int indexItemSlot;
+    public int indexItemSlot_1, indexItemSlot_2;
     InventoryItemBase item;
-    private void Awake()
+    public Inventory()
     {
+        for (int i = 0; i < SLOTS; i++)
+        {
+            mSlots.Add(new InventorySlot());
+            mSlots[i].Id = i;
+        }
+    }
+    public void SwapItem()
+    {
+        int newIDSlot = -1;
+        newIDSlot = mSlots[indexItemSlot_1].Id;
+        mSlots[indexItemSlot_1].Id =mSlots[indexItemSlot_2].Id;
+        mSlots[indexItemSlot_2].Id = newIDSlot;
         
-    }
-    private void Start()
-    {
-    }
 
+        InventorySlot newSlot = new InventorySlot();
+        newSlot=mSlots[indexItemSlot_1];
+        mSlots[indexItemSlot_1] = mSlots[indexItemSlot_2];
+        mSlots[indexItemSlot_2]=newSlot;
+        
+        OnItemDroppedOn?.Invoke(indexItemSlot_1, indexItemSlot_2);
+    }
     public void AddItem(InventoryItemBase item, out int indexItem)
     {
-       /* if (mItems.Count < SLOTS)
-        {
-            Collider collider = (item as MonoBehaviour).GetComponent<Collider>();
-            if (collider.enabled)
-            {
-
-                collider.enabled = false;
-                mItems.Add(item);
-                item.OnPickUp();
-                if (ItemAdded != null)
-                {
-                    ItemAdded(this, new InventoryEventArgs(item));
-                }
-                if (InventoryUpdate != null)
-                {
-                    InventoryUpdate(this, new InventoryEventArgs(item));
-                }
-            }
-        }*/
-
-
         InventorySlot freeSlot = FindStackAble(item);
         if (freeSlot == null)
         {
@@ -59,25 +52,11 @@ public class Inventory : MonoBehaviour
                 ItemAdded(this, new InventoryEventArgs(item));
             }
         }
-        indexItem=this.indexItemSlot;
+        indexItem = freeSlot.Id;
     }
+
     public void RemoveItem(IInventoryItem item) //Quăng item ra đất
     {
-
-        /*if (mItems.Contains(item))
-        {
-            mItems.Remove(item);
-            item.OnDrop();
-
-            if (ItemRemoved != null)
-            {
-                ItemRemoved(this, new InventoryEventArgs(item));
-            }
-            if (InventoryUpdate != null)
-            {
-                InventoryUpdate(this, new InventoryEventArgs(item));
-            }
-        }*/
         foreach (InventorySlot slot in mSlots)
         {
             if (slot.Remove(item))
@@ -90,7 +69,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-
+#region old code
     internal void UseItemClickInventory(IInventoryItem item) //Use item khi click trực tiếp trong inventory
     {
         if (ItemUsed != null)
@@ -143,13 +122,8 @@ public class Inventory : MonoBehaviour
         }
         Instantiate(inventoryItems[i], pos, Quaternion.identity);
     }
-    public Inventory()
-    {
-        for (int i = 0;i<SLOTS;i++)
-        {
-            mSlots.Add(new InventorySlot(i));
-        }
-    }
+    #endregion
+    
     private InventorySlot FindStackAble(InventoryItemBase item)
     {
         foreach (InventorySlot slot in mSlots)
@@ -158,19 +132,16 @@ public class Inventory : MonoBehaviour
             {
                 return slot;
             }
-            
         }
+        
         return null;
     }
     private InventorySlot FindNextEmptySlot()
     {
-        indexItemSlot = -1;
         foreach (InventorySlot slot in mSlots)
         {
-            indexItemSlot++;
             if (slot.IsEmpty) return slot;
         }
-        indexItemSlot = -1;
         return null;
     }
     
