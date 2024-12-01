@@ -90,7 +90,6 @@ public class NetworkManager : MonoBehaviour
     {
         NetworkObject item=runner.Spawn(shopItems[indexItem]);
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-       // item.transform.SetParent(player.buffFromItemManager.transform.GetChild(indexItemSlot));
         player.SetParentItemRPC(item.Id, indexItemSlot);
     }
     
