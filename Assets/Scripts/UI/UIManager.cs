@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Fusion;
 using Unity.VisualScripting;
+using System.Reflection;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,15 +18,61 @@ public class UIManager : MonoBehaviour
     int numberHealPotionInt, numberManaPotionInt;
     [SerializeField] Transform inventoryPanel;
     public RectTransform crossHairFollow, crossHairUnFollow;
-    
+    public MouseFollower mouseFollower;
+    private int currentlyDraggedItemIndex = -1;
+
     void Start()
     {
         networkManager=FindObjectOfType<NetworkManager>();
         Singleton<Inventory>.Instance.ItemAdded += InventoryScript_ItemAdded;
         Singleton<Inventory>.Instance.ItemRemoved += Inventory_ItemRemoved;
         Singleton<Inventory>.Instance.InventoryUpdate += Inventory_Update;
+        InitializeInventoryUI();
+    }
+    public void InitializeInventoryUI()
+    {
+        int index = -1;
+        foreach (Transform slot in inventoryPanel)
+        {
+            index++;
+            Transform imageTransform = slot.GetChild(0).GetChild(0);
+            UnityEngine.UI.Image image = imageTransform.GetComponent<Image>();
+            ItemDragHandler itemDragHandler = imageTransform.GetComponent<ItemDragHandler>();
+            itemDragHandler.OnItemClicked += HandleItemSelection;
+            itemDragHandler.OnItemBeginDrag += HandleBeginDrag;
+            itemDragHandler.OnItemDroppedOn += HandleSwap;
+            itemDragHandler.OnItemEndDrag += HandleEndDrag;
+            itemDragHandler.OnRightMouseBtnClick += HandleShowItemActions;
+        }
+    }
+
+    private void HandleShowItemActions(ItemDragHandler itemDrag)
+    {
         
     }
+
+    private void HandleEndDrag(ItemDragHandler itemDrag)
+    {
+        mouseFollower.Toggle(false);
+    }
+
+    private void HandleSwap(ItemDragHandler itemDrag)
+    {
+        Debug.Log("vo swap");
+        Debug.Log(itemDrag.transform.parent.parent.name);
+    }
+
+    private void HandleBeginDrag(ItemDragHandler itemDrag)
+    {
+        mouseFollower.Toggle(true);
+       mouseFollower.itemDragHandler.GetComponent<Image>().sprite= itemDrag.GetComponent<Image>().sprite;
+            }
+
+    private void HandleItemSelection(ItemDragHandler itemDrag)
+    {
+        
+    }
+
     public void ChosePlayer(int playerIndex)
     {
         networkManager.playerIndex = playerIndex;
@@ -39,16 +86,14 @@ public class UIManager : MonoBehaviour
     void InventoryScript_ItemAdded(object sender, InventoryEventArgs e)
     {
         int index = -1;
-        Debug.Log(inventoryPanel);
         foreach (Transform slot in inventoryPanel)
         {
             
             index++;
             Transform imageTransform = slot.GetChild(0).GetChild(0);
-            
-            UnityEngine.UI.Image image = imageTransform.GetComponent<Image>();
+                        UnityEngine.UI.Image image = imageTransform.GetComponent<Image>();
             ItemDragHandler itemDragHandler = imageTransform.GetComponent<ItemDragHandler>();
-            Transform textTransform = slot.GetChild(0).GetChild(1);
+            Transform textTransform = slot.GetChild(0).GetChild(0).GetChild(0);
             Text txtCount=textTransform.GetComponent<Text>();
 
 

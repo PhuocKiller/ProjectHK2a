@@ -7858,8 +7858,8 @@ MonoBehaviour:
   _playerTeam: 0
   networkObjs: {fileID: 8388264208586685474}
   collisionsEnvi: []
-  buffsFromEnvi: {fileID: 0}
-  buffsFromPassive: {fileID: 0}
+  buffsFromEnvi: {fileID: 642096040420530200}
+  buffsFromPassive: {fileID: 7040517672757543464}
   playerStat: {fileID: 4469887668483679920}
   playerScore: {fileID: 53068671851718112}
   statusCanvas: {fileID: 3410825836797733571}

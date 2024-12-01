@@ -31,9 +31,9 @@ public class OverlapSpherePlayer : NetworkBehaviour
             if (CheckPlayerAround().Count > 0)
             {
                 closestEnemyPlayer = FindClosestObjectInRadius(CheckPlayerAround(), transform.position);
-                Vector3 posViewPort = Camera.main.WorldToScreenPoint(closestEnemyPlayer.transform.position+Vector3.up*2);
-                crossHairFollow.position = posViewPort;
-                crossHairUnFollow.position = posViewPort;
+                Vector3 posScreenPoint = Camera.main.WorldToScreenPoint(closestEnemyPlayer.transform.position+Vector3.up*2);
+                crossHairFollow.position = posScreenPoint;
+                crossHairUnFollow.position = posScreenPoint;
             }
             else 
             { 

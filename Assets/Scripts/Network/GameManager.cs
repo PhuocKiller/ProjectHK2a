@@ -17,7 +17,7 @@ public class GameManager : NetworkBehaviour
     [Networked(OnChanged = nameof(CurrentStateChanged))]
     private int currentState { get; set; }
     public ClockManager clock;
-
+    List<PlayerController> playerControllers = new List<PlayerController>();
    [Networked] public float currentTime { get; set; }
     [Networked] public float startTime { get; set; }
     [Networked] public TickTimer waitBeforeStartTime {  get; set; }
@@ -25,7 +25,6 @@ public class GameManager : NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
-
         currentState = 3;
         clock=FindObjectOfType<ClockManager>();
         waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 5f);
@@ -106,7 +105,6 @@ public class GameManager : NetworkBehaviour
             currentTime = Time.time - startTime;
             if (Mathf.FloorToInt(currentTime) / 30 > (levelCreep-1))
             {
-                Debug.Log("voday");
                 levelCreep++;
                 FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
             };

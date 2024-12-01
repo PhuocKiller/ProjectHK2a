@@ -1,30 +1,42 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
-public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler
+public class ItemDragHandler : MonoBehaviour
 {
     private Camera _camera;
+    RectTransform _rectTransform;
+    Vector2 localPoint;
+    public Action<ItemDragHandler> OnItemClicked, OnItemBeginDrag, OnItemDroppedOn, OnItemEndDrag, OnRightMouseBtnClick;
     private void Start()
     {
-       // _camera ??= FindObjectOfType<CameraUI>().gameObject.GetComponent<Camera>();
     }
     public IInventoryItem Item { get; set; }
-    public void OnDrag(PointerEventData eventData)
+    public void OnBeginDrag( )
     {
-      /* Vector3 worldPoint = _camera.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(Input.mousePosition);
-        Debug.Log(worldPoint);*/
-        // transform.position = new Vector3(worldPoint.x, worldPoint.y, 0);
-        transform.position=Input.mousePosition;
+        OnItemBeginDrag?.Invoke(this);
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnEndDrag()
     {
-        transform.localPosition = Vector3.zero;
-
+        OnItemEndDrag?.Invoke(this);    
     }
 
+    public void OnPointerClick( )
+    {
+        OnItemClicked?.Invoke(this);
+    }
+    
+    public void OnDrop()
+    {
+        Debug.Log("voday" + transform.parent.parent.name);
+        OnItemDroppedOn?.Invoke(this);  
+    }
+    
+   
 }

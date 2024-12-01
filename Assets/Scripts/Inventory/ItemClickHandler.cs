@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemClickHandler : MonoBehaviour
 {
+    
     public void OnItemClicked()
     {
         ItemDragHandler dragHandler = gameObject.transform.Find("ItemImage").GetComponent<ItemDragHandler>();

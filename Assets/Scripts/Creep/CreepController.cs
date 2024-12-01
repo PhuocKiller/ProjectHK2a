@@ -384,7 +384,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
        
         if (overlapSphere !=null)
         {
-            Debug.Log("team " + playerTeam);
             if (overlapSphere.CheckPlayerAround().Count > 0)
             {
                 foreach (var playerAround in overlapSphere.CheckPlayerAround())

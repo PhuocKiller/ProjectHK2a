@@ -663,7 +663,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("other" + other);
         InventoryItemBase item = other.GetComponent<InventoryItemBase>();
         if (item != null)
         {
@@ -673,7 +672,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("collision" + collision);
+
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void SkillRPC(int objectList, int levelDamage, int manaCost, bool isPhysicDamage,

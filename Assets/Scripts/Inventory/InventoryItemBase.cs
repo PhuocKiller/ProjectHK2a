@@ -68,7 +68,7 @@ public class InventoryItemBase : MonoBehaviour, IInventoryItem
 
     public virtual void OnPickUp()
     {
-        Destroy(gameObject);
+
     }
     public IEnumerator FadeItemNoPick()
     {
