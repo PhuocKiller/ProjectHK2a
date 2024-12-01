@@ -12,14 +12,16 @@ public class ItemDragHandler : MonoBehaviour
     private Camera _camera;
     RectTransform _rectTransform;
     Vector2 localPoint;
+    [SerializeField] int slotID;
     
     private void Start()
     {
+        slotID=transform.parent.parent.GetSiblingIndex();
     }
     public IInventoryItem Item { get; set; }
     public void OnBeginDrag( )
     {
-        Singleton<Inventory>.Instance.indexItemSlot_1 = Item.Slot.Id;
+        Singleton<Inventory>.Instance.indexItemSlot_1 = slotID;
         Singleton<Inventory>.Instance.OnItemBeginDrag?.Invoke(this);
     }
 
@@ -30,12 +32,13 @@ public class ItemDragHandler : MonoBehaviour
 
     public void OnPointerClick( )
     {
+        
         Singleton<Inventory>.Instance.OnItemClicked?.Invoke(this);
     }
     
     public void OnDrop()
     {
-        Singleton<Inventory>.Instance.indexItemSlot_2 = Item.Slot.Id;
+        Singleton<Inventory>.Instance.indexItemSlot_2 = slotID;
         Singleton<Inventory>.Instance.SwapItem();
     }
     

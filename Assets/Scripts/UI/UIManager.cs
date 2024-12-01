@@ -74,13 +74,21 @@ public class UIManager : MonoBehaviour
         newItem = (InventoryItemBase)itemDragHandler1.Item;
         itemDragHandler1.Item = itemDragHandler2.Item;
         itemDragHandler2.Item = newItem;
-
-        image1.sprite = itemDragHandler1.Item.Image;
+        /*image1.sprite = itemDragHandler1.Item.Image;
         image2.sprite= itemDragHandler2.Item.Image;
 
 
         txtCount1.text = itemDragHandler1.Item.Slot.Count.ToString();
-        txtCount2.text = itemDragHandler2.Item.Slot.Count.ToString();
+        txtCount2.text = itemDragHandler2.Item.Slot.Count.ToString();*/
+        Sprite newSprite;
+        newSprite=image1.sprite;
+        image1.sprite = image2.sprite;
+        image2.sprite = newSprite;
+
+        string newText;
+        newText = txtCount1.text;
+        txtCount1.text = txtCount2.text;
+        txtCount2.text=newText;
     }
 
     private void HandleBeginDrag(ItemDragHandler itemDrag)
