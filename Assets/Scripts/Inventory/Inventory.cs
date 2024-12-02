@@ -14,8 +14,9 @@ public class Inventory : MonoBehaviour
     public int indexItemSlot_1, indexItemSlot_2;
     InventoryItemBase item;
     public GameObject buyItemPanel;
-    
-    
+    [SerializeField] Transform inventoryPanel;
+
+
     public Inventory()
     {
         for (int i = 0; i < SLOTS; i++)
@@ -58,6 +59,8 @@ public class Inventory : MonoBehaviour
         
         networkManager.SpawnObjWhenAddItem(networkManager.IndexItemBaseOnName(item.Name), freeSlot.Id);
         indexItem = freeSlot.Id;
+        SkillButton btn = inventoryPanel.GetChild(freeSlot.Id).GetComponent<SkillButton>();
+        btn.Initialize(item.skillName);
     }
 
     public void RemoveItem(IInventoryItem item) //Quăng item ra đất
@@ -71,6 +74,11 @@ public class Inventory : MonoBehaviour
                 {
                     ItemRemoved(this,new InventoryEventArgs(item));
                     networkManager.DespawnObjWhenRemoveItem(item.Name);
+                }
+                if(slot.Count==0)
+                {
+                    SkillButton btn = inventoryPanel.GetChild(slot.Id).GetComponent<SkillButton>();
+                    btn.Initialize(SkillName.None);
                 }
                 break;
             }

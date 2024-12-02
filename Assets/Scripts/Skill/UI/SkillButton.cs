@@ -123,7 +123,6 @@ public class SkillButton : MonoBehaviour
             levelDamages[i] = m_skillController.skillStat.levelDamages[i];
             levelManaCosts[i] = m_skillController.skillStat.levelManaCosts[i];
         }
-        m_timeTriggerFilled.transform.parent.gameObject.SetActive(false);
         UpdateUI();
         if (m_btnComp != null)
         {
@@ -131,6 +130,7 @@ public class SkillButton : MonoBehaviour
             m_btnComp.onClick.AddListener(TriggerSkill);
         }
         RegisterEvent();
+        if (skillType == SkillTypes.Items) levelSkill = 1;
     }
     
     private void UpdateUI()
@@ -189,7 +189,6 @@ public class SkillButton : MonoBehaviour
 
     void TriggerSkill()
     {
-        
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         if (m_skillController == null || m_skillController.IsCooldowning 
             ||levelSkill==0 ||player.playerStat.currentMana < manaCost

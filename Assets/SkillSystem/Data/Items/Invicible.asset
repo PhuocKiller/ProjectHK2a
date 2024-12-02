@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36793fa16b8c56d46a9ccf9376672d71, type: 3}
   m_Name: Invicible
   m_EditorClassIdentifier: 
-  skillName: 27
+  skillName: 28
   skillType: 4
   timerTrigger: 7
   cooldownTime: 15

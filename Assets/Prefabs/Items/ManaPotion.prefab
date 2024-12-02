@@ -158,8 +158,8 @@ MonoBehaviour:
   _Price: 80
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
-  skillName: 0
-  skillType: 0
+  skillName: 27
+  skillType: 4
   timerTrigger: 0
   cooldownTime: 0
   levelManaCosts: 

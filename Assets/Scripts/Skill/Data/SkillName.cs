@@ -10,5 +10,5 @@ public enum SkillName
     Tesla_VengefulPower,Tesla_Accelerate,Tesla_CannonGrenade,Tesla_InfernoBullet,
     Viking_Frenzy, Viking_AxeThrow, Viking_Rage, Viking_Unstoppable,
     Ryan_KenDo, Ryan_Assassinate, Ryan_Jujitsu, Ryan_MarkofDeath,
-    HealPotion,ManaPotion,Invicible,
+    None,HealPotion,ManaPotion,Invicible,
 }
