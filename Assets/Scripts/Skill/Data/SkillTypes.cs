@@ -8,4 +8,5 @@ public enum SkillTypes
    Passive,
    Direction_Active,
    NoDirection_Active,
+   Items,
 }

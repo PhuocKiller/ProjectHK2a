@@ -16,22 +16,26 @@ public class SkillButtonDrawer : MonoBehaviour
         foreach (var skillCollected in m_skillCollecteds)
         {
             index++;
-            Helper.ClearChilds(m_gridRoot[index]);
-            var skillButtonClone = Instantiate(m_skillBtnPrefab);
-            Helper.AssignToRoot(m_gridRoot[index], skillButtonClone.transform,
-                Vector3.zero, index == 4 ? Vector3.one * 1.2f : (index == 0 ? 0.9f * Vector3.one : 1f * Vector3.one));
-            skillButtonClone.Initialize(skillCollected.Key);
-            skillButtonClone.skillButtonType = skillButtonClone.m_skillButtonTypes[index];
-            if (skillButtonClone.skillButtonType==SkillButtonTypes.Jump)
+            if(index<=5)
             {
-                skillButtonClone.m_skillIcon.transform.localScale = Vector3.one*1.2f;
-                skillButtonClone.levelSkill = 1;
+                Helper.ClearChilds(m_gridRoot[index]);
+                var skillButtonClone = Instantiate(m_skillBtnPrefab);
+                Helper.AssignToRoot(m_gridRoot[index], skillButtonClone.transform,
+                    Vector3.zero, index == 4 ? Vector3.one * 1.2f : (index == 0 ? 0.9f * Vector3.one : 1f * Vector3.one));
+                skillButtonClone.Initialize(skillCollected.Key);
+                skillButtonClone.skillButtonType = skillButtonClone.m_skillButtonTypes[index];
+                if (skillButtonClone.skillButtonType == SkillButtonTypes.Jump)
+                {
+                    skillButtonClone.m_skillIcon.transform.localScale = Vector3.one * 1.2f;
+                    skillButtonClone.levelSkill = 1;
+                }
+                if (skillButtonClone.skillButtonType == SkillButtonTypes.NormalAttack)
+                {
+                    skillButtonClone.m_skillIcon.transform.localScale = Vector3.one * 1.37f;
+                    skillButtonClone.levelSkill = 1;
+                }
             }
-            if (skillButtonClone.skillButtonType == SkillButtonTypes.NormalAttack)
-            {
-                skillButtonClone.m_skillIcon.transform.localScale = Vector3.one * 1.37f;
-                skillButtonClone.levelSkill = 1;
-            }
+           
         }
 
     }
