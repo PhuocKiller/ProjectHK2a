@@ -22,6 +22,17 @@ public class CalculateTriggerEnter : MonoBehaviour
                     player.playerScore.assistScore -= 1;
                     if (player.playerType==Player_Types.DumbleDore) player.playerStat.currentMana += (int)(player.playerStat.maxMana * 0.2 * levelSkill);
                 }
+                , isKillCreep: (Vector3 posSpawn, float luckyChance) =>
+                {
+                    NetworkManager networkManager = FindObjectOfType<NetworkManager>();
+                    for (int i = 0;i< networkManager.shopItems.Length;i++)
+                    {
+                       if(FindObjectOfType<MechanicDamage>().GetChance(luckyChance*networkManager.itemsDropChance[i]))
+                        {
+                            networkManager.SpawnItemFromCreep(i, posSpawn);
+                        }
+                    }
+                }
                 , lifeSteal: (int damage) =>
                 {
                     if (player.playerStat.isLifeSteal) player.playerStat.currentHealth += (int)(player.playerStat.lifeSteal * damage);

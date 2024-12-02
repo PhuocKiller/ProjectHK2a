@@ -14,6 +14,8 @@ public class Inventory : MonoBehaviour
     public int indexItemSlot_1, indexItemSlot_2;
     InventoryItemBase item;
     public GameObject buyItemPanel;
+    
+    
     public Inventory()
     {
         for (int i = 0; i < SLOTS; i++)
@@ -39,6 +41,7 @@ public class Inventory : MonoBehaviour
     }
     public void AddItem(InventoryItemBase item, out int indexItem)
     {
+        NetworkManager networkManager = FindObjectOfType<NetworkManager>();
         InventorySlot freeSlot = FindStackAble(item);
         if (freeSlot == null)
         {
@@ -52,11 +55,14 @@ public class Inventory : MonoBehaviour
                 ItemAdded(this, new InventoryEventArgs(item));
             }
         }
+        
+        networkManager.SpawnObjWhenAddItem(networkManager.IndexItemBaseOnName(item.Name), freeSlot.Id);
         indexItem = freeSlot.Id;
     }
 
     public void RemoveItem(IInventoryItem item) //Quăng item ra đất
     {
+        NetworkManager networkManager = FindObjectOfType<NetworkManager>();
         foreach (InventorySlot slot in mSlots)
         {
             if (slot.Remove(item))
@@ -64,6 +70,7 @@ public class Inventory : MonoBehaviour
                 if (ItemRemoved != null)
                 {
                     ItemRemoved(this,new InventoryEventArgs(item));
+                    networkManager.DespawnObjWhenRemoveItem(item.Name);
                 }
                 break;
             }

@@ -61,7 +61,7 @@ public class ItemsManager : MonoBehaviour
         {
             player.playerStat.coinsValue-= priceItem;
             Singleton<Inventory>.Instance.AddItem(itemToBuy.GetComponent<InventoryItemBase>(), out int indexItemSlot);
-            networkManager.SpawnItem(indexItem, indexItemSlot);
+            
         }
     }
     public void SellItem()

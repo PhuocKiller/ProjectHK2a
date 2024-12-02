@@ -436,10 +436,24 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             collisionsEnvi.Remove(otherColi);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        InventoryItemBase item = other.GetComponent<InventoryItemBase>();
+        if (item != null)
+        {
+            Singleton<Inventory>.Instance.AddItem(item, out int indexItem);
+            item.OnPickUp();
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+
+    }
     #endregion
     #region Apply Damage
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
         Action<int,bool> counter = null, Action<int, List<PlayerController>> isKillPlayer = null,
+        Action<Vector3, float> isKillCreep = null,
         Action<int> lifeSteal = null,bool activeInjureAnim = true)
     {
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim);
@@ -661,19 +675,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         return playerType;
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        InventoryItemBase item = other.GetComponent<InventoryItemBase>();
-        if (item != null)
-        {
-            Singleton<Inventory>.Instance.AddItem(item, out int indexItem);
-            item.OnPickUp();
-        }
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-
-    }
+    
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void SkillRPC(int objectList, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun, bool isMakeSlow, bool isMakeSilen, float timeTrigger = 0f, float TimeEffect = 0f, int levelSkill = 1)
@@ -738,7 +740,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     [Rpc(RpcSources.All, RpcTargets.All)] public void SetParentItemRPC(NetworkId id, int indexItemSlot)
     {
         if (!Runner.TryFindObject(id, out NetworkObject item)) return;
-        item.transform.SetParent(buffFromItemManager.transform.GetChild(indexItemSlot));
+        item.transform.SetParent(buffFromItemManager.transform);
     }
 }
 

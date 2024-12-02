@@ -15,6 +15,7 @@ public class NetworkManager : MonoBehaviour
     GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
     public GameObject[] players, creeps, shopItems;
+    public float[] itemsDropChance;
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
     UnityEvent onConnected;
@@ -86,14 +87,39 @@ public class NetworkManager : MonoBehaviour
                                obj.GetComponent<CreepController>().playerTeam = 1;
                            });
     }
-    public void SpawnItem(int indexItem, int indexItemSlot)
+    public void SpawnObjWhenAddItem(int indexItem, int indexItemSlot)
     {
         NetworkObject item=runner.Spawn(shopItems[indexItem]);
+        item.GetComponent<Collider>().enabled = false;
+        item.GetComponentInChildren<MeshRenderer>().enabled = false; 
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         player.SetParentItemRPC(item.Id, indexItemSlot);
     }
-    
-    
+    public void DespawnObjWhenRemoveItem(string name)
+    {
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        foreach (Transform item in player.buffFromItemManager)
+        {
+            if (item.GetComponent<InventoryItemBase>().Name == name)
+            {
+                runner.Despawn(item.GetComponent<NetworkObject>());
+                break;
+            }
+        }
+    }
+    public void SpawnItemFromCreep(int indexItem,Vector3 posSpawn)
+    {
+        NetworkObject item = runner.Spawn(shopItems[indexItem], posSpawn);
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+    }
+    public int IndexItemBaseOnName(string name)
+    {
+        for (int i = 0; i <shopItems.Length; i++)
+        {
+            if (name== shopItems[i].name) return i;
+        }
+        return -1;
+    }
     public async void OnClickBtn(Button btn)
     {
         if (runner != null)

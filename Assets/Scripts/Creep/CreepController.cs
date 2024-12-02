@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public enum Creep_Types
 {
@@ -32,13 +33,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     float speed;
     private int targetX, targetY, beforeTarget;
     float previousSpeedX, currentSpeedX, previousSpeedY, currentSpeedY, attackRange;
-    
-    // 0 là normal
-    // 1 là jump
-    // 2 là injured
-    // 3 là die
-    // 4 là active attack
-    // 5 là đang cast skill
     [Networked]public int state { get; set; }
    
     [SerializeField]
@@ -73,7 +67,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            
             playerStat.level = gameManager.levelCreep;
             playerStat.CalculateBaseStatForCreep();
     }
@@ -334,6 +327,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     #region Apply Damage
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
         Action<int, bool> counter = null, Action<int, List<PlayerController>> isKillPlayer = null,
+        Action<Vector3, float> isKillCreep = null,
         Action<int> lifeSteal = null, bool activeInjureAnim = true)
     {
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim);
@@ -344,7 +338,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
 
         if (state == 3)
         {
-          //  isKillPlayer?.Invoke(playerStat.level, overlapSphere.CheckPlayerAround());
+          isKillCreep?.Invoke(transform.position + Vector3.up*0.5f, LuckyChanceBaseOnCreepType());
         }
         lifeSteal?.Invoke(damage);
     }
@@ -437,6 +431,21 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         else
         {
             return 0;
+        }
+    }
+    float LuckyChanceBaseOnCreepType()
+    {
+        if (creepType == Creep_Types.Melee)
+        {
+            return 1;
+        }
+        else if (creepType == Creep_Types.Range)
+        {
+            return 0.5f;
+        }
+        else
+        {
+            return 0.3f;
         }
     }
     public IEnumerator DelayDie()
