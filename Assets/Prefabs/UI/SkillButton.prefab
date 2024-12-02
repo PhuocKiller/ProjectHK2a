@@ -692,9 +692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057633e8b93463f448a1c4be92fb1517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WordOffset: 0
-  WordCount: 0
-  _interpolationDataSource: 0
   m_skillIcon: {fileID: 2226855959586843335}
   skillLevelImage: {fileID: 7065467879657528372}
   m_CooldownOverlay: {fileID: 1712385911952883001}
@@ -704,7 +701,7 @@ MonoBehaviour:
   m_btnComp: {fileID: 6250586983305402482}
   AddSkill_LevelBtn: {fileID: 8135923170162379898}
   player: {fileID: 0}
-  m_skillButtonTypes: 0000000003000000020000000100000004000000
+  m_skillButtonTypes: 000000000300000002000000010000000400000005000000
   skillButtonType: 0
   skillType: 0
   VfxEffect: {fileID: 0}
@@ -742,8 +739,7 @@ MonoBehaviour:
   NetworkGuid:
     RawGuidValue: 87ad82ea56e747240b6a6e3ab21ff6b4
   NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 8236402355399939926}
+  NetworkedBehaviours: []
   SimulationBehaviours: []
 --- !u!1 &5121934046385022728
 GameObject:

@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class SkillButton : NetworkBehaviour
+public class SkillButton : MonoBehaviour
 {
     [SerializeField] public Image m_skillIcon, skillLevelImage;
     [SerializeField] Image m_CooldownOverlay;
@@ -61,7 +61,11 @@ public class SkillButton : NetworkBehaviour
     
     private void Start()
     {
-        StartCoroutine(DelayCheckPlayer());
+        if(!(skillButtonType== SkillButtonTypes.Items))
+        {
+            StartCoroutine(DelayCheckPlayer());
+        }
+        
         if(skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack)
         {
             AddSkill_LevelBtn.gameObject.SetActive(false);
