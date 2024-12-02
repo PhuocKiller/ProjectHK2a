@@ -221,7 +221,16 @@ public class SkillButton : MonoBehaviour
                 if (player.playerStat.isBeingSilen) return;
                 player.Skill_1(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
              timerTrigger, timeEffect, posMouseUp, levelSkill);
-                
+            }
+            if (skillButtonType == SkillButtonTypes.Items)
+            {
+                ItemDragHandler dragHandler = transform.GetChild(0).GetChild(0).GetComponent<ItemDragHandler>();
+                IInventoryItem item = dragHandler.Item;
+                if (item != null)
+                    {
+                    Singleton<Inventory>.Instance.UseItemClickInventory(item, out bool canActive);
+                        if (!canActive) return;
+                    }
             }
             m_skillController.Trigger();
     }

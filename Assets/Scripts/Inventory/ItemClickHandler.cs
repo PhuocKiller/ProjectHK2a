@@ -9,12 +9,7 @@ public class ItemClickHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
     
     public void OnItemClicked()
     {
-        ItemDragHandler dragHandler = gameObject.transform.Find("ItemImage").GetComponent<ItemDragHandler>();
-        IInventoryItem item = dragHandler.Item;
-        if (item != null)
-        {
-            Singleton<Inventory>.Instance.UseItemClickInventory(item);
-        }
+        
     }
     
     public void OnSelect(BaseEventData eventData)

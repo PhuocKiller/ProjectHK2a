@@ -84,7 +84,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    internal void UseItemClickInventory(IInventoryItem item) //Use item khi click trực tiếp trong inventory
+    internal void UseItemClickInventory(IInventoryItem item, out bool canActive) //Use item khi click trực tiếp trong inventory
     {
         if (!buyItemPanel.activeInHierarchy)
         {
@@ -97,10 +97,12 @@ public class Inventory : MonoBehaviour
             {
                 InventoryUpdate(this, new InventoryEventArgs(item));
             }
+            canActive = true;
         }
         else
         {
             buyItemPanel.GetComponent<ItemsManager>().CheckInfoToSell(item);
+            canActive=false;
         }
     }
     #region old code

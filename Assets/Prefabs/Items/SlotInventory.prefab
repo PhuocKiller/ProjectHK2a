@@ -328,6 +328,7 @@ GameObject:
   - component: {fileID: 2689931182977292249}
   - component: {fileID: 4381468103065642564}
   - component: {fileID: 3470415468917419966}
+  - component: {fileID: 3110985841033944866}
   m_Layer: 5
   m_Name: SlotInventory
   m_TagString: Untagged
@@ -470,6 +471,44 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &3110985841033944866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8620182710370535563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057633e8b93463f448a1c4be92fb1517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_skillIcon: {fileID: 5417004896607964838}
+  skillLevelImage: {fileID: 0}
+  m_CooldownOverlay: {fileID: 7481295981118886956}
+  m_timeTriggerFilled: {fileID: 0}
+  m_amountTxt: {fileID: 0}
+  m_cooldownTxt: {fileID: 1646748869917921834}
+  m_btnComp: {fileID: 3073616815629768746}
+  AddSkill_LevelBtn: {fileID: 0}
+  player: {fileID: 0}
+  m_skillButtonTypes: 
+  skillButtonType: 5
+  skillType: 4
+  VfxEffect: {fileID: 0}
+  m_skillName: 0
+  timerTrigger: 0
+  levelManaCosts: 
+  triggerSoundFX: {fileID: 0}
+  levelDamages: 
+  isPhysicDamage: 0
+  isMakeStun: 0
+  isMakeSlow: 0
+  isMakeSilen: 0
+  timeEffect: 0
+  levelSkill: 0
+  damageSkill: 0
+  manaCost: 0
 --- !u!1001 &4790580034580596965
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -571,8 +610,30 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7e2ced15a6dfc34a8e2e492ef978958, type: 3}
+--- !u!114 &1646748869917921834 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6098404374335888079, guid: a7e2ced15a6dfc34a8e2e492ef978958, type: 3}
+  m_PrefabInstance: {fileID: 4790580034580596965}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4310143839873190429 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8767166883863167736, guid: a7e2ced15a6dfc34a8e2e492ef978958, type: 3}
   m_PrefabInstance: {fileID: 4790580034580596965}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7481295981118886956 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2713814764150545609, guid: a7e2ced15a6dfc34a8e2e492ef978958, type: 3}
+  m_PrefabInstance: {fileID: 4790580034580596965}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
