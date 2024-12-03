@@ -438,6 +438,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (!HasStateAuthority) return;
         InventoryItemBase item = other.GetComponent<InventoryItemBase>();
         if (item != null)
         {
