@@ -91,6 +91,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 8205178788534085233}
   - {fileID: 4173615302481341829}
+  - {fileID: 5127610079383808877}
   SimulationBehaviours: []
 --- !u!135 &4533038334892177563
 SphereCollider:
@@ -153,6 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa5d760462c01cf41b4af7b3ec943a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
   _ItemType: 0
   _Image: {fileID: 21300000, guid: e384923ad8f46004398b561f05e81935, type: 3}
   _Price: 80

@@ -228,6 +228,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 9001724981266368316}
   - {fileID: 4847079640383744947}
+  - {fileID: 196203017646081148}
   SimulationBehaviours: []
 --- !u!114 &4847079640383744947
 MonoBehaviour:
@@ -269,8 +270,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14a104c8476ebb44a327816440f8782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
   _ItemType: 0
   _Image: {fileID: 0}
   _Price: 300
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
+  skillName: 0
+  skillType: 0
+  timerTrigger: 0
+  cooldownTime: 0
+  levelManaCosts: 
+  skillIcon: {fileID: 0}
+  triggerSoundFX: {fileID: 0}
+  levelDamages: 
+  isPhysicDamage: 0
+  isMakeStun: 0
+  isMakeSlow: 0
+  isMakeSilen: 0
+  timeEffect: 0
+  VfxEffect: {fileID: 0}

@@ -191,7 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3084339838994533025}
   - component: {fileID: 5001874267991416410}
-  - component: {fileID: 3093082242026052295}
+  - component: {fileID: 3498980584751741438}
   m_Layer: 7
   m_Name: BuffFromItem
   m_TagString: Untagged
@@ -242,7 +242,7 @@ MonoBehaviour:
   _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0
---- !u!114 &3093082242026052295
+--- !u!114 &3498980584751741438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

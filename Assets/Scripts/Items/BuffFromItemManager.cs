@@ -15,7 +15,6 @@ public class BuffFromItemManager : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-       // GetBuffChildren();
     }
     public void GetBuffChildren()
     {

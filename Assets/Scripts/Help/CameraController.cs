@@ -30,7 +30,8 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
     {
      if(isFollowEnemy)
         {
-            Quaternion look=Quaternion.LookRotation(closestEnemyPlayer.transform.position- player.transform.position,Vector3.up);
+            Vector3 newPosclosestEnemyPlayer = new Vector3(closestEnemyPlayer.transform.position.x, 0, closestEnemyPlayer.transform.position.z);
+            Quaternion look=Quaternion.LookRotation(newPosclosestEnemyPlayer - player.transform.position,Vector3.up);
             player.transform.rotation = Quaternion.Lerp(player.transform.rotation, look, 15 * Time.deltaTime);
             freeLookCamera.m_XAxis.Value =Mathf.LerpAngle(freeLookCamera.m_XAxis.Value, player.transform.rotation.eulerAngles.y, 15 * Time.deltaTime);
         }   

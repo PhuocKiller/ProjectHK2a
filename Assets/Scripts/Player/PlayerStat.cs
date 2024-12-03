@@ -145,7 +145,7 @@ public class PlayerStat : NetworkBehaviour
     {
         this.b_maxHealth = b_maxHealth + (level - 1) * multipleHealth; this.b_maxMana = b_maxMana + (level - 1) * multipleMana;
         if (level >= 12) this.currentXP = 0;
-        this.maxXP = 100 + (level - 1) * (level - 1) * 50;
+        this.maxXP = 100 + (level - 1) * (level - 1) * 100;
         this.b_damage = b_damage + (level - 1) * multipleDamage; this.b_defend = b_defend + ((level - 1) * multipleDefend);
         this.b_magicResistance = b_magicResistance + (level - 1) * multipleMagicResistance; this.b_magicAmpli = b_magicAmpli + (level - 1) * multipleMagicAmpli;
         this.b_criticalChance = b_criticalChance + (level - 1) * multipleCriticalChance; this.b_criticalDamage = b_criticalDamage + (level - 1) * multipleCriticalDamage;

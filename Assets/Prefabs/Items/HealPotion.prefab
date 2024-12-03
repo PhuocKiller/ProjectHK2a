@@ -92,6 +92,7 @@ MonoBehaviour:
     RawGuidValue: 3909f100605e59247b0c80f291853ac8
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 6169931532628576328}
   - {fileID: 7197664222594019191}
   - {fileID: 7109676345001563443}
   SimulationBehaviours: []
@@ -128,6 +129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b832a42373f501438dcfc333f0cba16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
   _ItemType: 0
   _Image: {fileID: 21300000, guid: dc2d66b0ba5092b4aa1c7783e1bce80b, type: 3}
   _Price: 100

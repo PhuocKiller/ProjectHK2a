@@ -3,8 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryItemBase : MonoBehaviour, IInventoryItem
+public class InventoryItemBase : NetworkBehaviour, IInventoryItem
 {
+    public bool isSpawn;
+    public override void Spawned()
+    {
+        base.Spawned();
+        if (isSpawn) return;
+        isSpawn = true;
+        GetComponent<Collider>().enabled = HasStateAuthority;
+        transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().enabled = HasStateAuthority;
+    }
+    public override void FixedUpdateNetwork()
+    {
+        base.FixedUpdateNetwork();
+    }
     public virtual string Name
     {
         get;
@@ -116,4 +129,6 @@ public class InventoryItemBase : MonoBehaviour, IInventoryItem
     {
 
     }
+
+    
 }

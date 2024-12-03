@@ -78,7 +78,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         statusCanvas = GetComponentInChildren<StatusCanvas>();
         overlapSphere = GetComponentInChildren<OverlapSpherePlayer>();
         runnerManager = FindObjectOfType<NetworkManager>();
-        buffFromItemManager= GetComponentInChildren<BuffFromItemManager>().transform;
+        buffFromItemManager=GetComponentInChildren<BuffFromItemManager>().transform;
     }
     public override void Spawned()
     {
@@ -142,7 +142,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             {
                 isGround = false;
                 isJumping = false;
-                velocity += new Vector3(0, 50f, 0);
+                velocity += new Vector3(0, 35f, 0);
             }
             if (isGround)
             {
