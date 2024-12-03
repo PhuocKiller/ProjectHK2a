@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -496,7 +496,8 @@ MonoBehaviour:
   skillButtonType: 5
   skillType: 4
   VfxEffect: {fileID: 0}
-  m_skillName: 0
+  m_skillName: 25
+  indexInventory: 0
   timerTrigger: 0
   levelManaCosts: 
   triggerSoundFX: {fileID: 0}
@@ -517,12 +518,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3735204673576652900}
     m_Modifications:
+    - target: {fileID: 2713814764150545609, guid: a7e2ced15a6dfc34a8e2e492ef978958, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5773709159697558783, guid: a7e2ced15a6dfc34a8e2e492ef978958, type: 3}
       propertyPath: m_Name
       value: CoolddownOverlay
       objectReference: {fileID: 0}
     - target: {fileID: 5773709159697558783, guid: a7e2ced15a6dfc34a8e2e492ef978958, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098404374335888079, guid: a7e2ced15a6dfc34a8e2e492ef978958, type: 3}
+      propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8767166883863167736, guid: a7e2ced15a6dfc34a8e2e492ef978958, type: 3}

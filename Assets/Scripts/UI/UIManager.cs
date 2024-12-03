@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using Fusion;
 using Unity.VisualScripting;
 using System.Reflection;
+using System.Linq;
 
 public class UIManager : MonoBehaviour
 {
@@ -59,37 +60,56 @@ public class UIManager : MonoBehaviour
 
     private void HandleSwap(int indexItemSlot_1,int indexItemSlot_2)
     {
-        Transform imageTransform1=inventoryPanel.transform.GetChild(indexItemSlot_1).GetChild(0).GetChild(0);
-        Image image1 = imageTransform1.GetComponent<Image>();
-        ItemDragHandler itemDragHandler1 = imageTransform1.GetComponent<ItemDragHandler>();
-        Transform textTransform1 = inventoryPanel.transform.GetChild(indexItemSlot_1).GetChild(0).GetChild(0).GetChild(0);
-        Text txtCount1 = textTransform1.GetComponent<Text>();
+        /* Transform imageTransform1=inventoryPanel.transform.GetChild(indexItemSlot_1).GetChild(0).GetChild(0);
+         Image image1 = imageTransform1.GetComponent<Image>();
+         ItemDragHandler itemDragHandler1 = imageTransform1.GetComponent<ItemDragHandler>();
+         Transform textTransform1 = inventoryPanel.transform.GetChild(indexItemSlot_1).GetChild(0).GetChild(0).GetChild(0);
+         Text txtCount1 = textTransform1.GetComponent<Text>();
 
-        Transform imageTransform2 = inventoryPanel.transform.GetChild(indexItemSlot_2).GetChild(0).GetChild(0);
-        Image image2 = imageTransform2.GetComponent<Image>();
-        ItemDragHandler itemDragHandler2 = imageTransform2.GetComponent<ItemDragHandler>();
-        Transform textTransform2 = inventoryPanel.transform.GetChild(indexItemSlot_2).GetChild(0).GetChild(0).GetChild(0);
-        Text txtCount2 = textTransform2.GetComponent<Text>();
+         Transform imageTransform2 = inventoryPanel.transform.GetChild(indexItemSlot_2).GetChild(0).GetChild(0);
+         Image image2 = imageTransform2.GetComponent<Image>();
+         ItemDragHandler itemDragHandler2 = imageTransform2.GetComponent<ItemDragHandler>();
+         Transform textTransform2 = inventoryPanel.transform.GetChild(indexItemSlot_2).GetChild(0).GetChild(0).GetChild(0);
+         Text txtCount2 = textTransform2.GetComponent<Text>();
 
-        InventoryItemBase newItem = new InventoryItemBase();
-        newItem = (InventoryItemBase)itemDragHandler1.Item;
-        itemDragHandler1.Item = itemDragHandler2.Item;
-        itemDragHandler2.Item = newItem;
-        /*image1.sprite = itemDragHandler1.Item.Image;
-        image2.sprite= itemDragHandler2.Item.Image;
+         InventoryItemBase newItem = new InventoryItemBase();
+         newItem = (InventoryItemBase)itemDragHandler1.Item;
+         itemDragHandler1.Item = itemDragHandler2.Item;
+         itemDragHandler2.Item = newItem;
 
+         *//*Sprite newSprite;
+         newSprite=image1.sprite;
+         image1.sprite = image2.sprite;
+         image2.sprite = newSprite;*//* 
 
-        txtCount1.text = itemDragHandler1.Item.Slot.Count.ToString();
-        txtCount2.text = itemDragHandler2.Item.Slot.Count.ToString();*/
-        Sprite newSprite;
-        newSprite=image1.sprite;
-        image1.sprite = image2.sprite;
-        image2.sprite = newSprite;
+         string newText;
+         newText = txtCount1.text;
+         txtCount1.text = txtCount2.text;
+         txtCount2.text=newText;*/
+        SkillButton[] skillButton= inventoryPanel.GetComponentsInChildren<SkillButton>();
+         for (int i = 5;i>-1;i--)
+        {
+            inventoryPanel.transform.GetChild(i).GetComponent<SkillButton>().indexInventory = i;
+            
+        }
+        int newIndex = inventoryPanel.transform.GetChild(indexItemSlot_1).GetComponent<SkillButton>().indexInventory;
+        inventoryPanel.transform.GetChild(indexItemSlot_1).GetComponent<SkillButton>().indexInventory =
+            inventoryPanel.transform.GetChild(indexItemSlot_2).GetComponent<SkillButton>().indexInventory;
+        inventoryPanel.transform.GetChild(indexItemSlot_2).GetComponent<SkillButton>().indexInventory=newIndex;
 
-        string newText;
-        newText = txtCount1.text;
-        txtCount1.text = txtCount2.text;
-        txtCount2.text=newText;
+        for (int i = 5; i > -1; i--)
+        {
+            inventoryPanel.transform.GetChild(i).SetParent(null);
+
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            var skillButtonIndex = skillButton.Where
+              (s => s.transform.GetComponent<SkillButton>().indexInventory == i).ToArray();
+            skillButtonIndex[0].transform.SetParent(inventoryPanel);
+           
+        }
+
     }
 
     private void HandleBeginDrag(ItemDragHandler itemDrag)

@@ -27,17 +27,22 @@ public class Inventory : MonoBehaviour
     }
     public void SwapItem()
     {
+        /*SkillButton newBtn = new SkillButton();
+        newBtn.Initialize(inventoryPanel.GetChild(mSlots[indexItemSlot_1].Id).GetComponent<SkillButton>().m_skillName);
+        inventoryPanel.GetChild(mSlots[indexItemSlot_1].Id).GetComponent<SkillButton>().Initialize(
+          inventoryPanel.GetChild(mSlots[indexItemSlot_2].Id).GetComponent<SkillButton>().m_skillName);
+        inventoryPanel.GetChild(mSlots[indexItemSlot_2].Id).GetComponent<SkillButton>().Initialize(newBtn.m_skillName);*/
+
         int newIDSlot = -1;
         newIDSlot = mSlots[indexItemSlot_1].Id;
-        mSlots[indexItemSlot_1].Id =mSlots[indexItemSlot_2].Id;
+        mSlots[indexItemSlot_1].Id = mSlots[indexItemSlot_2].Id;
         mSlots[indexItemSlot_2].Id = newIDSlot;
-        
+
 
         InventorySlot newSlot = new InventorySlot();
-        newSlot=mSlots[indexItemSlot_1];
+        newSlot = mSlots[indexItemSlot_1];
         mSlots[indexItemSlot_1] = mSlots[indexItemSlot_2];
-        mSlots[indexItemSlot_2]=newSlot;
-        
+        mSlots[indexItemSlot_2] = newSlot;
         OnItemDroppedOn?.Invoke(indexItemSlot_1, indexItemSlot_2);
     }
     public void AddItem(InventoryItemBase item, out int indexItem)
@@ -56,7 +61,6 @@ public class Inventory : MonoBehaviour
                 ItemAdded(this, new InventoryEventArgs(item));
             }
         }
-        Debug.Log("voday");
         networkManager.SpawnObjWhenAddItem(networkManager.IndexItemBaseOnName(item.Name), freeSlot.Id);
         indexItem = freeSlot.Id;
         SkillButton btn = inventoryPanel.GetChild(freeSlot.Id).GetComponent<SkillButton>();

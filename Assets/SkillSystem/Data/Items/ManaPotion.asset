@@ -15,7 +15,7 @@ MonoBehaviour:
   skillName: 27
   skillType: 4
   timerTrigger: 7
-  cooldownTime: 15
+  cooldownTime: 4
   levelManaCosts: 0000000000000000
   skillIcon: {fileID: 21300000, guid: e384923ad8f46004398b561f05e81935, type: 3}
   triggerSoundFX: {fileID: 0}

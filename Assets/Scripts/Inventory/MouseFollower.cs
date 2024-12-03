@@ -12,7 +12,7 @@ public class MouseFollower : MonoBehaviour
     public void Awake()
     {
         canvas = transform.root.GetComponent<Canvas>();
-        Toggle(false);
+      //  Toggle(false);
     }
 
    

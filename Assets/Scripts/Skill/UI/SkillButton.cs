@@ -27,8 +27,9 @@ public class SkillButton : MonoBehaviour
     public SkillButtonTypes skillButtonType;
     public SkillTypes skillType;
     public NetworkObject VfxEffect;
-    [SerializeField] SkillName m_skillName;
+    public SkillName m_skillName;
     public Action Skill_Trigger;
+    public int indexInventory;
     [SerializeField] float timerTrigger;
     [SerializeField] int[] levelManaCosts;
     [SerializeField] AudioClip triggerSoundFX;
@@ -142,7 +143,7 @@ public class SkillButton : MonoBehaviour
         UpdateCooldown();
         //UpdateTimerTrigger();
         //bool canActiveMe = m_currentAmount > 0 || m_skillController.IsCooldowning;
-        gameObject.SetActive(true);
+       // gameObject.SetActive(true); bị lỗi khi swap item tạo newSkillbutton mới
     }
 
     private void UpdateTimerTrigger()

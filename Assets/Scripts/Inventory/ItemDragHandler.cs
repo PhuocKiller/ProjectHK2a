@@ -15,12 +15,12 @@ public class ItemDragHandler : MonoBehaviour
     
     private void Start()
     {
-        slotID=transform.parent.parent.GetSiblingIndex();
+       
     }
     public IInventoryItem Item { get; set; }
     public void OnBeginDrag( )
     {
-        Singleton<Inventory>.Instance.indexItemSlot_1 = slotID;
+        Singleton<Inventory>.Instance.indexItemSlot_1 = transform.parent.parent.GetSiblingIndex();
         Singleton<Inventory>.Instance.OnItemBeginDrag?.Invoke(this);
     }
 
@@ -37,7 +37,7 @@ public class ItemDragHandler : MonoBehaviour
     
     public void OnDrop()
     {
-        Singleton<Inventory>.Instance.indexItemSlot_2 = slotID;
+        Singleton<Inventory>.Instance.indexItemSlot_2 = transform.parent.parent.GetSiblingIndex();
         Singleton<Inventory>.Instance.SwapItem();
     }
     
