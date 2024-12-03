@@ -741,6 +741,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         if (!Runner.TryFindObject(id, out NetworkObject item)) return;
         item.transform.SetParent(buffFromItemManager.transform);
+        item.GetComponent<Collider>().enabled = false;
+        item.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 }
 

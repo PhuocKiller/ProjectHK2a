@@ -56,7 +56,7 @@ public class Inventory : MonoBehaviour
                 ItemAdded(this, new InventoryEventArgs(item));
             }
         }
-        
+        Debug.Log("voday");
         networkManager.SpawnObjWhenAddItem(networkManager.IndexItemBaseOnName(item.Name), freeSlot.Id);
         indexItem = freeSlot.Id;
         SkillButton btn = inventoryPanel.GetChild(freeSlot.Id).GetComponent<SkillButton>();
@@ -73,7 +73,7 @@ public class Inventory : MonoBehaviour
                 if (ItemRemoved != null)
                 {
                     ItemRemoved(this,new InventoryEventArgs(item));
-                    networkManager.DespawnObjWhenRemoveItem(item.Name);
+                    networkManager.DestroyObjWhenRemoveItem(item.Name);
                 }
                 if(slot.Count==0)
                 {

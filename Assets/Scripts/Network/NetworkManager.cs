@@ -90,19 +90,17 @@ public class NetworkManager : MonoBehaviour
     public void SpawnObjWhenAddItem(int indexItem, int indexItemSlot)
     {
         NetworkObject item=runner.Spawn(shopItems[indexItem]);
-        item.GetComponent<Collider>().enabled = false;
-        item.GetComponentInChildren<MeshRenderer>().enabled = false; 
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         player.SetParentItemRPC(item.Id, indexItemSlot);
     }
-    public void DespawnObjWhenRemoveItem(string name)
+    public void DestroyObjWhenRemoveItem(string name)
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         foreach (Transform item in player.buffFromItemManager)
         {
             if (item.GetComponent<InventoryItemBase>().Name == name)
             {
-                runner.Despawn(item.GetComponent<NetworkObject>());
+                Destroy(item.gameObject);
                 break;
             }
         }
