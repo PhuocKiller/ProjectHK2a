@@ -49,6 +49,7 @@ public class SkillButton : MonoBehaviour
         m_skillController.OnCooldown.AddListener(UpdateCooldown);
         m_skillController.OnSkillUpdate.AddListener(UpdateTimerTrigger);
         m_skillController.OnCooldownStop.AddListener(UpdateUI);
+        m_skillController.OnNoItem.AddListener(NoItem);
     }
     void UnRegisterEvent()
     {
@@ -56,6 +57,7 @@ public class SkillButton : MonoBehaviour
         m_skillController.OnCooldown.RemoveListener(UpdateCooldown);
         m_skillController.OnSkillUpdate.RemoveListener(UpdateTimerTrigger);
         m_skillController.OnCooldownStop.RemoveListener(UpdateUI);
+        m_skillController.OnNoItem.RemoveListener(NoItem);
     }
     #endregion
     
@@ -141,11 +143,18 @@ public class SkillButton : MonoBehaviour
             m_skillIcon.sprite = m_skillController.skillStat.skillIcon;
        // UpdateAmountTxt();
         UpdateCooldown();
+        
         //UpdateTimerTrigger();
         //bool canActiveMe = m_currentAmount > 0 || m_skillController.IsCooldowning;
        // gameObject.SetActive(true); bị lỗi khi swap item tạo newSkillbutton mới
     }
-
+    void NoItem()
+    {
+        if (skillType == SkillTypes.Items && Singleton<Inventory>.Instance.mSlots[transform.GetSiblingIndex()].Count == 0)
+        {
+            Initialize(SkillName.None);
+        }
+    }
     private void UpdateTimerTrigger()
     {
         if (m_skillController == null || m_timeTriggerFilled == null) return;

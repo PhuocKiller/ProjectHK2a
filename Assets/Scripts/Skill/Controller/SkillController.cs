@@ -16,7 +16,7 @@ public class SkillController : MonoBehaviour
     protected bool m_isTriggered, m_isCooldowning;
     protected float m_cooldownTime;
     protected float m_triggerTime;
-    public UnityEvent OnTriggerEnter, OnSkillUpdate, OnCooldown, OnStop,OnCooldownStop;
+    public UnityEvent OnTriggerEnter, OnSkillUpdate, OnCooldown, OnStop,OnCooldownStop,OnNoItem;
     public UnityEvent<SkillName, int> OnStopWithType;
     
 
@@ -81,6 +81,7 @@ public class SkillController : MonoBehaviour
         m_isCooldowning = false;
         OnCooldownStop?.Invoke();
         m_cooldownTime = skillStat.cooldownTime;
+        OnNoItem?.Invoke();
     }
     public void Stop()
     {

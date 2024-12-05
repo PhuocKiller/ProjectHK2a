@@ -87,7 +87,7 @@ public class Inventory : MonoBehaviour
                 if(slot.Count==0)
                 {
                     SkillButton btn = inventoryPanel.GetChild(slot.Id).GetComponent<SkillButton>();
-                    btn.Initialize(SkillName.None);
+                  //  btn.Initialize(SkillName.None);
                 }
                 break;
             }
