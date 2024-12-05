@@ -242,8 +242,10 @@ public class SkillButton : MonoBehaviour
                     {
                     Singleton<Inventory>.Instance.UseItemClickInventory
                     (Singleton<Inventory>.Instance.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
-                     if (!canActive) return;
-                    }
+                     if (!canActive ||m_skillName==SkillName.NoSkill) return;
+                     player.UseItemSkill(m_skillName,VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+        timerTrigger, timeEffect, posMouseUp, levelSkill);
+            }
             }
             m_skillController.Trigger();
     }

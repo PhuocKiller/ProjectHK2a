@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 27
   skillType: 4
-  timerTrigger: 7
-  cooldownTime: 7
+  timerTrigger: 5
+  cooldownTime: 5
   levelManaCosts: 0000000000000000
   skillIcon: {fileID: 21300000, guid: dc2d66b0ba5092b4aa1c7783e1bce80b, type: 3}
   triggerSoundFX: {fileID: 0}
@@ -25,5 +25,5 @@ MonoBehaviour:
   isMakeSlow: 0
   isMakeSilen: 0
   timeEffect: 0
-  VfxEffect: {fileID: 5172160001909256603, guid: fff7f279e72ca2842b2c5c4fdc43c7bf, type: 3}
+  VfxEffect: {fileID: 6342372748393257929, guid: 4b27b57ec9d05bb46b74f3d2ec86df9f, type: 3}
   info: 

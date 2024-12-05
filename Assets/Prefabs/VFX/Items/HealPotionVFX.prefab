@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 3369465651767510757}
   - component: {fileID: 7684316173449983607}
   m_Layer: 0
-  m_Name: Sagittarius_Skill2
+  m_Name: HealPotionVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +91,7 @@ MonoBehaviour:
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
-    RawGuidValue: ac9dd74917b5923478047f2bc54fef04
+    RawGuidValue: 4b27b57ec9d05bb46b74f3d2ec86df9f
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 51372936107017745}
@@ -384,8 +384,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 1
+      scalar: 1
+      minScalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -438,7 +438,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.091224104, g: 0.9481132, b: 0.049194556, a: 1}
+      maxColor: {r: 0.9716981, g: 0.09166962, b: 0.09166962, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -502,7 +502,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.5
+      scalar: 0.4
       minScalar: 0.2
       maxCurve:
         serializedVersion: 2
@@ -5277,7 +5277,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.091224104, g: 0.9481132, b: 0.049194556, a: 1}
+      maxColor: {r: 0.9716981, g: 0.09166962, b: 0.09166962, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -10116,7 +10116,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.091224104, g: 0.9481132, b: 0.049194556, a: 1}
+      maxColor: {r: 0.9716981, g: 0.09166962, b: 0.09166962, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

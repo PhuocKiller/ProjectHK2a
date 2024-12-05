@@ -11,6 +11,7 @@ using UnityEngine.Events;
 
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
+    ItemSkillManager itemSkillManager;
     public Transform buffFromItemManager;
     public NetworkManager runnerManager;
     public GameManager gameManager;
@@ -56,7 +57,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         
     }
     [SerializeField]
-    public Transform jumpTransform,normalAttackTransform, skill_1Transform, skill_2Transform, ultimateTransform, rayCastTransform, transformCamera;
+    public Transform jumpTransform,normalAttackTransform, skill_1Transform,
+        skill_2Transform, ultimateTransform, rayCastTransform, itemSkillTransform, transformCamera;
     
     [SerializeField] public Player_Types playerType;
     [HideInInspector] public SkillButton[] skillButtons;
@@ -79,6 +81,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         overlapSphere = GetComponentInChildren<OverlapSpherePlayer>();
         runnerManager = FindObjectOfType<NetworkManager>();
         buffFromItemManager=GetComponentInChildren<BuffFromItemManager>().transform;
+        itemSkillManager=GetComponentInChildren<ItemSkillManager>();
     }
     public override void Spawned()
     {
@@ -201,6 +204,16 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         AnimatorRPC("Ultimate");
         playerStat.currentMana -= manaCost;
+    }
+    public virtual void UseItemSkill(SkillName skillName,NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
+        float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
+    {
+        AnimatorRPC("UseItemSkill");
+        playerStat.currentMana -= manaCost;
+        itemSkillManager.UseItemSkill(skillName, VFXEffect, levelDamage, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+        timeTrigger, TimeEffect, posMouseUp, levelSkill);
+        
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void AnimatorRPC(string name)
