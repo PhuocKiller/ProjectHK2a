@@ -110,13 +110,25 @@ public class NetworkManager : MonoBehaviour
         NetworkObject item = runner.Spawn(basicItems[indexItem], posSpawn);
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
     }
-    public int IndexItemBaseOnName(string name)
+    public GameObject FindItemBaseOnName(string name)
     {
         for (int i = 0; i <basicItems.Length; i++)
         {
-            if (name== basicItems[i].name) return i;
+            if (name== basicItems[i].GetComponent<InventoryItemBase>().Name) return basicItems[i];
         }
-        return -1;
+        for (int i = 0; i < shieldItems.Length; i++)
+        {
+            if (name == shieldItems[i].GetComponent<InventoryItemBase>().Name) return shieldItems[i];
+        }
+        for (int i = 0; i < rangeItems.Length; i++)
+        {
+            if (name == rangeItems[i].GetComponent<InventoryItemBase>().Name) return rangeItems[i];
+        }
+        for (int i = 0; i < MeleeItems.Length; i++)
+        {
+            if (name == MeleeItems[i].GetComponent<InventoryItemBase>().Name) return MeleeItems[i];
+        }
+        return null;
     }
     public async void OnClickBtn(Button btn)
     {

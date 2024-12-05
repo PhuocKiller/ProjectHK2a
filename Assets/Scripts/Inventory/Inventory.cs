@@ -62,7 +62,7 @@ public class Inventory : MonoBehaviour
                 ItemAdded(this, new InventoryEventArgs(newItem));
             }
         }
-        networkManager.SpawnObjWhenAddItem(newItem.gameObject, freeSlot.Id);
+        networkManager.SpawnObjWhenAddItem(networkManager.FindItemBaseOnName(newItem.Name), freeSlot.Id);
         indexItem = freeSlot.Id;
         SkillButton btn = inventoryPanel.GetChild(freeSlot.Id).GetComponent<SkillButton>();
         btn.Initialize(newItem.skillName);
