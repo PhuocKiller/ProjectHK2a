@@ -110,6 +110,12 @@ public class SkillButton : MonoBehaviour
     public void Initialize(SkillName skillName)
     {
         m_skillName = skillName;
+        if (m_btnComp != null)
+        {
+            m_btnComp.onClick.RemoveAllListeners();
+            m_btnComp.onClick.AddListener(TriggerSkill);
+        }
+       
         m_skillController = FindObjectOfType<SkillManager>().GetSkillController(skillName);
         skillType = m_skillController.skillType;
         VfxEffect = m_skillController.skillStat.VfxEffect;
@@ -127,11 +133,7 @@ public class SkillButton : MonoBehaviour
             levelManaCosts[i] = m_skillController.skillStat.levelManaCosts[i];
         }
         UpdateUI();
-        if (m_btnComp != null)
-        {
-            m_btnComp.onClick.RemoveAllListeners();
-            m_btnComp.onClick.AddListener(TriggerSkill);
-        }
+        
         RegisterEvent();
         if (skillType == SkillTypes.Items) levelSkill = 1;
     }
@@ -139,7 +141,7 @@ public class SkillButton : MonoBehaviour
     private void UpdateUI()
     {
         if (m_skillController == null) return;
-        if (m_skillIcon)
+        if (m_skillIcon && m_skillName != SkillName.NoSkill)
             m_skillIcon.sprite = m_skillController.skillStat.skillIcon;
        // UpdateAmountTxt();
         UpdateCooldown();

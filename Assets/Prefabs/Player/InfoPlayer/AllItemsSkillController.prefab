@@ -65,6 +65,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -114,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillManager: {fileID: 0}
   player: {fileID: 0}
-  skillName: 26
+  skillName: 27
   skillType: 4
   VFXPrefab: {fileID: 0}
   skillStat: {fileID: 11400000, guid: e67483900fd3e4c4aab6c982d373677a, type: 2}
@@ -133,72 +136,7 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
-  OnStopWithType:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!1 &1084377230329426375
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1275726744858433225}
-  - component: {fileID: 8578456526786442372}
-  m_Layer: 0
-  m_Name: Invicible
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1275726744858433225
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084377230329426375}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3007704924475115685}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8578456526786442372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084377230329426375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillManager: {fileID: 0}
-  player: {fileID: 0}
-  skillName: 28
-  skillType: 4
-  VFXPrefab: {fileID: 0}
-  skillStat: {fileID: 11400000, guid: c5049e4a6419c5d4cb68bf08ca0434cd, type: 2}
-  OnTriggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSkillUpdate:
-    m_PersistentCalls:
-      m_Calls: []
-  OnCooldown:
-    m_PersistentCalls:
-      m_Calls: []
-  OnStop:
-    m_PersistentCalls:
-      m_Calls: []
-  OnCooldownStop:
+  OnNoItem:
     m_PersistentCalls:
       m_Calls: []
   OnStopWithType:
@@ -250,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillManager: {fileID: 0}
   player: {fileID: 0}
-  skillName: 27
+  skillName: 28
   skillType: 4
   VFXPrefab: {fileID: 0}
   skillStat: {fileID: 11400000, guid: 62735878ef97f6b4aafb69ec8961919e, type: 2}
@@ -267,6 +205,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnCooldownStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoItem:
     m_PersistentCalls:
       m_Calls: []
   OnStopWithType:
@@ -302,8 +243,79 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4214006829967192586}
+  - {fileID: 6454003451743823937}
   - {fileID: 2946185926043937618}
   - {fileID: 2648097232761777406}
-  - {fileID: 1275726744858433225}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2568120718640748370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6454003451743823937}
+  - component: {fileID: 7866245731058275232}
+  m_Layer: 0
+  m_Name: NoSkill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6454003451743823937
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568120718640748370}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3007704924475115685}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7866245731058275232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568120718640748370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillManager: {fileID: 0}
+  player: {fileID: 0}
+  skillName: 26
+  skillType: 4
+  VFXPrefab: {fileID: 0}
+  skillStat: {fileID: 11400000, guid: 2cf75a28ba2cac54594ac8567b7c32f6, type: 2}
+  OnTriggerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSkillUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCooldown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCooldownStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStopWithType:
+    m_PersistentCalls:
+      m_Calls: []

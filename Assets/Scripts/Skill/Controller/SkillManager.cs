@@ -36,8 +36,8 @@ public class SkillManager : NetworkBehaviour
             skillController.LoadStat();
             skillController.OnStopWithType.AddListener(RemoveSkill);
             m_skillCollecteds.Add(skillController.skillName, 1);
+            
         }
-
     }
     public SkillController GetSkillController(SkillName type)
     {

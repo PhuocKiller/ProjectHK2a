@@ -18,6 +18,7 @@ public class SkillButtonDrawer : MonoBehaviour
             index++;
             if(index<=4)
             {
+                
                 Helper.ClearChilds(m_gridRoot[index]);
                 var skillButtonClone = Instantiate(m_skillBtnPrefab);
                 Helper.AssignToRoot(m_gridRoot[index], skillButtonClone.transform,

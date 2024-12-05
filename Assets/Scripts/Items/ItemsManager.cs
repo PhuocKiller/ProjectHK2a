@@ -9,17 +9,18 @@ public class ItemsManager : MonoBehaviour
     GameObject[] itemButton;
     GameObject itemToBuy;
     InventoryItemBase itemToSell;
-    [SerializeField] GameObject buyButton, sellButton;
+    [SerializeField] GameObject buyBtn, sellBtn, basicBtn,shieldBtn, rangeBtn, meleeBtn;
     int priceItem; int indexItem; int indexSlot;
     NetworkManager networkManager;
-    [SerializeField] Transform backGroundShopItem;
+    [SerializeField] Transform basicBG,shieldBG,rangeBG,meleeBG;
     public TextMeshProUGUI priceValue;
     [SerializeField] TextMeshProUGUI itemInfoText;
     
     private void Awake()
     {
         networkManager=FindObjectOfType<NetworkManager>();
-        LoadStatItemButton();
+        LoadStatItems();
+        BasicButton();
     }
     private void OnEnable()
     {
@@ -27,26 +28,69 @@ public class ItemsManager : MonoBehaviour
         priceItem = 0;
         priceValue.text = "0";
         itemInfoText.text = "";
-        buyButton.SetActive(true); sellButton.SetActive(false);
+        buyBtn.SetActive(true); sellBtn.SetActive(false);
     }
-    void LoadStatItemButton()
+    void LoadStatItems()
+    {
+        LoadStatBasicItems();
+        LoadStatShieldItems();
+        LoadStatRangeItems();
+        LoadStatMeleeItems();
+    }
+    void LoadStatBasicItems()
     {
         int index = -1;
-        foreach (Transform item in backGroundShopItem)
+        foreach (Transform item in basicBG)
         {
             index++;
             Image imageItem = item.GetChild(0).GetComponent<Image>();
-            imageItem.sprite = networkManager.shopItems[index].GetComponent<IInventoryItem>().Image;
+            imageItem.sprite = networkManager.basicItems[index].GetComponent<IInventoryItem>().Image;
         }
     }
-    public void UpdatePrice(int index)
+    void LoadStatShieldItems()
     {
-        itemToBuy = networkManager.shopItems[index];
+        int index = -1;
+        foreach (Transform item in shieldBG)
+        {
+            index++;
+            Image imageItem = item.GetChild(0).GetComponent<Image>();
+            imageItem.sprite = networkManager.shieldItems[index].GetComponent<IInventoryItem>().Image;
+        }
+    }
+    void LoadStatRangeItems()
+    {
+        int index = -1;
+        foreach (Transform item in rangeBG)
+        {
+            index++;
+            Image imageItem = item.GetChild(0).GetComponent<Image>();
+            imageItem.sprite = networkManager.rangeItems[index].GetComponent<IInventoryItem>().Image;
+        }
+    }
+    void LoadStatMeleeItems()
+    {
+        int index = -1;
+        foreach (Transform item in meleeBG)
+        {
+            index++;
+            Image imageItem = item.GetChild(0).GetComponent<Image>();
+            imageItem.sprite = networkManager.MeleeItems[index].GetComponent<IInventoryItem>().Image;
+        }
+    }
+    public void UpdatePrice(Transform thisBtn)
+    {
+        string parentName=thisBtn.parent.name;
+        switch (parentName)
+        {
+            case "BasicBG": { itemToBuy = networkManager.basicItems[thisBtn.GetSiblingIndex()];  break; }
+            case "ShieldBG": { itemToBuy = networkManager.shieldItems[thisBtn.GetSiblingIndex()]; break; }
+            case "RangeBG": { itemToBuy = networkManager.rangeItems[thisBtn.GetSiblingIndex()]; break; }
+            case "MeleeBG": { itemToBuy = networkManager.MeleeItems[thisBtn.GetSiblingIndex()]; break; }
+        }
         priceItem = itemToBuy.GetComponent<InventoryItemBase>().Price;
         priceValue.text= priceItem.ToString();
-        indexItem=index;
         ShowInfoItem(itemToBuy.GetComponent<InventoryItemBase>());
-        buyButton.SetActive(true); sellButton.SetActive(false);  
+        buyBtn.SetActive(true); sellBtn.SetActive(false);  
     }
 
     public void BuyItem()
@@ -75,10 +119,38 @@ public class ItemsManager : MonoBehaviour
     public void CheckInfoToSell(InventoryItemBase item, int indexSlot)
     {
         ShowInfoItem(item);
-        buyButton.SetActive(false); sellButton.SetActive(true);
+        buyBtn.SetActive(false); sellBtn.SetActive(true);
         itemToSell = item;
         this.indexSlot=indexSlot;
         priceItem = (int)(item.Price * 0.7);
         priceValue.text= priceItem.ToString();
+    }
+    public void BasicButton()
+    {
+        basicBtn.GetComponent<Image>().color= Color.green;
+        shieldBtn.GetComponent<Image>().color = Color.white;
+        rangeBtn.GetComponent<Image>().color = Color.white;
+        meleeBtn.GetComponent<Image>().color = Color.white;
+    }
+    public void ShieldButton()
+    {
+        basicBtn.GetComponent<Image>().color = Color.white;
+        shieldBtn.GetComponent<Image>().color = Color.green;
+        rangeBtn.GetComponent<Image>().color = Color.white;
+        meleeBtn.GetComponent<Image>().color = Color.white;
+    }
+    public void RangeButton()
+    {
+        basicBtn.GetComponent<Image>().color = Color.white;
+        shieldBtn.GetComponent<Image>().color = Color.white;
+        rangeBtn.GetComponent<Image>().color = Color.green;
+        meleeBtn.GetComponent<Image>().color = Color.white;
+    }
+    public void MeleeButton()
+    {
+        basicBtn.GetComponent<Image>().color = Color.white;
+        shieldBtn.GetComponent<Image>().color = Color.white;
+        rangeBtn.GetComponent<Image>().color = Color.white;
+        meleeBtn.GetComponent<Image>().color = Color.green;
     }
 }

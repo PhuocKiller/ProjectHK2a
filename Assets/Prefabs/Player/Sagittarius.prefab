@@ -637,6 +637,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -1361,9 +1364,9 @@ MonoBehaviour:
   - {fileID: 8205854289906227358}
   - {fileID: 5988639432067642820}
   - {fileID: 8116786480547734877}
+  - {fileID: 1043465978866407805}
   - {fileID: 8538779874639659945}
   - {fileID: 2947102909831654999}
-  - {fileID: 1467446518769024601}
   m_skillBtnDrawer: {fileID: 0}
 --- !u!114 &3149371936203014197
 MonoBehaviour:
@@ -1645,6 +1648,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -1711,6 +1717,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnCooldownStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoItem:
     m_PersistentCalls:
       m_Calls: []
   OnStopWithType:
@@ -2275,6 +2284,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -2653,6 +2665,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnCooldownStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoItem:
     m_PersistentCalls:
       m_Calls: []
   OnStopWithType:
@@ -3247,9 +3262,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c0b6292530afd44a839731630125a49, type: 3}
---- !u!114 &1467446518769024601 stripped
+--- !u!114 &1043465978866407805 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8578456526786442372, guid: 0c0b6292530afd44a839731630125a49, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7866245731058275232, guid: 0c0b6292530afd44a839731630125a49, type: 3}
   m_PrefabInstance: {fileID: 7156683904041143005}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

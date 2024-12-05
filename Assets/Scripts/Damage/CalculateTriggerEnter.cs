@@ -25,7 +25,7 @@ public class CalculateTriggerEnter : MonoBehaviour
                 , isKillCreep: (Vector3 posSpawn, float luckyChance) =>
                 {
                     NetworkManager networkManager = FindObjectOfType<NetworkManager>();
-                    for (int i = 0;i< networkManager.shopItems.Length;i++)
+                    for (int i = 0;i< networkManager.basicItems.Length;i++)
                     {
                        if(FindObjectOfType<MechanicDamage>().GetChance(luckyChance*networkManager.itemsDropChance[i]))
                         {

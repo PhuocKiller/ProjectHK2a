@@ -14,7 +14,7 @@ public class NetworkManager : MonoBehaviour
     [SerializeField]
     GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
-    public GameObject[] players, creeps, shopItems;
+    public GameObject[] players, creeps, basicItems,shieldItems,rangeItems,MeleeItems;
     public float[] itemsDropChance;
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
@@ -87,9 +87,9 @@ public class NetworkManager : MonoBehaviour
                                obj.GetComponent<CreepController>().playerTeam = 1;
                            });
     }
-    public void SpawnObjWhenAddItem(int indexItem, int indexItemSlot)
+    public void SpawnObjWhenAddItem(GameObject itemObj, int indexItemSlot)
     {
-        NetworkObject item=runner.Spawn(shopItems[indexItem]);
+        NetworkObject item=runner.Spawn(itemObj);
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         player.SetParentItemRPC(item.Id, indexItemSlot);
     }
@@ -107,14 +107,14 @@ public class NetworkManager : MonoBehaviour
     }
     public void SpawnItemFromCreep(int indexItem,Vector3 posSpawn)
     {
-        NetworkObject item = runner.Spawn(shopItems[indexItem], posSpawn);
+        NetworkObject item = runner.Spawn(basicItems[indexItem], posSpawn);
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
     }
     public int IndexItemBaseOnName(string name)
     {
-        for (int i = 0; i <shopItems.Length; i++)
+        for (int i = 0; i <basicItems.Length; i++)
         {
-            if (name== shopItems[i].name) return i;
+            if (name== basicItems[i].name) return i;
         }
         return -1;
     }

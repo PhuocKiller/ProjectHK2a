@@ -158,12 +158,11 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   isSpawn: 0
-  _ItemType: 0
   _Image: {fileID: 21300000, guid: e384923ad8f46004398b561f05e81935, type: 3}
   _Price: 80
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
-  skillName: 27
+  skillName: 28
 --- !u!1 &6063375350975124485
 GameObject:
   m_ObjectHideFlags: 0

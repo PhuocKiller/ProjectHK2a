@@ -648,6 +648,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -1620,9 +1623,9 @@ MonoBehaviour:
   - {fileID: 8205854289906227358}
   - {fileID: 5988639432067642820}
   - {fileID: 8288694451629882257}
+  - {fileID: 997801562045826993}
   - {fileID: 8492683830736264549}
   - {fileID: 3118166082374004891}
-  - {fileID: 1729011901570457749}
   m_skillBtnDrawer: {fileID: 0}
 --- !u!114 &3149371936203014197
 MonoBehaviour:
@@ -1935,6 +1938,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -2001,6 +2007,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnCooldownStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoItem:
     m_PersistentCalls:
       m_Calls: []
   OnStopWithType:
@@ -7403,6 +7412,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -7973,6 +7985,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -8429,9 +8444,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c0b6292530afd44a839731630125a49, type: 3}
---- !u!114 &1729011901570457749 stripped
+--- !u!114 &997801562045826993 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8578456526786442372, guid: 0c0b6292530afd44a839731630125a49, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7866245731058275232, guid: 0c0b6292530afd44a839731630125a49, type: 3}
   m_PrefabInstance: {fileID: 6985755834546066449}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

@@ -22,14 +22,7 @@ public class InventoryItemBase : NetworkBehaviour, IInventoryItem
     {
         get;
     }
-    public ItemTypes _ItemType;
-    public ItemTypes ItemType
-    {
-        get
-        {
-            return _ItemType;
-        }
-    }
+    
     public Sprite _Image;
     public Sprite Image
     {

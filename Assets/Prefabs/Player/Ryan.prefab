@@ -892,6 +892,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -2138,9 +2141,9 @@ MonoBehaviour:
   - {fileID: 8205854289906227358}
   - {fileID: 5988639432067642820}
   - {fileID: 6082116128658045035}
+  - {fileID: 3078132206235944011}
   - {fileID: 5959191564303294111}
   - {fileID: 876702548900361057}
-  - {fileID: 3499843354189357935}
   m_skillBtnDrawer: {fileID: 0}
 --- !u!114 &5649112496517205888
 MonoBehaviour:
@@ -2294,6 +2297,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -2360,6 +2366,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnCooldownStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoItem:
     m_PersistentCalls:
       m_Calls: []
   OnStopWithType:
@@ -2645,6 +2654,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnCooldownStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoItem:
     m_PersistentCalls:
       m_Calls: []
   OnStopWithType:
@@ -7825,6 +7837,9 @@ MonoBehaviour:
   OnCooldownStop:
     m_PersistentCalls:
       m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
   OnStopWithType:
     m_PersistentCalls:
       m_Calls: []
@@ -8048,9 +8063,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3499843354189357935 stripped
+--- !u!114 &3078132206235944011 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8578456526786442372, guid: 0c0b6292530afd44a839731630125a49, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7866245731058275232, guid: 0c0b6292530afd44a839731630125a49, type: 3}
   m_PrefabInstance: {fileID: 5160346986763474923}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
