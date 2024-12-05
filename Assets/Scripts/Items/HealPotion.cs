@@ -13,10 +13,14 @@ public class HealPotion : InventoryItemBase
         get { return ItemTypes.Consumable; }
     }
     
-    public override void OnUse()
+    public override void OnUse(int indexSlot)
     {
-        base.OnUse();
-        Singleton<Inventory>.Instance.RemoveItem(this);
+        base.OnUse(indexSlot);
+        Singleton<Inventory>.Instance.RemoveItem(this, indexSlot);
+    }
+    public override int maxStack
+    {
+        get { return 3; }
     }
     public override string Info
     {

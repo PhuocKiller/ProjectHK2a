@@ -6,7 +6,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     private const int SLOTS = 6;
-    private IList<InventorySlot> mSlots = new List<InventorySlot>();
+    public IList<InventorySlot> mSlots = new List<InventorySlot>();
     public event EventHandler<InventoryEventArgs> ItemAdded,ItemRemoved,ItemUsed,InventoryUpdate;
     public Action<ItemDragHandler> OnItemClicked, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
     public Action<int, int> OnItemDroppedOn;
@@ -67,12 +67,13 @@ public class Inventory : MonoBehaviour
         btn.Initialize(item.skillName);
     }
 
-    public void RemoveItem(IInventoryItem item) //Quăng item ra đất
+    public void RemoveItem(IInventoryItem item,int indexSlot)
     {
         NetworkManager networkManager = FindObjectOfType<NetworkManager>();
         foreach (InventorySlot slot in mSlots)
         {
-            if (slot.Remove(item))
+            Debug.Log("mSlots[0].FirstItem.Slot.Id "+mSlots[0].FirstItem.Slot.Id);
+            if (slot.Remove(item, indexSlot))
             {
                 if (ItemRemoved != null)
                 {
@@ -88,7 +89,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    internal void UseItemClickInventory(IInventoryItem item, out bool canActive) //Use item khi click trực tiếp trong inventory
+    internal void UseItemClickInventory(IInventoryItem item,int indexSlot, out bool canActive) //Use item khi click trực tiếp trong inventory
     {
         if (!buyItemPanel.activeInHierarchy)
         {
@@ -96,7 +97,7 @@ public class Inventory : MonoBehaviour
             {
                 ItemUsed(this, new InventoryEventArgs(item));
             }
-            item.OnUse(); //item remove nằm trong đây
+            item.OnUse(indexSlot); //item remove nằm trong đây
             if (InventoryUpdate != null)
             {
                 InventoryUpdate(this, new InventoryEventArgs(item));
@@ -105,7 +106,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            buyItemPanel.GetComponent<ItemsManager>().CheckInfoToSell(item);
+            buyItemPanel.GetComponent<ItemsManager>().CheckInfoToSell(item, indexSlot);
             canActive=false;
         }
     }

@@ -81,7 +81,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 0
+  DestroyWhenStateAuthorityLeaves: 1
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 2305
@@ -157,25 +157,13 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  isSpawn: 0
   _ItemType: 0
   _Image: {fileID: 21300000, guid: e384923ad8f46004398b561f05e81935, type: 3}
   _Price: 80
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 27
-  skillType: 4
-  timerTrigger: 0
-  cooldownTime: 0
-  levelManaCosts: 
-  skillIcon: {fileID: 0}
-  triggerSoundFX: {fileID: 0}
-  levelDamages: 
-  isPhysicDamage: 0
-  isMakeStun: 0
-  isMakeSlow: 0
-  isMakeSilen: 0
-  timeEffect: 0
-  VfxEffect: {fileID: 0}
 --- !u!1 &6063375350975124485
 GameObject:
   m_ObjectHideFlags: 0

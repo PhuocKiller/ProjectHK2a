@@ -21,8 +21,9 @@ public interface IInventoryItem
     string Info { get; set; }
     void OnPickUp();
     void OnDrop();
-    void OnUse();
+    void OnUse(int indexSlot);
     InventorySlot Slot { get; set; }
+    int maxStack { get; }
 }
 public class InventoryEventArgs : EventArgs
 

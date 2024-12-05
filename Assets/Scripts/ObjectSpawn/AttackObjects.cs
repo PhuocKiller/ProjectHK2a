@@ -26,7 +26,6 @@ public class AttackObjects : NetworkBehaviour
             timer = TickTimer.CreateFromSeconds(Runner, timerDespawn);
             if (rb!=null)
             {
-                isDestroyWhenCollider = true;
                 rb.Rigidbody.AddForce(direction * 1500);
                 transform.forward = direction;
             }

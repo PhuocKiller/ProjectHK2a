@@ -10,7 +10,7 @@ public class ItemsManager : MonoBehaviour
     GameObject itemToBuy;
     IInventoryItem itemToSell;
     [SerializeField] GameObject buyButton, sellButton;
-    int priceItem; int indexItem;
+    int priceItem; int indexItem; int indexSlot;
     NetworkManager networkManager;
     [SerializeField] Transform backGroundShopItem;
     public TextMeshProUGUI priceValue;
@@ -66,18 +66,19 @@ public class ItemsManager : MonoBehaviour
     public void SellItem()
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-        Singleton<Inventory>.Instance.RemoveItem(itemToSell);
+        Singleton<Inventory>.Instance.RemoveItem(itemToSell, indexSlot);
         player.playerStat.coinsValue += priceItem;
     }
     public void ShowInfoItem(IInventoryItem item)
     {
         itemInfoText.text = item.Info;
     }
-    public void CheckInfoToSell(IInventoryItem item)
+    public void CheckInfoToSell(IInventoryItem item, int indexSlot)
     {
         ShowInfoItem(item);
         buyButton.SetActive(false); sellButton.SetActive(true);
         itemToSell = item;
+        this.indexSlot=indexSlot;
         priceItem = (int)(item.Price * 0.7);
         priceValue.text= priceItem.ToString();
     }

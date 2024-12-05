@@ -172,11 +172,13 @@ public class UIManager : MonoBehaviour
             ItemDragHandler itemDragHandler = imageTransform.GetComponent<ItemDragHandler>();
             Transform textTransform = slot.GetChild(0).GetChild(0).GetChild(0);
             Text txtCount = textTransform.GetComponent<Text>();
-          
+            Debug.Log("e.Item.Slot.Id " + e.Item.Slot.Id);
+            Debug.Log("index " + index);
             if (itemDragHandler.Item == null) continue;
             if (e.Item.Slot.Id == index)
             {
                 int itemCount = e.Item.Slot.Count;
+                
                 itemDragHandler.Item=e.Item.Slot.FirstItem;
                 if (itemCount <2)
                 {

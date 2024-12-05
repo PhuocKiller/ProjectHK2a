@@ -3323,12 +3323,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5772328069739655923, guid: a2974147ed7273c4782d239d1b0e0ea0, type: 3}
       propertyPath: NetworkedBehaviours.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5772328069739655923, guid: a2974147ed7273c4782d239d1b0e0ea0, type: 3}
       propertyPath: NetworkedBehaviours.Array.data[2]
       value: 
-      objectReference: {fileID: 1771277055}
+      objectReference: {fileID: 1771277048}
     - target: {fileID: 5772328069739655923, guid: a2974147ed7273c4782d239d1b0e0ea0, type: 3}
       propertyPath: NetworkedBehaviours.Array.data[3]
       value: 
@@ -9058,17 +9058,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6152831460141934657, guid: 5a4446db03809d543a7d95819c9e14e2, type: 3}
---- !u!114 &1771277055 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 196203017646081148, guid: a2974147ed7273c4782d239d1b0e0ea0, type: 3}
-  m_PrefabInstance: {fileID: 583165885}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771277046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f14a104c8476ebb44a327816440f8782, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1796154512
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class InventorySlot 
+public class InventorySlot
 {
     private Stack<IInventoryItem> mItemStack = new Stack<IInventoryItem>();
 
@@ -11,6 +11,7 @@ public class InventorySlot
     public void AddItem(IInventoryItem item)
     {
         item.Slot = this;
+        
         mItemStack.Push(item);
     }
     public IInventoryItem FirstItem
@@ -21,9 +22,9 @@ public class InventorySlot
             return mItemStack.Peek();
         }
     }
-    public bool IsStackable (IInventoryItem item)
+    public bool IsStackable(IInventoryItem item)
     {
-        if (IsEmpty) return false;
+        if (IsEmpty || Count>=item.maxStack) return false;
         IInventoryItem first= mItemStack.Peek();
         if (first.Name== item.Name)
         {
@@ -39,11 +40,12 @@ public class InventorySlot
     {
         get { return mItemStack.Count; }
     }
-    public bool Remove(IInventoryItem item)
+    public bool Remove(IInventoryItem item,int indexSlot)
     {
         if (IsEmpty) return false ;
         IInventoryItem first=mItemStack.Peek();
-        if (first.Name == item.Name)
+        Debug.Log("first.Slot.Id " + first.Slot.Id);
+        if (first.Name == item.Name && Id== first.Slot.Id)
         {
             mItemStack.Pop();
             return true;

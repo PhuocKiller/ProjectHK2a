@@ -53,19 +53,10 @@ public class InventoryItemBase : NetworkBehaviour, IInventoryItem
         get; set;
     }
     public SkillName skillName;
-    public SkillTypes skillType;
-    public float timerTrigger;
-    public float cooldownTime;
-    public int[] levelManaCosts;
-    public Sprite skillIcon;
-    public AudioClip triggerSoundFX;
-    public int[] levelDamages;
-    public bool isPhysicDamage;
-    public bool isMakeStun;
-    public bool isMakeSlow;
-    public bool isMakeSilen;
-    public float timeEffect;
-    public NetworkObject VfxEffect;
+    public virtual int maxStack
+    {
+        get { return 1; }
+    }
     public virtual string Info {  get; set; }
     public void Start()
     {
@@ -125,7 +116,7 @@ public class InventoryItemBase : NetworkBehaviour, IInventoryItem
     {
         return itemTypes;
     }
-    public virtual void OnUse()
+    public virtual void OnUse(int indexSlot)
     {
 
     }

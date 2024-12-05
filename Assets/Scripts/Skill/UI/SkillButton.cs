@@ -229,7 +229,8 @@ public class SkillButton : MonoBehaviour
                 IInventoryItem item = dragHandler.Item;
                 if (item != null)
                     {
-                    Singleton<Inventory>.Instance.UseItemClickInventory(item, out bool canActive);
+                    Singleton<Inventory>.Instance.UseItemClickInventory
+                    (Singleton<Inventory>.Instance.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
                         if (!canActive) return;
                     }
             }
