@@ -72,7 +72,10 @@ public class Inventory : MonoBehaviour
         NetworkManager networkManager = FindObjectOfType<NetworkManager>();
         foreach (InventorySlot slot in mSlots)
         {
-            Debug.Log("mSlots[0].FirstItem.Slot.Id "+mSlots[0].FirstItem.Slot.Id);
+            foreach (var itemSlot in slot.mItemStack)
+            {
+               // Debug.Log("itemSlot.Slot.ID " + itemSlot.Slot.Id);
+            }
             if (slot.Remove(item, indexSlot))
             {
                 if (ItemRemoved != null)
