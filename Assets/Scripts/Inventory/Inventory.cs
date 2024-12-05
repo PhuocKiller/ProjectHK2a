@@ -44,7 +44,7 @@ public class Inventory : MonoBehaviour
         mSlots[indexItemSlot_2] = newSlot;
         OnItemDroppedOn?.Invoke(indexItemSlot_1, indexItemSlot_2);
     }
-    public void AddItem(InventoryItemBase item, out int indexItem)
+    public void AddItem(InventoryItemBase item, out bool canAdd)
     {
         NetworkManager networkManager = FindObjectOfType<NetworkManager>();
         InventoryItemBase newItem = item.Clone();
@@ -61,11 +61,13 @@ public class Inventory : MonoBehaviour
             {
                 ItemAdded(this, new InventoryEventArgs(newItem));
             }
+            networkManager.SpawnObjWhenAddItem(networkManager.FindItemBaseOnName(newItem.Name), freeSlot.Id);
+            SkillButton btn = inventoryPanel.GetChild(freeSlot.Id).GetComponent<SkillButton>();
+            btn.Initialize(newItem.skillName);
+            canAdd = true;
         }
-        networkManager.SpawnObjWhenAddItem(networkManager.FindItemBaseOnName(newItem.Name), freeSlot.Id);
-        indexItem = freeSlot.Id;
-        SkillButton btn = inventoryPanel.GetChild(freeSlot.Id).GetComponent<SkillButton>();
-        btn.Initialize(newItem.skillName);
+        else canAdd = false;
+        
     }
 
     public void RemoveItem(InventoryItemBase item,int indexSlot)

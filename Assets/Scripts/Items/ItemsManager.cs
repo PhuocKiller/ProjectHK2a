@@ -102,8 +102,8 @@ public class ItemsManager : MonoBehaviour
         }
         else
         {
-            player.playerStat.coinsValue-= priceItem;
-            Singleton<Inventory>.Instance.AddItem(itemToBuy.GetComponent<InventoryItemBase>(), out int indexItemSlot);
+            Singleton<Inventory>.Instance.AddItem(itemToBuy.GetComponent<InventoryItemBase>(), out bool canAdd);
+            if (canAdd) player.playerStat.coinsValue -= priceItem;
         }
     }
     public void SellItem()

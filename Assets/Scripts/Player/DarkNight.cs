@@ -69,7 +69,7 @@ public class DarkNight : PlayerController
     IEnumerator DelayUltimate(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f, int levelSkill = 1)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, ultimateTransform.position, ultimateTransform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
@@ -80,7 +80,7 @@ public class DarkNight : PlayerController
     }
     IEnumerator DelayUltimateCollider(NetworkObject obj)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.7f);
         obj.GetComponent<SphereCollider>().enabled = true;
     }
 }

@@ -293,6 +293,7 @@ Transform:
   - {fileID: 63402059489775383}
   - {fileID: 593957936549350129}
   - {fileID: 5060608026126761237}
+  - {fileID: 4664298703391568538}
   m_Father: {fileID: 7538871953370813433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1239204764747002308
@@ -618,6 +619,53 @@ Transform:
   - {fileID: 161641690792108074}
   m_Father: {fileID: 4514629202955574965}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2802540046750436685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4664298703391568538}
+  - component: {fileID: 7096711860089158808}
+  m_Layer: 0
+  m_Name: ItemSkillTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4664298703391568538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802540046750436685}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3737519445509147739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7096711860089158808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2802540046750436685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95724067febefb04599e0b5ff89f255b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
 --- !u!1 &2874520138218663525
 GameObject:
   m_ObjectHideFlags: 0
@@ -2482,6 +2530,7 @@ MonoBehaviour:
   - {fileID: 425755484766953798}
   - {fileID: 8290456080157606688}
   - {fileID: 498007890608759940}
+  - {fileID: 7096711860089158808}
   SimulationBehaviours: []
 --- !u!114 &1002137448909909735
 MonoBehaviour:
@@ -2514,7 +2563,7 @@ MonoBehaviour:
     _inverse: 0
     _hash: -814817977
   StateHashes: 0000000046980c4f14c27366213842f4a51b941b33fcc29f104cc139fa334f4ab99d7c49406246d303cc75d05df9b1c647688b2cb1afdc30bd4eb85f0abf574f065e3320c7df733bcb3e175474822bd61b594c2e7d60556569089f1e
-  TriggerHashes: 0000000028a981070d286c40213842f437b93501affd802515ac89bc5df9b1c6
+  TriggerHashes: 0000000028a981070d286c40213842f437b93501affd802515ac89bc5df9b1c6c46979fd
 --- !u!143 &6160381382846009959
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2626,6 +2675,7 @@ MonoBehaviour:
   skill_2Transform: {fileID: 63402059489775383}
   ultimateTransform: {fileID: 593957936549350129}
   rayCastTransform: {fileID: 5060608026126761237}
+  itemSkillTransform: {fileID: 4664298703391568538}
   transformCamera: {fileID: 9041920499944046179}
   playerType: 5
   skillButtons: []

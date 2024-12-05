@@ -22,8 +22,18 @@ public class ItemSkillManager : NetworkBehaviour
                     NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, player.itemSkillTransform.position, player.itemSkillTransform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<PotionRegenSkill>().SetUp(player,0.05f, levelDamage, isPhysicDamage, player.itemSkillTransform,
-             isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
+                obj.GetComponent<PotionRegenSkill>().SetUp(SkillName.HealPotion,player, 0.05f, levelDamage,
+              timeTrigger,player.itemSkillTransform);
+            });
+                    break;
+                }
+            case SkillName.ManaPotion:
+                {
+                    NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, player.itemSkillTransform.position, player.itemSkillTransform.rotation, Object.InputAuthority,
+            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+            {
+                obj.GetComponent<PotionRegenSkill>().SetUp(SkillName.ManaPotion, player, 0.1f, levelDamage,
+              timeTrigger, player.itemSkillTransform);
             });
                     break;
                 }

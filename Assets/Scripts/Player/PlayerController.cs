@@ -213,7 +213,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         playerStat.currentMana -= manaCost;
         itemSkillManager.UseItemSkill(skillName, VFXEffect, levelDamage, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
         timeTrigger, TimeEffect, posMouseUp, levelSkill);
-        
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void AnimatorRPC(string name)
@@ -455,8 +454,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         InventoryItemBase item = other.GetComponent<InventoryItemBase>();
         if (item != null)
         {
-            Singleton<Inventory>.Instance.AddItem(item, out int indexItem);
-            item.OnPickUp();
+            Singleton<Inventory>.Instance.AddItem(item, out bool canAdd);
+            if(canAdd) item.OnPickUp();
+
         }
     }
     private void OnCollisionEnter(Collision collision)

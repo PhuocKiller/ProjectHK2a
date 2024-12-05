@@ -321,6 +321,7 @@ Transform:
   - {fileID: 63402059489775383}
   - {fileID: 593957936549350129}
   - {fileID: 5060608026126761237}
+  - {fileID: 6397822708595100706}
   m_Father: {fileID: 7538871953370813433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &748922052056319664
@@ -1058,6 +1059,53 @@ Transform:
   - {fileID: 1052041597300219383}
   m_Father: {fileID: 7538871953370813433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3154638136332766464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6397822708595100706}
+  - component: {fileID: 1552454136981590488}
+  m_Layer: 0
+  m_Name: ItemSkillTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6397822708595100706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3154638136332766464}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3737519445509147739}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1552454136981590488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3154638136332766464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95724067febefb04599e0b5ff89f255b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
 --- !u!1 &3548533356005209907
 GameObject:
   m_ObjectHideFlags: 0
@@ -7598,6 +7646,7 @@ MonoBehaviour:
   - {fileID: 5561380335803678753}
   - {fileID: 4307963840950903367}
   - {fileID: 5632925754343622115}
+  - {fileID: 1552454136981590488}
   SimulationBehaviours: []
 --- !u!114 &1002137448909909735
 MonoBehaviour:
@@ -7742,6 +7791,7 @@ MonoBehaviour:
   skill_2Transform: {fileID: 63402059489775383}
   ultimateTransform: {fileID: 593957936549350129}
   rayCastTransform: {fileID: 5060608026126761237}
+  itemSkillTransform: {fileID: 6397822708595100706}
   transformCamera: {fileID: 9041920499944046179}
   playerType: 2
   skillButtons: []

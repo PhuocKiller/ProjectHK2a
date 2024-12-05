@@ -136,6 +136,7 @@ public class SkillButton : MonoBehaviour
         
         RegisterEvent();
         if (skillType == SkillTypes.Items) levelSkill = 1;
+        CalculateDamageAndManaCost();
     }
     
     private void UpdateUI()
@@ -189,6 +190,10 @@ public class SkillButton : MonoBehaviour
     {
         levelSkill++;
         player.playerStat.levelPoint--;
+        CalculateDamageAndManaCost();
+    }
+    void CalculateDamageAndManaCost()
+    {
         if (levelDamages.Length > 0)
         {
             damageSkill = levelDamages[levelSkill];

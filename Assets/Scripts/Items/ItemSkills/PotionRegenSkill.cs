@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PotionRegenSkill : NetworkBehaviour
 {
+    SkillName skillName;
     PlayerController player;
     private TickTimer timerToDestroy;
     float timerApplyRegen;
@@ -12,6 +13,7 @@ public class PotionRegenSkill : NetworkBehaviour
     public float timerDestroy, timeEffect, timerApply;
     public int damage, levelSkill;
     public bool isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider;
+
 
     public override void Spawned()
     {
@@ -22,22 +24,16 @@ public class PotionRegenSkill : NetworkBehaviour
             timerToApplyRegen = TickTimer.CreateFromSeconds(Runner, timerApply);
         }
     }
-    public void SetUp(PlayerController player, float timerApplyDamage, int levelDamage, bool isPhysicDamage, Transform parentObject = null,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f,
-        float timeEffect = 0f, bool isDestroyWhenCollider = false, Vector3? posMouseUp = null, int levelSkill = 1)
+    public void SetUp(SkillName skillName, PlayerController player, float timerApplyDamage, int levelDamage, float timeTrigger,
+        Transform parentObject = null
+        )
     {
+        this.skillName = skillName;
         this.player = player;
         this.timerApply = timerApplyDamage;
         transform.SetParent(parentObject);
         damage = levelDamage;
-        this.isPhysicDamage = isPhysicDamage;
-        this.isMakeStun = isMakeStun;
-        this.isMakeSlow = isMakeSlow;
-        this.isMakeSilen = isMakeSilen;
-        this.timeEffect = timeEffect;
-        this.isDestroyWhenCollider = isDestroyWhenCollider;
         timerDestroy = timeTrigger;
-        this.levelSkill = levelSkill;
     }
 
     public override void FixedUpdateNetwork()
@@ -50,7 +46,8 @@ public class PotionRegenSkill : NetworkBehaviour
         }
         if (timerToApplyRegen.Expired(Runner))
         {
-            player.playerStat.currentHealth += damage;
+            if (skillName == SkillName.HealPotion) player.playerStat.currentHealth += damage;
+            else player.playerStat.currentMana += damage;
             timerToApplyRegen = TickTimer.CreateFromSeconds(Runner, timerApply);
         }
     }
