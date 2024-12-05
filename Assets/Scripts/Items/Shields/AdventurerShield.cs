@@ -16,4 +16,8 @@ public class AdventurerShield : InventoryItemBase
     {
         base.OnUse(indexSlot);
     }
+    public override string Info
+    {
+        get { return "Adventure : fdsfds"; }
+    }
 }

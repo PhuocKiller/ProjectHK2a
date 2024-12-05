@@ -45,10 +45,7 @@ GameObject:
   - component: {fileID: 2809529219992526576}
   - component: {fileID: 6342372748393257929}
   - component: {fileID: 51372936107017745}
-  - component: {fileID: 4238066904609202341}
-  - component: {fileID: -348588535750775460}
-  - component: {fileID: 3369465651767510757}
-  - component: {fileID: 7684316173449983607}
+  - component: {fileID: 4690982316259548223}
   m_Layer: 0
   m_Name: HealPotionVFX
   m_TagString: Untagged
@@ -95,8 +92,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 51372936107017745}
-  - {fileID: -348588535750775460}
-  - {fileID: 3369465651767510757}
+  - {fileID: 4690982316259548223}
   SimulationBehaviours: []
 --- !u!114 &51372936107017745
 MonoBehaviour:
@@ -128,30 +124,7 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
---- !u!136 &4238066904609202341
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2340718976182020634}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-348588535750775460
+--- !u!114 &4690982316259548223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,14 +133,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2340718976182020634}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4adba983eb5c91949a51414cf778d361, type: 3}
+  m_Script: {fileID: 11500000, guid: abafa5348d98c0c41b13b9e354d3c539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
-  timerDespawn: 0
+  timerDestroy: 0
   timeEffect: 0
+  timerApply: 0
   damage: 0
   levelSkill: 0
   isPhysicDamage: 0
@@ -175,46 +149,6 @@ MonoBehaviour:
   isMakeSlow: 0
   isMakeSilen: 0
   isDestroyWhenCollider: 0
---- !u!114 &3369465651767510757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2340718976182020634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1316d456b63868e40b1506b9799ce6ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WordOffset: 0
-  WordCount: 0
-  _interpolationDataSource: 0
-  _maxHealth: 0
-  _maxMana: 0
-  _damage: 0
-  _defend: 5
-  _magicResistance: 0
-  _magicAmpli: 0.05
-  _criticalChance: 0
-  _criticalDamage: 0
-  _moveSpeed: 20
-  _attackSpeed: 20
-  _lifeSteal: 0
-  _levelSkill: 0
-  canHeal: 1
---- !u!114 &7684316173449983607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2340718976182020634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4047197337222744532
 GameObject:
   m_ObjectHideFlags: 0

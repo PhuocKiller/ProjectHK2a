@@ -6,6 +6,7 @@ using UnityEngine;
 public class ItemSkillManager : NetworkBehaviour
 {
     PlayerController player;
+    
     private void Awake()
     {
         player = GetComponentInParent<PlayerController>();
@@ -17,17 +18,15 @@ public class ItemSkillManager : NetworkBehaviour
         switch (skillName)
         {
             case SkillName.HealPotion:
-            case SkillName.ManaPotion:
                 {
                     NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, player.itemSkillTransform.position, player.itemSkillTransform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AttackObjects>().SetUpPlayer(player, levelDamage, isPhysicDamage, player.itemSkillTransform,
+                obj.GetComponent<PotionRegenSkill>().SetUp(player,0.05f, levelDamage, isPhysicDamage, player.itemSkillTransform,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
             });
                     break;
                 }
-
         }
         
     }
