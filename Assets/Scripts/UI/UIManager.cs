@@ -145,7 +145,7 @@ public class UIManager : MonoBehaviour
             Transform textTransform = slot.GetChild(0).GetChild(0).GetChild(0);
             Text txtCount=textTransform.GetComponent<Text>();
 
-
+            Debug.Log("e.Item.Slot.Id " + e.Item.Slot.Id);
             if (index==e.Item.Slot.Id)
             {
                 image.sprite = e.Item.Image;
@@ -172,8 +172,6 @@ public class UIManager : MonoBehaviour
             ItemDragHandler itemDragHandler = imageTransform.GetComponent<ItemDragHandler>();
             Transform textTransform = slot.GetChild(0).GetChild(0).GetChild(0);
             Text txtCount = textTransform.GetComponent<Text>();
-            Debug.Log("e.Item.Slot.Id " + e.Item.Slot.Id);
-            Debug.Log("index " + index);
             if (itemDragHandler.Item == null) continue;
             if (e.Item.Slot.Id == index)
             {

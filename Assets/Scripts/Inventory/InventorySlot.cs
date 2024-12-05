@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,17 +7,15 @@ using UnityEngine;
 
 public class InventorySlot
 {
-    public List<IInventoryItem> mItemStack = new List<IInventoryItem>();
+    public List<InventoryItemBase> mItemStack = new List<InventoryItemBase>();
 
-    public int Id;
-    public void AddItem(IInventoryItem item)
+    public int Id;// { get; }
+    public void AddItem(InventoryItemBase item)
     {
         item.Slot = this;
-        Debug.Log("item.SlotID " + item.Slot.Id);
-        
         mItemStack.Add(item);
     }
-    public IInventoryItem FirstItem
+    public InventoryItemBase FirstItem
     {
         get
         {
@@ -24,7 +23,7 @@ public class InventorySlot
             return mItemStack[0];
         }
     }
-    public bool IsStackable(IInventoryItem item)
+    public bool IsStackable(InventoryItemBase item)
     {
         if (IsEmpty || Count>=item.maxStack) return false;
         IInventoryItem first= mItemStack[0];
@@ -42,13 +41,11 @@ public class InventorySlot
     {
         get { return mItemStack.Count; }
     }
-    public bool Remove(IInventoryItem item,int indexSlot)
+    public bool Remove(InventoryItemBase item,int indexSlot)
     {
         if (IsEmpty) return false ;
         IInventoryItem first=FirstItem;
-        Debug.Log("first.Slot.Id " + first.Slot.Id);
-        Debug.Log("mItemStack.count " + mItemStack.Count);
-        if (first.Name == item.Name && Id== first.Slot.Id)
+        if (first.Name == item.Name && Id== indexSlot)
         {
             mItemStack.Remove(item);
             return true;

@@ -231,6 +231,7 @@ public class SkillButton : MonoBehaviour
                     {
                     Singleton<Inventory>.Instance.UseItemClickInventory
                     (Singleton<Inventory>.Instance.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
+                Debug.Log("transform.GetSiblingIndex() " + transform.GetSiblingIndex());
                         if (!canActive) return;
                     }
             }

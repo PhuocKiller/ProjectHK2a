@@ -8,7 +8,7 @@ public class ItemsManager : MonoBehaviour
 {
     GameObject[] itemButton;
     GameObject itemToBuy;
-    IInventoryItem itemToSell;
+    InventoryItemBase itemToSell;
     [SerializeField] GameObject buyButton, sellButton;
     int priceItem; int indexItem; int indexSlot;
     NetworkManager networkManager;
@@ -60,7 +60,6 @@ public class ItemsManager : MonoBehaviour
         {
             player.playerStat.coinsValue-= priceItem;
             Singleton<Inventory>.Instance.AddItem(itemToBuy.GetComponent<InventoryItemBase>(), out int indexItemSlot);
-            
         }
     }
     public void SellItem()
@@ -69,11 +68,11 @@ public class ItemsManager : MonoBehaviour
         Singleton<Inventory>.Instance.RemoveItem(itemToSell, indexSlot);
         player.playerStat.coinsValue += priceItem;
     }
-    public void ShowInfoItem(IInventoryItem item)
+    public void ShowInfoItem(InventoryItemBase item)
     {
         itemInfoText.text = item.Info;
     }
-    public void CheckInfoToSell(IInventoryItem item, int indexSlot)
+    public void CheckInfoToSell(InventoryItemBase item, int indexSlot)
     {
         ShowInfoItem(item);
         buyButton.SetActive(false); sellButton.SetActive(true);

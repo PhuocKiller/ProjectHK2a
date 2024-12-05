@@ -28,8 +28,8 @@ public interface IInventoryItem
 public class InventoryEventArgs : EventArgs
 
 {
-    public IInventoryItem Item;
-    public InventoryEventArgs(IInventoryItem item)
+    public InventoryItemBase Item;
+    public InventoryEventArgs(InventoryItemBase item)
     {
         Item = item;
     }

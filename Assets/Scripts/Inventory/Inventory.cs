@@ -32,7 +32,7 @@ public class Inventory : MonoBehaviour
         inventoryPanel.GetChild(mSlots[indexItemSlot_1].Id).GetComponent<SkillButton>().Initialize(
           inventoryPanel.GetChild(mSlots[indexItemSlot_2].Id).GetComponent<SkillButton>().m_skillName);
         inventoryPanel.GetChild(mSlots[indexItemSlot_2].Id).GetComponent<SkillButton>().Initialize(newBtn.m_skillName);*/
-
+        Debug.Log("voday");
         int newIDSlot = -1;
         newIDSlot = mSlots[indexItemSlot_1].Id;
         mSlots[indexItemSlot_1].Id = mSlots[indexItemSlot_2].Id;
@@ -48,26 +48,28 @@ public class Inventory : MonoBehaviour
     public void AddItem(InventoryItemBase item, out int indexItem)
     {
         NetworkManager networkManager = FindObjectOfType<NetworkManager>();
-        InventorySlot freeSlot = FindStackAble(item);
+        InventoryItemBase newItem = item.Clone();
+        InventorySlot freeSlot = FindStackAble(newItem);
         if (freeSlot == null)
         {
             freeSlot = FindNextEmptySlot();
         }
         if (freeSlot != null)
         {
-            freeSlot.AddItem(item);
+            
+            freeSlot.AddItem(newItem);
             if (ItemAdded != null)
             {
-                ItemAdded(this, new InventoryEventArgs(item));
+                ItemAdded(this, new InventoryEventArgs(newItem));
             }
         }
-        networkManager.SpawnObjWhenAddItem(networkManager.IndexItemBaseOnName(item.Name), freeSlot.Id);
+        networkManager.SpawnObjWhenAddItem(networkManager.IndexItemBaseOnName(newItem.Name), freeSlot.Id);
         indexItem = freeSlot.Id;
         SkillButton btn = inventoryPanel.GetChild(freeSlot.Id).GetComponent<SkillButton>();
-        btn.Initialize(item.skillName);
+        btn.Initialize(newItem.skillName);
     }
 
-    public void RemoveItem(IInventoryItem item,int indexSlot)
+    public void RemoveItem(InventoryItemBase item,int indexSlot)
     {
         NetworkManager networkManager = FindObjectOfType<NetworkManager>();
         foreach (InventorySlot slot in mSlots)
@@ -92,7 +94,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    internal void UseItemClickInventory(IInventoryItem item,int indexSlot, out bool canActive) //Use item khi click trực tiếp trong inventory
+    internal void UseItemClickInventory(InventoryItemBase item,int indexSlot, out bool canActive) //Use item khi click trực tiếp trong inventory
     {
         if (!buyItemPanel.activeInHierarchy)
         {

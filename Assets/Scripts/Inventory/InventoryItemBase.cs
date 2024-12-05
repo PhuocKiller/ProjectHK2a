@@ -120,6 +120,9 @@ public class InventoryItemBase : NetworkBehaviour, IInventoryItem
     {
 
     }
+    public InventoryItemBase Clone()
+    {
+        return (InventoryItemBase)this.MemberwiseClone();
+    }
 
-    
 }
