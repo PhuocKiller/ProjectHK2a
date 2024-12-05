@@ -32,7 +32,6 @@ public class Inventory : MonoBehaviour
         inventoryPanel.GetChild(mSlots[indexItemSlot_1].Id).GetComponent<SkillButton>().Initialize(
           inventoryPanel.GetChild(mSlots[indexItemSlot_2].Id).GetComponent<SkillButton>().m_skillName);
         inventoryPanel.GetChild(mSlots[indexItemSlot_2].Id).GetComponent<SkillButton>().Initialize(newBtn.m_skillName);*/
-        Debug.Log("voday");
         int newIDSlot = -1;
         newIDSlot = mSlots[indexItemSlot_1].Id;
         mSlots[indexItemSlot_1].Id = mSlots[indexItemSlot_2].Id;
