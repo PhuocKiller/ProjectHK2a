@@ -376,17 +376,17 @@ MonoBehaviour:
   moveSpeed: 0
   attackSpeed: 0
   lifeSteal: 0
-  multipleHealth: 30
-  multipleMana: 10
-  multipleDamage: 10
-  multipleDefend: 0
-  multipleMagicResistance: 5
+  multipleHealth: 45
+  multipleMana: 5
+  multipleDamage: 5
+  multipleDefend: 3
+  multipleMagicResistance: 1
   multipleMagicAmpli: 0
-  multipleCriticalChance: 0
-  multipleCriticalDamage: 0
-  multipleMoveSpeed: 0
+  multipleCriticalChance: 0.01
+  multipleCriticalDamage: 0.1
+  multipleMoveSpeed: 15
   multipleAttackSpeed: 0
-  multipleLifeSteal: 0.01
+  multipleLifeSteal: 0.02
   _isBeingStun: 0
   _isBeingSlow: 0
   _isBeingSilen: 0
@@ -2562,8 +2562,8 @@ MonoBehaviour:
     _value: 0
     _inverse: 0
     _hash: -814817977
-  StateHashes: 0000000046980c4f14c27366213842f4a51b941b33fcc29f104cc139fa334f4ab99d7c49406246d303cc75d05df9b1c647688b2cb1afdc30bd4eb85f0abf574f065e3320c7df733bcb3e175474822bd61b594c2e7d60556569089f1e
-  TriggerHashes: 0000000028a981070d286c40213842f437b93501affd802515ac89bc5df9b1c6c46979fd
+  StateHashes: 0000000046980c4f14c27366213842f4a51b941b33fcc29f104cc139fa334f4ab99d7c49406246d303cc75d05df9b1c647688b2c2b7912e108c91147b1afdc30bd4eb85f0abf574f065e3320c7df733bcb3e175474822bd61b594c2e7d60556569089f1e
+  TriggerHashes: 0000000028a981070d286c40213842f437b93501affd802515ac89bc5df9b1c62b7912e1
 --- !u!143 &6160381382846009959
 CharacterController:
   m_ObjectHideFlags: 0

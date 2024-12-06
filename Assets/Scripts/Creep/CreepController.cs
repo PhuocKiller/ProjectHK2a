@@ -454,7 +454,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         yield return new WaitForSeconds(3f);
         
-        Runner.Despawn(GetComponent<NetworkObject>());
+        Destroy(gameObject);
     }
     
     [Networked] public TickTimer timeDie { get; set; }

@@ -46,7 +46,7 @@ public class PlayerStat : NetworkBehaviour
     public int multipleDamage;
     public int multipleDefend;
     public int multipleMagicResistance;
-    public int multipleMagicAmpli;
+    public float multipleMagicAmpli;
     public float multipleCriticalChance;
     public float multipleCriticalDamage;
     public int multipleMoveSpeed;
@@ -109,7 +109,7 @@ public class PlayerStat : NetworkBehaviour
         UpdateFullStat();
     }
     public void UpdateBaseStat(int level, int multipleHealth, int multipleMana, int multipleDamage, int multipleDefend,
-        int multipleMagicResistance, int multipleMagicAmpli,
+        int multipleMagicResistance, float multipleMagicAmpli,
         float multipleCriticalChance, float multipleCriticalDamage, int multipleMoveSpeed, int multipleAttackSpeed, float multipleLifeSteal)
     {
         if (creep)
@@ -177,6 +177,7 @@ public class PlayerStat : NetworkBehaviour
         damage = b_damage + playerBuffManager.damage;
         defend = b_defend + playerBuffManager.defend;
         magicResistance = b_magicResistance + playerBuffManager.magicResistance;
+        magicAmpli = b_magicAmpli + playerBuffManager.magicAmpli;
         criticalChance = b_criticalChance + playerBuffManager.criticalChance;
         if(criticalChance>1) criticalChance = 1;    
         criticalDamage = b_criticalDamage + playerBuffManager.criticalDamage;

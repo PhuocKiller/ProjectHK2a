@@ -486,13 +486,13 @@ MonoBehaviour:
   attackSpeed: 0
   lifeSteal: 0
   multipleHealth: 50
-  multipleMana: 10
-  multipleDamage: 10
-  multipleDefend: 0
-  multipleMagicResistance: 10
+  multipleMana: 5
+  multipleDamage: 5
+  multipleDefend: 2
+  multipleMagicResistance: 1
   multipleMagicAmpli: 0
-  multipleCriticalChance: 0.01
-  multipleCriticalDamage: 0.1
+  multipleCriticalChance: 0.02
+  multipleCriticalDamage: 0.2
   multipleMoveSpeed: 5
   multipleAttackSpeed: 5
   multipleLifeSteal: 0

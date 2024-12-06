@@ -2254,16 +2254,16 @@ MonoBehaviour:
   moveSpeed: 0
   attackSpeed: 0
   lifeSteal: 0
-  multipleHealth: 15
-  multipleMana: 20
-  multipleDamage: 5
-  multipleDefend: 0
-  multipleMagicResistance: 5
-  multipleMagicAmpli: 5
-  multipleCriticalChance: 0
-  multipleCriticalDamage: 0
-  multipleMoveSpeed: 5
-  multipleAttackSpeed: 2
+  multipleHealth: 30
+  multipleMana: 5
+  multipleDamage: 10
+  multipleDefend: 2
+  multipleMagicResistance: 1
+  multipleMagicAmpli: 0.1
+  multipleCriticalChance: 0.02
+  multipleCriticalDamage: 0.2
+  multipleMoveSpeed: 10
+  multipleAttackSpeed: 5
   multipleLifeSteal: 0
   _isBeingStun: 0
   _isBeingSlow: 0

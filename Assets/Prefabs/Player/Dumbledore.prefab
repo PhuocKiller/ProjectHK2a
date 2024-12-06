@@ -527,15 +527,15 @@ MonoBehaviour:
   moveSpeed: 0
   attackSpeed: 0
   lifeSteal: 0
-  multipleHealth: 15
-  multipleMana: 25
+  multipleHealth: 30
+  multipleMana: 15
   multipleDamage: 5
-  multipleDefend: 0
-  multipleMagicResistance: 5
-  multipleMagicAmpli: 0
+  multipleDefend: 1
+  multipleMagicResistance: 2
+  multipleMagicAmpli: 0.1
   multipleCriticalChance: 0
   multipleCriticalDamage: 0
-  multipleMoveSpeed: 0
+  multipleMoveSpeed: 2
   multipleAttackSpeed: 0
   multipleLifeSteal: 0
   _isBeingStun: 0
