@@ -58,15 +58,21 @@ public class StatusCanvas : NetworkBehaviour
         
         statusBeingTMP.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
         TimeRemainingBar.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-        /*if(playerBeingAttack)
+        if(player)
         {
-            injureDamage.GetComponent<RectTransform>().position += Vector3.up * 0.05f * Runner.DeltaTime;
-            if(timerhideInjureDamage.ExpiredOrNotRunning(Runner))
+            injureDamage.transform.rotation = Quaternion.AngleAxis
+                (Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
+        }
+        if (playerBeingAttack)
+        {
+            injureDamage.GetComponent<RectTransform>().position += Vector3.up * 1.2f * Runner.DeltaTime;
+            if (timerhideInjureDamage.ExpiredOrNotRunning(Runner))
             {
-                playerBeingAttack=false;
-                injureDamage.GetComponent<RectTransform>().position = fixPosInjureDamage;
+                playerBeingAttack = false;
+                injureDamage.GetComponent<RectTransform>().localPosition = fixPosInjureDamage;
+                injureDamage.text = "";
             }
-        }*/
+        }
     }
     public void ReduceDamageAbsoreShield(int damage, out int overBalanceDmg)
     {
@@ -81,8 +87,8 @@ public class StatusCanvas : NetworkBehaviour
     public void PlayerHaveInjure(int injureDamage)
     {
         this.injureDamage.text= injureDamage.ToString();
-        this.injureDamage.GetComponent<RectTransform>().position=fixPosInjureDamage;
+        this.injureDamage.GetComponent<RectTransform>().localPosition=fixPosInjureDamage;
         playerBeingAttack = true;
-        timerhideInjureDamage = TickTimer.CreateFromSeconds(Runner, 10f);
+        timerhideInjureDamage = TickTimer.CreateFromSeconds(Runner, 0.5f);
     }
 }
