@@ -49,7 +49,7 @@ public class Dumbledore : PlayerController
     }
     IEnumerator DelaySkill_1_Collider(NetworkObject obj)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
         obj.GetComponent<BoxCollider>().enabled = true;
     }
     public override void Skill_2(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,

@@ -37,7 +37,29 @@ public class ItemSkillManager : NetworkBehaviour
             });
                     break;
                 }
+            case SkillName.AdventurerShield:
+                {
+                    player.SkillRPC(10, levelDamage, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
+                    break;
+                }
+            case SkillName.Invicibility:
+                {
+                    NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, transform.position, Quaternion.identity, Object.InputAuthority,
+            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+            {
+                obj.GetComponent<InviObjects>().SetUp(player, player.playerStat.damage, isPhysicDamage, null,
+             isMakeStun, isMakeSlow, isMakeSilen,timeTrigger, TimeEffect);
+                obj.GetComponent<BuffsOfPlayer>().levelSkill = levelSkill;
+            });
+                    player.SetParentRPC(obj.Id);
+                    StartCoroutine(DelayInviSkill());
+                    break;
+                }
         }
-        
+    }
+    IEnumerator DelayInviSkill()
+    {
+        yield return new WaitForSeconds(1.2f);
+        player.playerStat.isVisible = false;
     }
 }

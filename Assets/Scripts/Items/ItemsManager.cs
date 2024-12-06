@@ -43,7 +43,6 @@ public class ItemsManager : MonoBehaviour
         int index = -1;
         foreach (Transform item in basicBG)
         {
-            Debug.Log("voday");
             index++;
             Image imageItem = item.GetChild(0).GetComponent<Image>();
             imageItem.sprite = networkManager.basicItems[index].GetComponent<IInventoryItem>().Image;
@@ -96,8 +95,9 @@ public class ItemsManager : MonoBehaviour
         {
             case "BasicBG": { itemToBuy = networkManager.basicItems[thisBtn.GetSiblingIndex()];  break; }
             case "ShieldBG": { itemToBuy = networkManager.shieldItems[thisBtn.GetSiblingIndex()]; break; }
-            case "RangeBG": { itemToBuy = networkManager.armorItems[thisBtn.GetSiblingIndex()]; break; }
-            case "MeleeBG": { itemToBuy = networkManager.weaponItems[thisBtn.GetSiblingIndex()]; break; }
+            case "ArmorBG": { itemToBuy = networkManager.armorItems[thisBtn.GetSiblingIndex()]; break; }
+            case "WeaponBG": { itemToBuy = networkManager.weaponItems[thisBtn.GetSiblingIndex()]; break; }
+            case "BootBG": { itemToBuy = networkManager.bootItems[thisBtn.GetSiblingIndex()]; break; }
         }
         priceItem = itemToBuy.GetComponent<InventoryItemBase>().Price;
         priceValue.text= priceItem.ToString();

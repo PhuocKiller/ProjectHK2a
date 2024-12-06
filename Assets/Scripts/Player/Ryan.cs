@@ -131,7 +131,7 @@ public class Ryan : PlayerController
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<InviObjects>().SetUp(this, playerStat.b_damage, isPhysicDamage, null,
+                obj.GetComponent<InviObjects>().SetUp(this, playerStat.damage, isPhysicDamage, null,
              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
                 obj.GetComponent<BuffsOfPlayer>().levelSkill = levelSkill;
             });
