@@ -502,11 +502,14 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             {
                 statusCanvas.ReduceDamageAbsoreShield(damage, out int overBalanceDmg);
                 playerStat.currentHealth -= overBalanceDmg;
+                statusCanvas.PlayerHaveInjure(overBalanceDmg);
             }
             else
             {
                 playerStat.currentHealth -= damage;
+                statusCanvas.PlayerHaveInjure(damage);
             }
+            
         }
         else
         {

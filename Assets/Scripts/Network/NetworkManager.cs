@@ -14,7 +14,7 @@ public class NetworkManager : MonoBehaviour
     [SerializeField]
     GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
-    public GameObject[] players, creeps, basicItems,shieldItems,rangeItems,MeleeItems;
+    public GameObject[] players, creeps, basicItems,shieldItems,armorItems,weaponItems,bootItems;
     public float[] itemsDropChance;
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
@@ -58,6 +58,7 @@ public class NetworkManager : MonoBehaviour
     {
         for (int i = -1; i < 2; i++)
         {
+            
             runner.Spawn(creeps[0], spawnPointTeam[0].position + Vector3.right * 3 + Vector3.back * 2f * i, spawnPointTeam[0].rotation,
                              inputAuthority: player,
                            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
@@ -120,13 +121,13 @@ public class NetworkManager : MonoBehaviour
         {
             if (name == shieldItems[i].GetComponent<InventoryItemBase>().Name) return shieldItems[i];
         }
-        for (int i = 0; i < rangeItems.Length; i++)
+        for (int i = 0; i < armorItems.Length; i++)
         {
-            if (name == rangeItems[i].GetComponent<InventoryItemBase>().Name) return rangeItems[i];
+            if (name == armorItems[i].GetComponent<InventoryItemBase>().Name) return armorItems[i];
         }
-        for (int i = 0; i < MeleeItems.Length; i++)
+        for (int i = 0; i < weaponItems.Length; i++)
         {
-            if (name == MeleeItems[i].GetComponent<InventoryItemBase>().Name) return MeleeItems[i];
+            if (name == weaponItems[i].GetComponent<InventoryItemBase>().Name) return weaponItems[i];
         }
         return null;
     }

@@ -9,17 +9,17 @@ public class ItemsManager : MonoBehaviour
     GameObject[] itemButton;
     GameObject itemToBuy;
     InventoryItemBase itemToSell;
-    [SerializeField] GameObject buyBtn, sellBtn, basicBtn,shieldBtn, rangeBtn, meleeBtn;
+    [SerializeField] GameObject buyBtn, sellBtn, basicBtn,shieldBtn, armorBtn, weaponBtn,bootBtn;
     int priceItem; int indexItem; int indexSlot;
     NetworkManager networkManager;
-    [SerializeField] Transform basicBG,shieldBG,rangeBG,meleeBG;
+    [SerializeField] Transform basicBG,shieldBG,armorBG,weaponBG,bootBG;
     public TextMeshProUGUI priceValue;
     [SerializeField] TextMeshProUGUI itemInfoText;
     
     private void Awake()
     {
         networkManager=FindObjectOfType<NetworkManager>();
-        LoadStatItems();
+       // LoadStatItems();
         BasicButton();
     }
     private void OnEnable()
@@ -34,8 +34,9 @@ public class ItemsManager : MonoBehaviour
     {
         LoadStatBasicItems();
         LoadStatShieldItems();
-        LoadStatRangeItems();
-        LoadStatMeleeItems();
+        LoadStatArmorItems();
+        LoadStatWeaponItems();
+        LoadStatBootItems();
     }
     void LoadStatBasicItems()
     {
@@ -57,24 +58,34 @@ public class ItemsManager : MonoBehaviour
             imageItem.sprite = networkManager.shieldItems[index].GetComponent<IInventoryItem>().Image;
         }
     }
-    void LoadStatRangeItems()
+    void LoadStatArmorItems()
     {
         int index = -1;
-        foreach (Transform item in rangeBG)
+        foreach (Transform item in armorBG)
         {
             index++;
             Image imageItem = item.GetChild(0).GetComponent<Image>();
-            imageItem.sprite = networkManager.rangeItems[index].GetComponent<IInventoryItem>().Image;
+            imageItem.sprite = networkManager.armorItems[index].GetComponent<IInventoryItem>().Image;
         }
     }
-    void LoadStatMeleeItems()
+    void LoadStatWeaponItems()
     {
         int index = -1;
-        foreach (Transform item in meleeBG)
+        foreach (Transform item in weaponBG)
         {
             index++;
             Image imageItem = item.GetChild(0).GetComponent<Image>();
-            imageItem.sprite = networkManager.MeleeItems[index].GetComponent<IInventoryItem>().Image;
+            imageItem.sprite = networkManager.weaponItems[index].GetComponent<IInventoryItem>().Image;
+        }
+    }
+    void LoadStatBootItems()
+    {
+        int index = -1;
+        foreach (Transform item in bootBG)
+        {
+            index++;
+            Image imageItem = item.GetChild(0).GetComponent<Image>();
+            imageItem.sprite = networkManager.bootItems[index].GetComponent<IInventoryItem>().Image;
         }
     }
     public void UpdatePrice(Transform thisBtn)
@@ -84,8 +95,8 @@ public class ItemsManager : MonoBehaviour
         {
             case "BasicBG": { itemToBuy = networkManager.basicItems[thisBtn.GetSiblingIndex()];  break; }
             case "ShieldBG": { itemToBuy = networkManager.shieldItems[thisBtn.GetSiblingIndex()]; break; }
-            case "RangeBG": { itemToBuy = networkManager.rangeItems[thisBtn.GetSiblingIndex()]; break; }
-            case "MeleeBG": { itemToBuy = networkManager.MeleeItems[thisBtn.GetSiblingIndex()]; break; }
+            case "RangeBG": { itemToBuy = networkManager.armorItems[thisBtn.GetSiblingIndex()]; break; }
+            case "MeleeBG": { itemToBuy = networkManager.weaponItems[thisBtn.GetSiblingIndex()]; break; }
         }
         priceItem = itemToBuy.GetComponent<InventoryItemBase>().Price;
         priceValue.text= priceItem.ToString();
@@ -129,28 +140,40 @@ public class ItemsManager : MonoBehaviour
     {
         basicBtn.GetComponent<Image>().color= Color.green;
         shieldBtn.GetComponent<Image>().color = Color.white;
-        rangeBtn.GetComponent<Image>().color = Color.white;
-        meleeBtn.GetComponent<Image>().color = Color.white;
+        armorBtn.GetComponent<Image>().color = Color.white;
+        weaponBtn.GetComponent<Image>().color = Color.white;
+        bootBtn.GetComponent<Image>().color = Color.white;
     }
     public void ShieldButton()
     {
         basicBtn.GetComponent<Image>().color = Color.white;
         shieldBtn.GetComponent<Image>().color = Color.green;
-        rangeBtn.GetComponent<Image>().color = Color.white;
-        meleeBtn.GetComponent<Image>().color = Color.white;
+        armorBtn.GetComponent<Image>().color = Color.white;
+        weaponBtn.GetComponent<Image>().color = Color.white;
+        bootBtn.GetComponent<Image>().color = Color.white;
     }
-    public void RangeButton()
+    public void ArmorButton()
     {
         basicBtn.GetComponent<Image>().color = Color.white;
         shieldBtn.GetComponent<Image>().color = Color.white;
-        rangeBtn.GetComponent<Image>().color = Color.green;
-        meleeBtn.GetComponent<Image>().color = Color.white;
+        armorBtn.GetComponent<Image>().color = Color.green;
+        weaponBtn.GetComponent<Image>().color = Color.white;
+        bootBtn.GetComponent<Image>().color = Color.white;
     }
-    public void MeleeButton()
+    public void WeaponButton()
     {
         basicBtn.GetComponent<Image>().color = Color.white;
         shieldBtn.GetComponent<Image>().color = Color.white;
-        rangeBtn.GetComponent<Image>().color = Color.white;
-        meleeBtn.GetComponent<Image>().color = Color.green;
+        armorBtn.GetComponent<Image>().color = Color.white;
+        weaponBtn.GetComponent<Image>().color = Color.green;
+        bootBtn.GetComponent<Image>().color = Color.white;
+    }
+    public void BootButton()
+    {
+        basicBtn.GetComponent<Image>().color = Color.white;
+        shieldBtn.GetComponent<Image>().color = Color.white;
+        armorBtn.GetComponent<Image>().color = Color.white;
+        weaponBtn.GetComponent<Image>().color = Color.white;
+        bootBtn.GetComponent<Image>().color = Color.green;
     }
 }

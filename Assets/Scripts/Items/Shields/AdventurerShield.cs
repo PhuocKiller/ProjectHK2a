@@ -18,6 +18,6 @@ public class AdventurerShield : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Adventure : fdsfds"; }
+        get { return "AdventurerShield\nTheShield protected from other damage\nPassive: Defend + 10"; }
     }
 }

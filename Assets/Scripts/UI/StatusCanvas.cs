@@ -12,7 +12,10 @@ public class StatusCanvas : NetworkBehaviour
     [SerializeField] CreepController creep;
     Shield firstShield;
     public Bars healthBarPlayer, manaBarPlayer, XPbar, TimeRemainingBar, timeShieldRemainingBar;
-    public TextMeshProUGUI statusBeingTMP;
+    public TextMeshProUGUI statusBeingTMP, injureDamage;
+    Vector3 fixPosInjureDamage;
+    TickTimer timerhideInjureDamage;
+    [Networked] bool playerBeingAttack {  get; set; }
 
     public override void Spawned()
     {
@@ -21,6 +24,10 @@ public class StatusCanvas : NetworkBehaviour
         if(!player)
         {
             creep = GetComponentInParent<CreepController>();
+        }
+        if (player&&HasStateAuthority)
+        {
+            fixPosInjureDamage = injureDamage.GetComponent<RectTransform>().position;
         }
     }
 
@@ -51,6 +58,15 @@ public class StatusCanvas : NetworkBehaviour
         
         statusBeingTMP.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
         TimeRemainingBar.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
+        /*if(playerBeingAttack)
+        {
+            injureDamage.GetComponent<RectTransform>().position += Vector3.up * 0.05f * Runner.DeltaTime;
+            if(timerhideInjureDamage.ExpiredOrNotRunning(Runner))
+            {
+                playerBeingAttack=false;
+                injureDamage.GetComponent<RectTransform>().position = fixPosInjureDamage;
+            }
+        }*/
     }
     public void ReduceDamageAbsoreShield(int damage, out int overBalanceDmg)
     {
@@ -61,5 +77,12 @@ public class StatusCanvas : NetworkBehaviour
     {
         if (firstShield != null) return firstShield.currentDamageAbsorb;
         else return 0;
+    }
+    public void PlayerHaveInjure(int injureDamage)
+    {
+        this.injureDamage.text= injureDamage.ToString();
+        this.injureDamage.GetComponent<RectTransform>().position=fixPosInjureDamage;
+        playerBeingAttack = true;
+        timerhideInjureDamage = TickTimer.CreateFromSeconds(Runner, 10f);
     }
 }
