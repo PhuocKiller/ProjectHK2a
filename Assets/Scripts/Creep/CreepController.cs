@@ -358,10 +358,12 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             {
                 statusCanvas.ReduceDamageAbsoreShield(damage, out int overBalanceDmg);
                 playerStat.currentHealth -= overBalanceDmg;
+                if(player) statusCanvas.PlayerHaveInjure(overBalanceDmg);
             }
             else
             {
                 playerStat.currentHealth -= damage;
+                if (player) statusCanvas.PlayerHaveInjure(damage);
             }
         }
         else

@@ -58,14 +58,11 @@ public class StatusCanvas : NetworkBehaviour
         
         statusBeingTMP.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
         TimeRemainingBar.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-        if(player)
-        {
-            injureDamage.transform.rotation = Quaternion.AngleAxis
+        injureDamage.transform.rotation = Quaternion.AngleAxis
                 (Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-        }
         if (playerBeingAttack)
         {
-            injureDamage.GetComponent<RectTransform>().position += Vector3.up * 1.2f * Runner.DeltaTime;
+            injureDamage.GetComponent<RectTransform>().position += Vector3.up * 2f * Runner.DeltaTime;
             if (timerhideInjureDamage.ExpiredOrNotRunning(Runner))
             {
                 playerBeingAttack = false;
