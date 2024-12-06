@@ -9,7 +9,8 @@ public class CalculateTriggerEnter : MonoBehaviour
         bool isPhysicDamage, bool isMakeStun, bool isMakeSlow, bool isMakeSilen, bool isDestroyWhenCollider,PlayerRef InputAuthority,int levelSkill=1)
     {
             collisions.Add(other);
-            other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, player,
+            other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage
+            (Singleton<MechanicDamage>.Instance.GetDamageOfTwoObject(damage, isPhysicDamage, player, other),isPhysicDamage, player,
                 counter: (int counterDamage, bool isPhysicDamage) =>
                 {
                     player.ApplyDamage(counterDamage, isPhysicDamage,
@@ -49,7 +50,8 @@ public class CalculateTriggerEnter : MonoBehaviour
        bool isPhysicDamage, bool isMakeStun, bool isMakeSlow, bool isMakeSilen, bool isDestroyWhenCollider, PlayerRef InputAuthority, int levelSkill = 1)
     {
         collisions.Add(other);
-        other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(damage, isPhysicDamage, null, activeInjureAnim:false,
+        other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage
+            (Singleton<MechanicDamage>.Instance.GetDamageOfTwoObject(damage, true, null, other),isPhysicDamage, null, activeInjureAnim:false,
             counter: (int counterDamage, bool isPhysicDamage) =>
             {
                 creep.ApplyDamage(counterDamage, isPhysicDamage,null);

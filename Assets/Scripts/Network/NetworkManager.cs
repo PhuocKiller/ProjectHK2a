@@ -129,6 +129,10 @@ public class NetworkManager : MonoBehaviour
         {
             if (name == weaponItems[i].GetComponent<InventoryItemBase>().Name) return weaponItems[i];
         }
+        for (int i = 0; i < bootItems.Length; i++)
+        {
+            if (name == bootItems[i].GetComponent<InventoryItemBase>().Name) return bootItems[i];
+        }
         return null;
     }
     public async void OnClickBtn(Button btn)
