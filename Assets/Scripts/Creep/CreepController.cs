@@ -328,9 +328,9 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
         Action<int, bool> counter = null, Action<int, List<PlayerController>> isKillPlayer = null,
         Action<Vector3, float> isKillCreep = null,
-        Action<int> lifeSteal = null, bool activeInjureAnim = true)
+        Action<int> lifeSteal = null, bool activeInjureAnim = true, bool isCritPhysic = false)
     {
-        CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim);
+        CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim, isCritPhysic);
         if (playerStat.isCounter)
         {
             counter?.Invoke(playerStat.counterDamage, isPhysicDamage);
@@ -344,7 +344,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void CalculateHealthRPC
-        (int damage, bool isPhysicDamage, PlayerController player, bool activeInjureAnim = true)
+        (int damage, bool isPhysicDamage, PlayerController player, bool activeInjureAnim = true, bool isCritPhysic = false)
     {
         if (!playerScore.playersMakeDamages.Contains(player))
         {
@@ -358,12 +358,12 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             {
                 statusCanvas.ReduceDamageAbsoreShield(damage, out int overBalanceDmg);
                 playerStat.currentHealth -= overBalanceDmg;
-                if(player) statusCanvas.PlayerHaveInjure(overBalanceDmg);
+                if(player) statusCanvas.PlayerHaveInjure(overBalanceDmg, isCritPhysic);
             }
             else
             {
                 playerStat.currentHealth -= damage;
-                if (player) statusCanvas.PlayerHaveInjure(damage);
+                if (player) statusCanvas.PlayerHaveInjure(damage, isCritPhysic);
             }
         }
         else

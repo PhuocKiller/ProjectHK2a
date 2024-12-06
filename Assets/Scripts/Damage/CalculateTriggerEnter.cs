@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class CalculateTriggerEnter : MonoBehaviour
 {
+    public bool isCritPhysic;
     public void ControlTriggerPlayer(Collider other, List<Collider> collisions, PlayerController player, int damage,float timeEffect,
         bool isPhysicDamage, bool isMakeStun, bool isMakeSlow, bool isMakeSilen, bool isDestroyWhenCollider,PlayerRef InputAuthority,int levelSkill=1)
     {
             collisions.Add(other);
-            other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage
-            (Singleton<MechanicDamage>.Instance.GetDamageOfTwoObject(damage, isPhysicDamage, player, other),isPhysicDamage, player,
+            int calculateDamage = Singleton<MechanicDamage>.Instance.GetDamageOfTwoObject(damage, isPhysicDamage, player, other, out bool isCritPhysic);
+            other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage(calculateDamage, isPhysicDamage, player,
                 counter: (int counterDamage, bool isPhysicDamage) =>
                 {
                     player.ApplyDamage(counterDamage, isPhysicDamage,
@@ -37,21 +38,22 @@ public class CalculateTriggerEnter : MonoBehaviour
                 , lifeSteal: (int damage) =>
                 {
                     if (player.playerStat.isLifeSteal) player.playerStat.currentHealth += (int)(player.playerStat.lifeSteal * damage);
-                }
-                );
-            other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,
+                }, isCritPhysic: isCritPhysic);
+
+        other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,
                 TimeEffect: timeEffect, callback: () =>
                 {
                     if (isDestroyWhenCollider) Destroy(gameObject);//khi chạm vào địch thì hủy vật thể
                 }
                 );
+        this.isCritPhysic = isCritPhysic;
     }
     public void ControlTriggerCreep(Collider other, List<Collider> collisions,CreepController creep, int damage, float timeEffect,
        bool isPhysicDamage, bool isMakeStun, bool isMakeSlow, bool isMakeSilen, bool isDestroyWhenCollider, PlayerRef InputAuthority, int levelSkill = 1)
     {
         collisions.Add(other);
         other.gameObject.GetComponent<ICanTakeDamage>().ApplyDamage
-            (Singleton<MechanicDamage>.Instance.GetDamageOfTwoObject(damage, true, null, other),isPhysicDamage, null, activeInjureAnim:false,
+            (Singleton<MechanicDamage>.Instance.GetDamageOfTwoObject(damage, true, null, other, out bool isCritPhysic),isPhysicDamage, null, activeInjureAnim:false,
             counter: (int counterDamage, bool isPhysicDamage) =>
             {
                 creep.ApplyDamage(counterDamage, isPhysicDamage,null);

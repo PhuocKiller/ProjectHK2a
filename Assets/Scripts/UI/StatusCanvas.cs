@@ -81,9 +81,11 @@ public class StatusCanvas : NetworkBehaviour
         if (firstShield != null) return firstShield.currentDamageAbsorb;
         else return 0;
     }
-    public void PlayerHaveInjure(int injureDamage)
+    public void PlayerHaveInjure(int injureDamage,bool isCritPhysic)
     {
         this.injureDamage.text= injureDamage.ToString();
+        this.injureDamage.fontSize = isCritPhysic ? (player != null ? 120 : 70) : (player != null ? 70 : 35);
+        this.injureDamage.color = isCritPhysic ? Color.red: Color.white;
         this.injureDamage.GetComponent<RectTransform>().localPosition=fixPosInjureDamage;
         playerBeingAttack = true;
         timerhideInjureDamage = TickTimer.CreateFromSeconds(Runner, 0.5f);

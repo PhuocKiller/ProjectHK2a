@@ -468,9 +468,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
         Action<int,bool> counter = null, Action<int, List<PlayerController>> isKillPlayer = null,
         Action<Vector3, float> isKillCreep = null,
-        Action<int> lifeSteal = null,bool activeInjureAnim = true)
+        Action<int> lifeSteal = null,bool activeInjureAnim = true,bool isCritPhysic= false)
     {
-        CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim);
+        CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim, isCritPhysic);
         if(playerStat.isCounter)
         {
             counter?.Invoke(playerStat.counterDamage, isPhysicDamage);
@@ -484,7 +484,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void CalculateHealthRPC
-        (int damage, bool isPhysicDamage, PlayerController player, bool activeInjureAnim = true)
+        (int damage, bool isPhysicDamage, PlayerController player, bool activeInjureAnim = true, bool isCritPhysic = false)
     {
         if (state == 3) return;
         if (!playerScore.playersMakeDamages.Contains(player) &&player!=null)
@@ -500,14 +500,15 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             }
             if (statusCanvas.GetCurrentDamageAbsorbShield() > 0)
             {
+                
                 statusCanvas.ReduceDamageAbsoreShield(damage, out int overBalanceDmg);
                 playerStat.currentHealth -= overBalanceDmg;
-                statusCanvas.PlayerHaveInjure(overBalanceDmg);
+                statusCanvas.PlayerHaveInjure(overBalanceDmg, isCritPhysic);
             }
             else
             {
                 playerStat.currentHealth -= damage;
-                statusCanvas.PlayerHaveInjure(damage);
+                statusCanvas.PlayerHaveInjure(damage, isCritPhysic);
             }
             
         }

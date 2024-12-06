@@ -3491,6 +3491,18 @@ PrefabInstance:
       propertyPath: playerBuffs
       value: 
       objectReference: {fileID: 5023916050771641259}
+    - target: {fileID: 7319943242653012694, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319943242653012694, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: m_fontSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7319943242653012694, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
       propertyPath: visuals.Array.data[4]
       value: 
