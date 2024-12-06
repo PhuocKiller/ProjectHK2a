@@ -397,6 +397,11 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         GetComponent<BoxCollider>().enabled = false;
         StartCoroutine(DelayDie());
     }
+    public IEnumerator DelayDie()
+    {
+        yield return new WaitForSeconds(2.5f);
+        Destroy(gameObject);
+    }
     void CalculateXPWhenKill(PlayerController playerAround)
     {
         playerAround.playerStat.GainXPWhenKill((int)(EXPBaseOnCreepType(playerStat.level) / overlapSphere.CheckPlayerAround().Count));
@@ -450,12 +455,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             return 0.3f;
         }
     }
-    public IEnumerator DelayDie()
-    {
-        yield return new WaitForSeconds(3f);
-        
-        Destroy(gameObject);
-    }
+    
     
     [Networked] public TickTimer timeDie { get; set; }
     #endregion
