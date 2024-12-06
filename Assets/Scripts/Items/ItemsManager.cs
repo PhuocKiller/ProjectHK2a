@@ -19,7 +19,7 @@ public class ItemsManager : MonoBehaviour
     private void Awake()
     {
         networkManager=FindObjectOfType<NetworkManager>();
-       // LoadStatItems();
+        LoadStatItems();
         BasicButton();
     }
     private void OnEnable()
@@ -43,6 +43,7 @@ public class ItemsManager : MonoBehaviour
         int index = -1;
         foreach (Transform item in basicBG)
         {
+            Debug.Log("voday");
             index++;
             Image imageItem = item.GetChild(0).GetComponent<Image>();
             imageItem.sprite = networkManager.basicItems[index].GetComponent<IInventoryItem>().Image;
