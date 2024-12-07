@@ -52,9 +52,14 @@ public class InviObjects : NetworkBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         player.playerStat.isVisible = true;
+        player.playerStat.isStartFadeInvi=false;
+       // BackDefaultMatRPC();
         Destroy(gameObject);
     }
-
+    [Rpc(RpcSources.All, RpcTargets.All)] public void BackDefaultMatRPC()
+    {
+        player.statusCanvas.GetComponent<InviManager>().BackDefaultMaterial();
+    }
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
         base.Despawned(runner, hasState);

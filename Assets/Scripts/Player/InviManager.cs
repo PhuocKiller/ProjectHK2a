@@ -28,19 +28,22 @@ public class InviManager : NetworkBehaviour
             {
                 for (int i = 0; i < meshRenderers.Length; i++)
                 {
-                    Debug.Log("meshRenderers[i].material.color.a" + meshRenderers[i].material.color.a);
-                    ControlMaterial(3, meshRenderers[i].material, meshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime);
+                    ControlMaterial(3, meshRenderers[i].material, meshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime,3000);
                 }
                 for (int i = 0; i < skinnedMeshRenderers.Length; i++)
                 {
-                    ControlMaterial(3, skinnedMeshRenderers[i].material, skinnedMeshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime);
-                                   }
+                    ControlMaterial(3, skinnedMeshRenderers[i].material, skinnedMeshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime,3000);
+                }
                 if (meshRenderers[0].material.color.a < 0.4f || skinnedMeshRenderers[0].material.color.a < 0.4f)
                 {
                     player.playerStat.isVisible = false;
                     player.playerStat.isStartFadeInvi = false;
                 }
                 
+            }
+            else if(player.playerStat.isVisible)
+            {
+                BackDefaultMaterial();
             }
           CheckInviVisual(player.playerStat.isVisible);
         }
@@ -70,10 +73,9 @@ public class InviManager : NetworkBehaviour
     {
         player.GetComponent<CharacterController>().enabled = isLive;
     }
-    void ControlMaterial(int modeRender, Material material, float alpha)
+    public void ControlMaterial(int modeRender, Material material, float alpha, int renderQueue)
     {
         material.SetFloat("_Mode", 3);
-
         material.color = new Color(material.color.r, material.color.g, material.color.b,alpha);
         material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
@@ -81,6 +83,30 @@ public class InviManager : NetworkBehaviour
         material.DisableKeyword("_ALPHATEST_ON");
         material.EnableKeyword("_ALPHABLEND_ON");
         material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-        material.renderQueue = 3000;
+        material.renderQueue = renderQueue;
+    }
+    public void BackDefaultMaterial()
+    {
+        for (int i = 0; i < meshRenderers.Length; i++)
+        {
+            MaterialToDefault(meshRenderers[i].material);
+        }
+        for (int i = 0; i < skinnedMeshRenderers.Length; i++)
+        {
+            MaterialToDefault(skinnedMeshRenderers[i].material);
+        }
+    }
+    void MaterialToDefault(Material material)
+    {
+        material.SetFloat("_Mode", 0); // 0 = Opaque
+        material.color= new Color(material.color.r, material.color.g, material.color.b, 1);
+        // Thiết lập lại các thuộc tính cho Opaque
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha); // Kết hợp màu sắc
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha); // Kết hợp với alpha
+        material.SetInt("_ZWrite", 1); // Cho phép ghi vào Depth buffer
+        material.DisableKeyword("_ALPHATEST_ON"); // Tắt chế độ alpha test (cutout)
+        material.DisableKeyword("_ALPHABLEND_ON"); // Tắt chế độ alpha blend
+        material.DisableKeyword("_ALPHAPREMULTIPLY_ON"); // Tắt chế độ alpha premultiply
+        material.renderQueue = -1; // Đảm bảo vật liệu render theo thứ tự mặc định
     }
 }
