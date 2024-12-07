@@ -8,6 +8,7 @@ public class InviManager : NetworkBehaviour
 {
     public GameObject[] visuals;
     public PlayerController player;
+    public SkinnedMeshRenderer[] skinnedMeshRenderer;
     public override void Spawned()
     {
         base.Spawned();
@@ -46,5 +47,9 @@ public class InviManager : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)] public void CharacterControllerActiveRPC(bool isLive)
     {
         player.GetComponent<CharacterController>().enabled = isLive;
+    }
+    void ControlInvi()
+    {
+        //skinnedMeshRenderer[0].material.red
     }
 }

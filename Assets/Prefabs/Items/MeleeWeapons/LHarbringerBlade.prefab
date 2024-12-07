@@ -321,10 +321,10 @@ MonoBehaviour:
   _interpolationDataSource: 0
   isSpawn: 0
   _Image: {fileID: 21300000, guid: e1ead184c343a05448ee07af0f70b8be, type: 3}
-  _Price: 0
+  _Price: 1000
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
-  skillName: 26
+  skillName: 32
 --- !u!1 &7978106094128204179
 GameObject:
   m_ObjectHideFlags: 0

@@ -2008,6 +2008,8 @@ MonoBehaviour:
   - {fileID: 431035330686511545}
   - {fileID: 413946675206843343}
   - {fileID: 8347283541813209962}
+  - {fileID: 2343842637235984783}
+  - {fileID: 405606837584174307}
   m_skillBtnDrawer: {fileID: 0}
 --- !u!114 &5649112496517205888
 MonoBehaviour:
@@ -3339,6 +3341,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c0b6292530afd44a839731630125a49, type: 3}
+--- !u!114 &405606837584174307 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5471250608632828368, guid: 0c0b6292530afd44a839731630125a49, type: 3}
+  m_PrefabInstance: {fileID: 5642104566840266035}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &413946675206843343 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5472553573985806076, guid: 0c0b6292530afd44a839731630125a49, type: 3}
@@ -3353,6 +3366,17 @@ MonoBehaviour:
 --- !u!114 &431035330686511545 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5455988269918053514, guid: 0c0b6292530afd44a839731630125a49, type: 3}
+  m_PrefabInstance: {fileID: 5642104566840266035}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2343842637235984783 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7983694941744403644, guid: 0c0b6292530afd44a839731630125a49, type: 3}
   m_PrefabInstance: {fileID: 5642104566840266035}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -3622,14 +3646,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2451657193019722352, guid: 55d70a97b826bb242a5e607a670277ea, type: 3}
-      propertyPath: listNetworkObj.Array.size
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 2451657193019722352, guid: 55d70a97b826bb242a5e607a670277ea, type: 3}
-      propertyPath: listNetworkObj.Array.data[10]
-      value: 
-      objectReference: {fileID: 1477666970011942859, guid: 8325c19a1071b8a43bbebbc4beba4b9c, type: 3}
     - target: {fileID: 5373261508069802797, guid: 55d70a97b826bb242a5e607a670277ea, type: 3}
       propertyPath: m_Name
       value: ListNetworkObject

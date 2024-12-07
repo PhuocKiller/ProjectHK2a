@@ -331,7 +331,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   isSpawn: 0
   _Image: {fileID: 21300000, guid: c12906afc9bd0dc489701ce95ad47ddc, type: 3}
-  _Price: 0
+  _Price: 1000
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
-  skillName: 26
+  skillName: 32

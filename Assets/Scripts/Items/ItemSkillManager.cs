@@ -55,6 +55,25 @@ public class ItemSkillManager : NetworkBehaviour
                     StartCoroutine(DelayInviSkill());
                     break;
                 }
+            case SkillName.Blink:
+                {
+                    if (player.playerStat.isFollowEnemy)
+                    {
+                       posMouseUp = player.overlapSphere.closestEnemyPlayer.transform.position;
+                    }
+                    else
+                    {
+                       posMouseUp = player.transform.position + player.transform.forward * 20;
+                    }
+                    player.characterControllerPrototype.Move((Vector3)posMouseUp - transform.position);
+                    break;
+                }
+            case SkillName.Hasty:
+                {
+                    player.SkillRPC
+         (11, levelDamage, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, levelSkill);
+                    break;
+                }
         }
     }
     IEnumerator DelayInviSkill()
