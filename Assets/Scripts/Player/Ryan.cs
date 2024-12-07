@@ -122,12 +122,7 @@ public class Ryan : PlayerController
         base.Ultimate(VFXEffect, levelDamage, manaCost, isPhysicDamage, timeTrigger: timeTrigger);
         StartCoroutine(DelayUltimate(VFXEffect, levelDamage, isPhysicDamage,
             isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, posMouseUp, levelSkill));
-    }
-    IEnumerator DelayUltimate(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
-        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
-        float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
-    {
-        yield return new WaitForSeconds(0f);
+        playerStat.isStartFadeInvi = true;
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
@@ -136,6 +131,13 @@ public class Ryan : PlayerController
                 obj.GetComponent<BuffsOfPlayer>().levelSkill = levelSkill;
             });
         SetParentRPC(obj.Id);
+    }
+    IEnumerator DelayUltimate(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
+        bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
+        float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
+    {
+        yield return new WaitForSeconds(0f);
+        
     }
 }
 

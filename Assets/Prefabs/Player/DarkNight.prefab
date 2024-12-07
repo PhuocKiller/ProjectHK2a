@@ -501,6 +501,7 @@ MonoBehaviour:
   _isBeingSilen: 0
   _isLifeSteal: 0
   _isVisible: 0
+  _isStartFadeInvi: 0
   _isUnstopAble: 0
   _isCounter: 0
   _isLive: 0
@@ -2922,7 +2923,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 2, y: 4.5, z: 1.7}
   m_Center: {x: 0, y: 2.2, z: 0}
@@ -3530,22 +3531,46 @@ PrefabInstance:
       propertyPath: playerBuffs
       value: 
       objectReference: {fileID: 5023916050771641259}
-    - target: {fileID: 7319943242653012694, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
-      propertyPath: m_text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7319943242653012694, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
-      propertyPath: m_fontSize
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7319943242653012694, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
       propertyPath: visuals.Array.data[4]
       value: 
       objectReference: {fileID: 4294310371754987956}
+    - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: meshRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 351619418252513754}
+    - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: meshRenderers.Array.data[1]
+      value: 
+      objectReference: {fileID: 6463382540891358739}
+    - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: meshRenderers.Array.data[2]
+      value: 
+      objectReference: {fileID: 3498575684853590284}
+    - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: skinnedMeshRenderers.Array.data[0]
+      value: 
+      objectReference: {fileID: 1575069939978445436}
+    - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: skinnedMeshRenderers.Array.data[1]
+      value: 
+      objectReference: {fileID: 126513795430747265}
+    - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: skinnedMeshRenderers.Array.data[2]
+      value: 
+      objectReference: {fileID: 2057942834057812682}
+    - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: skinnedMeshRenderers.Array.data[3]
+      value: 
+      objectReference: {fileID: 2960426611842120355}
+    - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: skinnedMeshRenderers.Array.data[4]
+      value: 
+      objectReference: {fileID: 2386328200752444634}
+    - target: {fileID: 8687438892708637542, guid: f8bbcbc8403b2e945b0e5ee89eca720e, type: 3}
+      propertyPath: skinnedMeshRenderers.Array.data[5]
+      value: 
+      objectReference: {fileID: 5463372685601226671}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

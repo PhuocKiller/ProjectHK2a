@@ -23,10 +23,6 @@ public class UltimateBehaviour : StateMachineBehaviour
     {
         playerController ??= animator.gameObject.GetComponent<PlayerController>();
         playerController.SwithCharacterState(0);
-        if (playerController.playerType==Player_Types.Ryan_hoodle)
-        {
-            playerController.playerStat.isVisible = false;
-        }
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
