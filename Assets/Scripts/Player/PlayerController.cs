@@ -240,7 +240,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         if (HasStateAuthority && playerID == Runner.GetPlayerUserId(Object.InputAuthority))
         {
             moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            if (moveInput.magnitude == 0)
+            if (moveInput.magnitude == 0 && joystick!=null)
             {
                 moveInput = new Vector2(joystick.Horizontal, joystick.Vertical).normalized;
             }
