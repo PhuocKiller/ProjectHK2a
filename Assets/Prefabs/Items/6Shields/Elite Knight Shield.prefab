@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4982880458058411091
+--- !u!1 &701352753640199023
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,44 +8,76 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 22341074802084582}
-  - component: {fileID: 2546770565931363931}
-  - component: {fileID: 6957839301055200951}
-  - component: {fileID: 8934056818305739973}
-  - component: {fileID: 7877096021526482695}
-  - component: {fileID: -8193640914866764396}
-  - component: {fileID: 1145273972682646826}
-  - component: {fileID: -4245280878043698395}
+  - component: {fileID: 6998296317359038227}
   m_Layer: 0
-  m_Name: Blade Of The Hero
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &22341074802084582
+--- !u!4 &6998296317359038227
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4982880458058411091}
+  m_GameObject: {fileID: 701352753640199023}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.23823489, y: -0.26276308, z: 0.5978759, w: 0.7188492}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4263470389026542366}
+  - {fileID: 8902499718505260214}
+  m_Father: {fileID: 1522655688449108608}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1352019716323382171
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1522655688449108608}
+  - component: {fileID: 703028926610319613}
+  - component: {fileID: 7254230098300169576}
+  - component: {fileID: 301008318523776064}
+  - component: {fileID: 377998877252534516}
+  - component: {fileID: 5101160376148460992}
+  - component: {fileID: -3582624860304084734}
+  - component: {fileID: 5864386124436583650}
+  m_Layer: 0
+  m_Name: Elite Knight Shield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1522655688449108608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352019716323382171}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6998296317359038227}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 41.049, y: -7.076, z: 76.849}
---- !u!114 &2546770565931363931
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &703028926610319613
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4982880458058411091}
+  m_GameObject: {fileID: 1352019716323382171}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
@@ -55,7 +87,7 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   InterpolationSpace: 0
-  InterpolationTarget: {fileID: 1465137634088705373}
+  InterpolationTarget: {fileID: 8902499718505260214}
   InterpolateErrorCorrection: 1
   InterpolatedErrorCorrectionSettings:
     MinRate: 3.3
@@ -69,13 +101,13 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   UseLegacySharedModeInterpolation: 0
   TargetInterpolationDelay: 0.03
---- !u!114 &6957839301055200951
+--- !u!114 &7254230098300169576
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4982880458058411091}
+  m_GameObject: {fileID: 1352019716323382171}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
@@ -88,21 +120,21 @@ MonoBehaviour:
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
-    RawGuidValue: 457d0ec285e06e14bb28f3845ac692f6
+    RawGuidValue: 5e7ffc9adc8c0bb45ac079d2a9db2059
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 2546770565931363931}
-  - {fileID: 8934056818305739973}
-  - {fileID: -8193640914866764396}
-  - {fileID: -4245280878043698395}
+  - {fileID: 703028926610319613}
+  - {fileID: 301008318523776064}
+  - {fileID: 5101160376148460992}
+  - {fileID: 5864386124436583650}
   SimulationBehaviours: []
---- !u!114 &8934056818305739973
+--- !u!114 &301008318523776064
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4982880458058411091}
+  m_GameObject: {fileID: 1352019716323382171}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1316d456b63868e40b1506b9799ce6ec, type: 3}
@@ -111,26 +143,26 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
-  _maxHealth: 0
-  _maxMana: 0
-  _damage: 50
-  _defend: 0
-  _magicResistance: 0
+  _maxHealth: 300
+  _maxMana: 10
+  _damage: 0
+  _defend: 5
+  _magicResistance: 5
   _magicAmpli: 0
-  _criticalChance: 0.15
-  _criticalDamage: 0.7
+  _criticalChance: 0
+  _criticalDamage: 0
   _moveSpeed: 0
-  _attackSpeed: 30
+  _attackSpeed: 0
   _lifeSteal: 0
   _levelSkill: 1
   canHeal: 0
---- !u!64 &7877096021526482695
+--- !u!64 &377998877252534516
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4982880458058411091}
+  m_GameObject: {fileID: 1352019716323382171}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -145,14 +177,14 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4634054444666320730, guid: e5d1bfca5fbaea04fa93b6bf98558068, type: 3}
---- !u!114 &-8193640914866764396
+  m_Mesh: {fileID: 2150969095736222396, guid: 07a73b60d63894b41aa76b897185aaff, type: 3}
+--- !u!114 &5101160376148460992
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4982880458058411091}
+  m_GameObject: {fileID: 1352019716323382171}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
@@ -161,7 +193,7 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
-  Animator: {fileID: 1145273972682646826}
+  Animator: {fileID: -3582624860304084734}
   TotalWords: 0
   SyncSettings: 79
   FloatAccuracy:
@@ -178,14 +210,14 @@ MonoBehaviour:
     _hash: -814817977
   StateHashes: 00000000b18b38b2e3d1479b
   TriggerHashes: 00000000
---- !u!95 &1145273972682646826
+--- !u!95 &-3582624860304084734
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4982880458058411091}
+  m_GameObject: {fileID: 1352019716323382171}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: a2308d7b153b2a947be0610f3869b77a, type: 2}
@@ -199,28 +231,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &-4245280878043698395
+--- !u!114 &5864386124436583650
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4982880458058411091}
+  m_GameObject: {fileID: 1352019716323382171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c58811fc91fe07748820e12009095927, type: 3}
+  m_Script: {fileID: 11500000, guid: 60917c639f336844e80aad2aa3bc336e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
   isSpawn: 0
-  _Image: {fileID: 21300000, guid: 643516aa5014230439102e51e3e061ef, type: 3}
-  _Price: 2660
+  _Image: {fileID: 21300000, guid: 0b09a55612820e04fb865300e6dc6923, type: 3}
+  _Price: 700
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 26
---- !u!1 &7781348871000992860
+--- !u!1 &6473745731110764815
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -228,78 +260,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4263470389026542366}
+  - component: {fileID: 8902499718505260214}
+  - component: {fileID: 8492275706704232207}
+  - component: {fileID: 8871455564689888980}
   m_Layer: 0
-  m_Name: Visual
+  m_Name: Elite Knight Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4263470389026542366
+--- !u!4 &8902499718505260214
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7781348871000992860}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1465137634088705373}
-  m_Father: {fileID: 22341074802084582}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7826826183069019506
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1465137634088705373}
-  - component: {fileID: 9056589325462089595}
-  - component: {fileID: 5304313951187864116}
-  m_Layer: 0
-  m_Name: Blade Of The Hero
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1465137634088705373
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7826826183069019506}
+  m_GameObject: {fileID: 6473745731110764815}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4263470389026542366}
+  m_Father: {fileID: 6998296317359038227}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &9056589325462089595
+--- !u!33 &8492275706704232207
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7826826183069019506}
-  m_Mesh: {fileID: 4634054444666320730, guid: e5d1bfca5fbaea04fa93b6bf98558068, type: 3}
---- !u!23 &5304313951187864116
+  m_GameObject: {fileID: 6473745731110764815}
+  m_Mesh: {fileID: 2150969095736222396, guid: 07a73b60d63894b41aa76b897185aaff, type: 3}
+--- !u!23 &8871455564689888980
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7826826183069019506}
+  m_GameObject: {fileID: 6473745731110764815}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1

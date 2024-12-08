@@ -10,22 +10,20 @@ public class SkillManager : NetworkBehaviour
     [SerializeField] private SkillController[] m_skillControllers;
     private Dictionary<SkillName, int> m_skillCollecteds; //int là số lượng skills
 
-    public Dictionary<SkillName, int> SkillCollecteds { get => m_skillCollecteds; }
+    public Dictionary<SkillName, int> SkillCollecteds { get => m_skillCollecteds; set { } }
    [SerializeField] private SkillButtonDrawer m_skillBtnDrawer;
-   
+   bool isAwake;
 
     public override void Spawned()
     {
         base.Spawned();
-        if (HasStateAuthority)
+        if(HasStateAuthority)
         {
-            m_skillBtnDrawer = GameObject.Find("GridSkill").GetComponent<SkillButtonDrawer>();
             Initialize();
-            m_skillBtnDrawer?.DrawSkillButton();
+            DrawSkill();
         }
     }
-
-    private void Initialize()
+    public void Initialize()
     {
         m_skillCollecteds = new Dictionary<SkillName, int>();
         if (m_skillControllers == null || m_skillControllers.Length <= 0) return;
@@ -36,8 +34,12 @@ public class SkillManager : NetworkBehaviour
             skillController.LoadStat();
             skillController.OnStopWithType.AddListener(RemoveSkill);
             m_skillCollecteds.Add(skillController.skillName, 1);
-            
         }
+    }
+    public void DrawSkill()
+    {
+        m_skillBtnDrawer = GameObject.Find("GridSkill").GetComponent<SkillButtonDrawer>();
+        m_skillBtnDrawer?.DrawSkillButton();
     }
     public SkillController GetSkillController(SkillName type)
     {

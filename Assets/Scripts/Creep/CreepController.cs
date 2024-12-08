@@ -377,8 +377,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive = false;
-       
-        if (overlapSphere !=null)
+        animator.SetBool("isLive",false);
+        if (overlapSphere != null)
         {
             if (overlapSphere.CheckPlayerAround().Count > 0)
             {
@@ -392,7 +392,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                 }
             }
         }
-        
         GetComponent<CharacterController>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
         StartCoroutine(DelayDie());

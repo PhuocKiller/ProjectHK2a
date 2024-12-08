@@ -364,7 +364,7 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
-  _maxHealth: 300
+  _maxHealth: 400
   _maxMana: 10
   _damage: 0
   _defend: 5

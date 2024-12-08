@@ -12,6 +12,7 @@ using Unity.VisualScripting;
 using System.Reflection;
 using System.Linq;
 
+
 public class UIManager : MonoBehaviour
 {
     PlayerController player;
@@ -22,7 +23,7 @@ public class UIManager : MonoBehaviour
     public MouseFollower mouseFollower;
     private int currentlyDraggedItemIndex = -1;
     [SerializeField] Sprite defaulteSpriteItemBackGround;
-
+    
     void Start()
     {
         networkManager=FindObjectOfType<NetworkManager>();
@@ -130,6 +131,10 @@ public class UIManager : MonoBehaviour
     public void ChoseTeam(int teamIndex)
     {
         networkManager.playerTeam = teamIndex;
+    }
+    public void EnterID(string playerID)
+    {
+        networkManager.playerID = playerID;
     }
     
     #region Inventory

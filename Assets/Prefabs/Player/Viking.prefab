@@ -392,6 +392,7 @@ MonoBehaviour:
   _isBeingSilen: 0
   _isLifeSteal: 0
   _isVisible: 0
+  _isStartFadeInvi: 0
   _isUnstopAble: 0
   _isCounter: 0
   _isLive: 0
@@ -410,7 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
+  DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 3073
@@ -833,6 +834,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2233996510804273533}
+  - component: {fileID: 6303911147642173591}
   m_Layer: 7
   m_Name: PlayerInfomation
   m_TagString: Untagged
@@ -858,6 +860,18 @@ Transform:
   - {fileID: 854664722453180172}
   m_Father: {fileID: 7538871953370813433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6303911147642173591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3023194742450240924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824a9f5ec364fc346b527c30c94eb466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3275162458530855579
 GameObject:
   m_ObjectHideFlags: 0
@@ -1421,7 +1435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
+  DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 3073
@@ -2511,7 +2525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
+  DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 2305
@@ -2656,10 +2670,12 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  skillManager: {fileID: 0}
+  playerCallBack: {fileID: 0}
+  _playerID: 
   buffFromItemManager: {fileID: 0}
   runnerManager: {fileID: 0}
   gameManager: {fileID: 0}
-  projectConfig: {fileID: -755480892457977500, guid: 4f0a91afb8df93343bc600f71fa38824, type: 3}
   overlapSphere: {fileID: 0}
   joystick: {fileID: 0}
   _playerTeam: 1

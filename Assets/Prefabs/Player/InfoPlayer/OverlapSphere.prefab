@@ -48,6 +48,7 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  closestEnemyPlayer: {fileID: 0}
 --- !u!114 &7499518240902706101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
+  DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 2305

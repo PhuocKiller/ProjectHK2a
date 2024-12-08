@@ -12,10 +12,12 @@ using UnityEngine.Events;
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
     ItemSkillManager itemSkillManager;
+    public SkillManager skillManager;
+    public PlayerCallBackInfomation playerCallBack;
+    [Networked] public string playerID {  get; set; }
     public Transform buffFromItemManager;
     public NetworkManager runnerManager;
     public GameManager gameManager;
-    public NetworkProjectConfigAsset projectConfig;
     public OverlapSpherePlayer overlapSphere;
     public Joystick joystick;
     Transform spawnTransform;
@@ -82,6 +84,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         runnerManager = FindObjectOfType<NetworkManager>();
         buffFromItemManager=GetComponentInChildren<BuffFromItemManager>().transform;
         itemSkillManager=GetComponentInChildren<ItemSkillManager>();
+        playerCallBack = GetComponentInChildren<PlayerCallBackInfomation>();
+        skillManager=GetComponentInChildren<SkillManager>();
     }
     public override void Spawned()
     {
@@ -96,10 +100,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner,0);
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            
             joystick =FindObjectOfType<Joystick>();
         }
-        
+        Login.AddPlayer(this);
     }
     public override void FixedUpdateNetwork()
     {
@@ -227,7 +230,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             return;
         }
-        if (HasStateAuthority)
+        if (HasStateAuthority && playerID == Runner.GetPlayerUserId(Object.InputAuthority))
         {
             moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             if (moveInput.magnitude == 0)
@@ -244,7 +247,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     #region Move
     void CalculateMove()
     {
-        if (HasStateAuthority)
+        if (HasStateAuthority && playerID == Runner.GetPlayerUserId(Object.InputAuthority))
         {
 
             moveDirection = new Vector3(moveInput.x, 0, moveInput.y);

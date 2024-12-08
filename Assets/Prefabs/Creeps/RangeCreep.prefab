@@ -5556,6 +5556,7 @@ MonoBehaviour:
   _isBeingSilen: 0
   _isLifeSteal: 0
   _isVisible: 0
+  _isStartFadeInvi: 0
   _isUnstopAble: 0
   _isCounter: 0
   _isLive: 0
@@ -5574,7 +5575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
+  DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 3073

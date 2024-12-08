@@ -10,6 +10,7 @@ public class PlayerManager : NetworkBehaviour
     NetworkRunner myLocalRunner;
     PlayerController player;
     PlayerController[] playerControllers= new PlayerController[6];
+    
     public NetworkRunner GetNetworkRunner() { return this.myLocalRunner; }
     public PlayerController GetPlayer() { return player; }
     public void SetRunner(NetworkRunner runner)

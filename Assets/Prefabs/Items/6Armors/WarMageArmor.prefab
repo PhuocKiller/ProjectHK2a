@@ -870,7 +870,7 @@ MonoBehaviour:
   _Price: 3090
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
-  skillName: 26
+  skillName: 30
 --- !u!1 &7169781885451882161
 GameObject:
   m_ObjectHideFlags: 0

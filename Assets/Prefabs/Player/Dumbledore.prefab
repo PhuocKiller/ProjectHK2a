@@ -457,7 +457,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7683141926215948355}
   - component: {fileID: 5917456006108864017}
-  - component: {fileID: 5758593874018138817}
   - component: {fileID: 672265401484320206}
   m_Layer: 7
   m_Name: PlayerStat
@@ -543,35 +542,11 @@ MonoBehaviour:
   _isBeingSilen: 0
   _isLifeSteal: 0
   _isVisible: 0
+  _isStartFadeInvi: 0
   _isUnstopAble: 0
   _isCounter: 0
   _isLive: 0
   _isFollowEnemy: 0
---- !u!114 &5758593874018138817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 937311096308147052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectInterest: 1
-  DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
-  AllowStateAuthorityOverride: 1
-  AoiPositionSource: {fileID: 0}
-  Flags: 3073
-  NetworkGuid:
-    RawGuidValue: 00000000000000000000000000000000
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 5917456006108864017}
-  - {fileID: 672265401484320206}
-  SimulationBehaviours: []
 --- !u!114 &672265401484320206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1324,6 +1299,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 230750857321167829}
+  - component: {fileID: 1362488214159597819}
   m_Layer: 7
   m_Name: PlayerInfomation
   m_TagString: Untagged
@@ -1349,6 +1325,18 @@ Transform:
   - {fileID: 5599088426181263225}
   m_Father: {fileID: 7538871953370813433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1362488214159597819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3875346151727099700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824a9f5ec364fc346b527c30c94eb466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4011286038506446893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,7 +1709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
+  DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 3073
@@ -2439,16 +2427,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
+  DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
     RawGuidValue: 147e94081f6f09149a738ffd981b30f6
   NestedObjects:
-  - {fileID: 5758593874018138817}
-  - {fileID: 5027963357110378751}
-  - {fileID: 1359555054893075660}
   - {fileID: 3149371936203014197}
   NetworkedBehaviours:
   - {fileID: 1002137448909909735}
@@ -2457,11 +2442,15 @@ MonoBehaviour:
   - {fileID: 149779883152132842}
   - {fileID: 3410825836797733571}
   - {fileID: 195540909243418254}
+  - {fileID: 5917456006108864017}
+  - {fileID: 672265401484320206}
   - {fileID: 8250987884797791748}
   - {fileID: 2482487194684092337}
   - {fileID: 5417354831771235713}
   - {fileID: 4452727692827596775}
   - {fileID: 5201550188323188803}
+  - {fileID: 5663514206233619663}
+  - {fileID: 4867277637149227988}
   - {fileID: 7599721390183548766}
   SimulationBehaviours: []
 --- !u!114 &1002137448909909735
@@ -2584,10 +2573,12 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  skillManager: {fileID: 0}
+  playerCallBack: {fileID: 0}
+  _playerID: 
   buffFromItemManager: {fileID: 5939325031759332124}
   runnerManager: {fileID: 0}
   gameManager: {fileID: 0}
-  projectConfig: {fileID: 0}
   overlapSphere: {fileID: 0}
   joystick: {fileID: 0}
   _playerTeam: 1
@@ -3295,22 +3286,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -1000471512571047468, guid: ea40c9e4826ea4a4abb134a206d93ecf, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea40c9e4826ea4a4abb134a206d93ecf, type: 3}
---- !u!114 &5027963357110378751 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -1000471512571047468, guid: ea40c9e4826ea4a4abb134a206d93ecf, type: 3}
-  m_PrefabInstance: {fileID: 4024940973131870507}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &5599088426181263225 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8820444178253631058, guid: ea40c9e4826ea4a4abb134a206d93ecf, type: 3}
@@ -3744,24 +3725,25 @@ PrefabInstance:
       propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7499518240902706101, guid: 40b54220d870405469e43efcb4e8dfc0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40b54220d870405469e43efcb4e8dfc0, type: 3}
---- !u!114 &1359555054893075660 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7499518240902706101, guid: 40b54220d870405469e43efcb4e8dfc0, type: 3}
-  m_PrefabInstance: {fileID: 8848931177099984761}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1998823439879609571 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7021260603487675290, guid: 40b54220d870405469e43efcb4e8dfc0, type: 3}
   m_PrefabInstance: {fileID: 8848931177099984761}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4867277637149227988 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4125775806168761517, guid: 40b54220d870405469e43efcb4e8dfc0, type: 3}
+  m_PrefabInstance: {fileID: 8848931177099984761}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e77ac46a6e39be47b1e8da80cf6fe76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

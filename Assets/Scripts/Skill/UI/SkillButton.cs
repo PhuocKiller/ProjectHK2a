@@ -11,6 +11,7 @@ using UnityEngine.UI;
 
 public class SkillButton : MonoBehaviour
 {
+    SkillManager skillManager;
     [SerializeField] public Image m_skillIcon, skillLevelImage;
     [SerializeField] Image m_CooldownOverlay;
     [SerializeField] Image m_timeTriggerFilled;
@@ -83,9 +84,9 @@ public class SkillButton : MonoBehaviour
     private void Update()
     {
         if (player == null||skillButtonType == SkillButtonTypes.Jump ||
-            skillButtonType == SkillButtonTypes.NormalAttack || !player.playerStat.GetComponent<NetworkObject>().IsValid) return;
+            skillButtonType == SkillButtonTypes.NormalAttack) return;
         skillLevelImage.fillAmount = levelSkill * 0.25f;
-        if(player.playerStat.GetComponent<NetworkObject>().IsValid) AddSkill_LevelBtn.gameObject.SetActive(player.playerStat.levelPoint > 0 && levelSkill < 4);
+        AddSkill_LevelBtn.gameObject.SetActive(player.playerStat.levelPoint > 0 && levelSkill < 4);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -109,6 +110,8 @@ public class SkillButton : MonoBehaviour
     }
     public void Initialize(SkillName skillName)
     {
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        skillManager = player.GetComponentInChildren<SkillManager>();
         m_skillName = skillName;
         if (m_btnComp != null)
         {
@@ -116,7 +119,7 @@ public class SkillButton : MonoBehaviour
             m_btnComp.onClick.AddListener(TriggerSkill);
         }
        
-        m_skillController = FindObjectOfType<SkillManager>().GetSkillController(skillName);
+        m_skillController = skillManager.GetSkillController(skillName);
         skillType = m_skillController.skillType;
         VfxEffect = m_skillController.skillStat.VfxEffect;
         levelDamages = new int[6]; levelManaCosts= new int[6];

@@ -50,15 +50,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   _killScore: 0
   _assistScore: 0
-  playersMakeDamage:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  playersMakeDamages: []
 --- !u!114 &-1000471512571047468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,7 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
+  DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 2305

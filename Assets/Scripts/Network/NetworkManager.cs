@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviour
 {
+    public string playerID;
    public NetworkRunner runner;
     [SerializeField]
     GameObject gameManagerObj, playerManagerObj;
@@ -19,9 +20,10 @@ public class NetworkManager : MonoBehaviour
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
     UnityEvent onConnected;
-    [SerializeField]
-    public Transform[] spawnPointTeam;
+    [SerializeField] public Transform[] spawnPointTeam;
     public int playerIndex, playerTeam;
+    bool flagLogin;
+    
 
     private void Awake()
     {
@@ -31,19 +33,34 @@ public class NetworkManager : MonoBehaviour
    
     private void SpawnPlayer(NetworkRunner m_runner, PlayerRef player)
     {
+        bool flag = false;
+        foreach (var playerObject in Login.playersGame)
+        {
+            if (playerObject.Key == m_runner.GetPlayerUserId(player))
+            {
+                if (player == m_runner.LocalPlayer)
+                {
+                    playerObject.Value.Object.RequestStateAuthority();
+                    playerObject.Value.playerCallBack.CallBackReconect();
+                }
+                flag = true;
+            }
+        }
+        if (flag == true) return;
         if (player == runner.LocalPlayer && runner.IsSharedModeMasterClient)
         {
             runner.Spawn(gameManagerObj, inputAuthority: player);
             runner.Spawn(playerManagerObj, inputAuthority: player);
-                    }
+        }
+        
         if (player == runner.LocalPlayer)
         {
-            // Transform spawn = spawnPointTeam[players[runner.LocalPlayer.PlayerId].GetComponent<PlayerController>().playerTeam];
             NetworkObject characterObj = runner.Spawn(players[playerIndex],
                 spawnPointTeam[playerTeam].position, spawnPointTeam[playerTeam].rotation,
                 inputAuthority: player,
                 onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                 {
+                    obj.GetComponent<PlayerController>().playerID= runner.GetPlayerUserId(player);
                     obj.GetComponent<PlayerController>().playerTeam = playerTeam;
                 });
         }
@@ -148,7 +165,11 @@ public class NetworkManager : MonoBehaviour
                 GameMode = GameMode.Shared,
                 SessionName = "Begin",
                 CustomLobbyName = "VN",
-                SceneManager = GetComponent<LoadSceneManager>()
+                SceneManager = GetComponent<LoadSceneManager>(),
+                AuthValues = new AuthenticationValues()
+                {
+                    UserId= playerID,
+                }
             });
             btn.interactable = true;
             onConnected?.Invoke();

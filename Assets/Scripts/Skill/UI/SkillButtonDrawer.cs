@@ -8,11 +8,15 @@ public class SkillButtonDrawer : MonoBehaviour
     [SerializeField] Transform[] m_gridRoot;
     [SerializeField] SkillButton m_skillBtnPrefab;
     private Dictionary<SkillName, int> m_skillCollecteds;
+    public SkillManager skillManager;
     public void DrawSkillButton()
     {
-        m_skillCollecteds = FindObjectOfType<SkillManager>().SkillCollecteds;
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        skillManager = player.GetComponentInChildren<SkillManager>();
+        m_skillCollecteds = skillManager.SkillCollecteds;
         if (m_skillCollecteds == null || m_skillCollecteds.Count <= 0) return;
         int index = -1;
+
         foreach (var skillCollected in m_skillCollecteds)
         {
             index++;
@@ -24,7 +28,9 @@ public class SkillButtonDrawer : MonoBehaviour
                 Helper.AssignToRoot(m_gridRoot[index], skillButtonClone.transform,
                     Vector3.zero, index == 4 ? Vector3.one * 1.2f : (index == 0 ? 0.9f * Vector3.one : 1f * Vector3.one));
                 skillButtonClone.Initialize(skillCollected.Key);
+                
                 skillButtonClone.skillButtonType = skillButtonClone.m_skillButtonTypes[index];
+                
                 if (skillButtonClone.skillButtonType == SkillButtonTypes.Jump)
                 {
                     skillButtonClone.m_skillIcon.transform.localScale = Vector3.one * 1.2f;
