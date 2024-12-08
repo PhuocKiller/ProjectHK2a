@@ -377,7 +377,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
         playerStat.isLive = false;
-        animator.SetBool("isLive",false);
         if (overlapSphere != null)
         {
             if (overlapSphere.CheckPlayerAround().Count > 0)
@@ -394,13 +393,12 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         }
         GetComponent<CharacterController>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
-        StartCoroutine(DelayDie());
     }
-    public IEnumerator DelayDie()
+    public void CreepDie()
     {
-        yield return new WaitForSeconds(2.5f);
-        Destroy(gameObject);
+        if (HasStateAuthority) Destroy(gameObject);
     }
+    #region XP,Coin
     void CalculateXPWhenKill(PlayerController playerAround)
     {
         playerAround.playerStat.GainXPWhenKill((int)(EXPBaseOnCreepType(playerStat.level) / overlapSphere.CheckPlayerAround().Count));
@@ -454,8 +452,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             return 0.3f;
         }
     }
-    
-    
+    #endregion
+
     [Networked] public TickTimer timeDie { get; set; }
     #endregion
 

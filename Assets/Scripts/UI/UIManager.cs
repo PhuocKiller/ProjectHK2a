@@ -20,7 +20,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] Transform inventoryPanel;
     public RectTransform crossHairFollow, crossHairUnFollow;
     public MouseFollower mouseFollower;
-    private int currentlyDraggedItemIndex = -1;
     [SerializeField] Sprite defaulteSpriteItemBackGround;
     
     void Start()
