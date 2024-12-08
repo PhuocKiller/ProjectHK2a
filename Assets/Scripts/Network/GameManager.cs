@@ -20,7 +20,6 @@ public class GameManager : NetworkBehaviour
     public ClockManager clock;
     List<PlayerController> playerControllers = new List<PlayerController>();
    [Networked] public float currentTime { get; set; }
-    [Networked] public float startTime { get; set; }
     [Networked] public TickTimer waitBeforeStartTime {  get; set; }
     [Networked] public int levelCreep { get; set; }
     public override void Spawned()
@@ -42,7 +41,7 @@ public class GameManager : NetworkBehaviour
        if(waitBeforeStartTime.ExpiredOrNotRunning(Runner) && currentState==3)
         {
             currentState = 4;
-            startTime = Time.time;
+            currentTime = 0;
             levelCreep = 1;
             FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
             
@@ -103,7 +102,7 @@ public class GameManager : NetworkBehaviour
         if (state == GameState.WaitBeforeStart) currentTime= (float)waitBeforeStartTime.RemainingTime(Runner);
         if (state == GameState.InGame)
         {
-            currentTime = Time.time - startTime;
+            currentTime +=Runner.DeltaTime;
             if (Mathf.FloorToInt(currentTime) / 30 > (levelCreep-1))
             {
                 levelCreep++;

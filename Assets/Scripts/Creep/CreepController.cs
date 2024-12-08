@@ -140,7 +140,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                      {
                          obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, normalAttackTransform,
-                             false, false, false, 0.5f, 0);
+                             false, false, false, 0.5f, 0, isDestroyWhenCollider: true);
                      });
             }
             else if(creepType == Creep_Types.Range)
@@ -149,7 +149,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                      {
                          obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, null,
-                             false, false, false, 0.5f, 0);
+                             false, false, false, 1.5f, 0,isDestroyWhenCollider:true);
                          obj.GetComponent<AttackObjectsCreep>().SetDirection(transform.forward);
                      });
             }
@@ -569,7 +569,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         {
             statusCanvas.TimeRemainingBar.UpdateBar(currentSlowTimeStatus, maxSlowTimeStatus);
         }
-        statusCanvas.healthBarPlayer.UpdateBar(playerStat.currentHealth, playerStat.maxHealth);
+        if(state!=3) statusCanvas.healthBarPlayer.UpdateBar(playerStat.currentHealth, playerStat.maxHealth);
         statusCanvas.statusBeingTMP.text =
          (playerStat.isBeingStun ? "Stunned " : "") + (playerStat.isBeingSlow ? "Slowed " : "") + (playerStat.isBeingSilen ? "Silened " : "");
 

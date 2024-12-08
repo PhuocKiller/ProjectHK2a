@@ -20,12 +20,11 @@ public class AttackObjectsCreep : NetworkBehaviour
         collisions.Clear();
         rb = GetComponent<NetworkRigidbody>();
         trigger = GetComponent<CalculateTriggerEnter>();
-        if (HasStateAuthority && HasInputAuthority)
+        if (HasStateAuthority)
         {
             timer = TickTimer.CreateFromSeconds(Runner, timerDespawn);
             if (rb != null)
             {
-                isDestroyWhenCollider = true;
                 rb.Rigidbody.AddForce(direction * 1500);
                 transform.forward = direction;
             }
@@ -50,8 +49,7 @@ public class AttackObjectsCreep : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        if (HasStateAuthority && timer.Expired(Runner)
-            )
+        if (HasStateAuthority && timer.Expired(Runner))
         {
             Destroy(gameObject);
         }

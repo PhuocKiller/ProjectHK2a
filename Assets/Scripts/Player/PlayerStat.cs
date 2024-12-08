@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using Cinemachine;
 using Fusion;
@@ -172,7 +173,10 @@ public class PlayerStat : NetworkBehaviour
         maxHealth = b_maxHealth + playerBuffManager.maxHealth;
         if(maxHealth<1) maxHealth = 1;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
-        
+        if(creep)
+        {
+            DelayCreepDie();
+        }
         maxMana = b_maxMana + playerBuffManager.maxMana;
         if(currentMana > maxMana) { currentMana = maxMana; }
         damage = b_damage + playerBuffManager.damage;
@@ -203,5 +207,12 @@ public class PlayerStat : NetworkBehaviour
             multipleMagicResistance, multipleMagicAmpli,
             multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
     }
-
+    IEnumerator DelayCreepDie()
+    {
+        yield return new WaitForSeconds(2f);
+        if(this!=null)
+        {
+            Destroy(transform.parent.parent.gameObject);
+        }
+    }
 }
