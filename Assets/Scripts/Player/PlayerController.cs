@@ -12,6 +12,7 @@ using UnityEngine.Events;
 public class PlayerController : NetworkBehaviour, ICanTakeDamage
 {
     ItemSkillManager itemSkillManager;
+    public Inventory inventory;
     public SkillManager skillManager;
     public PlayerCallBackInfomation playerCallBack;
     [Networked] public string playerID {  get; set; }
@@ -86,6 +87,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         itemSkillManager=GetComponentInChildren<ItemSkillManager>();
         playerCallBack = GetComponentInChildren<PlayerCallBackInfomation>();
         skillManager=GetComponentInChildren<SkillManager>();
+        inventory = GetComponentInChildren<Inventory>();
     }
     public override void Spawned()
     {
@@ -101,8 +103,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             joystick =FindObjectOfType<Joystick>();
+            UIManagerRegisInven();
         }
         Login.AddPlayer(this);
+    }
+    public void UIManagerRegisInven()
+    {
+        FindObjectOfType<UIManager>().RegisterEventInven(inventory);
     }
     public override void FixedUpdateNetwork()
     {
@@ -457,7 +464,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         InventoryItemBase item = other.GetComponent<InventoryItemBase>();
         if (item != null)
         {
-            Singleton<Inventory>.Instance.AddItem(item, out bool canAdd);
+            inventory.AddItem(item, out bool canAdd);
             if(canAdd) item.OnPickUp();
 
         }

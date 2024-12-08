@@ -17,7 +17,6 @@ public class UIManager : MonoBehaviour
 {
     PlayerController player;
     NetworkManager networkManager;
-    int numberHealPotionInt, numberManaPotionInt;
     [SerializeField] Transform inventoryPanel;
     public RectTransform crossHairFollow, crossHairUnFollow;
     public MouseFollower mouseFollower;
@@ -26,15 +25,18 @@ public class UIManager : MonoBehaviour
     
     void Start()
     {
-        networkManager=FindObjectOfType<NetworkManager>();
-        Singleton<Inventory>.Instance.ItemAdded += InventoryScript_ItemAdded;
-        Singleton<Inventory>.Instance.ItemRemoved += Inventory_ItemRemoved;
-        Singleton<Inventory>.Instance.InventoryUpdate += Inventory_Update;
-        Singleton<Inventory>.Instance.OnItemClicked += HandleItemSelection;
-        Singleton<Inventory>.Instance.OnItemBeginDrag += HandleBeginDrag;
-        Singleton<Inventory>.Instance.OnItemDroppedOn += HandleSwap;
-        Singleton<Inventory>.Instance.OnItemEndDrag += HandleEndDrag;
-        Singleton<Inventory>.Instance.OnRightMouseBtnClick += HandleShowItemActions;
+        networkManager = FindObjectOfType<NetworkManager>();
+    }
+    public void RegisterEventInven(Inventory inven)
+    {
+        inven.ItemAdded += InventoryScript_ItemAdded;
+        inven.ItemRemoved += Inventory_ItemRemoved;
+        inven.InventoryUpdate += Inventory_Update;
+        inven.OnItemClicked += HandleItemSelection;
+        inven.OnItemBeginDrag += HandleBeginDrag;
+        inven.OnItemDroppedOn += HandleSwap;
+        inven.OnItemEndDrag += HandleEndDrag;
+        inven.OnRightMouseBtnClick += HandleShowItemActions;
     }
     public void InitializeInventoryUI()
     {
@@ -61,32 +63,6 @@ public class UIManager : MonoBehaviour
 
     private void HandleSwap(int indexItemSlot_1,int indexItemSlot_2)
     {
-        /* Transform imageTransform1=inventoryPanel.transform.GetChild(indexItemSlot_1).GetChild(0).GetChild(0);
-         Image image1 = imageTransform1.GetComponent<Image>();
-         ItemDragHandler itemDragHandler1 = imageTransform1.GetComponent<ItemDragHandler>();
-         Transform textTransform1 = inventoryPanel.transform.GetChild(indexItemSlot_1).GetChild(0).GetChild(0).GetChild(0);
-         Text txtCount1 = textTransform1.GetComponent<Text>();
-
-         Transform imageTransform2 = inventoryPanel.transform.GetChild(indexItemSlot_2).GetChild(0).GetChild(0);
-         Image image2 = imageTransform2.GetComponent<Image>();
-         ItemDragHandler itemDragHandler2 = imageTransform2.GetComponent<ItemDragHandler>();
-         Transform textTransform2 = inventoryPanel.transform.GetChild(indexItemSlot_2).GetChild(0).GetChild(0).GetChild(0);
-         Text txtCount2 = textTransform2.GetComponent<Text>();
-
-         InventoryItemBase newItem = new InventoryItemBase();
-         newItem = (InventoryItemBase)itemDragHandler1.Item;
-         itemDragHandler1.Item = itemDragHandler2.Item;
-         itemDragHandler2.Item = newItem;
-
-         *//*Sprite newSprite;
-         newSprite=image1.sprite;
-         image1.sprite = image2.sprite;
-         image2.sprite = newSprite;*//* 
-
-         string newText;
-         newText = txtCount1.text;
-         txtCount1.text = txtCount2.text;
-         txtCount2.text=newText;*/
         SkillButton[] skillButton= inventoryPanel.GetComponentsInChildren<SkillButton>();
          for (int i = 5;i>-1;i--)
         {
@@ -198,8 +174,7 @@ public class UIManager : MonoBehaviour
     }
     void Inventory_Update(object sender, InventoryEventArgs e)
     {
-        numberHealPotionInt = 0; numberManaPotionInt = 0;
-      //  Transform inventoryPanel = transform.Find("InventoryPanel");
+       
         foreach (Transform slot in inventoryPanel)
         {
             if (slot.childCount == 1)  //vì nút close panel ko có child

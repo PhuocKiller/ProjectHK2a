@@ -96,13 +96,6 @@ public class InventoryItemBase : NetworkBehaviour, IInventoryItem
     
     public virtual void OnDrop()
     {
-        /*Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        pos = new Vector3(pos.x, pos.y, 0);*/
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo,500))
-        {
-            Singleton<Inventory>.Instance.CreateNewItem(hitInfo.point, GetItemTypes());
-        }
         
     }
     public virtual ItemTypes GetItemTypes()

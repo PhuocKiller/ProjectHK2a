@@ -1,22 +1,35 @@
-﻿using System;
+﻿using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : NetworkBehaviour
 {
     private const int SLOTS = 6;
     public IList<InventorySlot> mSlots = new List<InventorySlot>();
     public event EventHandler<InventoryEventArgs> ItemAdded,ItemRemoved,ItemUsed,InventoryUpdate;
     public Action<ItemDragHandler> OnItemClicked, OnItemBeginDrag, OnItemEndDrag, OnRightMouseBtnClick;
     public Action<int, int> OnItemDroppedOn;
-    public InventoryItemBase[] inventoryItems, inventory_9_Items;
     public int indexItemSlot_1, indexItemSlot_2;
     InventoryItemBase item;
     public GameObject buyItemPanel;
     [SerializeField] Transform inventoryPanel;
 
+    public override void Spawned()
+    {
+        base.Spawned();
+        if(HasStateAuthority)
+        {
+            inventoryPanel = FindObjectOfType<InventoryPanelManager>().transform;
+            buyItemPanel = GameObject.Find("BuyItemButton").transform.GetChild(0).gameObject;
+        }
+    }
 
+    private void Awake()
+    {
+        
+    }
     public Inventory()
     {
         for (int i = 0; i < SLOTS; i++)
@@ -27,11 +40,6 @@ public class Inventory : MonoBehaviour
     }
     public void SwapItem()
     {
-        /*SkillButton newBtn = new SkillButton();
-        newBtn.Initialize(inventoryPanel.GetChild(mSlots[indexItemSlot_1].Id).GetComponent<SkillButton>().m_skillName);
-        inventoryPanel.GetChild(mSlots[indexItemSlot_1].Id).GetComponent<SkillButton>().Initialize(
-          inventoryPanel.GetChild(mSlots[indexItemSlot_2].Id).GetComponent<SkillButton>().m_skillName);
-        inventoryPanel.GetChild(mSlots[indexItemSlot_2].Id).GetComponent<SkillButton>().Initialize(newBtn.m_skillName);*/
         int newIDSlot = -1;
         newIDSlot = mSlots[indexItemSlot_1].Id;
         mSlots[indexItemSlot_1].Id = mSlots[indexItemSlot_2].Id;
@@ -116,22 +124,7 @@ public class Inventory : MonoBehaviour
             canActive=false;
         }
     }
-    #region old code
-
-    public void CreateNewItem(Vector3 pos, ItemTypes itemTypes) //tạo ra item khi quăng ra đất
-    {
-        int i;
-        for (i = 0; i <= inventoryItems.Length; i++)
-        {
-            if (inventoryItems[i].itemTypes == itemTypes)
-            {
-                break;
-            }
-        }
-        Instantiate(inventoryItems[i], pos, Quaternion.identity);
-    }
-    #endregion
-    
+   
     private InventorySlot FindStackAble(InventoryItemBase item)
     {
         foreach (InventorySlot slot in mSlots)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemDropHandler : MonoBehaviour, IDropHandler
+public class InventoryPanelManager : MonoBehaviour, IDropHandler
 {
     //public Camera cameraUI;
     public void OnDrop(PointerEventData eventData)
