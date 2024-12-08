@@ -1,4 +1,5 @@
-﻿using Fusion;
+﻿using ExitGames.Client.Photon.StructWrapping;
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ public class Inventory : NetworkBehaviour
     InventoryItemBase item;
     public GameObject buyItemPanel;
     [SerializeField] Transform inventoryPanel;
+    [Networked, Capacity(6)] public NetworkArray<int> indexSlot {  get; } 
 
     public override void Spawned()
     {
@@ -22,6 +24,7 @@ public class Inventory : NetworkBehaviour
         if(HasStateAuthority)
         {
             SetupInventory();
+            indexSlot.Set(1, 5);
         }
     }
     public void SetupInventory()
@@ -68,6 +71,7 @@ public class Inventory : NetworkBehaviour
         {
             
             freeSlot.AddItem(newItem);
+            indexSlot.Set(freeSlot.Id, networkManager.FindOnlineItemsIndex(newItem.Name));
             if (ItemAdded != null)
             {
                 ItemAdded(this, new InventoryEventArgs(newItem));

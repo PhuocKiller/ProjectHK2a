@@ -15,7 +15,7 @@ public class NetworkManager : MonoBehaviour
     [SerializeField]
     GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
-    public GameObject[] players, creeps, basicItems,shieldItems,armorItems,weaponItems,bootItems;
+    public GameObject[] players, creeps, basicItems,shieldItems,armorItems,weaponItems,bootItems, onlineItems;
     public float[] itemsDropChance;
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
@@ -151,6 +151,14 @@ public class NetworkManager : MonoBehaviour
             if (name == bootItems[i].GetComponent<InventoryItemBase>().Name) return bootItems[i];
         }
         return null;
+    }
+    public int FindOnlineItemsIndex(string name)
+    {
+        for (int i = 0; i < onlineItems.Length; i++)
+        {
+            if (name == onlineItems[i].GetComponent<InventoryItemBase>().Name) return i;
+        }
+        return -1 ;
     }
     public async void OnClickBtn(Button btn)
     {
