@@ -20,25 +20,28 @@ public class ItemDragHandler : MonoBehaviour
     public IInventoryItem Item { get; set; }
     public void OnBeginDrag( )
     {
-        Singleton<Inventory>.Instance.indexItemSlot_1 = transform.parent.parent.GetSiblingIndex();
-        Singleton<Inventory>.Instance.OnItemBeginDrag?.Invoke(this);
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        player.inventory.indexItemSlot_1 = transform.parent.parent.GetSiblingIndex();
+        player.inventory.OnItemBeginDrag?.Invoke(this);
     }
 
     public void OnEndDrag()
     {
-        Singleton<Inventory>.Instance.OnItemEndDrag?.Invoke(this);    
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        player.inventory.OnItemEndDrag?.Invoke(this);    
     }
 
     public void OnPointerClick( )
     {
-        
-        Singleton<Inventory>.Instance.OnItemClicked?.Invoke(this);
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        player.inventory.OnItemClicked?.Invoke(this);
     }
     
     public void OnDrop()
     {
-        Singleton<Inventory>.Instance.indexItemSlot_2 = transform.parent.parent.GetSiblingIndex();
-        Singleton<Inventory>.Instance.SwapItem();
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        player.inventory.indexItemSlot_2 = transform.parent.parent.GetSiblingIndex();
+        player.inventory.SwapItem();
     }
     
    

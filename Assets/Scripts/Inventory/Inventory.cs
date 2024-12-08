@@ -21,11 +21,14 @@ public class Inventory : NetworkBehaviour
         base.Spawned();
         if(HasStateAuthority)
         {
-            inventoryPanel = FindObjectOfType<InventoryPanelManager>().transform;
-            buyItemPanel = GameObject.Find("BuyItemButton").transform.GetChild(0).gameObject;
+            SetupInventory();
         }
     }
-
+    public void SetupInventory()
+    {
+        inventoryPanel = FindObjectOfType<InventoryPanelManager>().transform;
+        buyItemPanel = GameObject.Find("BuyItemButton").transform.GetChild(0).gameObject;
+    }
     private void Awake()
     {
         

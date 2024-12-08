@@ -16,7 +16,8 @@ public class HealPotion : InventoryItemBase
     public override void OnUse(int indexSlot)
     {
         base.OnUse(indexSlot);
-        Singleton<Inventory>.Instance.RemoveItem(this, indexSlot);
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        player.inventory.RemoveItem(this, indexSlot);
     }
     public override int maxStack
     {

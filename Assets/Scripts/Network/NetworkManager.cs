@@ -34,7 +34,7 @@ public class NetworkManager : MonoBehaviour
     private void SpawnPlayer(NetworkRunner m_runner, PlayerRef player)
     {
         bool flag = false;
-        foreach (var playerObject in Login.playersGame)
+        foreach (var playerObject in Singleton<GameManager>.Instance.playersGame)
         {
             if (playerObject.Key == m_runner.GetPlayerUserId(player))
             {

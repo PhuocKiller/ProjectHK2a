@@ -14,6 +14,27 @@ public enum GameState
 }
 public class GameManager : NetworkBehaviour
 {
+    private void Awake()
+    {
+        playersGame.Clear();
+    }
+    public  Dictionary<string, PlayerController> playersGame = new Dictionary<string, PlayerController>();
+    public void AddPlayer(PlayerController player)
+    {
+        playersGame.TryGetValue(player.playerID, out PlayerController playerData);
+        if (playerData == null)
+        {
+            playersGame.Add(player.playerID, player);
+        }
+    }
+    public  void RemovePlayer(PlayerController player)
+    {
+        playersGame.TryGetValue(player.playerID, out PlayerController playerData);
+        if (playerData == null)
+        {
+            playersGame.Remove(playerData.playerID);
+        }
+    }
     [Networked(OnChanged = nameof(CurrentStateChanged))]
     private int currentState { get; set; }
     public ClockManager clock;
