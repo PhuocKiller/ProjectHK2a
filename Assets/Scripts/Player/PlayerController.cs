@@ -105,7 +105,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             joystick =FindObjectOfType<Joystick>();
             UIManagerRegisInven();
         }
-        Singleton<GameManager>.Instance.AddPlayer(this);
+        Login.AddPlayer(this);
     }
     public void UIManagerRegisInven()
     {
