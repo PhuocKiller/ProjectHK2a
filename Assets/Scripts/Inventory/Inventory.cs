@@ -3,6 +3,7 @@ using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class Inventory : NetworkBehaviour
@@ -51,6 +52,7 @@ public class Inventory : NetworkBehaviour
     }
     public void SwapItem()
     {
+        NetworkManager networkManager = FindObjectOfType<NetworkManager>();
         int newIDSlot = -1;
         newIDSlot = mSlots[indexItemSlot_1].Id;
         mSlots[indexItemSlot_1].Id = mSlots[indexItemSlot_2].Id;
@@ -61,6 +63,12 @@ public class Inventory : NetworkBehaviour
         newSlot = mSlots[indexItemSlot_1];
         mSlots[indexItemSlot_1] = mSlots[indexItemSlot_2];
         mSlots[indexItemSlot_2] = newSlot;
+        for (int i = 0;i<SLOTS;i++)
+        {
+            indexSlot_Item.Set(i, networkManager.FindOnlineItemsIndex
+                (mSlots[i].FirstItem!=null? mSlots[i].FirstItem.Name: ""));
+            indexSlot_Count.Set(i, mSlots[i].Count);
+        }
         OnItemDroppedOn?.Invoke(indexItemSlot_1, indexItemSlot_2);
     }
     public void AddItem(InventoryItemBase item, out bool canAdd)
@@ -97,10 +105,6 @@ public class Inventory : NetworkBehaviour
         NetworkManager networkManager = FindObjectOfType<NetworkManager>();
         foreach (InventorySlot slot in mSlots)
         {
-            foreach (var itemSlot in slot.mItemStack)
-            {
-               // Debug.Log("itemSlot.Slot.ID " + itemSlot.Slot.Id);
-            }
             if (slot.Remove(item, indexSlot))
             {
                 if (ItemRemoved != null)
