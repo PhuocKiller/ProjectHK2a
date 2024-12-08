@@ -573,6 +573,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3737519445509147739}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1545747323835249322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7603026383840494413}
+  - component: {fileID: 49952499023319541}
+  m_Layer: 7
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7603026383840494413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545747323835249322}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7538871953370813433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &49952499023319541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545747323835249322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2666c5cd54b6554a854975445510542, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
+  indexItemSlot_1: 0
+  indexItemSlot_2: 0
+  buyItemPanel: {fileID: 0}
+  inventoryPanel: {fileID: 0}
 --- !u!1 &1777134687264959202
 GameObject:
   m_ObjectHideFlags: 0
@@ -2433,6 +2484,7 @@ Transform:
   - {fileID: 8008798076204352372}
   - {fileID: 9041920499944046179}
   - {fileID: 5347385843369536122}
+  - {fileID: 7603026383840494413}
   - {fileID: 1131011335962148055}
   - {fileID: 6300876624155511018}
   - {fileID: 3737519445509147739}
@@ -2496,6 +2548,7 @@ MonoBehaviour:
   - {fileID: 7493267148159698612}
   - {fileID: 1231846098253456594}
   - {fileID: 7276901203773948790}
+  - {fileID: 49952499023319541}
   - {fileID: 6211122217114961054}
   SimulationBehaviours: []
 --- !u!114 &1002137448909909735
@@ -2618,6 +2671,7 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  inventory: {fileID: 0}
   skillManager: {fileID: 0}
   playerCallBack: {fileID: 0}
   _playerID: 

@@ -114,14 +114,14 @@ public class ItemsManager : MonoBehaviour
         }
         else
         {
-            Singleton<Inventory>.Instance.AddItem(itemToBuy.GetComponent<InventoryItemBase>(), out bool canAdd);
+            player.inventory.AddItem(itemToBuy.GetComponent<InventoryItemBase>(), out bool canAdd);
             if (canAdd) player.playerStat.coinsValue -= priceItem;
         }
     }
     public void SellItem()
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-        Singleton<Inventory>.Instance.RemoveItem(itemToSell, indexSlot);
+        player.inventory.RemoveItem(itemToSell, indexSlot);
         player.playerStat.coinsValue += priceItem;
     }
     public void ShowInfoItem(InventoryItemBase item)

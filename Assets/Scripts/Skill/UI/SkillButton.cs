@@ -156,7 +156,8 @@ public class SkillButton : MonoBehaviour
     }
     void NoItem()
     {
-        if (skillType == SkillTypes.Items && Singleton<Inventory>.Instance.mSlots[transform.GetSiblingIndex()].Count == 0)
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (skillType == SkillTypes.Items && player.inventory.mSlots[transform.GetSiblingIndex()].Count == 0)
         {
             Initialize(SkillName.None);
         }
@@ -248,8 +249,8 @@ public class SkillButton : MonoBehaviour
                 IInventoryItem item = dragHandler.Item;
                 if (item != null)
                     {
-                    Singleton<Inventory>.Instance.UseItemClickInventory
-                    (Singleton<Inventory>.Instance.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
+                    player.inventory.UseItemClickInventory
+                    (player.inventory.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
                      if (!canActive ||m_skillName==SkillName.NoSkill) return;
                      player.UseItemSkill(m_skillName,VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
         timerTrigger, timeEffect, posMouseUp, levelSkill);

@@ -4457,57 +4457,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 579925769}
   m_CullTransparentMesh: 1
---- !u!1 &583764421
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 583764423}
-  - component: {fileID: 583764424}
-  m_Layer: 0
-  m_Name: Inventory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &583764423
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 583764421}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0000007748604, y: 0.12024582, z: 0.00000017881393}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &583764424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 583764421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2666c5cd54b6554a854975445510542, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryItems:
-  - {fileID: 8754323362509636082, guid: 3909f100605e59247b0c80f291853ac8, type: 3}
-  inventory_9_Items: []
-  indexItemSlot_1: 0
-  indexItemSlot_2: 0
-  buyItemPanel: {fileID: 1308490616}
-  inventoryPanel: {fileID: 1357967685}
 --- !u!1 &602175449
 GameObject:
   m_ObjectHideFlags: 3
@@ -13273,6 +13222,7 @@ MonoBehaviour:
   - {fileID: 1827037379}
   - {fileID: 1353719632}
   m_skillBtnPrefab: {fileID: 8236402355399939926, guid: 87ad82ea56e747240b6a6e3ab21ff6b4, type: 3}
+  skillManager: {fileID: 0}
 --- !u!1 &1796154512
 GameObject:
   m_ObjectHideFlags: 0
@@ -28310,5 +28260,4 @@ SceneRoots:
   - {fileID: 1322488100}
   - {fileID: 1941612922}
   - {fileID: 1285209072}
-  - {fileID: 583764423}
   - {fileID: 2367244227363925264}
