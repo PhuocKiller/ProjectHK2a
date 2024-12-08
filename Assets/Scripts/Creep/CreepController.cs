@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using static Cinemachine.DocumentationSortingAttribute;
 
 public enum Creep_Types
@@ -12,6 +13,7 @@ public enum Creep_Types
 }
 public class CreepController : NetworkBehaviour, ICanTakeDamage
 {
+    private NavMeshAgent agent;
     public NetworkManager runnerManager;
     public CharacterController targetCharacter;
     public GameManager gameManager;
@@ -19,7 +21,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public OverlapSphereCreep overlapSphere;
     public NetworkObject normalMeleeAttackObj, normalRangeAttackObj;
     public Creep_Types creepType;
-    Transform spawnTransform;
+    Vector3 targetDestination;
     [Networked] public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
     public List<Collider> collisionsEnvi = new List<Collider>();
@@ -63,12 +65,12 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         base.Spawned();
             runnerManager = FindObjectOfType<NetworkManager>();
             gameManager = FindObjectOfType<GameManager>();
-            spawnTransform = runnerManager.spawnPointTeam[playerTeam];
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             playerStat.level = gameManager.levelCreep;
             playerStat.CalculateBaseStatForCreep();
+            agent=GetComponent<NavMeshAgent>();
     }
     public override void FixedUpdateNetwork()
     {
@@ -81,9 +83,10 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         {
             if (overlapSphere.CheckAllEnemyAround().Count == 0)
             {
-                moveDirection = (runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position - transform.position);
+                targetDestination = runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position;
                 AnimatorSetBoolRPC("isAttack", false);
                 state = 0;
+                agent.isStopped = false;
             }     
             else //có enemy xung quanh
             {
@@ -100,12 +103,12 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                     CalculateMoveDirection();
                 }
             }
-            Quaternion look = Quaternion.LookRotation(moveDirection.normalized);
+            Quaternion look = Quaternion.LookRotation((targetDestination-transform.position).normalized);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
             if (!playerStat.isBeingStun && state != 4)
             {
-                characterControllerPrototype.Move(moveDirection.normalized * 0.02f * playerStat.moveSpeed * Runner.DeltaTime);
-                
+                //  characterControllerPrototype.Move(moveDirection.normalized * 0.02f * playerStat.moveSpeed * Runner.DeltaTime);
+                agent.SetDestination(targetDestination);
             }
 
         }
@@ -116,16 +119,18 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         if (creepType == Creep_Types.Melee) attackRange = 1.5f;
         else if(creepType == Creep_Types.Range) attackRange = 9f;
-        moveDirection = targetCharacter.transform.position - transform.position;
-        if (moveDirection.magnitude < attackRange)
+        targetDestination = targetCharacter.transform.position;
+        if ((targetDestination-transform.position).magnitude < attackRange)
         {
             AnimatorSetBoolRPC("isAttack", true);
             state = 4;
+            agent.isStopped = true;
         }
         else
         {
             AnimatorSetBoolRPC("isAttack", false);
             state = 0;
+            agent.isStopped = false;
         }
     }
 
@@ -398,6 +403,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         if (HasStateAuthority) Destroy(gameObject);
     }
+    [Networked] public TickTimer timeDie { get; set; }
     #region XP,Coin
     void CalculateXPWhenKill(PlayerController playerAround)
     {
@@ -453,8 +459,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         }
     }
     #endregion
-
-    [Networked] public TickTimer timeDie { get; set; }
+    
+    
     #endregion
 
     #region Apply Effect

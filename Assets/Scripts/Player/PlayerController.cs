@@ -237,10 +237,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             return;
         }
-        if (HasStateAuthority && playerID == Runner.GetPlayerUserId(Object.InputAuthority))
+        
+        if (HasStateAuthority)
         {
+            
             moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            if (moveInput.magnitude == 0 && joystick!=null)
+            
+            if (moveInput.magnitude == 0)
             {
                 moveInput = new Vector2(joystick.Horizontal, joystick.Vertical).normalized;
             }
@@ -254,7 +257,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     #region Move
     void CalculateMove()
     {
-        if (HasStateAuthority && playerID == Runner.GetPlayerUserId(Object.InputAuthority))
+        if (HasStateAuthority /*&& playerID == Runner.GetPlayerUserId(Object.InputAuthority)*/)
         {
 
             moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
