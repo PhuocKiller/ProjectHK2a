@@ -123,6 +123,28 @@ public class Inventory : NetworkBehaviour
             }
         }
     }
+    public void BackUpInventory()
+    {
+        NetworkManager networkManager = FindObjectOfType<NetworkManager>();
+        for (int i = 0; i < SLOTS; i++)
+        {
+            for (int j = 0;j<indexSlot_Count.Get(i);j++)
+            {
+                if (indexSlot_Item.Get(i) >= 0)
+                {
+                    InventoryItemBase item = networkManager.onlineItems[indexSlot_Item.Get(i)].GetComponent<InventoryItemBase>();
+                    mSlots[i].AddItem(item);
+                    if (ItemAdded != null)
+                    {
+                        ItemAdded(this, new InventoryEventArgs(item));
+                    }
+                    networkManager.SpawnObjWhenAddItem(networkManager.FindItemBaseOnName(item.Name), mSlots[i].Id);
+                    SkillButton btn = inventoryPanel.GetChild(mSlots[i].Id).GetComponent<SkillButton>();
+                    btn.Initialize(item.skillName);
+                }
+            }
+        }
+    }
     internal void UseItemClickInventory(InventoryItemBase item,int indexSlot, out bool canActive) //Use item khi click trực tiếp trong inventory
     {
         if (!buyItemPanel.activeInHierarchy)

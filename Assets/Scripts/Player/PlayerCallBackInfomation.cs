@@ -15,5 +15,6 @@ public class PlayerCallBackInfomation : MonoBehaviour
         player.skillManager.DrawSkill();
         player.joystick = FindObjectOfType<Joystick>();
         player.inventory.SetupInventory();
+        player.inventory.BackUpInventory();
     }
 }
