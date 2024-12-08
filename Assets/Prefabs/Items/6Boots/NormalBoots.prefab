@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 7965109933630920525}
   - component: {fileID: 4070324531572557270}
   - component: {fileID: -8459537192455249216}
+  - component: {fileID: -8169313875427424906}
   m_Layer: 0
   m_Name: NormalBoots
   m_TagString: Untagged
@@ -63,7 +64,7 @@ Transform:
   m_GameObject: {fileID: 3656944514485197793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.3342948, y: 3.2113857, z: 3.24207}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -229,6 +230,29 @@ MonoBehaviour:
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 26
+--- !u!136 &-8169313875427424906
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3656944514485197793}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 0.5
+  m_Direction: 1
+  m_Center: {x: 0.18, y: 0, z: 0}
 --- !u!1 &4756537740542054567
 GameObject:
   m_ObjectHideFlags: 0

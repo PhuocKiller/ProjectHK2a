@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 1996001006124890031}
   - component: {fileID: 7467125456363481644}
   - component: {fileID: -6660369111579139485}
+  - component: {fileID: -7392914001772224984}
   m_Layer: 0
   m_Name: ReinforcedBoots
   m_TagString: Untagged
@@ -147,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 6972881802584736042}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.674, y: 2.847, z: 3.805}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -313,6 +314,29 @@ MonoBehaviour:
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 26
+--- !u!136 &-7392914001772224984
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972881802584736042}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 0.5
+  m_Direction: 1
+  m_Center: {x: -0.1, y: 0.13, z: 0.24}
 --- !u!1 &7054505536535640991
 GameObject:
   m_ObjectHideFlags: 0

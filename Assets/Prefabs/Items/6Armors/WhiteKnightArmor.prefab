@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 3387279032954007336}
   - component: {fileID: 4047332413297864704}
   - component: {fileID: 293926802774783280}
+  - component: {fileID: -7125217652222390446}
   m_Layer: 0
   m_Name: WhiteKnightArmor
   m_TagString: Untagged
@@ -280,6 +281,29 @@ MonoBehaviour:
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 26
+--- !u!136 &-7125217652222390446
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542904368069807714}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Height: 1.1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!1 &779935027865912189
 GameObject:
   m_ObjectHideFlags: 0

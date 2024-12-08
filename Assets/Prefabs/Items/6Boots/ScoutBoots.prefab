@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 6691717817137412388}
   - component: {fileID: 5198771333945757461}
   - component: {fileID: 5919596781041030450}
+  - component: {fileID: -6331653496641145709}
   m_Layer: 0
   m_Name: ScoutBoots
   m_TagString: Untagged
@@ -283,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 5258024174646961063}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.522, y: 3.073, z: 3.161}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -449,6 +450,29 @@ MonoBehaviour:
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 32
+--- !u!136 &-6331653496641145709
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5258024174646961063}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 0.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &5434451549260404973
 GameObject:
   m_ObjectHideFlags: 0

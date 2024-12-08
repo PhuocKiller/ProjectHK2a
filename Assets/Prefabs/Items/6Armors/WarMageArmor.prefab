@@ -689,6 +689,7 @@ GameObject:
   - component: {fileID: 933305682532540796}
   - component: {fileID: 5128467007856382328}
   - component: {fileID: 3598787399632807095}
+  - component: {fileID: -3544409163028454279}
   m_Layer: 0
   m_Name: WarMageArmor
   m_TagString: Untagged
@@ -871,6 +872,29 @@ MonoBehaviour:
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 30
+--- !u!136 &-3544409163028454279
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6355668400696504155}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Height: 1.1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!1 &7169781885451882161
 GameObject:
   m_ObjectHideFlags: 0

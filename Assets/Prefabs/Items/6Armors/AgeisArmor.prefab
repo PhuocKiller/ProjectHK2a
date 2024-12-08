@@ -531,6 +531,7 @@ GameObject:
   - component: {fileID: 7757033859290307446}
   - component: {fileID: 4960611804848748538}
   - component: {fileID: 4580646352696586280}
+  - component: {fileID: 4608580949222745436}
   m_Layer: 0
   m_Name: AgeisArmor
   m_TagString: Untagged
@@ -547,7 +548,7 @@ Transform:
   m_GameObject: {fileID: 3208028944256833163}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.464, y: 3.073, z: 3.161}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -713,6 +714,29 @@ MonoBehaviour:
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 26
+--- !u!136 &4608580949222745436
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3208028944256833163}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Height: 1.1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!1 &3408912442038500346
 GameObject:
   m_ObjectHideFlags: 0

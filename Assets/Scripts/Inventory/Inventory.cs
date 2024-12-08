@@ -16,7 +16,8 @@ public class Inventory : NetworkBehaviour
     InventoryItemBase item;
     public GameObject buyItemPanel;
     [SerializeField] Transform inventoryPanel;
-    [Networked, Capacity(6)] public NetworkArray<int> indexSlot {  get; } 
+    [Networked, Capacity(6)] public NetworkArray<int> indexSlot_Item {  get; }
+    [Networked, Capacity(6)] public NetworkArray<int> indexSlot_Count { get; }
 
     public override void Spawned()
     {
@@ -24,7 +25,11 @@ public class Inventory : NetworkBehaviour
         if(HasStateAuthority)
         {
             SetupInventory();
-            indexSlot.Set(1, 5);
+            for (int i = 0;i<indexSlot_Item.Length;i++)
+            {
+                indexSlot_Item.Set(i, -1);
+                indexSlot_Count.Set(i, 0);
+            }
         }
     }
     public void SetupInventory()
@@ -71,11 +76,13 @@ public class Inventory : NetworkBehaviour
         {
             
             freeSlot.AddItem(newItem);
-            indexSlot.Set(freeSlot.Id, networkManager.FindOnlineItemsIndex(newItem.Name));
+            
             if (ItemAdded != null)
             {
                 ItemAdded(this, new InventoryEventArgs(newItem));
             }
+            indexSlot_Item.Set(freeSlot.Id, networkManager.FindOnlineItemsIndex(newItem.Name));
+            indexSlot_Count.Set(freeSlot.Id, freeSlot.Count);
             networkManager.SpawnObjWhenAddItem(networkManager.FindItemBaseOnName(newItem.Name), freeSlot.Id);
             SkillButton btn = inventoryPanel.GetChild(freeSlot.Id).GetComponent<SkillButton>();
             btn.Initialize(newItem.skillName);
@@ -104,8 +111,10 @@ public class Inventory : NetworkBehaviour
                 if(slot.Count==0)
                 {
                     SkillButton btn = inventoryPanel.GetChild(slot.Id).GetComponent<SkillButton>();
+                    indexSlot_Item.Set(slot.Id, -1);
                   //  btn.Initialize(SkillName.None);
                 }
+                indexSlot_Count.Set(slot.Id, slot.Count);
                 break;
             }
         }
