@@ -3,6 +3,7 @@ using Fusion.Editor;
 using Fusion.Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,15 +13,17 @@ public class NetworkManager : MonoBehaviour
 {
     public string playerID;
    public NetworkRunner runner;
+    public NavMeshSurface navMesh;
     [SerializeField]
     GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
-    public GameObject[] players, creeps, basicItems,shieldItems,armorItems,weaponItems,bootItems, onlineItems;
+    public GameObject[] players, creeps,buildings, basicItems,shieldItems,armorItems,weaponItems,bootItems, onlineItems;
     public float[] itemsDropChance;
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
     UnityEvent onConnected;
     [SerializeField] public Transform[] spawnPointTeam;
+    public Transform[] spawnPointTower;
     public int playerIndex, playerTeam;
     bool flagLogin;
     
@@ -49,8 +52,7 @@ public class NetworkManager : MonoBehaviour
         if (flag == true) return;
         if (player == runner.LocalPlayer && runner.IsSharedModeMasterClient)
         {
-            runner.Spawn(gameManagerObj, inputAuthority: player);
-            runner.Spawn(playerManagerObj, inputAuthority: player);
+            SpawnWhenStartGame(m_runner, player);
         }
         
         if (player == runner.LocalPlayer)
@@ -64,6 +66,17 @@ public class NetworkManager : MonoBehaviour
                     obj.GetComponent<PlayerController>().playerTeam = playerTeam;
                 });
         }
+    }
+    void SpawnWhenStartGame(NetworkRunner m_runner, PlayerRef player)
+    {
+        runner.Spawn(gameManagerObj, inputAuthority: player);
+        runner.Spawn(playerManagerObj, inputAuthority: player);
+        for (int i = 0;i<spawnPointTower.Length;i++)
+        {
+            Debug.Log("voday");
+            runner.Spawn(buildings[0], spawnPointTower[i].position, spawnPointTower[i].rotation, player);
+        }
+        navMesh.BuildNavMesh();
     }
     public void SpawnCreep(PlayerRef player)
     {
