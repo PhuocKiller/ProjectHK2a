@@ -10760,7 +10760,8 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   runnerManager: {fileID: 0}
-  targetCharacter: {fileID: 0}
+  targetCharacterToChase: {fileID: 0}
+  targetCharacterToAttack: {fileID: 0}
   gameManager: {fileID: 0}
   joystick: {fileID: 0}
   overlapSphere: {fileID: 0}
@@ -10776,9 +10777,9 @@ MonoBehaviour:
   playerScore: {fileID: 4372881120746429816}
   statusCanvas: {fileID: 1848236857527053742}
   characterControllerPrototype: {fileID: 0}
+  _isMeleeTouchEnemy: 0
   _state: 0
   normalAttackTransform: {fileID: 4656446894752478365}
-  playerType: 6
   skillButtons: []
   statusDebuffs:
   - {fileID: 7656987445486467007}
@@ -10821,7 +10822,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0

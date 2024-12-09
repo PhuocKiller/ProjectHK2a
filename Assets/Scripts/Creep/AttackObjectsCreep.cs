@@ -68,16 +68,21 @@ public class AttackObjectsCreep : NetworkBehaviour
         {
             if (other.gameObject.layer == 7 && collisions.Count == 0
             && other.gameObject.GetComponent<PlayerController>().state != 3
-            && other.gameObject.GetComponent<PlayerController>().playerTeam
-            != (creep != null ? creep.playerTeam : creep.playerTeam))
+            && other.gameObject.GetComponent<PlayerController>().playerTeam != creep.playerTeam)
             {
                 trigger.ControlTriggerCreep(other, collisions, creep, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
             }
             if (other.gameObject.layer == 8 && collisions.Count == 0
             && other.gameObject.GetComponent<CreepController>().state != 3
-            && other.gameObject.GetComponent<CreepController>().playerTeam
-            != (creep != null ? creep.playerTeam : creep.playerTeam))
+            && other.gameObject.GetComponent<CreepController>().playerTeam != creep.playerTeam)
+            {
+                trigger.ControlTriggerCreep(other, collisions, creep, damage, timeEffect, isPhysicDamage,
+                isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
+            }
+            if (other.gameObject.layer == 9 && collisions.Count == 0
+            && other.gameObject.GetComponent<TowerController>().state != 3
+            && other.gameObject.GetComponent<TowerController>().playerTeam != creep.playerTeam)
             {
                 trigger.ControlTriggerCreep(other, collisions, creep, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);

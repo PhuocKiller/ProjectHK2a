@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 173239667636925599}
   - component: {fileID: 2077822638853016376}
   - component: {fileID: 6810538111076877975}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: FillBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1046941141296716325}
   - component: {fileID: 4041928090317690970}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 3524293823463786370}
   - component: {fileID: 8607119222162455122}
   - component: {fileID: 8504977967469415603}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,7 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7187253338989205372}
   - component: {fileID: 4070384924256360949}
-  m_Layer: 7
+  m_Layer: 9
   m_Name: PlayerScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -405,7 +405,7 @@ GameObject:
   - component: {fileID: 6363996666817108771}
   - component: {fileID: 8331605915167934665}
   - component: {fileID: 3857432280262357481}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: FadeBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +481,7 @@ GameObject:
   - component: {fileID: 4069356471150134880}
   - component: {fileID: 8716622799002458770}
   - component: {fileID: 5226825983570442570}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StatusCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -580,8 +580,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1595978560460670283}
-  - component: {fileID: 5584652863511726384}
-  m_Layer: 7
+  - component: {fileID: 2225365716287095762}
+  m_Layer: 9
   m_Name: OverlapSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5861794659895415633}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5584652863511726384
+--- !u!114 &2225365716287095762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -612,12 +612,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4922033503845607014}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc03957b75bc67948815c0378ecc4c03, type: 3}
+  m_Script: {fileID: 11500000, guid: 141a6bde5e3bf9840a81d8a741c79be3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  tower: {fileID: 0}
   closestCharac: {fileID: 0}
 --- !u!1 &5775497584016996085
 GameObject:
@@ -713,7 +714,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7394733246046596924}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: NormalAttackTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -832,7 +833,8 @@ GameObject:
   - component: {fileID: 8981003529852107763}
   - component: {fileID: 7119225218893397143}
   - component: {fileID: 2999293192973695712}
-  m_Layer: 8
+  - component: {fileID: 7608131500853300721}
+  m_Layer: 9
   m_Name: TowerDefend
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +886,7 @@ MonoBehaviour:
   - {fileID: 8981003529852107763}
   - {fileID: 2999293192973695712}
   - {fileID: 4070384924256360949}
-  - {fileID: 5584652863511726384}
+  - {fileID: 2225365716287095762}
   SimulationBehaviours: []
 --- !u!143 &4675576966319643171
 CharacterController:
@@ -961,7 +963,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9, y: 12, z: 12}
+  m_Size: {x: 9, y: 12, z: 10}
   m_Center: {x: 0, y: 6, z: 0}
 --- !u!114 &2999293192973695712
 MonoBehaviour:
@@ -981,7 +983,7 @@ MonoBehaviour:
   runnerManager: {fileID: 0}
   targetCharacter: {fileID: 0}
   gameManager: {fileID: 0}
-  overlapSphere: {fileID: 5584652863511726384}
+  overlapSphere: {fileID: 2225365716287095762}
   playerScore: {fileID: 4070384924256360949}
   hpBar: {fileID: 4041928090317690970}
   weapon: {fileID: 7080068515406301125}
@@ -993,6 +995,22 @@ MonoBehaviour:
   _damage: 0
   _defend: 0
   _isLive: 0
+--- !u!208 &7608131500853300721
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995302157643476624}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 4.5, y: 6, z: 5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 6, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &7702981597890062648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,7 +1020,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8902367441135438566}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: VisualHealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1072,7 +1090,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7202855008079126317}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: AllSkillTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

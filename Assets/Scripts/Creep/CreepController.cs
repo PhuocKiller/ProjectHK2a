@@ -16,7 +16,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
 {
     private NavMeshAgent agent;
     public NetworkManager runnerManager;
-    public CharacterController targetCharacter;
+    public CharacterController targetCharacterToChase, targetCharacterToAttack;
     public GameManager gameManager;
     public Joystick joystick;
     public OverlapSphereCreep overlapSphere;
@@ -81,7 +81,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         if (state == 3) return;
        if (HasStateAuthority)
         {
-            if (overlapSphere.CheckAllEnemyAround().Count == 0)
+            if (overlapSphere.CheckAllEnemyAround(12).Count == 0)
             {
                 targetDestination = runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position;
                 AnimatorSetBoolRPC("isAttack", false);
@@ -90,15 +90,16 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             }     
             else //có enemy xung quanh
             {
-                if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround()).Count == 0)// nhưng ko có player follow
+                if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)).Count == 0)// nhưng ko có player follow
                 {
-                    targetCharacter = overlapSphere.FindClosestCharacterInRadius(overlapSphere.CheckAllEnemyAround(), transform.position);
+                    targetCharacterToChase = overlapSphere.FindClosestCharacterInRadius
+                        (overlapSphere.CheckAllEnemyAround(12), transform.position);
                     CalculateMoveDirection();
                 }
                 else //có player follow
                 {
-                    targetCharacter = overlapSphere.FindClosestPlayerFollowInRadius
-                        (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround()), transform.position)
+                    targetCharacterToChase = overlapSphere.FindClosestPlayerFollowInRadius
+                        (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)), transform.position)
                         .GetComponent<CharacterController>();
                     CalculateMoveDirection();
                 }
@@ -117,21 +118,30 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     }
     void CalculateMoveDirection()
     {
-        if (creepType == Creep_Types.Melee) attackRange = 1.5f;
-        else if(creepType == Creep_Types.Range) attackRange = 9f;
-        targetDestination = targetCharacter.transform.position;
-        if ((targetDestination-transform.position).magnitude < attackRange)
-        {
-            AnimatorSetBoolRPC("isAttack", true);
-            state = 4;
-            agent.isStopped = true;
-        }
-        else
-        {
-            AnimatorSetBoolRPC("isAttack", false);
-            state = 0;
-            agent.isStopped = false;
-        }
+        targetDestination = targetCharacterToChase.transform.position;
+        targetCharacterToAttack = overlapSphere.FindClosestCharacterInRadius
+                (overlapSphere.CheckAllEnemyAround(creepType == Creep_Types.Melee?1.5f:9f), transform.position);
+            if (targetCharacterToAttack== targetCharacterToChase)
+            {
+                Attack();
+            }
+            else
+            {
+                DontAttack();
+            }
+        
+    }
+    void Attack()
+    {
+        AnimatorSetBoolRPC("isAttack", true);
+        state = 4;
+        agent.isStopped = true;
+    }
+    void DontAttack()
+    {
+        AnimatorSetBoolRPC("isAttack", false);
+        state = 0;
+        agent.isStopped = false;
     }
 
     #region "Attack"
@@ -266,7 +276,15 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     #region Collider
     private void OnTriggerEnter(Collider other)
     {
-
+       
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (collisionsEnvi.Contains(other))
+        {
+            collisionsEnvi.Remove(other);
+        }
+        
     }
     private void OnTriggerStay(Collider otherColi)
     {
@@ -321,13 +339,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
 
         }
     }
-    private void OnTriggerExit(Collider otherColi)
-    {
-        if (collisionsEnvi.Contains(otherColi))
-        {
-            collisionsEnvi.Remove(otherColi);
-        }
-    }
+    
     #endregion
     #region Apply Damage
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,

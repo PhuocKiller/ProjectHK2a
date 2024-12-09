@@ -8,32 +8,49 @@ public class MechanicDamage : MonoBehaviour
     public bool isCritPhysicDamage;
     public int GetDamageOfTwoObject(int damage, bool isPhysicDamage, PlayerController playerAttack, Collider ObjectBeAttack, out bool isCritPhysic)
     {
-            if (ObjectBeAttack.GetComponent<PlayerController>() != null)
-            {
+        if (ObjectBeAttack.GetComponent<PlayerController>() != null)
+        {
             int baseDamage = (int)(damage * Random.Range(0.95f, 1.05f) *
           (1 - (deltaDamage * (isPhysicDamage ? ObjectBeAttack.GetComponent<PlayerController>().playerStat.defend : ObjectBeAttack.GetComponent<PlayerController>().playerStat.magicResistance)
           / (1 + deltaDamage * ObjectBeAttack.GetComponent<PlayerController>().playerStat.defend))));
             CheckCritPhysicDamage(playerAttack, isPhysicDamage, out float increaseDamage);
             isCritPhysic = isCritPhysicDamage;
-            return (int)(baseDamage*increaseDamage);
-            }
-                else if (ObjectBeAttack.GetComponent<CreepController>() != null)
-            {
+            return (int)(baseDamage * increaseDamage);
+        }
+        else if (ObjectBeAttack.GetComponent<CreepController>() != null)
+        {
             int baseDamage = (int)(damage * Random.Range(0.95f, 1.05f) *
         (1 - (deltaDamage * (isPhysicDamage ? ObjectBeAttack.GetComponent<CreepController>().playerStat.defend : ObjectBeAttack.GetComponent<CreepController>().playerStat.magicResistance)
         / (1 + deltaDamage * ObjectBeAttack.GetComponent<CreepController>().playerStat.defend))));
             CheckCritPhysicDamage(playerAttack, isPhysicDamage, out float increaseDamage);
             isCritPhysic = isCritPhysicDamage;
             return (int)(baseDamage * increaseDamage);
+        }
+
+        else if (ObjectBeAttack.GetComponent<TowerController>() != null)
+        {
+            if (!isPhysicDamage)
+            {
+                isCritPhysic = isCritPhysicDamage;
+                return 0;
             }
             else
+            {
+                isCritPhysic = isCritPhysicDamage;
+                return (int)(damage * Random.Range(0.95f, 1.05f) *
+          (1 - (deltaDamage * (ObjectBeAttack.GetComponent<TowerController>().defend)
+          / (1 + deltaDamage * ObjectBeAttack.GetComponent<TowerController>().defend))));
+            }
+
+        }
+        else
         {
             isCritPhysic = isCritPhysicDamage;
             return (int)(damage * Random.Range(0.95f, 1.05f));
         }
-           
+
     }
-    void CheckCritPhysicDamage(PlayerController playerAttack,bool isPhysicDamage, out float increaseDamage)
+    void CheckCritPhysicDamage(PlayerController playerAttack, bool isPhysicDamage, out float increaseDamage)
     {
         if (playerAttack)
         {
@@ -68,7 +85,7 @@ public class MechanicDamage : MonoBehaviour
     }
     public float IncreaseMagicDamage(PlayerController playerAttack)
     {
-            return (1+playerAttack.playerStat.magicAmpli);
+        return (1 + playerAttack.playerStat.magicAmpli);
     }
     public bool GetChance(float chance)
     {

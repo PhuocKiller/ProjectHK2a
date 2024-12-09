@@ -9,7 +9,7 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
     public NetworkManager runnerManager;
     public CharacterController targetCharacter;
     public GameManager gameManager;
-    public OverlapSphereCreep overlapSphere;
+    public OverlapSphereTower overlapSphere;
     public PlayerScore playerScore;
     public Bars hpBar;
     public Transform weapon;
@@ -37,23 +37,25 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         currentHealth = maxHealth;
         state = 0;
         characterControllerPrototype = GetComponent<CharacterController>();
-        Debug.Log("vo spawm" + GetComponent<NetworkObject>().Id);
 
     }
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        Debug.Log("vo update" + GetComponent<NetworkObject>().Id);
 
+        defend = 10 + Mathf.FloorToInt(gameManager.levelCreep * 0.5f);
         if (state != 3)
         {
             hpBar.UpdateBar(currentHealth, maxHealth);
         }
+        hpBar.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
         if (HasStateAuthority)
         {
             if (overlapSphere.CheckAllEnemyAround().Count == 0)
             {
-                
+                Quaternion look = Quaternion.LookRotation
+               ((runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position - transform.position).normalized);
+                weapon.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
             }
             else //có enemy xung quanh
             {
@@ -68,9 +70,7 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
                         .GetComponent<CharacterController>();
                 }
             }
-            Quaternion look = Quaternion.LookRotation
-                ((runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position - transform.position).normalized);
-            weapon.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
+           
         }
        
     }

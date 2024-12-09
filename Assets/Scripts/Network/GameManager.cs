@@ -27,7 +27,7 @@ public class GameManager : NetworkBehaviour
         base.Spawned();
         currentState = 3;
         clock=FindObjectOfType<ClockManager>();
-        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 5f);
+        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 1f);
         levelCreep = 0;
     }
 
@@ -44,7 +44,6 @@ public class GameManager : NetworkBehaviour
             currentTime = 0;
             levelCreep = 1;
             FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
-            
         }
     }
 

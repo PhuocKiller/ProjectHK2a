@@ -67,11 +67,15 @@ public class CalculateTriggerEnter : MonoBehaviour
                 if (creep.playerStat.isLifeSteal) creep.playerStat.currentHealth += (int)(creep.playerStat.lifeSteal * damage);
             }
             );
-        other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,
+        if(other.GetComponent<TowerController>() == null)
+        {
+            other.gameObject.GetComponent<ICanTakeDamage>().ApplyEffect(InputAuthority, isMakeStun, isMakeSlow, isMakeSilen,
             TimeEffect: timeEffect, callback: () =>
             {
                 if (isDestroyWhenCollider) Destroy(gameObject);//khi chạm vào địch thì hủy vật thể
             }
             );
+        }
+        
     }
 }

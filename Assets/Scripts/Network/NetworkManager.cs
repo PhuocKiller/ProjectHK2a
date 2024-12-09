@@ -71,16 +71,21 @@ public class NetworkManager : MonoBehaviour
     {
         runner.Spawn(gameManagerObj, inputAuthority: player);
         runner.Spawn(playerManagerObj, inputAuthority: player);
-        for (int i = 0;i<spawnPointTower.Length;i++)
+        for (int i = 0; i < spawnPointTower.Length; i++)
         {
-            NetworkObject towerObject= runner.Spawn(buildings[0], spawnPointTower[i].position, spawnPointTower[i].rotation, player,
+            NetworkObject towerObject = runner.Spawn(buildings[0], spawnPointTower[i].position, spawnPointTower[i].rotation, player,
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
-                  obj.GetComponent<TowerController>().playerTeam = i<=3?0:1;
+                  obj.GetComponent<TowerController>().playerTeam = i <= 3 ? 0 : 1;
               });
 
         }
-        navMesh.BuildNavMesh();
+        /*NetworkObject towerObject = runner.Spawn(buildings[0], spawnPointTower[7].position, spawnPointTower[7].rotation, player,
+              onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+              {
+                  obj.GetComponent<TowerController>().playerTeam = 1;
+              });*/
+        // navMesh.BuildNavMesh();
     }
     public void SpawnCreep(PlayerRef player)
     {
