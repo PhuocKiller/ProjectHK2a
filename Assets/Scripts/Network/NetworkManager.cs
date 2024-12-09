@@ -73,8 +73,12 @@ public class NetworkManager : MonoBehaviour
         runner.Spawn(playerManagerObj, inputAuthority: player);
         for (int i = 0;i<spawnPointTower.Length;i++)
         {
-            Debug.Log("voday");
-            runner.Spawn(buildings[0], spawnPointTower[i].position, spawnPointTower[i].rotation, player);
+            NetworkObject towerObject= runner.Spawn(buildings[0], spawnPointTower[i].position, spawnPointTower[i].rotation, player,
+              onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+              {
+                  obj.GetComponent<TowerController>().playerTeam = i<=3?0:1;
+              });
+
         }
         navMesh.BuildNavMesh();
     }

@@ -10,6 +10,7 @@ public enum Creep_Types
 {
     Melee,
     Range,
+    Tower,
 }
 public class CreepController : NetworkBehaviour, ICanTakeDamage
 {
@@ -40,7 +41,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     [SerializeField]
     public Transform  normalAttackTransform;
 
-    [SerializeField] public Player_Types playerType;
     [HideInInspector] public SkillButton[] skillButtons;
     [SerializeField] GameObject[] statusDebuffs;
 
