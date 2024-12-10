@@ -4,6 +4,7 @@ using UnityEngine;
 using Fusion;
 using System;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 public class TowerController : NetworkBehaviour,ICanTakeDamage
 {
     public NetworkManager runnerManager;
@@ -12,7 +13,7 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
     public OverlapSphereTower overlapSphere;
     public PlayerScore playerScore;
     public Bars hpBar;
-    public Transform weapon;
+    public Transform weapon, shootPosition;
     [Networked] public int playerTeam { get; set; }
      
     public CharacterController characterControllerPrototype;
@@ -24,8 +25,11 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
     [Networked] public int damage { get; set; }
     [Networked] public int defend { get; set; }
     [Networked] public bool isLive { get; set; }
-    //public Mesh[] meshTower;
-  
+    [Networked] public bool isAttack { get; set; }
+    [Networked] public TickTimer TimeOfAttack { get; set; }
+    public Mesh[] meshTower;
+    public MeshFilter[] meshFilters;
+    public GameObject[] shootVFX;
   
     public override void Spawned()
     {
@@ -37,7 +41,11 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         currentHealth = maxHealth;
         state = 0;
         characterControllerPrototype = GetComponent<CharacterController>();
-
+        for (int i = 0;i<3;i++)
+        {
+            meshFilters[i].mesh=meshTower[i + 3*playerTeam];
+        }
+        TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 1);
     }
     public override void FixedUpdateNetwork()
     {
@@ -56,6 +64,7 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
                 Quaternion look = Quaternion.LookRotation
                ((runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position - transform.position).normalized);
                 weapon.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
+                isAttack = false;
             }
             else //có enemy xung quanh
             {
@@ -69,26 +78,26 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
                         (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround()), transform.position)
                         .GetComponent<CharacterController>();
                 }
+                isAttack = true;
             }
-           
+           if(isAttack &&TimeOfAttack.Expired(Runner))
+            {
+                NormalAttack();
+                TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 1);
+            }
         }
        
     }
   
     public virtual void NormalAttack()
     {
-        if (HasStateAuthority)
-        {
-           /* if (creepType == Creep_Types.Melee)
-            {
-                Runner.Spawn(normalMeleeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
-                     , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-                     {
-                         obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, normalAttackTransform,
-                             false, false, false, 0.5f, 0, isDestroyWhenCollider: true);
-                     });
-            }*/
-        }
+        Runner.Spawn(shootVFX[playerTeam], shootPosition.position, shootPosition.rotation, inputAuthority: Object.InputAuthority
+       , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+         {
+            obj.GetComponent<AttackObjectsTower>().SetUpTower(this, damage, null,3f);
+            obj.GetComponent<AttackObjectsTower>().SetDirection(targetCharacter);
+         });
+            
     }
    
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
@@ -101,7 +110,7 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
     public void ApplyEffect(PlayerRef player, bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float TimeEffect = 0f, Action callback = null)
     {
-
+        callback?.Invoke();
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void CalculateHealthRPC

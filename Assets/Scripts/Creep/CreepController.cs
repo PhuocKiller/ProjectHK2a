@@ -355,7 +355,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
 
         if (state == 3)
         {
-          isKillCreep?.Invoke(transform.position + Vector3.up*0.5f, LuckyChanceBaseOnCreepType());
+          isKillCreep?.Invoke(transform.position + Vector3.up*0.5f, 0); //LuckyChanceBaseOnCreepType()
         }
         lifeSteal?.Invoke(damage);
     }
@@ -416,6 +416,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         if (HasStateAuthority) Destroy(gameObject);
     }
     [Networked] public TickTimer timeDie { get; set; }
+    #endregion
     #region XP,Coin
     void CalculateXPWhenKill(PlayerController playerAround)
     {
@@ -472,9 +473,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     }
     #endregion
     
-    
-    #endregion
-
     #region Apply Effect
     public void ApplyEffect(PlayerRef player, bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float TimeEffect = 0, Action callback = null)
