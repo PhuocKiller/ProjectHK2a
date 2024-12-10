@@ -7,16 +7,16 @@ using UnityEngine.AI;
 using UnityEngine.UIElements;
 public class TowerController : NetworkBehaviour,ICanTakeDamage
 {
-    public NetworkManager runnerManager;
+    NetworkManager runnerManager;
     public CharacterController targetCharacter;
-    public GameManager gameManager;
-    public OverlapSphereTower overlapSphere;
-    public PlayerScore playerScore;
-    public Bars hpBar;
+    GameManager gameManager;
+    OverlapSphereTower overlapSphere;
+    PlayerScore playerScore;
+    Bars hpBar;
     public Transform weapon, shootPosition;
     [Networked] public int playerTeam { get; set; }
      
-    public CharacterController characterControllerPrototype;
+    CharacterController towerController;
    
     [Networked] public int state { get; set; }
     
@@ -30,6 +30,7 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
     public Mesh[] meshTower;
     public MeshFilter[] meshFilters;
     public GameObject[] shootVFX;
+    public MeshRenderer sphereRender;
   
     public override void Spawned()
     {
@@ -37,10 +38,12 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         runnerManager = FindObjectOfType<NetworkManager>();
         gameManager = FindObjectOfType<GameManager>();
         hpBar = GetComponentInChildren<Bars>();
+        playerScore= GetComponentInChildren<PlayerScore>();
+        overlapSphere= GetComponentInChildren<OverlapSphereTower>();
         maxHealth = 3000 + gameManager.levelCreep * 50;
         currentHealth = maxHealth;
         state = 0;
-        characterControllerPrototype = GetComponent<CharacterController>();
+        towerController = GetComponent<CharacterController>();
         for (int i = 0;i<3;i++)
         {
             meshFilters[i].mesh=meshTower[i + 3*playerTeam];
@@ -52,44 +55,48 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         base.FixedUpdateNetwork();
 
         defend = 10 + Mathf.FloorToInt(gameManager.levelCreep * 0.5f);
-        damage=1 + gameManager.levelCreep * 2;
+        damage=100 + gameManager.levelCreep * 2;
         if (state != 3)
         {
             hpBar.UpdateBar(currentHealth, maxHealth);
         }
         hpBar.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-        if (HasStateAuthority)
-        {
-            if (overlapSphere.CheckAllEnemyAround().Count == 0)
+        bool isHaveEnemy = overlapSphere.CheckAllEnemyAround(30).Count > 0;
+        sphereRender.enabled = isHaveEnemy;
+        
+            if (!isHaveEnemy)
             {
-                Quaternion look = Quaternion.LookRotation
-               ((runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position - transform.position).normalized);
-                weapon.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
                 isAttack = false;
             }
             else //có enemy xung quanh
             {
-                if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround()).Count == 0)// nhưng ko có player follow
+                if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(30)).Count == 0)// nhưng ko có player follow
                 {
-                    targetCharacter = overlapSphere.FindClosestCharacterInRadius(overlapSphere.CheckAllEnemyAround(), transform.position);
+                    targetCharacter = overlapSphere.FindClosestCharacterInRadius(overlapSphere.CheckAllEnemyAround(30), transform.position);
                 }
                 else //có player follow
                 {
                     targetCharacter = overlapSphere.FindClosestPlayerFollowInRadius
-                        (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround()), transform.position)
+                        (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(30)), transform.position)
                         .GetComponent<CharacterController>();
                 }
                 isAttack = true;
             }
-           if(isAttack &&TimeOfAttack.Expired(Runner))
+            if (isAttack &&TimeOfAttack.Expired(Runner) &&HasStateAuthority)
             {
                 NormalAttack();
                 TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 1);
             }
-        }
-       
+        CalculateWeaponRotate(isHaveEnemy);
+        
     }
-  
+    void CalculateWeaponRotate(bool isHaveEnemy)
+    {
+        Vector3 targetLookPos = isHaveEnemy ? targetCharacter.transform.position : (runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position);
+        Quaternion look = Quaternion.LookRotation
+           ((targetLookPos - transform.position).normalized);
+        weapon.rotation = Quaternion.RotateTowards(weapon.rotation, look, 180 * Runner.DeltaTime);
+    }
     public virtual void NormalAttack()
     {
         Runner.Spawn(shootVFX[playerTeam], shootPosition.position, shootPosition.rotation, inputAuthority: Object.InputAuthority

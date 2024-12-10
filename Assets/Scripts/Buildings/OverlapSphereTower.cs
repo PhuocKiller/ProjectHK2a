@@ -10,7 +10,6 @@ public class OverlapSphereTower : NetworkBehaviour
     public TowerController tower;
     public CharacterController closestCharac;
 
-
     public override void Spawned()
     {
         base.Spawned();
@@ -22,11 +21,11 @@ public class OverlapSphereTower : NetworkBehaviour
         base.FixedUpdateNetwork();
 
     }
-    public List<CharacterController> CheckAllEnemyAround()
+    public List<CharacterController> CheckAllEnemyAround(float range)
     {
         List<CharacterController> allEnemies = new List<CharacterController>();
         allEnemies.Clear();
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 30f);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, range);
 
         foreach (var hitCollider in hitColliders)
         {

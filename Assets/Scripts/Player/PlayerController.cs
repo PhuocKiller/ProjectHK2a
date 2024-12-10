@@ -102,9 +102,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner,0);
             TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            joystick =FindObjectOfType<Joystick>();
             UIManagerRegisInven();
         }
+        joystick = FindObjectOfType<Joystick>();
         Login.AddPlayer(this);
     }
     public void UIManagerRegisInven()

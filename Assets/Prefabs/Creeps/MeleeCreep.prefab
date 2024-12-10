@@ -10590,7 +10590,6 @@ MonoBehaviour:
   playerScore: {fileID: 4372881120746429816}
   statusCanvas: {fileID: 1848236857527053742}
   characterControllerPrototype: {fileID: 0}
-  _isMeleeTouchEnemy: 0
   _state: 0
   normalAttackTransform: {fileID: 4656446894752478365}
   skillButtons: []
