@@ -91,7 +91,7 @@ public class NetworkManager : MonoBehaviour
     {
         if (!runner.IsSharedModeMasterClient) return;
         SpawnMeleeCreep(player);
-        SpawnRangeCreep(player);
+     //   SpawnRangeCreep(player);
     }
     void SpawnMeleeCreep(PlayerRef player)
     {

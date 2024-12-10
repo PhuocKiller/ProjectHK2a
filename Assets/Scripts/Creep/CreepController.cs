@@ -393,7 +393,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         playerStat.currentHealth = 0;
         SwithCharacterState(3);
         playerStat.isBeingStun = false; playerStat.isBeingSlow = false; playerStat.isBeingSilen = false;
-        playerStat.isLive = false;
+        playerStat.isLive = false; agent.isStopped = true;
         if (overlapSphere != null)
         {
             if (overlapSphere.CheckPlayerAround().Count > 0)

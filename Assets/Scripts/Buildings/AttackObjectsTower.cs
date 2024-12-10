@@ -13,7 +13,7 @@ public class AttackObjectsTower : NetworkBehaviour
     private TickTimer timer;
     public float timerDespawn, timeEffect;
     public int damage;
-    
+    CharacterController enemyCharacter;
     public override void Spawned()
     {
         base.Spawned();
@@ -25,8 +25,7 @@ public class AttackObjectsTower : NetworkBehaviour
             timer = TickTimer.CreateFromSeconds(Runner, timerDespawn);
             if (rb != null)
             {
-                rb.Rigidbody.AddForce(direction * 1500);
-                transform.forward = direction;
+               
             }
         }
     }
@@ -41,14 +40,20 @@ public class AttackObjectsTower : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        if (HasStateAuthority && timer.Expired(Runner))
+
+        if (HasStateAuthority)
         {
-            Destroy(gameObject);
+            rb.Rigidbody.AddForce((enemyCharacter.transform.position - transform.position).normalized*200);
+            if(timer.Expired(Runner))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
     public void SetDirection(CharacterController character)
     {
+        enemyCharacter= character;
       //  direction = newDirection;
     }
 

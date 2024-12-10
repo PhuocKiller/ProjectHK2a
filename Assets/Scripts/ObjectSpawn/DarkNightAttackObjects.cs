@@ -72,8 +72,16 @@ public class DarkNightAttackObjects: NetworkBehaviour
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
                 if (player.playerType == Player_Types.DumbleDore) collisions.Clear();
             }
+
+            if (other.gameObject.layer == 9 && collisions.Count == 0
+            && other.gameObject.GetComponent<TowerController>().state != 3
+            && other.gameObject.GetComponent<TowerController>().playerTeam != player.playerTeam
+            && skillName == "NormalAttack")
+            {
+                trigger.ControlTriggerPlayer(other, collisions, player, damage, 0, true,
+                false, false, false, isDestroyWhenCollider, Object.InputAuthority);
+            }
         }
-           
     }
     
     int CalculateAttackDamage(PlayerController playerBeingAttack)

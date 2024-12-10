@@ -52,6 +52,7 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         base.FixedUpdateNetwork();
 
         defend = 10 + Mathf.FloorToInt(gameManager.levelCreep * 0.5f);
+        damage=1 + gameManager.levelCreep * 2;
         if (state != 3)
         {
             hpBar.UpdateBar(currentHealth, maxHealth);
