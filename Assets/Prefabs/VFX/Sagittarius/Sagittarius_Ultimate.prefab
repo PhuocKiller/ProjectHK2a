@@ -4905,7 +4905,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8927462104038603049
 Transform:
   m_ObjectHideFlags: 0
@@ -9905,10 +9905,12 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  _playerTeam: 0
   timerDestroy: 0
   timeEffect: 0
   timerApply: 0
   damage: 0
+  levelSkill: 0
   isPhysicDamage: 0
   isMakeStun: 0
   isMakeSlow: 0
@@ -9939,6 +9941,8 @@ MonoBehaviour:
   _criticalDamage: 0
   _moveSpeed: 0
   _attackSpeed: 0
+  _lifeSteal: 0
+  _levelSkill: 0
   canHeal: 0
 --- !u!1 &3851072126993969691
 GameObject:
@@ -9957,7 +9961,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1359451798162621579
 Transform:
   m_ObjectHideFlags: 0
@@ -14855,7 +14859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7212528500142561833
 Transform:
   m_ObjectHideFlags: 0
@@ -19868,7 +19872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &769109719474726897
 Transform:
   m_ObjectHideFlags: 0
