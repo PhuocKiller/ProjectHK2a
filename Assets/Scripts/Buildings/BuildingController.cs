@@ -61,7 +61,7 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
         }
         else
         {
-            maxHealth = 3000 + gameManager.levelCreep * 50;
+            maxHealth = 10 + gameManager.levelCreep * 50;
         }
         currentHealth = maxHealth;
         state = 0;
@@ -85,13 +85,12 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
                     TowerCollapse();
                 }
             }
-
             return;
         }
         defend = buildingType == BuildingType.Tower ? 10 : 15 + Mathf.FloorToInt(gameManager.levelCreep * (buildingType == BuildingType.Tower ? 0.5f : 0.75f));
         damage = 100 + gameManager.levelCreep * 2;
         bool isHaveEnemy = overlapSphere.CheckAllEnemyAround(30).Count > 0;
-        sphereRender.enabled = isHaveEnemy;
+        if (buildingType == BuildingType.Tower) sphereRender.enabled = isHaveEnemy;
 
         if (!isHaveEnemy)
         {
@@ -119,8 +118,7 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
             }
             TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 1);
         }
-        CalculateWeaponRotate(isHaveEnemy);
-
+        if (buildingType == BuildingType.Tower) CalculateWeaponRotate(isHaveEnemy);
     }
     void CalculateWeaponRotate(bool isHaveEnemy)
     {
@@ -175,18 +173,23 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
         currentHealth = 0;
         isLive = false;
         state = 3;
-        PlayerController[] playersInEnemyTeam = FindObjectsOfType<PlayerController>();
-        if (playersInEnemyTeam != null)
+       
+        if (buildingType == BuildingType.Tower)
         {
-            foreach (var playerEnemy in playersInEnemyTeam)
+            PlayerController[] playersInEnemyTeam = FindObjectsOfType<PlayerController>();
+            if (playersInEnemyTeam != null)
             {
-                if (playerEnemy.playerTeam != playerTeam)
+                foreach (var playerEnemy in playersInEnemyTeam)
                 {
-                    CalculateXPWhenKill(playerEnemy);
-                    CalculateCoinsWhenKill(playerEnemy);
+                    if (playerEnemy.playerTeam != playerTeam)
+                    {
+                        CalculateXPWhenKill(playerEnemy);
+                        CalculateCoinsWhenKill(playerEnemy);
+                    }
                 }
             }
         }
+           
         GetComponent<CharacterController>().enabled = false;
         HideVisualOfTower();
     }
@@ -194,8 +197,12 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
     {
         meshVisualTower[1].GetComponent<MeshRenderer>().enabled = false;
         meshVisualTower[2].GetComponent<MeshRenderer>().enabled = false;
-        sphereRender.enabled=false;
+        if(buildingType==BuildingType.Tower) sphereRender.enabled=false;
         hpBar.gameObject.SetActive(false);
+        if(buildingType == BuildingType.BaseHouse)
+        {
+            Debug.Log("Team" + (playerTeam==0?1:0) +" Win" );
+        }
     }
     public void HideVisualOfTower()
     {

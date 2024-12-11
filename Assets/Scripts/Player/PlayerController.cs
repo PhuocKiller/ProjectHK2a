@@ -128,12 +128,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 playerStat.currentHealth = playerStat.maxHealth;
                 playerStat.currentMana=playerStat.maxMana;  
                 AnimatorSetBoolRPC("isLive",true);
-                
-                if(HasStateAuthority)
-                {
-                    SpawnAtStartPos();
-                    Singleton<CameraController>.Instance.SetFollowCharacter(transform);
-                }
                 statusCanvas.GetComponent<InviManager>().VisualOfPlayer(true);
                 playerScore.playersMakeDamages.Clear();
             }
@@ -582,6 +576,11 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         yield return new WaitForSeconds(3f);
         statusCanvas.GetComponent<InviManager>().VisualOfPlayer(playerStat.isLive);
+        if (HasStateAuthority)
+        {
+            SpawnAtStartPos();
+            Singleton<CameraController>.Instance.SetFollowCharacter(transform);
+        }
     }
     [Rpc(RpcSources.All, RpcTargets.All)] public void AnimatorSetBoolRPC(string aniName, bool isActive)
     {

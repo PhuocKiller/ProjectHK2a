@@ -55,7 +55,7 @@ public class OverlapSpherePlayer : NetworkBehaviour
             if (enemyPlayer != null && enemyPlayer.GetComponent<NetworkObject>().IsValid)
             {
                 if (enemyPlayer.playerTeam != player.playerTeam && !enemyPlayers.Contains(enemyPlayer)
-                    && enemyPlayer.state != 3 && enemyPlayer.playerStat.isVisible)
+                    && enemyPlayer.state != 3 && (enemyPlayer.playerStat.isVisible|| enemyPlayer.playerStat.isUnderTower))
                 {
                     enemyPlayers.Add(enemyPlayer);
                 }

@@ -57,7 +57,7 @@ public class NetworkManager : MonoBehaviour
         if (player == runner.LocalPlayer)
         {
             NetworkObject characterObj = runner.Spawn(players[playerIndex],
-                spawnPointPlayer[playerTeam].position, spawnPointPlayer[playerTeam].rotation,
+                spawnPointPlayer[playerTeam].position +Vector3.right*5*(playerTeam==0?1:-1), spawnPointPlayer[playerTeam].rotation,
                 inputAuthority: player,
                 onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                 {
