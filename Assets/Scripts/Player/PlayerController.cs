@@ -114,6 +114,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
+        Runner.GetPlayerRtt(Object.InputAuthority);
         CalculateCanvas();
         CalculateStatusDebuff();
         if (state != 2) animator.enabled = !playerStat.isBeingStun;
@@ -127,12 +128,13 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 playerStat.currentHealth = playerStat.maxHealth;
                 playerStat.currentMana=playerStat.maxMana;  
                 AnimatorSetBoolRPC("isLive",true);
-                statusCanvas.GetComponent<InviManager>().VisualOfPlayer(true);
+                
                 if(HasStateAuthority)
                 {
                     SpawnAtStartPos();
                     Singleton<CameraController>.Instance.SetFollowCharacter(transform);
                 }
+                statusCanvas.GetComponent<InviManager>().VisualOfPlayer(true);
                 playerScore.playersMakeDamages.Clear();
             }
             return;
@@ -344,8 +346,9 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     void SpawnAtStartPos()
     {
-        Vector3 directionSpawn = spawnTransform.position - transform.position;
-        characterControllerPrototype.Move(directionSpawn);
+        transform.position = spawnTransform.position;
+      //  Vector3 directionSpawn = spawnTransform.position - transform.position;
+      //  characterControllerPrototype.Move(directionSpawn);
         transform.rotation = spawnTransform.rotation;
     }
     #endregion
@@ -773,7 +776,11 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         if (!Runner.TryFindObject(id, out NetworkObject item)) return;
         item.transform.SetParent(buffFromItemManager.transform);
         item.GetComponent<Collider>().enabled = false;
-        item.GetComponentInChildren<MeshRenderer>().enabled = false;
+        MeshRenderer[] meshItems = item.GetComponentsInChildren<MeshRenderer>();
+        foreach (var mesh in meshItems)
+        {
+            mesh.enabled = false;
+        }
     }
 }
 

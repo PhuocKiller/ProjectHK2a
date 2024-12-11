@@ -54,7 +54,10 @@ public class PlayerBuffManager : NetworkBehaviour
             {
                 for (int i = 3; i < listBuffsofPlayer.Length; i++) //i=0 là environment, 1 là passive, 2 là item
                 {
-                    Destroy(listBuffsofPlayer[i].gameObject);
+                    if(listBuffsofPlayer[i].GetComponent<InventoryItemBase>()!=null)
+                    {
+                        Destroy(listBuffsofPlayer[i].gameObject);
+                    }
                 }
             }
         }

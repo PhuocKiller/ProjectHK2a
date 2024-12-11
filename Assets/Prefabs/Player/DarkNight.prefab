@@ -1529,6 +1529,8 @@ MonoBehaviour:
   indexItemSlot_2: 0
   buyItemPanel: {fileID: 0}
   inventoryPanel: {fileID: 0}
+  _indexSlot_Item: 
+  _indexSlot_Count: 
 --- !u!1 &4294310371754987956
 GameObject:
   m_ObjectHideFlags: 0
@@ -2731,7 +2733,6 @@ MonoBehaviour:
   - {fileID: 7285963775858432968}
   - {fileID: 3886048214470802045}
   - {fileID: 6679923688922619981}
-  - {fileID: 3050855109409096235}
   - {fileID: 6895585963311228303}
   - {fileID: 8057463714775739037}
   - {fileID: 3021750034562492544}
@@ -2859,6 +2860,7 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
+  inventory: {fileID: 0}
   skillManager: {fileID: 0}
   playerCallBack: {fileID: 0}
   _playerID: 
@@ -3699,17 +3701,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7207978000192009159, guid: bf1dd3b277d43c74a9d78b17b07ce93a, type: 3}
   m_PrefabInstance: {fileID: 8015539459578158193}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3050855109409096235 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5001874267991416410, guid: bf1dd3b277d43c74a9d78b17b07ce93a, type: 3}
-  m_PrefabInstance: {fileID: 8015539459578158193}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1316d456b63868e40b1506b9799ce6ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3886048214470802045 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6544555891152840204, guid: bf1dd3b277d43c74a9d78b17b07ce93a, type: 3}

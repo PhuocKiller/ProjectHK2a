@@ -27,8 +27,10 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
     [Networked] public bool isLive { get; set; }
     [Networked] public bool isAttack { get; set; }
     [Networked] public TickTimer TimeOfAttack { get; set; }
+    [Networked] public bool isBeingDestroy { get; set; }
+    
     public Mesh[] meshTower;
-    public MeshFilter[] meshFilters;
+    public MeshFilter[] meshVisualTower;
     public GameObject[] shootVFX;
     public MeshRenderer sphereRender;
   
@@ -40,27 +42,39 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         hpBar = GetComponentInChildren<Bars>();
         playerScore= GetComponentInChildren<PlayerScore>();
         overlapSphere= GetComponentInChildren<OverlapSphereTower>();
-        maxHealth = 3000 + gameManager.levelCreep * 50;
+        maxHealth = 5 + gameManager.levelCreep * 50;
         currentHealth = maxHealth;
         state = 0;
         towerController = GetComponent<CharacterController>();
         for (int i = 0;i<3;i++)
         {
-            meshFilters[i].mesh=meshTower[i + 3*playerTeam];
+            meshVisualTower[i].mesh=meshTower[i + 3*playerTeam];
         }
         TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 1);
     }
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-
-        defend = 10 + Mathf.FloorToInt(gameManager.levelCreep * 0.5f);
-        damage=100 + gameManager.levelCreep * 2;
-        if (state != 3)
-        {
-            hpBar.UpdateBar(currentHealth, maxHealth);
-        }
+        hpBar.UpdateBar(currentHealth, maxHealth);
         hpBar.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
+        if (state == 3)
+        {
+            if(isBeingDestroy)
+            {
+                Material mat1 = meshVisualTower[1].GetComponent<MeshRenderer>().material;
+                ControlMaterial(3, mat1, mat1.color.a - 0.05f * Runner.DeltaTime, 3000);
+                Material mat2 = meshVisualTower[2].GetComponent<MeshRenderer>().material;
+                ControlMaterial(3, mat2, mat2.color.a - 0.05f * Runner.DeltaTime, 3000);
+                if (mat1.color.a<0.2f || mat2.color.a < 0.2f)
+                {
+                    isBeingDestroy = false;
+                }
+            }
+            
+            return;
+        }
+        defend = 10 + Mathf.FloorToInt(gameManager.levelCreep * 0.5f);
+        damage = 100 + gameManager.levelCreep * 2;
         bool isHaveEnemy = overlapSphere.CheckAllEnemyAround(30).Count > 0;
         sphereRender.enabled = isHaveEnemy;
         
@@ -136,13 +150,14 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         }
         else
         {
-            WhenCreepDie();
+            WhenTowerDestroy();
         }
     }
-    void WhenCreepDie()
+    void WhenTowerDestroy()
     {
         currentHealth = 0;
         isLive = false;
+        state = 3;
         if (overlapSphere != null)
         {
             if (overlapSphere.CheckPlayerAround().Count > 0)
@@ -158,13 +173,30 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
             }
         }
         GetComponent<CharacterController>().enabled = false;
-        GetComponent<BoxCollider>().enabled = false;
-        if (HasStateAuthority) StartCoroutine(TowerCollapse());
+        HideVisualOfTower();
+      //  if (HasStateAuthority) StartCoroutine(TowerCollapse());
     }
     public IEnumerator TowerCollapse()
     {
         yield return new WaitForSeconds(2f);
-        Destroy(gameObject);
+        meshVisualTower[1].GetComponent<MeshRenderer>().enabled = false;
+        meshVisualTower[2].GetComponent<MeshRenderer>().enabled = false;
+    }
+    public void HideVisualOfTower()
+    {
+        isBeingDestroy = true;
+    }
+    public void ControlMaterial(int modeRender, Material material, float alpha, int renderQueue)
+    {
+        material.SetFloat("_Mode", 3);
+        material.color = new Color(material.color.r, material.color.g, material.color.b, alpha);
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetInt("_ZWrite", 0);
+        material.DisableKeyword("_ALPHATEST_ON");
+        material.EnableKeyword("_ALPHABLEND_ON");
+        material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        material.renderQueue = renderQueue;
     }
     [Networked] public TickTimer timeDie { get; set; }
     

@@ -12,7 +12,11 @@ public class InventoryItemBase : NetworkBehaviour, IInventoryItem
         if (isSpawn) return;
         isSpawn = true;
         GetComponent<Collider>().enabled = HasStateAuthority;
-        transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().enabled = HasStateAuthority;
+        MeshRenderer[] meshItems= transform.GetComponentsInChildren<MeshRenderer>();
+        foreach(var mesh in meshItems)
+        {
+            mesh.enabled = HasStateAuthority;
+        }
     }
     public override void FixedUpdateNetwork()
     {
