@@ -74,8 +74,8 @@ public class DarkNightAttackObjects: NetworkBehaviour
             }
 
             if (other.gameObject.layer == 9 && collisions.Count == 0
-            && other.gameObject.GetComponent<TowerController>().state != 3
-            && other.gameObject.GetComponent<TowerController>().playerTeam != player.playerTeam
+            && other.gameObject.GetComponent<BuildingController>().state != 3
+            && other.gameObject.GetComponent<BuildingController>().playerTeam != player.playerTeam
             && skillName == "NormalAttack")
             {
                 trigger.ControlTriggerPlayer(other, collisions, player, damage, 0, true,

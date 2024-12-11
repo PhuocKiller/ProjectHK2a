@@ -76,7 +76,7 @@ public class NetworkManager : MonoBehaviour
             NetworkObject towerObject = runner.Spawn(buildings[0], spawnPointTower[i].position, spawnPointTower[i].rotation, player,
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
-                  obj.GetComponent<TowerController>().playerTeam = i <= 3 ? 0 : 1;
+                  obj.GetComponent<BuildingController>().playerTeam = i <= 3 ? 0 : 1;
               });
 
         }

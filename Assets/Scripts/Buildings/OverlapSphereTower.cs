@@ -7,13 +7,13 @@ using UnityEngine.UIElements;
 
 public class OverlapSphereTower : NetworkBehaviour
 {
-    public TowerController tower;
+    public BuildingController tower;
     public CharacterController closestCharac;
 
     public override void Spawned()
     {
         base.Spawned();
-        tower = GetComponentInParent<TowerController>();
+        tower = GetComponentInParent<BuildingController>();
     }
 
     public override void FixedUpdateNetwork()

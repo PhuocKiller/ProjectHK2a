@@ -81,8 +81,8 @@ public class AttackObjectsCreep : NetworkBehaviour
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
             }
             if (other.gameObject.layer == 9 
-            && other.gameObject.GetComponent<TowerController>().state != 3
-            && other.gameObject.GetComponent<TowerController>().playerTeam != creep.playerTeam)
+            && other.gameObject.GetComponent<BuildingController>().state != 3
+            && other.gameObject.GetComponent<BuildingController>().playerTeam != creep.playerTeam)
             {
                 trigger.ControlTriggerCreep(other, collisions, creep, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);

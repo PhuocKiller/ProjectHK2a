@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AttackObjectsTower : NetworkBehaviour
 {
-    TowerController tower;
+    BuildingController tower;
     CalculateTriggerEnter trigger;
     private Vector3 direction;
     private NetworkRigidbody rb;
@@ -29,7 +29,7 @@ public class AttackObjectsTower : NetworkBehaviour
             }
         }
     }
-    public void SetUpTower(TowerController tower, int levelDamage, Transform parentObject = null,
+    public void SetUpTower(BuildingController tower, int levelDamage, Transform parentObject = null,
          float timeTrigger = 0f)
     {
         this.tower = tower;

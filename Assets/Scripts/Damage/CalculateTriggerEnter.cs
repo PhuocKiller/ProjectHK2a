@@ -75,7 +75,7 @@ public class CalculateTriggerEnter : MonoBehaviour
             }
             );
     }
-    public void ControlTriggerTower(Collider other, List<Collider> collisions, TowerController tower, int damage, 
+    public void ControlTriggerTower(Collider other, List<Collider> collisions, BuildingController tower, int damage, 
        bool isPhysicDamage, bool isDestroyWhenCollider, PlayerRef InputAuthority)
     {
         collisions.Add(other);

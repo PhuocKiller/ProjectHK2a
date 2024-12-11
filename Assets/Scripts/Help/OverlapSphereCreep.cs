@@ -47,7 +47,7 @@ public class OverlapSphereCreep : NetworkBehaviour
                     allEnemies.Add(characCreep);
                 }
             }
-            TowerController enemyTower = hitCollider.gameObject.GetComponent<TowerController>();
+            BuildingController enemyTower = hitCollider.gameObject.GetComponent<BuildingController>();
             if (enemyTower != null && enemyTower.GetComponent<NetworkObject>().IsValid)
             {
                 CharacterController characTower = enemyTower.gameObject.GetComponent<CharacterController>();

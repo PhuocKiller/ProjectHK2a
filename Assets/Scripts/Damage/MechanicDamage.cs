@@ -27,7 +27,7 @@ public class MechanicDamage : MonoBehaviour
             return (int)(baseDamage * increaseDamage);
         }
 
-        else if (ObjectBeAttack.GetComponent<TowerController>() != null)
+        else if (ObjectBeAttack.GetComponent<BuildingController>() != null)
         {
             if (!isPhysicDamage)
             {
@@ -38,8 +38,8 @@ public class MechanicDamage : MonoBehaviour
             {
                 isCritPhysic = isCritPhysicDamage;
                 return (int)(damage * Random.Range(0.95f, 1.05f) *
-          (1 - (deltaDamage * (ObjectBeAttack.GetComponent<TowerController>().defend)
-          / (1 + deltaDamage * ObjectBeAttack.GetComponent<TowerController>().defend))));
+          (1 - (deltaDamage * (ObjectBeAttack.GetComponent<BuildingController>().defend)
+          / (1 + deltaDamage * ObjectBeAttack.GetComponent<BuildingController>().defend))));
             }
 
         }

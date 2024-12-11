@@ -5,7 +5,8 @@ using Fusion;
 using System;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
-public class TowerController : NetworkBehaviour,ICanTakeDamage
+using System.Linq;
+public class BuildingController : NetworkBehaviour,ICanTakeDamage
 {
     NetworkManager runnerManager;
     public CharacterController targetCharacter;
@@ -20,14 +21,14 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
    
     [Networked] public int state { get; set; }
     
-    [Networked] public int currentHealth { get; set; }
-    [Networked] public int maxHealth { get; set; }
+    [Networked]  int currentHealth { get; set; }
+    [Networked]  int maxHealth { get; set; }
     [Networked] public int damage { get; set; }
     [Networked] public int defend { get; set; }
     [Networked] public bool isLive { get; set; }
-    [Networked] public bool isAttack { get; set; }
-    [Networked] public TickTimer TimeOfAttack { get; set; }
-    [Networked] public bool isBeingDestroy { get; set; }
+    [Networked] bool isAttack { get; set; }
+    [Networked] TickTimer TimeOfAttack { get; set; }
+    [Networked]  bool isBeingDestroy { get; set; }
     
     public Mesh[] meshTower;
     public MeshFilter[] meshVisualTower;
@@ -62,12 +63,13 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
             if(isBeingDestroy)
             {
                 Material mat1 = meshVisualTower[1].GetComponent<MeshRenderer>().material;
-                ControlMaterial(3, mat1, mat1.color.a - 0.05f * Runner.DeltaTime, 3000);
+                ControlMaterial(3, mat1, mat1.color.a - 0.5f * Runner.DeltaTime, 3000);
                 Material mat2 = meshVisualTower[2].GetComponent<MeshRenderer>().material;
-                ControlMaterial(3, mat2, mat2.color.a - 0.05f * Runner.DeltaTime, 3000);
-                if (mat1.color.a<0.2f || mat2.color.a < 0.2f)
+                ControlMaterial(3, mat2, mat2.color.a - 0.5f * Runner.DeltaTime, 3000);
+                if (mat1.color.a<0.1f || mat2.color.a < 0.1f)
                 {
                     isBeingDestroy = false;
+                    TowerCollapse();
                 }
             }
             
@@ -142,8 +144,7 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         {
             playerScore.playersMakeDamages.Add(player);
         }
-        if (state == 3) return;
-
+       
         if (currentHealth  > damage)
         {
           currentHealth -= damage;
@@ -158,29 +159,27 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         currentHealth = 0;
         isLive = false;
         state = 3;
-        if (overlapSphere != null)
+        PlayerController[] playersInEnemyTeam = FindObjectsOfType<PlayerController>();
+        if (playersInEnemyTeam != null)
         {
-            if (overlapSphere.CheckPlayerAround().Count > 0)
+            foreach (var playerEnemy in playersInEnemyTeam)
             {
-                foreach (var playerAround in overlapSphere.CheckPlayerAround())
+                if (playerEnemy.playerTeam != playerTeam)
                 {
-                    if (playerAround)
-                    {
-                        CalculateXPWhenKill(playerAround);
-                        CalculateCoinsWhenKill(playerAround);
-                    }
+                    CalculateXPWhenKill(playerEnemy);
+                    CalculateCoinsWhenKill(playerEnemy);
                 }
             }
         }
         GetComponent<CharacterController>().enabled = false;
         HideVisualOfTower();
-      //  if (HasStateAuthority) StartCoroutine(TowerCollapse());
     }
-    public IEnumerator TowerCollapse()
+    public void TowerCollapse()
     {
-        yield return new WaitForSeconds(2f);
         meshVisualTower[1].GetComponent<MeshRenderer>().enabled = false;
         meshVisualTower[2].GetComponent<MeshRenderer>().enabled = false;
+        sphereRender.enabled=false;
+        hpBar.gameObject.SetActive(false);
     }
     public void HideVisualOfTower()
     {
@@ -198,15 +197,14 @@ public class TowerController : NetworkBehaviour,ICanTakeDamage
         material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
         material.renderQueue = renderQueue;
     }
-    [Networked] public TickTimer timeDie { get; set; }
     
-    void CalculateXPWhenKill(PlayerController playerAround)
+    void CalculateXPWhenKill(PlayerController playerEnemy)
     {
-      //  playerAround.playerStat.GainXPWhenKill((int)(EXPBaseOnCreepType(playerStat.level) / overlapSphere.CheckPlayerAround().Count));
+       playerEnemy.playerStat.GainXPWhenKill(1000);
     }
-    void CalculateCoinsWhenKill(PlayerController playerAround)
+    void CalculateCoinsWhenKill(PlayerController playerEnemy)
     {
-      //  playerAround.playerStat.GainCoinWhenKill((int)(CoinBaseOnCreepType(playerStat.level) / overlapSphere.CheckPlayerAround().Count));
+       playerEnemy.playerStat.GainCoinWhenKill(500);
     }
     /*int EXPBaseOnCreepType(int level)
     {
