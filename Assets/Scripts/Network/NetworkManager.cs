@@ -22,8 +22,7 @@ public class NetworkManager : MonoBehaviour
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
     UnityEvent onConnected;
-    [SerializeField] public Transform[] spawnPointTeam;
-    public Transform[] spawnPointTower;
+    [SerializeField] public Transform[] spawnPointPlayer, spawnPointCreep, spawnPointTower, spawnPointBase;
     public int playerIndex, playerTeam;
     bool flagLogin;
     
@@ -58,7 +57,7 @@ public class NetworkManager : MonoBehaviour
         if (player == runner.LocalPlayer)
         {
             NetworkObject characterObj = runner.Spawn(players[playerIndex],
-                spawnPointTeam[playerTeam].position, spawnPointTeam[playerTeam].rotation,
+                spawnPointPlayer[playerTeam].position, spawnPointPlayer[playerTeam].rotation,
                 inputAuthority: player,
                 onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                 {
@@ -78,14 +77,16 @@ public class NetworkManager : MonoBehaviour
               {
                   obj.GetComponent<BuildingController>().playerTeam = i <= 3 ? 0 : 1;
               });
-
         }
-        /*NetworkObject towerObject = runner.Spawn(buildings[0], spawnPointTower[7].position, spawnPointTower[7].rotation, player,
+        for (int i = 0; i < spawnPointBase.Length; i++)
+        {
+            NetworkObject towerObject = runner.Spawn(buildings[i+1], spawnPointBase[i].position, spawnPointBase[i].rotation, player, //building 0 là tower
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
-                  obj.GetComponent<TowerController>().playerTeam = 1;
-              });*/
-        // navMesh.BuildNavMesh();
+                  obj.GetComponent<BuildingController>().playerTeam = i;
+              });
+        }
+       // navMesh.BuildNavMesh();
     }
     public void SpawnCreep(PlayerRef player)
     {
@@ -95,16 +96,16 @@ public class NetworkManager : MonoBehaviour
     }
     void SpawnMeleeCreep(PlayerRef player)
     {
-        for (int i = -1; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             
-            runner.Spawn(creeps[0], spawnPointTeam[0].position + Vector3.right * 3 + Vector3.back * 2f * i, spawnPointTeam[0].rotation,
+            runner.Spawn(creeps[0], spawnPointCreep[0].position + Vector3.left * 2f * i, spawnPointCreep[0].rotation,
                              inputAuthority: player,
                            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                            {
                                obj.GetComponent<CreepController>().playerTeam = 0;
                            });
-            runner.Spawn(creeps[0], spawnPointTeam[1].position + Vector3.left * 3 + Vector3.back * 2f * i, spawnPointTeam[1].rotation,
+            runner.Spawn(creeps[0], spawnPointCreep[1].position  + Vector3.right * 2f * i, spawnPointCreep[1].rotation,
                  inputAuthority: player,
                onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                {
@@ -114,13 +115,13 @@ public class NetworkManager : MonoBehaviour
     }
     void SpawnRangeCreep(PlayerRef player)
     {
-        runner.Spawn(creeps[1], spawnPointTeam[0].position + Vector3.right * 1, spawnPointTeam[0].rotation,
+        runner.Spawn(creeps[1], spawnPointCreep[0].position + Vector3.left * 6, spawnPointCreep[0].rotation,
                                 inputAuthority: player,
                               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                               {
                                   obj.GetComponent<CreepController>().playerTeam = 0;
                               });
-        runner.Spawn(creeps[1], spawnPointTeam[1].position + Vector3.left * 1, spawnPointTeam[1].rotation,
+        runner.Spawn(creeps[1], spawnPointCreep[1].position + Vector3.right * 6, spawnPointCreep[1].rotation,
                              inputAuthority: player,
                            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                            {

@@ -83,7 +83,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         {
             if (overlapSphere.CheckAllEnemyAround(12).Count == 0)
             {
-                targetDestination = runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position;
+                targetDestination = runnerManager.spawnPointBase[playerTeam == 0 ? 1 : 0].position;
                 AnimatorSetBoolRPC("isAttack", false);
                 state = 0;
                 agent.isStopped = false;

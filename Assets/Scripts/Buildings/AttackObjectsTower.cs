@@ -43,8 +43,9 @@ public class AttackObjectsTower : NetworkBehaviour
 
         if (HasStateAuthority)
         {
-            rb.Rigidbody.AddForce((enemyCharacter.transform.position - transform.position).normalized*100);
-            if(timer.Expired(Runner))
+            // rb.Rigidbody.AddForce((enemyCharacter.transform.position - transform.position).normalized*100);
+            rb.Rigidbody.velocity= (enemyCharacter.transform.position - transform.position).normalized * 750 *Runner.DeltaTime;
+            if (timer.Expired(Runner))
             {
                 Destroy(gameObject);
             }

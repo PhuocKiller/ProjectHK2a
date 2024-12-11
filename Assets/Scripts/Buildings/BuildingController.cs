@@ -6,6 +6,11 @@ using System;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 using System.Linq;
+public enum BuildingType
+{
+    Tower,
+    BaseHouse
+}
 public class BuildingController : NetworkBehaviour,ICanTakeDamage
 {
     NetworkManager runnerManager;
@@ -17,8 +22,8 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
     public Transform weapon, shootPosition;
     [Networked] public int playerTeam { get; set; }
      
-    CharacterController towerController;
-   
+    CharacterController buildingController;
+    public BuildingType buildingType;
     [Networked] public int state { get; set; }
     
     [Networked]  int currentHealth { get; set; }
@@ -43,15 +48,23 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
         hpBar = GetComponentInChildren<Bars>();
         playerScore= GetComponentInChildren<PlayerScore>();
         overlapSphere= GetComponentInChildren<OverlapSphereTower>();
-        maxHealth = 5 + gameManager.levelCreep * 50;
+        
+        buildingController = GetComponent<CharacterController>();
+        if(buildingType==BuildingType.Tower)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                meshVisualTower[i].mesh = meshTower[i + 3 * playerTeam];
+            }
+            TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 0);
+            maxHealth = 5 + gameManager.levelCreep * 50;
+        }
+        else
+        {
+            maxHealth = 3000 + gameManager.levelCreep * 50;
+        }
         currentHealth = maxHealth;
         state = 0;
-        towerController = GetComponent<CharacterController>();
-        for (int i = 0;i<3;i++)
-        {
-            meshVisualTower[i].mesh=meshTower[i + 3*playerTeam];
-        }
-        TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 1);
     }
     public override void FixedUpdateNetwork()
     {
@@ -60,55 +73,58 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
         hpBar.transform.rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
         if (state == 3)
         {
-            if(isBeingDestroy)
+            if (isBeingDestroy)
             {
                 Material mat1 = meshVisualTower[1].GetComponent<MeshRenderer>().material;
                 ControlMaterial(3, mat1, mat1.color.a - 0.5f * Runner.DeltaTime, 3000);
                 Material mat2 = meshVisualTower[2].GetComponent<MeshRenderer>().material;
                 ControlMaterial(3, mat2, mat2.color.a - 0.5f * Runner.DeltaTime, 3000);
-                if (mat1.color.a<0.1f || mat2.color.a < 0.1f)
+                if (mat1.color.a < 0.1f || mat2.color.a < 0.1f)
                 {
                     isBeingDestroy = false;
                     TowerCollapse();
                 }
             }
-            
+
             return;
         }
-        defend = 10 + Mathf.FloorToInt(gameManager.levelCreep * 0.5f);
+        defend = buildingType == BuildingType.Tower ? 10 : 15 + Mathf.FloorToInt(gameManager.levelCreep * (buildingType == BuildingType.Tower ? 0.5f : 0.75f));
         damage = 100 + gameManager.levelCreep * 2;
         bool isHaveEnemy = overlapSphere.CheckAllEnemyAround(30).Count > 0;
         sphereRender.enabled = isHaveEnemy;
-        
-            if (!isHaveEnemy)
+
+        if (!isHaveEnemy)
+        {
+            isAttack = false;
+        }
+        else //có enemy xung quanh
+        {
+            if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(30)).Count == 0)// nhưng ko có player follow
             {
-                isAttack = false;
+                targetCharacter = overlapSphere.FindClosestCharacterInRadius(overlapSphere.CheckAllEnemyAround(30), transform.position);
             }
-            else //có enemy xung quanh
+            else //có player follow
             {
-                if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(30)).Count == 0)// nhưng ko có player follow
-                {
-                    targetCharacter = overlapSphere.FindClosestCharacterInRadius(overlapSphere.CheckAllEnemyAround(30), transform.position);
-                }
-                else //có player follow
-                {
-                    targetCharacter = overlapSphere.FindClosestPlayerFollowInRadius
-                        (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(30)), transform.position)
-                        .GetComponent<CharacterController>();
-                }
-                isAttack = true;
+                targetCharacter = overlapSphere.FindClosestPlayerFollowInRadius
+                    (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(30)), transform.position)
+                    .GetComponent<CharacterController>();
             }
-            if (isAttack &&TimeOfAttack.Expired(Runner) &&HasStateAuthority)
+            isAttack = true;
+        }
+        if (isAttack && TimeOfAttack.Expired(Runner) && HasStateAuthority)
+        {
+            if (buildingType == BuildingType.Tower)
             {
                 NormalAttack();
-                TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 1);
             }
+            TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 1);
+        }
         CalculateWeaponRotate(isHaveEnemy);
-        
+
     }
     void CalculateWeaponRotate(bool isHaveEnemy)
     {
-        Vector3 targetLookPos = isHaveEnemy ? targetCharacter.transform.position : (runnerManager.spawnPointTeam[playerTeam == 0 ? 1 : 0].position);
+        Vector3 targetLookPos = isHaveEnemy ? targetCharacter.transform.position : (runnerManager.spawnPointPlayer[playerTeam == 0 ? 1 : 0].position);
         Quaternion look = Quaternion.LookRotation
            ((targetLookPos - transform.position).normalized);
         weapon.rotation = Quaternion.RotateTowards(weapon.rotation, look, 180 * Runner.DeltaTime);

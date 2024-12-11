@@ -1013,7 +1013,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 4
+  m_Radius: 4.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -1068,13 +1068,11 @@ MonoBehaviour:
   weapon: {fileID: 7080068515406301125}
   shootPosition: {fileID: 9040593527557363810}
   _playerTeam: 0
+  buildingType: 0
   _state: 0
-  _currentHealth: 0
-  _maxHealth: 0
   _damage: 0
   _defend: 0
   _isLive: 0
-  _isAttack: 0
   meshTower:
   - {fileID: -4528719527234066744, guid: d18c904ee97a1334d8ebc98c5c249b70, type: 3}
   - {fileID: -7363117646337794105, guid: 140d6f699d5ce5e45989d952a480c06f, type: 3}
@@ -1100,7 +1098,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 3, y: 3, z: 3}
+  m_Extents: {x: 2.5, y: 2.5, z: 2.5}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1

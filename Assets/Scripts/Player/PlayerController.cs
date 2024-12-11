@@ -96,7 +96,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
         {
             gameManager = FindObjectOfType<GameManager>();
-            spawnTransform = runnerManager.spawnPointTeam[playerTeam];
+            spawnTransform = runnerManager.spawnPointPlayer[playerTeam];
             Singleton<CameraController>.Instance.SetFollowCharacter(transform);
             Singleton<PlayerManager>.Instance.SetRunner(Runner);
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner,0);
