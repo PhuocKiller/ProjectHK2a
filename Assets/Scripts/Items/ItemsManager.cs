@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class ItemsManager : MonoBehaviour
 {
+    public PlayerController player;
     GameObject[] itemButton;
     GameObject itemToBuy;
     InventoryItemBase itemToSell;
     [SerializeField] GameObject buyBtn, sellBtn, basicBtn,shieldBtn, armorBtn, weaponBtn,bootBtn;
     int priceItem; int indexItem; int indexSlot;
     NetworkManager networkManager;
-    [SerializeField] Transform basicBG,shieldBG,armorBG,weaponBG,bootBG;
+    [SerializeField] Transform basicBG,shieldBG,armorBG,weaponBG,bootBG,cantBuyPanel;
     public TextMeshProUGUI priceValue;
     [SerializeField] TextMeshProUGUI itemInfoText;
     
@@ -24,11 +25,23 @@ public class ItemsManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        StartCoroutine(DelayCheckPlay());
         itemToBuy = null;
         priceItem = 0;
         priceValue.text = "0";
         itemInfoText.text = "";
         buyBtn.SetActive(true); sellBtn.SetActive(false);
+    }
+    private void Update()
+    {
+        if(player==null) return;
+        cantBuyPanel.gameObject.SetActive(!player.playerStat.canBuyItem);
+    }
+    IEnumerator DelayCheckPlay()
+    {
+        yield return new WaitForSeconds(0.2f);
+        Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        this.player = player;
     }
     void LoadStatItems()
     {
@@ -108,6 +121,7 @@ public class ItemsManager : MonoBehaviour
     public void BuyItem()
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if(!player.playerStat.canBuyItem) return;
         if (player.playerStat.coinsValue< priceItem)
         {
 
@@ -121,6 +135,7 @@ public class ItemsManager : MonoBehaviour
     public void SellItem()
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (!player.playerStat.canBuyItem) return;
         player.inventory.RemoveItem(itemToSell, indexSlot);
         player.playerStat.coinsValue += priceItem;
     }

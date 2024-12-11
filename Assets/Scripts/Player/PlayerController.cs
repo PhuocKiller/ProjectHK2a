@@ -21,7 +21,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public GameManager gameManager;
     public OverlapSpherePlayer overlapSphere;
     public Joystick joystick;
-    Transform spawnTransform;
+    public Transform spawnTransform;
     [Networked]  public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
     public List<Collider> collisionsEnvi = new List<Collider>();
@@ -306,7 +306,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 if(gameManager.state == GameState.WaitBeforeStart)
                 {
                     Vector3 directionToCenter = transform.position - spawnTransform.position; // Vector3.zero là vị trí của sphere center
-                    if (directionToCenter.magnitude > 5f)
+                    if (directionToCenter.magnitude > 15f)
                     {
                         characterControllerPrototype.Move(-directionToCenter.normalized * speed * 0.015f
                 * playerStat.moveSpeed*Runner.DeltaTime);
