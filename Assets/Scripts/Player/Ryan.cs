@@ -20,7 +20,7 @@ public class Ryan : PlayerController
         state = 4;
         if (effectSkill2.gameObject.activeInHierarchy)
         {
-            AnimatorRPC("SpecialAttack");
+            AnimatorTriggerRPC("SpecialAttack");
             StartCoroutine(ActiveKatana(false,0.5f*100/playerStat.attackSpeed));
             attackTimes = 0;
             StartCoroutine(DelaySpawnSpecialAttack(VFXEffect, levelDamage, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
@@ -42,7 +42,7 @@ public class Ryan : PlayerController
             });
                 SetParentRPC(obj.Id);
             }
-            AnimatorRPC("Attack");
+            AnimatorTriggerRPC("Attack");
         }
     }
     IEnumerator DelaySpawnAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,

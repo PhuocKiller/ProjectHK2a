@@ -66,6 +66,7 @@ public class PlayerStat : NetworkBehaviour
     [Networked] public bool isUnstopAble { get; set; }
     [Networked] public bool isCounter { get; set; }
     [Networked] public bool isLive { get; set; }
+    [Networked] public bool isBeingTele { get; set; }
     [Networked(OnChanged = nameof(FollowEnemyChange))] public bool isFollowEnemy { get; set; }
     protected static void FollowEnemyChange(Changed<PlayerStat> changed)
     {

@@ -211,52 +211,57 @@ public class SkillButton : MonoBehaviour
     void TriggerSkill()
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-        if (m_skillController == null || m_skillController.IsCooldowning 
-            ||levelSkill==0 ||player.playerStat.currentMana < manaCost
-            ||state!=0 || player.playerStat.isBeingStun) return;
-            if (skillButtonType == SkillButtonTypes.Jump)
-            {
-                player.Jump(VfxEffect);
-                player.playerStat.UpgradeLevel();
-            }
-            if (skillButtonType == SkillButtonTypes.NormalAttack)
-            {
-                player.NormalAttack(VfxEffect, damageSkill,isPhysicDamage,isMakeStun,isMakeSlow,isMakeSilen
-                    ,timerTrigger,timeEffect);
-            }
-            if (skillButtonType == SkillButtonTypes.Ultimate)
-            {
-                if (player.playerStat.isBeingSilen) return;
-                player.Ultimate(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
-             timerTrigger, timeEffect,posMouseUp,levelSkill);
-                
-            }
-            if (skillButtonType == SkillButtonTypes.Skill_2)
-            {
-                if (player.playerStat.isBeingSilen) return;
-                player.Skill_2(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
-             timerTrigger, timeEffect, posMouseUp, levelSkill);
-            }
-            if (skillButtonType == SkillButtonTypes.Skill_1)
-            {
-                if (player.playerStat.isBeingSilen) return;
-                player.Skill_1(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
-             timerTrigger, timeEffect, posMouseUp, levelSkill);
-            }
+        if (m_skillController == null || m_skillController.IsCooldowning
+            || levelSkill == 0 || player.playerStat.currentMana < manaCost
+            || state != 0 || player.playerStat.isBeingStun) return;
+        if (skillButtonType == SkillButtonTypes.Jump)
+        {
+            player.Jump(VfxEffect);
+            player.playerStat.UpgradeLevel();
+        }
+        if (skillButtonType == SkillButtonTypes.NormalAttack)
+        {
+            player.NormalAttack(VfxEffect, damageSkill, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen
+                , timerTrigger, timeEffect);
+        }
+        if (skillButtonType == SkillButtonTypes.Ultimate)
+        {
+            if (player.playerStat.isBeingSilen) return;
+            player.Ultimate(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+         timerTrigger, timeEffect, posMouseUp, levelSkill);
+
+        }
+        if (skillButtonType == SkillButtonTypes.Skill_2)
+        {
+            if (player.playerStat.isBeingSilen) return;
+            player.Skill_2(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+         timerTrigger, timeEffect, posMouseUp, levelSkill);
+        }
+        if (skillButtonType == SkillButtonTypes.Skill_1)
+        {
+            if (player.playerStat.isBeingSilen) return;
+            player.Skill_1(VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+         timerTrigger, timeEffect, posMouseUp, levelSkill);
+        }
+        if (skillButtonType == SkillButtonTypes.Teleport)
+        {
+            if (player.playerStat.isBeingSilen) return;
+            player.Teleport(VfxEffect);
+        }
             if (skillButtonType == SkillButtonTypes.Items)
+        {
+            ItemDragHandler dragHandler = transform.GetChild(0).GetChild(0).GetComponent<ItemDragHandler>();
+            IInventoryItem item = dragHandler.Item;
+            if (item != null)
             {
-                ItemDragHandler dragHandler = transform.GetChild(0).GetChild(0).GetComponent<ItemDragHandler>();
-                IInventoryItem item = dragHandler.Item;
-                if (item != null)
-                    {
-                    player.inventory.UseItemClickInventory
-                    (player.inventory.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
-                     if (!canActive ||m_skillName==SkillName.NoSkill) return;
-                     player.UseItemSkill(m_skillName,VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
-        timerTrigger, timeEffect, posMouseUp, levelSkill);
+                player.inventory.UseItemClickInventory
+                (player.inventory.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
+                if (!canActive || m_skillName == SkillName.NoSkill) return;
+                player.UseItemSkill(m_skillName, VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+   timerTrigger, timeEffect, posMouseUp, levelSkill);
             }
-            }
-            m_skillController.Trigger();
+        }
+        m_skillController.Trigger();
     }
     private void OnDestroy()
     {

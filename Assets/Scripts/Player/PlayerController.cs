@@ -170,10 +170,11 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public void Jump(NetworkObject VFXEffect)
     {
         isJumping = true;
-        AnimatorRPC("Jump");
+        AnimatorTriggerRPC("Jump");
         NetworkObject jumpVFX= Runner.Spawn(VFXEffect, jumpTransform.transform.position,
             jumpTransform.rotation, inputAuthority: Object.InputAuthority);
         StartCoroutine(DespawnJumpVFX(jumpVFX));
+        AnimatorBoolRPC("isTeleporting", false);
     }
     IEnumerator DespawnJumpVFX(NetworkObject jumpVFX)
     {
@@ -183,17 +184,26 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     #endregion
 
     #region "SkillButton"
+    public void Teleport(NetworkObject VFXEffect)
+    {
+        AnimatorBoolRPC("isTeleporting",true);
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void AnimatorBoolRPC(string name, bool active)
+    {
+        animator.SetBool(name, active);
+    }
     public virtual void NormalAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
     {
-        AnimatorRPC("Attack");
+        AnimatorTriggerRPC("Attack");
         state = 4;
     }
     public virtual void Skill_1(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
-        AnimatorRPC("Skill_1");
+        AnimatorTriggerRPC("Skill_1");
         playerStat.currentMana -= manaCost;
     }
 
@@ -201,27 +211,27 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp= null,int levelSkill = 1)
     {
-        AnimatorRPC("Skill_2");
+        AnimatorTriggerRPC("Skill_2");
         playerStat.currentMana -= manaCost;
     }
     public virtual void Ultimate(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
-        AnimatorRPC("Ultimate");
+        AnimatorTriggerRPC("Ultimate");
         playerStat.currentMana -= manaCost;
     }
     public virtual void UseItemSkill(SkillName skillName,NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
-        AnimatorRPC("UseItemSkill");
+        AnimatorTriggerRPC("UseItemSkill");
         playerStat.currentMana -= manaCost;
         itemSkillManager.UseItemSkill(skillName, VFXEffect, levelDamage, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
         timeTrigger, TimeEffect, posMouseUp, levelSkill);
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void AnimatorRPC(string name)
+    public void AnimatorTriggerRPC(string name)
     {
         animator.SetTrigger(name);
     }
@@ -747,7 +757,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                       if(playerStat.currentHealth < 0)
                       {
                           state = 3;
-                          AnimatorRPC("Die");
+                          AnimatorTriggerRPC("Die");
                       }
                   }
               }
