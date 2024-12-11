@@ -57,7 +57,10 @@ public class InviManager : NetworkBehaviour
         {
             foreach (var visual in visuals)
             {
-                visual.gameObject.SetActive(isVisible);
+                bool canSee;
+                if (player.playerStat.isUnderTower) canSee = true;
+                else canSee = isVisible;
+                visual.gameObject.SetActive(canSee);
             }
         }
     }

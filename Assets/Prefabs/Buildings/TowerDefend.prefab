@@ -615,8 +615,9 @@ GameObject:
   - component: {fileID: 908770535163051331}
   - component: {fileID: 1205937231934247156}
   - component: {fileID: 207419753687778320}
+  - component: {fileID: 6763636616089857563}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: DetectSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -708,6 +709,21 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6763636616089857563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4469707077258970007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116b5323394c625449da1e63948b32e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WordOffset: 0
+  WordCount: 0
+  _interpolationDataSource: 0
 --- !u!1 &4922033503845607014
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +1008,7 @@ MonoBehaviour:
   - {fileID: 2999293192973695712}
   - {fileID: 4070384924256360949}
   - {fileID: 2225365716287095762}
+  - {fileID: 6763636616089857563}
   SimulationBehaviours: []
 --- !u!143 &4675576966319643171
 CharacterController:

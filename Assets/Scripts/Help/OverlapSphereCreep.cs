@@ -33,7 +33,8 @@ public class OverlapSphereCreep : NetworkBehaviour
             if(enemyPlayer != null && enemyPlayer.GetComponent<NetworkObject>().IsValid)
             {
                 CharacterController characPlayer = enemyPlayer.gameObject.GetComponent<CharacterController>();
-                if (enemyPlayer.playerTeam != creep.playerTeam && enemyPlayer.state!=3 && !allEnemies.Contains(characPlayer))
+                if (enemyPlayer.playerTeam != creep.playerTeam && enemyPlayer.state!=3 && !allEnemies.Contains(characPlayer)
+                    && (enemyPlayer.playerStat.isVisible|| enemyPlayer.playerStat.isUnderTower))
                 {
                     allEnemies.Add(characPlayer);
                 }
