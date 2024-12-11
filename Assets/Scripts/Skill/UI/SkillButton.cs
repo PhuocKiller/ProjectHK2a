@@ -245,7 +245,7 @@ public class SkillButton : MonoBehaviour
         }
         if (skillButtonType == SkillButtonTypes.Teleport)
         {
-            if (player.playerStat.isBeingSilen) return;
+            if (player.playerStat.isBeingSilen|| player.playerStat.isBeingTele) return;
             player.Teleport(VfxEffect);
         }
             if (skillButtonType == SkillButtonTypes.Items)

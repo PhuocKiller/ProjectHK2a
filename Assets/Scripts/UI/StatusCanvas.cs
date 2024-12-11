@@ -11,12 +11,13 @@ public class StatusCanvas : NetworkBehaviour
     [SerializeField] PlayerController player;
     [SerializeField] CreepController creep;
     Shield firstShield;
-    public Bars healthBarPlayer, manaBarPlayer, XPbar, TimeRemainingBar, timeShieldRemainingBar;
+    public Bars healthBarPlayer, manaBarPlayer, XPbar, TimeRemainingBar, timeShieldRemainingBar, teleBar;
     public TextMeshProUGUI statusBeingTMP, injureDamage;
     Vector3 fixPosInjureDamage;
     TickTimer timerhideInjureDamage;
     [Networked] bool playerBeingAttack {  get; set; }
-
+    [Networked] public TickTimer TimeOfTele { get; set; }
+    [Networked] public float currentTeleTimeStatus { get; set; }
     public override void Spawned()
     {
         base.Spawned();
@@ -48,6 +49,17 @@ public class StatusCanvas : NetworkBehaviour
         if(player)
         {
             healthBarPlayer.UpdateBar(player.playerStat.currentHealth, player.playerStat.maxHealth);
+            if(player.playerStat.isBeingTele)
+            {
+                if (TimeOfTele.RemainingTime(Runner) > 0)
+                {
+                    currentTeleTimeStatus = (float)TimeOfTele.RemainingTime(Runner);
+                }
+                else
+                {
+                    player.TeleToBase();
+                }
+            }
             player.transform.GetChild(0).GetChild(0).rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
         }
         else

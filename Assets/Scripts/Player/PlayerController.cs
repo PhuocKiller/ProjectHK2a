@@ -147,7 +147,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         if (HasStateAuthority)
         {
-            if (isJumping)
+            if (isJumping&& animator.GetCurrentAnimatorStateInfo(0).IsName("Move"))
             {
                 isGround = false;
                 isJumping = false;
@@ -169,12 +169,12 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     
     public void Jump(NetworkObject VFXEffect)
     {
+        NoTeleAnyMore();
         isJumping = true;
         AnimatorTriggerRPC("Jump");
         NetworkObject jumpVFX= Runner.Spawn(VFXEffect, jumpTransform.transform.position,
             jumpTransform.rotation, inputAuthority: Object.InputAuthority);
         StartCoroutine(DespawnJumpVFX(jumpVFX));
-        AnimatorBoolRPC("isTeleporting", false);
     }
     IEnumerator DespawnJumpVFX(NetworkObject jumpVFX)
     {
@@ -186,16 +186,36 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     #region "SkillButton"
     public void Teleport(NetworkObject VFXEffect)
     {
-        AnimatorBoolRPC("isTeleporting",true);
+        AnimatorSetBoolRPC("isTeleporting",true);
+        playerStat.isBeingTele = true;
+        statusCanvas.TimeOfTele = TickTimer.CreateFromSeconds(Runner, 5);
+        NetworkObject obj= Runner.Spawn(VFXEffect, rayCastTransform.position, Quaternion.identity);
+        SetParentTeleObjRPC(obj.Id);
     }
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void AnimatorBoolRPC(string name, bool active)
+    public void SetParentTeleObjRPC(NetworkId id)
     {
-        animator.SetBool(name, active);
+        if (!Runner.TryFindObject(id, out NetworkObject obj)) return;
+        obj.transform.SetParent(rayCastTransform);
+    }
+    public void TeleToBase()
+    {
+        NoTeleAnyMore();
+        characterControllerPrototype.enabled = false;
+        SpawnAtStartPos();
+        characterControllerPrototype.enabled = true;
+        Singleton<CameraController>.Instance.SetFollowCharacter(transform);
+    }
+    public void NoTeleAnyMore()
+    {
+        AnimatorSetBoolRPC("isTeleporting", false);
+        playerStat.isBeingTele = false;
+        if(rayCastTransform.childCount>0) Destroy(rayCastTransform.GetChild(0).gameObject);
     }
     public virtual void NormalAttack(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false, float timeTrigger = 0f, float TimeEffect = 0f)
     {
+        NoTeleAnyMore();
         AnimatorTriggerRPC("Attack");
         state = 4;
     }
@@ -203,6 +223,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
+        NoTeleAnyMore();
         AnimatorTriggerRPC("Skill_1");
         playerStat.currentMana -= manaCost;
     }
@@ -211,6 +232,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp= null,int levelSkill = 1)
     {
+        NoTeleAnyMore();
         AnimatorTriggerRPC("Skill_2");
         playerStat.currentMana -= manaCost;
     }
@@ -218,6 +240,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
+        NoTeleAnyMore();
         AnimatorTriggerRPC("Ultimate");
         playerStat.currentMana -= manaCost;
     }
@@ -225,6 +248,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
+        NoTeleAnyMore();
         AnimatorTriggerRPC("UseItemSkill");
         playerStat.currentMana -= manaCost;
         itemSkillManager.UseItemSkill(skillName, VFXEffect, levelDamage, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
@@ -273,7 +297,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
             if (moveDirection.magnitude > 0)
             {
-                if(gameManager.state==GameState.InGame)
+                NoTeleAnyMore();
+                if (gameManager.state==GameState.InGame)
                 {
                     characterControllerPrototype.Move(look * moveDirection * speed * 0.015f
                 * playerStat.moveSpeed * (playerStat.isBeingSlow ? 0.3f : 1f) * Runner.DeltaTime);
@@ -351,8 +376,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     void SpawnAtStartPos()
     {
         transform.position = spawnTransform.position;
-      //  Vector3 directionSpawn = spawnTransform.position - transform.position;
-      //  characterControllerPrototype.Move(directionSpawn);
         transform.rotation = spawnTransform.rotation;
     }
     #endregion
