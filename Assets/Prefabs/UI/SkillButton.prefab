@@ -701,11 +701,12 @@ MonoBehaviour:
   m_btnComp: {fileID: 6250586983305402482}
   AddSkill_LevelBtn: {fileID: 8135923170162379898}
   player: {fileID: 0}
-  m_skillButtonTypes: 000000000300000002000000010000000400000005000000
+  m_skillButtonTypes: 00000000060000000100000002000000030000000400000005000000
   skillButtonType: 0
   skillType: 0
   VfxEffect: {fileID: 0}
   m_skillName: 0
+  indexInventory: 0
   timerTrigger: 0
   levelManaCosts: 
   triggerSoundFX: {fileID: 0}

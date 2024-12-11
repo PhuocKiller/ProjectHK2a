@@ -70,7 +70,7 @@ public class SkillButton : MonoBehaviour
             StartCoroutine(DelayCheckPlayer());
         }
         
-        if(skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack)
+        if(skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack || skillButtonType == SkillButtonTypes.Teleport)
         {
             AddSkill_LevelBtn.gameObject.SetActive(false);
         }
@@ -84,7 +84,7 @@ public class SkillButton : MonoBehaviour
     private void Update()
     {
         if (player == null||skillButtonType == SkillButtonTypes.Jump ||
-            skillButtonType == SkillButtonTypes.NormalAttack) return;
+            skillButtonType == SkillButtonTypes.NormalAttack || skillButtonType == SkillButtonTypes.Teleport) return;
         skillLevelImage.fillAmount = levelSkill * 0.25f;
         AddSkill_LevelBtn.gameObject.SetActive(player.playerStat.levelPoint > 0 && levelSkill < 4);
 

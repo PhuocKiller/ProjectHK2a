@@ -20,20 +20,24 @@ public class SkillButtonDrawer : MonoBehaviour
         foreach (var skillCollected in m_skillCollecteds)
         {
             index++;
-            if(index<=4)
+            if(index<=5)
             {
                 
                 Helper.ClearChilds(m_gridRoot[index]);
                 var skillButtonClone = Instantiate(m_skillBtnPrefab);
                 Helper.AssignToRoot(m_gridRoot[index], skillButtonClone.transform,
-                    Vector3.zero, index == 4 ? Vector3.one * 1.2f : (index == 0 ? 0.9f * Vector3.one : 1f * Vector3.one));
+                    Vector3.zero, index == 5 ? Vector3.one * 1.2f : (index == 0 ? 0.9f * Vector3.one : 1f * Vector3.one));
                 skillButtonClone.Initialize(skillCollected.Key);
-                
                 skillButtonClone.skillButtonType = skillButtonClone.m_skillButtonTypes[index];
                 
                 if (skillButtonClone.skillButtonType == SkillButtonTypes.Jump)
                 {
                     skillButtonClone.m_skillIcon.transform.localScale = Vector3.one * 1.2f;
+                    skillButtonClone.levelSkill = 1;
+                }
+                if (skillButtonClone.skillButtonType == SkillButtonTypes.Teleport)
+                {
+                    skillButtonClone.m_skillIcon.transform.localScale = Vector3.one * 1.5f;
                     skillButtonClone.levelSkill = 1;
                 }
                 if (skillButtonClone.skillButtonType == SkillButtonTypes.NormalAttack)

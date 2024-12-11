@@ -542,6 +542,7 @@ MonoBehaviour:
   _isBeingSilen: 0
   _isLifeSteal: 0
   _isVisible: 0
+  _isUnderTower: 0
   _isStartFadeInvi: 0
   _isUnstopAble: 0
   _isCounter: 0
@@ -1290,6 +1291,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2599312243840450912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3792622281800518772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5507091326593322600}
+  - component: {fileID: 2265948541954292615}
+  m_Layer: 0
+  m_Name: Teleport
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5507091326593322600
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3792622281800518772}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6300876624155511018}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2265948541954292615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3792622281800518772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillManager: {fileID: 0}
+  player: {fileID: 0}
+  skillName: 33
+  skillType: 3
+  VFXPrefab: {fileID: 0}
+  skillStat: {fileID: 11400000, guid: 0eb9fc079a80a1940b3a0ca571be1e6e, type: 2}
+  OnTriggerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSkillUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCooldown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCooldownStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStopWithType:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3875346151727099700
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,6 +1730,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 301967881547607831}
+  - {fileID: 5507091326593322600}
   - {fileID: 934443159678920830}
   - {fileID: 8439317989326956875}
   - {fileID: 7291663296504777431}
@@ -1682,9 +1755,10 @@ MonoBehaviour:
   _interpolationDataSource: 0
   m_skillControllers:
   - {fileID: 7813881329666471997}
-  - {fileID: 4662082089893723454}
-  - {fileID: 5444415010937747835}
+  - {fileID: 2265948541954292615}
   - {fileID: 8205854289906227358}
+  - {fileID: 5444415010937747835}
+  - {fileID: 4662082089893723454}
   - {fileID: 5988639432067642820}
   - {fileID: 1834350147570836236}
   - {fileID: 2283222752640779768}

@@ -1435,6 +1435,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 301967881547607831}
+  - {fileID: 8237832432111312150}
   - {fileID: 934443159678920830}
   - {fileID: 8439317989326956875}
   - {fileID: 7291663296504777431}
@@ -1459,9 +1460,10 @@ MonoBehaviour:
   _interpolationDataSource: 0
   m_skillControllers:
   - {fileID: 7813881329666471997}
-  - {fileID: 4662082089893723454}
-  - {fileID: 5444415010937747835}
+  - {fileID: 637110866284643287}
   - {fileID: 8205854289906227358}
+  - {fileID: 5444415010937747835}
+  - {fileID: 4662082089893723454}
   - {fileID: 5988639432067642820}
   - {fileID: 8116786480547734877}
   - {fileID: 1043465978866407805}
@@ -2008,6 +2010,7 @@ MonoBehaviour:
   _isBeingSilen: 0
   _isLifeSteal: 0
   _isVisible: 0
+  _isUnderTower: 0
   _isStartFadeInvi: 0
   _isUnstopAble: 0
   _isCounter: 0
@@ -2109,6 +2112,77 @@ Transform:
   - {fileID: 4698341550649783325}
   m_Father: {fileID: 5992254576182454424}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7476706727963862638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8237832432111312150}
+  - component: {fileID: 637110866284643287}
+  m_Layer: 0
+  m_Name: Teleport
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8237832432111312150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476706727963862638}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6300876624155511018}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &637110866284643287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476706727963862638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab01954604c6f2845b0eb9dbbeeb05d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillManager: {fileID: 0}
+  player: {fileID: 0}
+  skillName: 33
+  skillType: 3
+  VFXPrefab: {fileID: 0}
+  skillStat: {fileID: 11400000, guid: 0eb9fc079a80a1940b3a0ca571be1e6e, type: 2}
+  OnTriggerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSkillUpdate:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCooldown:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCooldownStop:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNoItem:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStopWithType:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7493144515705845999
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum SkillButtonTypes 
 {
-   Jump, Skill_1, Skill_2,Ultimate,NormalAttack,Items,
+   Jump, Skill_1, Skill_2,Ultimate,NormalAttack,Items,Teleport,
 }
