@@ -61,7 +61,11 @@ public class StatusCanvas : NetworkBehaviour
                 }
             }
             player.transform.GetChild(0).GetChild(0).rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
-            player.playerStat.canBuyItem = (player.transform.position - player.spawnTransform.position).magnitude < 15;
+            if(HasStateAuthority)
+            {
+                player.playerStat.canBuyItem = (player.transform.position - player.spawnTransform.position).magnitude < 15;
+            }
+                
         }
         else
         {

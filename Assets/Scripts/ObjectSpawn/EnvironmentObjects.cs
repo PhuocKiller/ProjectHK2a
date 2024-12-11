@@ -106,7 +106,7 @@ public class EnvironmentObjects : NetworkBehaviour
                     {
 
                         timerToApply[index] = TickTimer.CreateFromSeconds(Runner, timerApply);
-                        other.gameObject.GetComponent<PlayerController>().ApplyHeal(damage);
+                        other.gameObject.GetComponent<PlayerController>().ApplyRegenHealth(damage);
                     }
                 }
             } 

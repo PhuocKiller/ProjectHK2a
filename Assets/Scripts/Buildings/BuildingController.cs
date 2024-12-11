@@ -65,6 +65,7 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
         }
         currentHealth = maxHealth;
         state = 0;
+        
     }
     public override void FixedUpdateNetwork()
     {

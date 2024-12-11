@@ -86,7 +86,15 @@ public class NetworkManager : MonoBehaviour
                   obj.GetComponent<BuildingController>().playerTeam = i;
               });
         }
-       // navMesh.BuildNavMesh();
+        for (int i = 0; i < 2; i++)
+        {
+            NetworkObject baseRegen = runner.Spawn(buildings[3], spawnPointPlayer[i].position, spawnPointPlayer[i].rotation, player, //building 0 là tower
+              onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+              {
+                  obj.GetComponent<BaseRegen>().SetUp(i,0.05f);
+              });
+        }
+        // navMesh.BuildNavMesh();
     }
     public void SpawnCreep(PlayerRef player)
     {

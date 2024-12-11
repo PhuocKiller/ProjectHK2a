@@ -666,14 +666,25 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
         
     }
-    public void ApplyHeal(int heal)
+    public void ApplyRegenHealth(int regen)
     {
-        CalculateHealRPC(heal);
+        CalculateRegenHealthRPC(regen);
     }
-    [Rpc(RpcSources.All, RpcTargets.All)] public void CalculateHealRPC(int heal)
+    [Rpc(RpcSources.All, RpcTargets.All)] public void CalculateRegenHealthRPC(int regen)
     {
         if (state == 3) return;
-        playerStat.currentHealth += heal;
+        playerStat.currentHealth += regen;
+    }
+    
+    public void ApplyRegenMana(int regen)
+    {
+        CalculateRegenManaRPC(regen);
+    }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void CalculateRegenManaRPC(int regen)
+    {
+        if (state == 3) return;
+        playerStat.currentMana += regen;
     }
     #endregion
     #region Status Canvas
