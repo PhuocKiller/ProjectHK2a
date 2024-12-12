@@ -4,8 +4,8 @@ using UnityEngine;
 using Fusion;
 using System;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 using System.Linq;
+using UnityEngine.UI;
 public enum BuildingType
 {
     Tower,
@@ -39,7 +39,7 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
     public MeshFilter[] meshVisualTower;
     public GameObject[] shootVFX;
     public MeshRenderer sphereRender;
-  
+    public Image minimapImage;
     public override void Spawned()
     {
         base.Spawned();
@@ -65,7 +65,7 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
         }
         currentHealth = maxHealth;
         state = 0;
-        
+        minimapImage.gameObject.SetActive(true);
     }
     public override void FixedUpdateNetwork()
     {

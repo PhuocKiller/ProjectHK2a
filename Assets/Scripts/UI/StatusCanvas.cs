@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatusCanvas : NetworkBehaviour
 {
@@ -15,20 +16,31 @@ public class StatusCanvas : NetworkBehaviour
     public TextMeshProUGUI statusBeingTMP, injureDamage;
     Vector3 fixPosInjureDamage;
     TickTimer timerhideInjureDamage;
+    public Image minimapImage;
     [Networked] bool playerBeingAttack {  get; set; }
     [Networked] public TickTimer TimeOfTele { get; set; }
     [Networked] public float currentTeleTimeStatus { get; set; }
+    
     public override void Spawned()
     {
         base.Spawned();
         player=GetComponentInParent<PlayerController>();
-        if(!player)
+        minimapImage.gameObject.SetActive(true);
+        if (!player)
         {
             creep = GetComponentInParent<CreepController>();
+            minimapImage.color= creep.playerTeam==0? Color.red: Color.green;
+        }
+        else
+        {
+            
         }
         if (player&&HasStateAuthority)
         {
             fixPosInjureDamage = injureDamage.GetComponent<RectTransform>().position;
+            minimapImage.color = player.playerTeam == 0 ? Color.red : Color.green;
+            GameObject.Find("MinimapCamera").transform.rotation = Quaternion.AngleAxis(90, Vector3.right)*
+                 Quaternion.AngleAxis(player.playerTeam == 0 ? -90:90, Vector3.forward);
         }
     }
 
