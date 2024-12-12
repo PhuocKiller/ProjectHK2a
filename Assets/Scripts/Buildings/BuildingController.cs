@@ -21,7 +21,8 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
     Bars hpBar;
     public Transform weapon, shootPosition;
     [Networked] public int playerTeam { get; set; }
-     
+    [Networked] public int towerID { get; set; }
+
     CharacterController buildingController;
     public BuildingType buildingType;
     [Networked] public int state { get; set; }
@@ -144,6 +145,9 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
         Action<Vector3, float> isKillCreep = null,
         Action<int> lifeSteal = null, bool activeInjureAnim = true, bool isCritPhysic = false)
     {
+        BuildingController[] allBuildings = FindObjectsOfType<BuildingController>();
+        var inFrontOfBuildings = allBuildings.Where(s => s.towerID < towerID && s.state != 3 && s.playerTeam == playerTeam).ToArray();
+        if (inFrontOfBuildings.Count() > 0) return;
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim, isCritPhysic);
     }
     public void ApplyEffect(PlayerRef player, bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
@@ -230,35 +234,5 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
     {
        playerEnemy.playerStat.GainCoinWhenKill(500);
     }
-    /*int EXPBaseOnCreepType(int level)
-    {
-        if (creepType == Creep_Types.Melee)
-        {
-            return 20 + (level - 1) * 5;
-        }
-        else if (creepType == Creep_Types.Range)
-        {
-            return 30 + (level - 1) * 8;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    int CoinBaseOnCreepType(int level)
-    {
-        if (creepType == Creep_Types.Melee)
-        {
-            return 40 + (level - 1) * 5;
-        }
-        else if (creepType == Creep_Types.Range)
-        {
-            return 50 + (level - 1) * 8;
-        }
-        else
-        {
-            return 0;
-        }
-    }*/
     
 }

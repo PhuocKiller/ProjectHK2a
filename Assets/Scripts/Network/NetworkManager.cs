@@ -76,6 +76,8 @@ public class NetworkManager : MonoBehaviour
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
                   obj.GetComponent<BuildingController>().playerTeam = i <= 3 ? 0 : 1;
+
+                  obj.GetComponent<BuildingController>().towerID = i <= 2 ? i :(( i==3 ||i==7) ?2: i - 4);
               });
         }
         for (int i = 0; i < spawnPointBase.Length; i++)
@@ -84,6 +86,7 @@ public class NetworkManager : MonoBehaviour
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
                   obj.GetComponent<BuildingController>().playerTeam = i;
+                  obj.GetComponent<BuildingController>().towerID = 3 + 3 * i;
               });
         }
         for (int i = 0; i < 2; i++)

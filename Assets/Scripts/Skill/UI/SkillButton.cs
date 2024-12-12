@@ -122,6 +122,7 @@ public class SkillButton : MonoBehaviour
         m_skillController = skillManager.GetSkillController(skillName);
         skillType = m_skillController.skillType;
         VfxEffect = m_skillController.skillStat.VfxEffect;
+        triggerSoundFX = m_skillController.skillStat.triggerSoundFX;
         levelDamages = new int[6]; levelManaCosts= new int[6];
         isPhysicDamage = m_skillController.skillStat.isPhysicDamage;
         isMakeStun = m_skillController.skillStat.isMakeStun;

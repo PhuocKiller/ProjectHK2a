@@ -168,6 +168,7 @@ public class PlayerStat : NetworkBehaviour
         UpdateFullStat();
         currentHealth = maxHealth;
         currentMana = maxMana;
+        
     }
 
     private void UpdateFullStat()

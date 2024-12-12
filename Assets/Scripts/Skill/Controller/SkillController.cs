@@ -13,6 +13,7 @@ public class SkillController : MonoBehaviour
     public SkillTypes skillType;
     public NetworkObject VFXPrefab;
     public SkillSO skillStat;
+    public AudioClip triggerSoundFX;
     protected bool m_isTriggered, m_isCooldowning;
     protected float m_cooldownTime;
     protected float m_triggerTime;
@@ -44,12 +45,14 @@ public class SkillController : MonoBehaviour
         skillName = skillStat.skillName;
         skillType = skillStat.skillType;
         VFXPrefab = skillStat.VfxEffect;
+        triggerSoundFX = skillStat.triggerSoundFX;
     }
     public void Trigger() //khi ấn button lệnh ở đây
     {
         if (m_isTriggered || m_isCooldowning) return;
         m_isCooldowning = true;
         // skillManager.RemoveSkill(skillName);
+        if (triggerSoundFX) Singleton<AudioManager>.Instance.PlaySound(triggerSoundFX);
         OnTriggerEnter?.Invoke();
     }
     private void Update()

@@ -114,7 +114,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        Runner.GetPlayerRtt(Object.InputAuthority);
+       // CheckPing();
         CalculateCanvas();
         CalculateStatusDebuff();
         if (state != 2) animator.enabled = !playerStat.isBeingStun;
@@ -397,6 +397,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             case 2: { break; }
             case 3:
                 {
+                    if (HasStateAuthority) Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.die);
                     animator.SetTrigger("Die");
                     break;
                 }
@@ -539,6 +540,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             {
                 state = 2;
                 animator.SetTrigger("Injured");
+                if (HasStateAuthority) Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.injured);
             }
             if (statusCanvas.GetCurrentDamageAbsorbShield() > 0)
             {
@@ -603,6 +605,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         {
             playerStat.currentXP -= playerStat.maxXP;
             playerStat.UpgradeLevel();
+            if (HasStateAuthority) Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.levelUp);
         }
     }
     public IEnumerator DelayHideVisualWhenDie ()
@@ -792,6 +795,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                       {
                           state = 3;
                           AnimatorTriggerRPC("Die");
+                          if (HasStateAuthority) Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.die);
                       }
                   }
               }
@@ -823,6 +827,18 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         foreach (var mesh in meshItems)
         {
             mesh.enabled = false;
+        }
+    }
+    void CheckPing()
+    {
+        if (HasStateAuthority)
+        {
+            PlayerController[] players = FindObjectsOfType<PlayerController>();
+            foreach (var player in players)
+            {
+                double ms = Runner.GetPlayerRtt(player.Object.InputAuthority);
+                Debug.Log(player.Object.InputAuthority.PlayerId + " ping " + ms + " ms");
+            }
         }
     }
 }
