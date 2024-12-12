@@ -75,7 +75,7 @@ public class StatusCanvas : NetworkBehaviour
             player.transform.GetChild(0).GetChild(0).rotation = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
             if(HasStateAuthority)
             {
-                player.playerStat.canBuyItem = (player.transform.position - player.spawnTransform.position).magnitude < 15;
+                player.playerStat.canBuyItem = (player.transform.position - player.runnerManager.spawnPointPlayer[player.playerTeam].position).magnitude < 15;
             }
                 
         }

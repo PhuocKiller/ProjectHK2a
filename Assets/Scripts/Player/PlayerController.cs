@@ -21,7 +21,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public GameManager gameManager;
     public OverlapSpherePlayer overlapSphere;
     public Joystick joystick;
-    public Transform spawnTransform;
+    public Vector3 spawnPosPlayer;
     [Networked]  public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
     public List<Collider> collisionsEnvi = new List<Collider>();
@@ -96,7 +96,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
         {
             gameManager = FindObjectOfType<GameManager>();
-            spawnTransform = runnerManager.spawnPointPlayer[playerTeam];
+            spawnPosPlayer = runnerManager.spawnPointPlayer[playerTeam].position + Vector3.right * 5 * (playerTeam == 0 ? 1 : -1);
             Singleton<CameraController>.Instance.SetFollowCharacter(transform);
             Singleton<PlayerManager>.Instance.SetRunner(Runner);
             TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner,0);
@@ -305,7 +305,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 }
                 if(gameManager.state == GameState.WaitBeforeStart)
                 {
-                    Vector3 directionToCenter = transform.position - spawnTransform.position; // Vector3.zero là vị trí của sphere center
+                    Vector3 directionToCenter = transform.position - spawnPosPlayer; // Vector3.zero là vị trí của sphere center
                     if (directionToCenter.magnitude > 15f)
                     {
                         characterControllerPrototype.Move(-directionToCenter.normalized * speed * 0.015f
@@ -375,8 +375,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     }
     void SpawnAtStartPos()
     {
-        transform.position = spawnTransform.position;
-        transform.rotation = spawnTransform.rotation;
+        transform.position = spawnPosPlayer;
+        transform.rotation = runnerManager.spawnPointPlayer[playerTeam].rotation;
     }
     #endregion
     
@@ -529,7 +529,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     public void CalculateHealthRPC
         (int damage, bool isPhysicDamage, PlayerController player, bool activeInjureAnim = true, bool isCritPhysic = false)
     {
-        if (state == 3) return;
         if (!playerScore.playersMakeDamages.Contains(player) &&player!=null)
         {
             playerScore.playersMakeDamages.Add(player);
@@ -558,6 +557,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         else
         {
             WhenPlayerDie();
+            statusCanvas.PlayerHaveInjure(damage, isCritPhysic);
         }
     }
     void WhenPlayerDie()
