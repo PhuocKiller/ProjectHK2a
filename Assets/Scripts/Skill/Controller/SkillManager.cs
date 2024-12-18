@@ -11,15 +11,19 @@ public class SkillManager : NetworkBehaviour
     private Dictionary<SkillName, int> m_skillCollecteds; //int là số lượng skills
 
     public Dictionary<SkillName, int> SkillCollecteds { get => m_skillCollecteds; set { } }
-   [SerializeField] private SkillButtonDrawer m_skillBtnDrawer;
-   bool isAwake;
-
+    [SerializeField] private SkillButtonDrawer m_skillBtnDrawer;
+    bool isAwake;
+    [Networked, Capacity(3)] public NetworkArray<int> indexSkill_Level { get; }
     public override void Spawned()
     {
         base.Spawned();
-        if(HasStateAuthority)
+        if (HasStateAuthority)
         {
             Initialize();
+            for (int i = 0; i < indexSkill_Level.Length; i++)
+            {
+                indexSkill_Level.Set(i, 0);
+            }
             DrawSkill();
         }
     }
@@ -43,7 +47,7 @@ public class SkillManager : NetworkBehaviour
     }
     public SkillController GetSkillController(SkillName type)
     {
-        var findeds= m_skillControllers.Where(s=>s.skillName == type).ToArray();
+        var findeds = m_skillControllers.Where(s => s.skillName == type).ToArray();
         if (findeds == null || findeds.Length <= 0) return null;
         return findeds[0];
     }
@@ -52,14 +56,15 @@ public class SkillManager : NetworkBehaviour
         if (!IsSkillExist(type)) return 0;
         return m_skillCollecteds[type];
     }
-    public void AddSkill(SkillName type, int amount=1)
+    public void AddSkill(SkillName type, int amount = 1)
     {
         if (IsSkillExist(type))
         {
             var currentAmount = m_skillCollecteds[type];
             currentAmount += amount;
-            m_skillCollecteds[type]= currentAmount;
-        } else
+            m_skillCollecteds[type] = currentAmount;
+        }
+        else
         {
             m_skillCollecteds.Add(type, amount);
         }
@@ -67,7 +72,7 @@ public class SkillManager : NetworkBehaviour
     public void RemoveSkill(SkillName type, int amount = 1)
     {
         if (!IsSkillExist(type)) return;
-        var currentAmount= m_skillCollecteds[type];
+        var currentAmount = m_skillCollecteds[type];
         currentAmount -= amount;
         m_skillCollecteds[type] = currentAmount;
         if (currentAmount > 0) return;
@@ -79,16 +84,16 @@ public class SkillManager : NetworkBehaviour
     }
     public void StopSkill(SkillName type)
     {
-        var skillController=GetSkillController(type);
+        var skillController = GetSkillController(type);
         if (skillController == null) return;
-        skillController.Stop(); 
+        skillController.Stop();
     }
     public void StopAllSkills()
     {
-        if (m_skillControllers==null ||m_skillControllers.Length<=0) return;
+        if (m_skillControllers == null || m_skillControllers.Length <= 0) return;
         foreach (var skillController in m_skillControllers)
         {
-            if (skillController==null) continue;
+            if (skillController == null) continue;
             skillController.ForceStop();
         }
     }

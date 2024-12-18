@@ -20,16 +20,16 @@ public class SkillButtonDrawer : MonoBehaviour
         foreach (var skillCollected in m_skillCollecteds)
         {
             index++;
-            if(index<=5)
+            if (index <= 5)
             {
-                
+
                 Helper.ClearChilds(m_gridRoot[index]);
                 var skillButtonClone = Instantiate(m_skillBtnPrefab);
                 Helper.AssignToRoot(m_gridRoot[index], skillButtonClone.transform,
                     Vector3.zero, index == 5 ? Vector3.one * 1.2f : (index == 0 ? 0.9f * Vector3.one : 1f * Vector3.one));
                 skillButtonClone.Initialize(skillCollected.Key);
                 skillButtonClone.skillButtonType = skillButtonClone.m_skillButtonTypes[index];
-                
+
                 if (skillButtonClone.skillButtonType == SkillButtonTypes.Jump)
                 {
                     skillButtonClone.m_skillIcon.transform.localScale = Vector3.one * 1.2f;
@@ -45,8 +45,20 @@ public class SkillButtonDrawer : MonoBehaviour
                     skillButtonClone.m_skillIcon.transform.localScale = Vector3.one * 1.37f;
                     skillButtonClone.levelSkill = 1;
                 }
+                if (skillButtonClone.skillButtonType == SkillButtonTypes.Ultimate)
+                {
+                    skillButtonClone.levelSkill = skillManager.indexSkill_Level.Get(0);
+                }
+                if (skillButtonClone.skillButtonType == SkillButtonTypes.Skill_1)
+                {
+                    skillButtonClone.levelSkill = skillManager.indexSkill_Level.Get(1);
+                }
+                if (skillButtonClone.skillButtonType == SkillButtonTypes.Skill_2)
+                {
+                    skillButtonClone.levelSkill = skillManager.indexSkill_Level.Get(2);
+                }
             }
-           
+
         }
 
     }

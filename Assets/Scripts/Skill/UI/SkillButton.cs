@@ -1,4 +1,5 @@
 ﻿using Cinemachine;
+using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
 using System;
 using System.Collections;
@@ -22,7 +23,7 @@ public class SkillButton : MonoBehaviour
 
 
     SkillController m_skillController;
-    [SerializeField]  PlayerController player;
+    [SerializeField] PlayerController player;
     int m_currentAmount;
     public SkillButtonTypes[] m_skillButtonTypes;
     public SkillButtonTypes skillButtonType;
@@ -31,6 +32,7 @@ public class SkillButton : MonoBehaviour
     public SkillName m_skillName;
     public Action Skill_Trigger;
     public int indexInventory;
+    int indexSkill;
     [SerializeField] float timerTrigger;
     [SerializeField] int[] levelManaCosts;
     [SerializeField] AudioClip triggerSoundFX;
@@ -61,16 +63,16 @@ public class SkillButton : MonoBehaviour
         m_skillController.OnNoItem.RemoveListener(NoItem);
     }
     #endregion
-    
-    
+
+
     private void Start()
     {
-        if(!(skillButtonType== SkillButtonTypes.Items))
+        if (!(skillButtonType == SkillButtonTypes.Items))
         {
             StartCoroutine(DelayCheckPlayer());
         }
-        
-        if(skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack || skillButtonType == SkillButtonTypes.Teleport)
+
+        if (skillButtonType == SkillButtonTypes.Jump || skillButtonType == SkillButtonTypes.NormalAttack || skillButtonType == SkillButtonTypes.Teleport)
         {
             AddSkill_LevelBtn.gameObject.SetActive(false);
         }
@@ -83,7 +85,7 @@ public class SkillButton : MonoBehaviour
     }
     private void Update()
     {
-        if (player == null||skillButtonType == SkillButtonTypes.Jump ||
+        if (player == null || skillButtonType == SkillButtonTypes.Jump ||
             skillButtonType == SkillButtonTypes.NormalAttack || skillButtonType == SkillButtonTypes.Teleport) return;
         skillLevelImage.fillAmount = levelSkill * 0.25f;
         AddSkill_LevelBtn.gameObject.SetActive(player.playerStat.levelPoint > 0 && levelSkill < 4);
@@ -96,7 +98,7 @@ public class SkillButton : MonoBehaviour
         if (skillButtonType == SkillButtonTypes.Ultimate)
         {
             int maxSkillPointCanHave = (int)(player.playerStat.level / 3);
-            AddSkill_LevelBtn.gameObject.SetActive(levelSkill < maxSkillPointCanHave && levelSkill < 4&& player.playerStat.levelPoint > 0);
+            AddSkill_LevelBtn.gameObject.SetActive(levelSkill < maxSkillPointCanHave && levelSkill < 4 && player.playerStat.levelPoint > 0);
         }
         if (skillButtonType == SkillButtonTypes.Skill_1 || skillButtonType == SkillButtonTypes.Skill_2)
         {
@@ -118,12 +120,12 @@ public class SkillButton : MonoBehaviour
             m_btnComp.onClick.RemoveAllListeners();
             m_btnComp.onClick.AddListener(TriggerSkill);
         }
-       
+
         m_skillController = skillManager.GetSkillController(skillName);
         skillType = m_skillController.skillType;
         VfxEffect = m_skillController.skillStat.VfxEffect;
         triggerSoundFX = m_skillController.skillStat.triggerSoundFX;
-        levelDamages = new int[6]; levelManaCosts= new int[6];
+        levelDamages = new int[6]; levelManaCosts = new int[6];
         isPhysicDamage = m_skillController.skillStat.isPhysicDamage;
         isMakeStun = m_skillController.skillStat.isMakeStun;
         isMakeSlow = m_skillController.skillStat.isMakeSlow;
@@ -137,23 +139,23 @@ public class SkillButton : MonoBehaviour
             levelManaCosts[i] = m_skillController.skillStat.levelManaCosts[i];
         }
         UpdateUI();
-        
+
         RegisterEvent();
         if (skillType == SkillTypes.Items) levelSkill = 1;
         CalculateDamageAndManaCost();
     }
-    
+
     private void UpdateUI()
     {
         if (m_skillController == null) return;
         if (m_skillIcon && m_skillName != SkillName.NoSkill)
             m_skillIcon.sprite = m_skillController.skillStat.skillIcon;
-       // UpdateAmountTxt();
+        // UpdateAmountTxt();
         UpdateCooldown();
-        
+
         //UpdateTimerTrigger();
         //bool canActiveMe = m_currentAmount > 0 || m_skillController.IsCooldowning;
-       // gameObject.SetActive(true); bị lỗi khi swap item tạo newSkillbutton mới
+        // gameObject.SetActive(true); bị lỗi khi swap item tạo newSkillbutton mới
     }
     void NoItem()
     {
@@ -185,7 +187,7 @@ public class SkillButton : MonoBehaviour
 
     private void UpdateAmountTxt()
     {
-        m_currentAmount =FindObjectOfType<SkillManager>().GetSkillAmount(m_skillName);
+        m_currentAmount = FindObjectOfType<SkillManager>().GetSkillAmount(m_skillName);
         if (m_amountTxt)
         {
             m_amountTxt.text = $"x {m_currentAmount}";
@@ -193,6 +195,14 @@ public class SkillButton : MonoBehaviour
     }
     public void UpdateLevelSkill()
     {
+
+        switch (skillButtonType)
+        {
+            case SkillButtonTypes.Ultimate: { indexSkill = 0; break; }
+            case SkillButtonTypes.Skill_1: { indexSkill = 1; break; }
+            case SkillButtonTypes.Skill_2: { indexSkill = 2; break; }
+        }
+        player.skillManager.indexSkill_Level.Set(indexSkill, player.skillManager.indexSkill_Level.Get(indexSkill) + 1);
         levelSkill++;
         player.playerStat.levelPoint--;
         CalculateDamageAndManaCost();
@@ -218,7 +228,6 @@ public class SkillButton : MonoBehaviour
         if (skillButtonType == SkillButtonTypes.Jump)
         {
             player.Jump(VfxEffect);
-            player.playerStat.UpgradeLevel();
         }
         if (skillButtonType == SkillButtonTypes.NormalAttack)
         {
@@ -246,10 +255,10 @@ public class SkillButton : MonoBehaviour
         }
         if (skillButtonType == SkillButtonTypes.Teleport)
         {
-            if (player.playerStat.isBeingSilen|| player.playerStat.isBeingTele) return;
+            if (player.playerStat.isBeingSilen || player.playerStat.isBeingTele) return;
             player.Teleport(VfxEffect);
         }
-            if (skillButtonType == SkillButtonTypes.Items)
+        if (skillButtonType == SkillButtonTypes.Items)
         {
             ItemDragHandler dragHandler = transform.GetChild(0).GetChild(0).GetComponent<ItemDragHandler>();
             IInventoryItem item = dragHandler.Item;
@@ -272,12 +281,12 @@ public class SkillButton : MonoBehaviour
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         if (m_skillController == null || m_skillController.IsCooldowning
-            || levelSkill == 0 || player.playerStat.currentMana < manaCost|| state != 0
+            || levelSkill == 0 || player.playerStat.currentMana < manaCost || state != 0
             || skillType != SkillTypes.Direction_Active || player.playerStat.isBeingStun
             || player.playerStat.isBeingSilen) return;
-                player.state = 5;
-                player.gameObject.GetComponent<SkillDirection>().GetMouseDown();
-                return;
+        player.state = 5;
+        player.gameObject.GetComponent<SkillDirection>().GetMouseDown();
+        return;
     }
     public void PointDrag()
     {
@@ -289,8 +298,8 @@ public class SkillButton : MonoBehaviour
         Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
         player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, look, 720 * Time.deltaTime);
         Singleton<CameraController>.Instance.MoveCameraUp();
-                }
-    public void PointerUp() 
+    }
+    public void PointerUp()
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         if (m_skillController == null || m_skillController.IsCooldowning
@@ -298,13 +307,13 @@ public class SkillButton : MonoBehaviour
                 || skillType != SkillTypes.Direction_Active || player.playerStat.isBeingStun
                 || player.playerStat.isBeingSilen) return;
         player.gameObject.GetComponent<SkillDirection>().GetMouseUp(out Vector3? posMouseUp);
-        if(posMouseUp != null)
+        if (posMouseUp != null)
         {
             this.posMouseUp = posMouseUp;
         }
         else if (player.playerStat.isFollowEnemy)
         {
-            this.posMouseUp=player.overlapSphere.closestEnemyPlayer.transform.position;
+            this.posMouseUp = player.overlapSphere.closestEnemyPlayer.transform.position;
         }
         else
         {
