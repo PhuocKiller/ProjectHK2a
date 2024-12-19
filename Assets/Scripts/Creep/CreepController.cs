@@ -10,7 +10,7 @@ public enum Creep_Types
 {
     Melee,
     Range,
-    Tower,
+    Natural,
 }
 public class CreepController : NetworkBehaviour, ICanTakeDamage
 {
@@ -73,7 +73,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             playerStat.level = gameManager.levelCreep;
             playerStat.CalculateBaseStatForCreep();
             agent=GetComponent<NavMeshAgent>();
-            RenderVisualCreep();
+            if(creepType!=Creep_Types.Natural) RenderVisualCreep();
     }
     void RenderVisualCreep()
     {
@@ -162,7 +162,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         if(HasStateAuthority)
         {
-            if(creepType==Creep_Types.Melee)
+            if(creepType==Creep_Types.Melee|| creepType == Creep_Types.Natural)
             {
                 Runner.Spawn(normalMeleeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
                      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>

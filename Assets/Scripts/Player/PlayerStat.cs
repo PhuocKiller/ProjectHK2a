@@ -122,13 +122,19 @@ public class PlayerStat : NetworkBehaviour
             if(creep.creepType==Creep_Types.Melee)
             {
                 
-                BaseStatOnType(200, 0, 10, 5, 5, 0, 0, 1, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+                BaseStatOnType(300, 0, 10, 5, 5, 0, 0, 1, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
                             multipleMagicResistance, multipleMagicAmpli,
                             multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
             }
             else if (creep.creepType == Creep_Types.Range)
             {
-                BaseStatOnType(100, 0, 20, 5, 5, 0, 0, 1, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+                BaseStatOnType(150, 0, 20, 5, 5, 0, 0, 1, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+                            multipleMagicResistance, multipleMagicAmpli,
+                            multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
+            }
+            else if (creep.creepType == Creep_Types.Natural)
+            {
+                BaseStatOnType(200, 0, 10, 5, 5, 0, 0, 1, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
                             multipleMagicResistance, multipleMagicAmpli,
                             multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
             }
