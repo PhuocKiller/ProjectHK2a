@@ -222,6 +222,17 @@ public class SkillButton : MonoBehaviour
     void TriggerSkill()
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
+        if (skillButtonType == SkillButtonTypes.Items)
+        {
+            ItemDragHandler dragHandler = transform.GetChild(0).GetChild(0).GetComponent<ItemDragHandler>();
+            IInventoryItem item = dragHandler.Item;
+            if (item != null)
+            {
+                player.inventory.UseItemClickInventory
+                (player.inventory.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
+                if (!canActive || m_skillName == SkillName.NoSkill) return;
+            }
+        }
         if (m_skillController == null || m_skillController.IsCooldowning
             || levelSkill == 0 || player.playerStat.currentMana < manaCost
             || state != 0 || player.playerStat.isBeingStun) return;
@@ -260,18 +271,10 @@ public class SkillButton : MonoBehaviour
         }
         if (skillButtonType == SkillButtonTypes.Items)
         {
-            ItemDragHandler dragHandler = transform.GetChild(0).GetChild(0).GetComponent<ItemDragHandler>();
-            IInventoryItem item = dragHandler.Item;
-            if (item != null)
-            {
-                player.inventory.UseItemClickInventory
-                (player.inventory.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
-                if (!canActive || m_skillName == SkillName.NoSkill) return;
-                player.UseItemSkill(m_skillName, VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
+            player.UseItemSkill(m_skillName, VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
    timerTrigger, timeEffect, posMouseUp, levelSkill);
-            }
         }
-        m_skillController.Trigger();
+            m_skillController.Trigger();
     }
     private void OnDestroy()
     {

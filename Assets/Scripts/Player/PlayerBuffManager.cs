@@ -52,9 +52,9 @@ public class PlayerBuffManager : NetworkBehaviour
             lifeSteal = 0; foreach (var buff in listBuffsofPlayer) lifeSteal += buff.lifeSteal;
             if (player?.state == 3 || creep?.state==3)
             {
-                for (int i = 3; i < listBuffsofPlayer.Length; i++) //i=0 là environment, 1 là passive, 2 là item
+                for (int i = 2; i < listBuffsofPlayer.Length; i++) //i=0 là environment, 1 là passive, 2 là item
                 {
-                    if(listBuffsofPlayer[i].GetComponent<InventoryItemBase>()!=null)
+                    if(listBuffsofPlayer[i].GetComponent<InventoryItemBase>()==null)
                     {
                         Destroy(listBuffsofPlayer[i].gameObject);
                     }

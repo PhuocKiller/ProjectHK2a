@@ -99,13 +99,15 @@ public class Inventory : NetworkBehaviour
         
     }
 
-    public void RemoveItem(InventoryItemBase item,int indexSlot)
+    public void RemoveItem(InventoryItemBase item,int indexSlot, out bool canSell)
     {
         NetworkManager networkManager = FindObjectOfType<NetworkManager>();
+        bool isSelled = false;
         foreach (InventorySlot slot in mSlots)
         {
             if (slot.Remove(item, indexSlot))
             {
+                isSelled = true;
                 if (ItemRemoved != null)
                 {
                     ItemRemoved(this,new InventoryEventArgs(item));
@@ -121,6 +123,7 @@ public class Inventory : NetworkBehaviour
                 break;
             }
         }
+        canSell=isSelled;
     }
     public void BackUpInventory()
     {

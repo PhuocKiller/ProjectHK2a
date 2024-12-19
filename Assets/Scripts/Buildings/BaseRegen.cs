@@ -56,7 +56,6 @@ public class BaseRegen : NetworkBehaviour
                     , isKillPlayer: (int levelHeroKilled, List<PlayerController> playerMakeDamage) =>
                     {
                         collisions.Remove(other);
-                        Debug.Log("a");
                     });
                         timerToApply[index] = TickTimer.CreateFromSeconds(Runner, timerApply);
                     }

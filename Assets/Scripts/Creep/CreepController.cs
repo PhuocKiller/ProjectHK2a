@@ -112,7 +112,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                 
                 AnimatorSetBoolRPC("isAttack", false);
                 state = 0;
-                agent.isStopped = false;
+                agent.isStopped = Vector3.Distance(transform.position, targetDestination) < 2;
             }     
             else //có enemy xung quanh
             {
@@ -137,7 +137,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                 //  characterControllerPrototype.Move(moveDirection.normalized * 0.02f * playerStat.moveSpeed * Runner.DeltaTime);
                 agent.SetDestination(targetDestination);
             }
-
         }
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
@@ -147,7 +146,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         targetDestination = targetCharacterToChase.transform.position;
         targetCharacterToAttack = overlapSphere.FindClosestCharacterInRadius
                 (overlapSphere.CheckAllEnemyAround
-                ((creepType == Creep_Types.Melee|| creepType == Creep_Types.Natural) ? 1.5f:9f), transform.position);
+                (creepType == Creep_Types.Melee ? 1.5f: (creepType == Creep_Types.Natural?3f:9f)), transform.position);
             if (targetCharacterToAttack== targetCharacterToChase)
             {
                 Attack();
@@ -463,6 +462,10 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         {
             return 30 + (level - 1) * 8;
         }
+        else if (creepType == Creep_Types.Natural)
+        {
+            return 40 + (level - 1) * 8;
+        }
         else
         {
             return 0;
@@ -477,6 +480,10 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         else if (creepType == Creep_Types.Range)
         {
             return 50 + (level - 1) * 8;
+        }
+        else if (creepType == Creep_Types.Natural)
+        {
+            return 70 + (level - 1) * 8;
         }
         else
         {

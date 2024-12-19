@@ -31,7 +31,7 @@ public class Tesla : PlayerController
      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
      {
          obj.GetComponent<AttackObjects>().SetUpPlayer(this, playerStat.damage, isPhysicDamage, null,
-              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect,true);
+              isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect,false);
          obj.GetComponent<AttackObjects>().SetDirection(transform.forward);
      });
     }

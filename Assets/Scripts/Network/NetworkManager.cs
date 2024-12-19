@@ -102,8 +102,8 @@ public class NetworkManager : MonoBehaviour
     public void SpawnCreep(PlayerRef player)
     {
         if (!runner.IsSharedModeMasterClient) return;
-       // SpawnMeleeCreep(player);
-       // SpawnRangeCreep(player);
+       SpawnMeleeCreep(player);
+       SpawnRangeCreep(player);
         SpawnNatural(player);
     }
     public void SpawnNatural(PlayerRef player)
@@ -111,19 +111,35 @@ public class NetworkManager : MonoBehaviour
         if (!runner.IsSharedModeMasterClient) return;
         for (int i = 0; i < spawnPointNatural.Length; i++)
         {
-            for (int j = 0; j < 1; j++)
+           if( ! IsHaveAllEnemyAround(spawnPointNatural[i],15))
             {
-                runner.Spawn(naturals[0], spawnPointNatural[i].position, spawnPointNatural[i].rotation,
-                inputAuthority: player,
-               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-               {
-                   obj.GetComponent<CreepController>().playerTeam = 2;
-                   obj.GetComponent<CreepController>().finalTargetDestination = spawnPointNatural[i].position;
-               });
+                for (int j = 0; j < 3; j++)
+                {
+                    runner.Spawn(naturals[0], spawnPointNatural[i].position + Vector3.left * 2f * j, spawnPointNatural[i].rotation,
+                    inputAuthority: player,
+                   onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                   {
+                       obj.GetComponent<CreepController>().playerTeam = 2;
+                       obj.GetComponent<CreepController>().finalTargetDestination = spawnPointNatural[i].position;
+                   });
+                }
             }
         }
     }
-    void SpawnMeleeCreep(PlayerRef player)
+    public bool IsHaveAllEnemyAround(Transform spawnPoint,float range)
+    {
+        List<CharacterController> allEnemies = new List<CharacterController>();
+        allEnemies.Clear();
+        Collider[] hitColliders = Physics.OverlapSphere(spawnPoint.position, range);
+        foreach (var hitCollider in hitColliders)
+        {
+            CharacterController characPlayer = hitCollider.gameObject.GetComponent<CharacterController>();
+            if (characPlayer) return true;
+        }
+        return false;
+            
+    }
+        void SpawnMeleeCreep(PlayerRef player)
     {
         for (int i = 0; i < 3; i++)
         {

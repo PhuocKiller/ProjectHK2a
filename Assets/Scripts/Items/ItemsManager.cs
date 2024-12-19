@@ -145,9 +145,13 @@ public class ItemsManager : MonoBehaviour
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         if (!player.playerStat.canBuyItem) return;
-        player.inventory.RemoveItem(itemToSell, indexSlot);
-        player.playerStat.coinsValue += priceItem;
-        Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.buyItem);
+        player.inventory.RemoveItem(itemToSell, indexSlot, out bool canSell);
+        if (canSell)
+        {
+            player.playerStat.coinsValue += priceItem;
+            Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.buyItem);
+        }
+        else Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.error);
     }
     public void ShowInfoItem(InventoryItemBase item)
     {
