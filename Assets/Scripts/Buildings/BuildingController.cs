@@ -61,11 +61,12 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
                 meshVisualTower[i].mesh = meshTower[i + 3 * playerTeam];
             }
             TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 0);
-            maxHealth = 5 + gameManager.levelCreep * 50;
+            maxHealth = (1000 + gameManager.levelCreep * 50) *(towerID +2);
         }
         else
         {
-            maxHealth = 10 + gameManager.levelCreep * 50;
+            minimapImage.sprite = startImages[0];
+            maxHealth = (1000 + gameManager.levelCreep * 50) * (towerID + 2);
         }
         currentHealth = maxHealth;
         state = 0;
@@ -92,8 +93,8 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
             }
             return;
         }
-        defend = buildingType == BuildingType.Tower ? 10 : 15 + Mathf.FloorToInt(gameManager.levelCreep * (buildingType == BuildingType.Tower ? 0.5f : 0.75f));
-        damage = 100 + gameManager.levelCreep * 2;
+        defend = (5+ gameManager.levelCreep) * (towerID+3);
+        damage = (200 + gameManager.levelCreep) * (towerID + 1);
         bool isHaveEnemy = overlapSphere.CheckAllEnemyAround(30).Count > 0;
         if (buildingType == BuildingType.Tower) sphereRender.enabled = isHaveEnemy;
 

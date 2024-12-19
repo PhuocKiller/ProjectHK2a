@@ -18,7 +18,7 @@ MonoBehaviour:
   cooldownTime: 10
   levelManaCosts: 00000000140000001e0000002800000032000000
   skillIcon: {fileID: 21300000, guid: ef058f957e087bf42a08e8242eb6501b, type: 3}
-  triggerSoundFX: {fileID: 0}
+  triggerSoundFX: {fileID: 8300000, guid: 183dd5c64c346544fa021fa77a944878, type: 3}
   levelDamages: 0000000064000000af000000fa00000045010000
   isPhysicDamage: 1
   isMakeStun: 1

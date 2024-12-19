@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MechanicDamage : MonoBehaviour
 {
-    public float deltaDamage = 0.03f;
+    public float deltaDamage = 0.02f;
     public bool isCritPhysicDamage;
     public int GetDamageOfTwoObject(int damage, bool isPhysicDamage, PlayerController playerAttack, Collider ObjectBeAttack, out bool isCritPhysic)
     {

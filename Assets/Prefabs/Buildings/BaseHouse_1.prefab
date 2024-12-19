@@ -1225,6 +1225,7 @@ MonoBehaviour:
   weapon: {fileID: 0}
   shootPosition: {fileID: 0}
   _playerTeam: 0
+  _towerID: 0
   buildingType: 1
   _state: 0
   _damage: 0
@@ -1245,6 +1246,9 @@ MonoBehaviour:
   - {fileID: 2716214547483795300, guid: 329da3e19d0c8a14aa7b4e4e15d64b32, type: 3}
   - {fileID: 2716214547483795300, guid: 0f537b52f1510ea4cbaff2c087045621, type: 3}
   sphereRender: {fileID: 0}
+  collapseImages: []
+  startImages:
+  - {fileID: 21300000, guid: 3d4921f891963bb429bf1a5e563bd6d7, type: 3}
   minimapImage: {fileID: 6264853263624002664}
 --- !u!208 &6486894757809154880
 NavMeshObstacle:
@@ -1524,7 +1528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
