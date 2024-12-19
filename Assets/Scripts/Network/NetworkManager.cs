@@ -12,27 +12,27 @@ using UnityEngine.UI;
 public class NetworkManager : MonoBehaviour
 {
     public string playerID;
-   public NetworkRunner runner;
+    public NetworkRunner runner;
     public NavMeshSurface navMesh;
     [SerializeField]
     GameObject gameManagerObj, playerManagerObj;
     [SerializeField]
-    public GameObject[] players, creeps,buildings, basicItems,shieldItems,armorItems,weaponItems,bootItems, onlineItems;
+    public GameObject[] players, creeps, naturals, buildings, basicItems, shieldItems, armorItems, weaponItems, bootItems, onlineItems;
     public float[] itemsDropChance;
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField]
     UnityEvent onConnected;
-    [SerializeField] public Transform[] spawnPointPlayer, spawnPointCreep, spawnPointTower, spawnPointBase;
+    [SerializeField] public Transform[] spawnPointPlayer, spawnPointCreep, spawnPointNatural, spawnPointTower, spawnPointBase;
     public int playerIndex, playerTeam;
     bool flagLogin;
-    
+
 
     private void Awake()
     {
         runner = GetComponent<NetworkRunner>();
         gameNetworkCallBack = GetComponent<GameNetworkCallBack>();
     }
-   
+
     private void SpawnPlayer(NetworkRunner m_runner, PlayerRef player)
     {
         bool flag = false;
@@ -53,15 +53,15 @@ public class NetworkManager : MonoBehaviour
         {
             SpawnWhenStartGame(m_runner, player);
         }
-        
+
         if (player == runner.LocalPlayer)
         {
             NetworkObject characterObj = runner.Spawn(players[playerIndex],
-                spawnPointPlayer[playerTeam].position +Vector3.right*5*(playerTeam==0?1:-1), spawnPointPlayer[playerTeam].rotation,
+                spawnPointPlayer[playerTeam].position + Vector3.right * 5 * (playerTeam == 0 ? 1 : -1), spawnPointPlayer[playerTeam].rotation,
                 inputAuthority: player,
                 onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                 {
-                    obj.GetComponent<PlayerController>().playerID= runner.GetPlayerUserId(player);
+                    obj.GetComponent<PlayerController>().playerID = runner.GetPlayerUserId(player);
                     obj.GetComponent<PlayerController>().playerTeam = playerTeam;
                 });
         }
@@ -77,12 +77,12 @@ public class NetworkManager : MonoBehaviour
               {
                   obj.GetComponent<BuildingController>().playerTeam = i <= 3 ? 0 : 1;
 
-                  obj.GetComponent<BuildingController>().towerID = i <= 2 ? i :(( i==3 ||i==7) ?2: i - 4);
+                  obj.GetComponent<BuildingController>().towerID = i <= 2 ? i : ((i == 3 || i == 7) ? 2 : i - 4);
               });
         }
         for (int i = 0; i < spawnPointBase.Length; i++)
         {
-            NetworkObject towerObject = runner.Spawn(buildings[i+1], spawnPointBase[i].position, spawnPointBase[i].rotation, player, //building 0 là tower
+            NetworkObject towerObject = runner.Spawn(buildings[i + 1], spawnPointBase[i].position, spawnPointBase[i].rotation, player, //building 0 là tower
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
                   obj.GetComponent<BuildingController>().playerTeam = i;
@@ -94,7 +94,7 @@ public class NetworkManager : MonoBehaviour
             NetworkObject baseRegen = runner.Spawn(buildings[3], spawnPointPlayer[i].position, spawnPointPlayer[i].rotation, player, //building 0 là tower
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
-                  obj.GetComponent<BaseRegen>().SetUp(i,0.05f);
+                  obj.GetComponent<BaseRegen>().SetUp(i, 0.05f);
               });
         }
         // navMesh.BuildNavMesh();
@@ -102,21 +102,39 @@ public class NetworkManager : MonoBehaviour
     public void SpawnCreep(PlayerRef player)
     {
         if (!runner.IsSharedModeMasterClient) return;
-        SpawnMeleeCreep(player);
-        SpawnRangeCreep(player);
+       // SpawnMeleeCreep(player);
+       // SpawnRangeCreep(player);
+        SpawnNatural(player);
+    }
+    public void SpawnNatural(PlayerRef player)
+    {
+        if (!runner.IsSharedModeMasterClient) return;
+        for (int i = 0; i < spawnPointNatural.Length; i++)
+        {
+            for (int j = 0; j < 1; j++)
+            {
+                runner.Spawn(naturals[0], spawnPointNatural[i].position, spawnPointNatural[i].rotation,
+                inputAuthority: player,
+               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+               {
+                   obj.GetComponent<CreepController>().playerTeam = 2;
+                   obj.GetComponent<CreepController>().finalTargetDestination = spawnPointNatural[i].position;
+               });
+            }
+        }
     }
     void SpawnMeleeCreep(PlayerRef player)
     {
         for (int i = 0; i < 3; i++)
         {
-            
+
             runner.Spawn(creeps[0], spawnPointCreep[0].position + Vector3.left * 2f * i, spawnPointCreep[0].rotation,
                              inputAuthority: player,
                            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                            {
                                obj.GetComponent<CreepController>().playerTeam = 0;
                            });
-            runner.Spawn(creeps[0], spawnPointCreep[1].position  + Vector3.right * 2f * i, spawnPointCreep[1].rotation,
+            runner.Spawn(creeps[0], spawnPointCreep[1].position + Vector3.right * 2f * i, spawnPointCreep[1].rotation,
                  inputAuthority: player,
                onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                {
@@ -141,7 +159,7 @@ public class NetworkManager : MonoBehaviour
     }
     public void SpawnObjWhenAddItem(GameObject itemObj, int indexItemSlot)
     {
-        NetworkObject item=runner.Spawn(itemObj);
+        NetworkObject item = runner.Spawn(itemObj);
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         player.SetParentItemRPC(item.Id, indexItemSlot);
     }
@@ -157,16 +175,16 @@ public class NetworkManager : MonoBehaviour
             }
         }
     }
-    public void SpawnItemFromCreep(int indexItem,Vector3 posSpawn)
+    public void SpawnItemFromCreep(int indexItem, Vector3 posSpawn)
     {
         NetworkObject item = runner.Spawn(basicItems[indexItem], posSpawn);
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
     }
     public GameObject FindItemBaseOnName(string name)
     {
-        for (int i = 0; i <basicItems.Length; i++)
+        for (int i = 0; i < basicItems.Length; i++)
         {
-            if (name== basicItems[i].GetComponent<InventoryItemBase>().Name) return basicItems[i];
+            if (name == basicItems[i].GetComponent<InventoryItemBase>().Name) return basicItems[i];
         }
         for (int i = 0; i < shieldItems.Length; i++)
         {
@@ -192,11 +210,11 @@ public class NetworkManager : MonoBehaviour
         {
             if (name == onlineItems[i].GetComponent<InventoryItemBase>().Name) return i;
         }
-        return -1 ;
+        return -1;
     }
     public async void OnClickBtn(Button btn)
     {
-        if (runner != null && playerID!="")
+        if (runner != null && playerID != "")
         {
             btn.interactable = false;
             Singleton<Loading>.Instance.ShowLoading();
@@ -210,7 +228,7 @@ public class NetworkManager : MonoBehaviour
                 SceneManager = GetComponent<LoadSceneManager>(),
                 AuthValues = new AuthenticationValues()
                 {
-                    UserId= playerID,
+                    UserId = playerID,
                 }
             });
             btn.interactable = true;

@@ -22,7 +22,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public OverlapSphereCreep overlapSphere;
     public NetworkObject normalMeleeAttackObj, normalRangeAttackObj;
     public Creep_Types creepType;
-    Vector3 targetDestination;
+    public Vector3 targetDestination, finalTargetDestination;
     [Networked] public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
     public List<Collider> collisionsEnvi = new List<Collider>();
@@ -65,15 +65,19 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public override void Spawned()
     {
         base.Spawned();
-            runnerManager = FindObjectOfType<NetworkManager>();
-            gameManager = FindObjectOfType<GameManager>();
-            TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
-            playerStat.level = gameManager.levelCreep;
-            playerStat.CalculateBaseStatForCreep();
-            agent=GetComponent<NavMeshAgent>();
-            if(creepType!=Creep_Types.Natural) RenderVisualCreep();
+        runnerManager = FindObjectOfType<NetworkManager>();
+        gameManager = FindObjectOfType<GameManager>();
+        TimeOfStunDebuff = TickTimer.CreateFromSeconds(Runner, 0);
+        TimeOfSlowDebuff = TickTimer.CreateFromSeconds(Runner, 0);
+        TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
+        playerStat.level = gameManager.levelCreep;
+        playerStat.CalculateBaseStatForCreep();
+        agent = GetComponent<NavMeshAgent>();
+        if (creepType == Creep_Types.Melee || creepType == Creep_Types.Range)
+        {
+            RenderVisualCreep();
+            finalTargetDestination = runnerManager.spawnPointBase[playerTeam == 0 ? 1 : 0].position;
+        }
     }
     void RenderVisualCreep()
     {
@@ -96,7 +100,16 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         {
             if (overlapSphere.CheckAllEnemyAround(12).Count == 0)
             {
-                targetDestination = runnerManager.spawnPointBase[playerTeam == 0 ? 1 : 0].position;
+                targetDestination = finalTargetDestination;
+                if (creepType==Creep_Types.Melee || creepType == Creep_Types.Range)
+                {
+                    
+                }
+                else if(creepType == Creep_Types.Natural)
+                {
+
+                }   
+                
                 AnimatorSetBoolRPC("isAttack", false);
                 state = 0;
                 agent.isStopped = false;
@@ -133,7 +146,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         targetDestination = targetCharacterToChase.transform.position;
         targetCharacterToAttack = overlapSphere.FindClosestCharacterInRadius
-                (overlapSphere.CheckAllEnemyAround(creepType == Creep_Types.Melee?1.5f:9f), transform.position);
+                (overlapSphere.CheckAllEnemyAround
+                ((creepType == Creep_Types.Melee|| creepType == Creep_Types.Natural) ? 1.5f:9f), transform.position);
             if (targetCharacterToAttack== targetCharacterToChase)
             {
                 Attack();

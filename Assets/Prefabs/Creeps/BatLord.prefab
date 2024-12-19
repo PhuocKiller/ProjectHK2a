@@ -10592,6 +10592,8 @@ MonoBehaviour:
   normalMeleeAttackObj: {fileID: 1620554528767842668, guid: 0536b49b8c227cd42aa48ac17f942f4c, type: 3}
   normalRangeAttackObj: {fileID: 5484937385305069163, guid: 1264de5c600426745a79c25d8d7f3eb8, type: 3}
   creepType: 2
+  targetDestination: {x: 0, y: 0, z: 0}
+  finalTargetDestination: {x: 0, y: 0, z: 0}
   _playerTeam: 0
   networkObjs: {fileID: 1481342673320959658}
   collisionsEnvi: []
@@ -82698,7 +82700,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7313358459085523424}
-  - component: {fileID: 7313358459078108672}
   m_Layer: 0
   m_Name: Bat Lord
   m_TagString: Untagged
@@ -82757,27 +82758,6 @@ Transform:
   - {fileID: 7313358459085523032}
   m_Father: {fileID: 7635038691538384055}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &7313358459078108672
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7313358459085493696}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 9874b1bd035eca640a4d5b787a1e4fcc, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2853a1c97bd342646b3fa83f5c05eab9, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7313358459085493698
 GameObject:
   m_ObjectHideFlags: 0
