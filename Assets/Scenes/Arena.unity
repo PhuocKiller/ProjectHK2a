@@ -15695,6 +15695,8 @@ MonoBehaviour:
   naturals:
   - {fileID: 2499482666399485712, guid: e4c1271e40591eb4b83fc574479b2faf, type: 3}
   - {fileID: 1386069877820134307, guid: 28872006ca5f1014e8a42c771440bb32, type: 3}
+  - {fileID: 654383397464868561, guid: f8fe59bbf37decd47b9bf135fb772da0, type: 3}
+  - {fileID: 5171939711586142509, guid: 3e8dc695e7477c7469695061e7a78a15, type: 3}
   buildings:
   - {fileID: 6995302157643476624, guid: 802d02a4bd58d8c48a731be90cf20ebb, type: 3}
   - {fileID: 6995302157643476624, guid: 5a87f4678e6277f4f92957e9d22ab3d3, type: 3}
