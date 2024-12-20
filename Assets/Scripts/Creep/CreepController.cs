@@ -112,7 +112,16 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                 
                 AnimatorSetBoolRPC("isAttack", false);
                 state = 0;
-                agent.isStopped = Vector3.Distance(transform.position, targetDestination) < 2;
+                if(Vector3.Distance(transform.position, targetDestination) < 2)
+                {
+                    agent.isStopped=true;
+                    AnimatorSetBoolRPC("isMove", false);
+                }
+                else
+                {
+                    agent.isStopped = false;
+                    AnimatorSetBoolRPC("isMove", true);
+                }
             }     
             else //có enemy xung quanh
             {
@@ -130,7 +139,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                     CalculateMoveDirection();
                 }
             }
-            Quaternion look = Quaternion.LookRotation((targetDestination-transform.position).normalized);
+            Quaternion look = Quaternion.LookRotation((new Vector3(targetDestination.x, transform.position.y, targetDestination.z) -transform.position).normalized);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
             if (!playerStat.isBeingStun && state != 4)
             {
@@ -160,12 +169,14 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     void Attack()
     {
         AnimatorSetBoolRPC("isAttack", true);
+        AnimatorSetBoolRPC("isMove", false);
         state = 4;
         agent.isStopped = true;
     }
     void DontAttack()
     {
         AnimatorSetBoolRPC("isAttack", false);
+        AnimatorSetBoolRPC("isMove", true);
         state = 0;
         agent.isStopped = false;
     }

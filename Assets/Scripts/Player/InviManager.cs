@@ -11,10 +11,12 @@ public class InviManager : NetworkBehaviour
     public PlayerController player;
     public SkinnedMeshRenderer[] skinnedMeshRenderers;
     public MeshRenderer[] meshRenderers;
+    public NetworkManager networkManager;
     public override void Spawned()
     {
         base.Spawned();
         player= GetComponentInParent<PlayerController>();
+        networkManager=FindObjectOfType<NetworkManager>();
     }
 
     public override void FixedUpdateNetwork()
@@ -53,7 +55,7 @@ public class InviManager : NetworkBehaviour
 
     private void CheckInviVisual(bool isVisible)
     {
-        if(!HasStateAuthority) //con nào chủ thế của invi thì ko bị ảnh hưởng
+        if(player.playerTeam!=networkManager.playerTeam) //con nào chủ thế của invi thì ko bị ảnh hưởng
         {
             foreach (var visual in visuals)
             {

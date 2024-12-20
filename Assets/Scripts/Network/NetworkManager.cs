@@ -113,14 +113,14 @@ public class NetworkManager : MonoBehaviour
         {
            if( ! IsHaveAllEnemyAround(spawnPointNatural[i],15))
             {
-                for (int j = 0; j < 3; j++)
+                for (int j = -1; j < (naturals.Length-1); j++)
                 {
-                    runner.Spawn(naturals[0], spawnPointNatural[i].position + Vector3.left * 2f * j, spawnPointNatural[i].rotation,
+                    runner.Spawn(naturals[j+1], spawnPointNatural[i].position + Vector3.left * 1f * j, spawnPointNatural[i].rotation,
                     inputAuthority: player,
                    onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                    {
                        obj.GetComponent<CreepController>().playerTeam = 2;
-                       obj.GetComponent<CreepController>().finalTargetDestination = spawnPointNatural[i].position;
+                       obj.GetComponent<CreepController>().finalTargetDestination = spawnPointNatural[i].position + Vector3.left * 1f * j;
                    });
                 }
             }

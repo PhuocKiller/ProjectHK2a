@@ -40,6 +40,7 @@ public class AttackObjectsTower : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
+        
 
         if (HasStateAuthority)
         {
