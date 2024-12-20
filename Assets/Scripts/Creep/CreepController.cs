@@ -475,7 +475,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         }
         else if (creepType == Creep_Types.Natural)
         {
-            return 40 + (level - 1) * 8;
+            return 200 + (level - 1) * 8;
         }
         else
         {
@@ -494,7 +494,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         }
         else if (creepType == Creep_Types.Natural)
         {
-            return 70 + (level - 1) * 8;
+            return 250 + (level - 1) * 8;
         }
         else
         {
