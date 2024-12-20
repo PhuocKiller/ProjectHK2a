@@ -121,7 +121,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         // CheckPing();
         CalculateCanvas();
         CalculateStatusDebuff();
-        if (state != 2) animator.enabled = !playerStat.isBeingStun;
+       // if (state != 2) animator.enabled = !playerStat.isBeingStun;
         if (state == 3)
         {
             if (timeDie.RemainingTime(Runner) <= 0 || timeDie.ExpiredOrNotRunning(Runner))
@@ -131,9 +131,11 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
                 state = 0;
                 playerStat.currentHealth = playerStat.maxHealth;
                 playerStat.currentMana = playerStat.maxMana;
-                AnimatorSetBoolRPC("isLive", true);
-                statusCanvas.GetComponent<InviManager>().VisualOfPlayer(true);
-                statusCanvas.GetComponent<InviManager>().CharacterControllerActiveRPC(true);
+                if(HasStateAuthority)
+                {
+                    AnimatorSetBoolRPC("isLive", true);
+                    statusCanvas.GetComponent<InviManager>().VisualOfPlayer(true);
+                }
                 playerScore.playersMakeDamages.Clear();
             }
             return;
@@ -622,7 +624,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         yield return new WaitForSeconds(3f);
         statusCanvas.GetComponent<InviManager>().VisualOfPlayer(false);
-        statusCanvas.GetComponent<InviManager>().CharacterControllerActiveRPC(false);
+        statusCanvas.GetComponent<InviManager>().CharacterRespawnRPC(false);
         if (HasStateAuthority)
         {
             SpawnAtStartPos();
