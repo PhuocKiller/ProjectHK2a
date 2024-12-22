@@ -11,8 +11,8 @@ public class MinimapCameraController : MonoBehaviour
     public RectTransform uiMinimapRect; 
     public Vector2 minimapSize = new Vector2(200, 200); 
 
-    private float mapWidth = 480;   
-    private float mapHeight = 480;
+    private float mapWidth = 600;   
+    private float mapHeight = 600;
     private void OnEnable()
     {
         StartCoroutine(DelayCheckPlay());
