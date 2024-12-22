@@ -54,6 +54,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     [Networked] float currentSilenTimeStatus { get; set; }
     [Networked] float maxSlowTimeStatus { get; set; }
     [Networked] float currentSlowTimeStatus { get; set; }
+    [Networked] public bool isMovingBack { get; set; }
     [SerializeField] GameObject[] visualRender;
     [SerializeField]  Material[] teamMaterial;
     private void Awake()
@@ -100,46 +101,51 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         if (state == 3) return;
        if (HasStateAuthority)
         {
-            if (overlapSphere.CheckAllEnemyAround(12).Count == 0)
+            if (creepType == Creep_Types.Natural
+                && (transform.position - finalTargetDestination).magnitude > 50) isMovingBack=true;
+            if (!isMovingBack) //trong phạm vi ko quá xa điểm spawn
             {
+                if (overlapSphere.CheckAllEnemyAround(12).Count == 0)
+                {
+                    targetDestination = finalTargetDestination;
+                    AnimatorSetBoolRPC("isAttack", false);
+                    state = 0;
+                    if (Vector3.Distance(transform.position, targetDestination) < 2)
+                    {
+                        agent.isStopped = true;
+                        AnimatorSetBoolRPC("isMove", false);
+                    }
+                    else
+                    {
+                        agent.isStopped = false;
+                        AnimatorSetBoolRPC("isMove", true);
+                    }
+                }
+                else //có enemy xung quanh
+                {
+                    if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)).Count == 0)// nhưng ko có player follow
+                    {
+                        targetCharacterToChase = overlapSphere.FindClosestCharacterInRadius
+                            (overlapSphere.CheckAllEnemyAround(12), transform.position);
+                        CalculateMoveDirection();
+                    }
+                    else //có player follow
+                    {
+                        targetCharacterToChase = overlapSphere.FindClosestPlayerFollowInRadius
+                            (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)), transform.position)
+                            .GetComponent<CharacterController>();
+                        CalculateMoveDirection();
+                    }
+                }
+            }
+            else //vượt qua phạm vi điểm spawn
+            {
+                if (creepType == Creep_Types.Natural
+                && (transform.position - finalTargetDestination).magnitude<1) isMovingBack = false;
                 targetDestination = finalTargetDestination;
-                if (creepType==Creep_Types.Melee || creepType == Creep_Types.Range)
-                {
-                    
-                }
-                else if(creepType == Creep_Types.Natural)
-                {
-
-                }   
-                
                 AnimatorSetBoolRPC("isAttack", false);
+                agent.isStopped = false;
                 state = 0;
-                if(Vector3.Distance(transform.position, targetDestination) < 2)
-                {
-                    agent.isStopped=true;
-                    AnimatorSetBoolRPC("isMove", false);
-                }
-                else
-                {
-                    agent.isStopped = false;
-                    AnimatorSetBoolRPC("isMove", true);
-                }
-            }     
-            else //có enemy xung quanh
-            {
-                if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)).Count == 0)// nhưng ko có player follow
-                {
-                    targetCharacterToChase = overlapSphere.FindClosestCharacterInRadius
-                        (overlapSphere.CheckAllEnemyAround(12), transform.position);
-                    CalculateMoveDirection();
-                }
-                else //có player follow
-                {
-                    targetCharacterToChase = overlapSphere.FindClosestPlayerFollowInRadius
-                        (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)), transform.position)
-                        .GetComponent<CharacterController>();
-                    CalculateMoveDirection();
-                }
             }
             Vector3 lookVector = new Vector3(targetDestination.x, transform.position.y, targetDestination.z) - transform.position;
             if(lookVector.magnitude>0)
@@ -149,7 +155,6 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             }
             if (!playerStat.isBeingStun && state != 4)
             {
-                //  characterControllerPrototype.Move(moveDirection.normalized * 0.02f * playerStat.moveSpeed * Runner.DeltaTime);
                 agent.SetDestination(targetDestination);
             }
         }

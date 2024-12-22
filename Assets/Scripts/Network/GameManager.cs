@@ -22,6 +22,7 @@ public class GameManager : NetworkBehaviour
    [Networked] public float currentTime { get; set; }
     [Networked] public TickTimer waitBeforeStartTime {  get; set; }
     [Networked] public int levelCreep { get; set; }
+    public Action reachMarkTime;
     public override void Spawned()
     {
         base.Spawned();
@@ -106,6 +107,7 @@ public class GameManager : NetworkBehaviour
             {
                 levelCreep++;
                 FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
+                reachMarkTime?.Invoke();
             };
         }
     }

@@ -11,12 +11,15 @@ public class StatusCanvas : NetworkBehaviour
     [SerializeField] GameObject playerBuffs;
     [SerializeField] PlayerController player;
     [SerializeField] CreepController creep;
+    [SerializeField] Sprite[] hpImages;
+    NetworkManager networkManager;
     Shield firstShield;
     public Bars healthBarPlayer, manaBarPlayer, XPbar, TimeRemainingBar, timeShieldRemainingBar, teleBar;
     public TextMeshProUGUI statusBeingTMP, injureDamage,levelTMP;
     Vector3 fixPosInjureDamage;
     TickTimer timerhideInjureDamage;
     public Image minimapImage;
+    bool isSameTeam;
     [Networked] bool playerBeingAttack {  get; set; }
     [Networked] public TickTimer TimeOfTele { get; set; }
     [Networked] public float currentTeleTimeStatus { get; set; }
@@ -26,17 +29,16 @@ public class StatusCanvas : NetworkBehaviour
         base.Spawned();
         player=GetComponentInParent<PlayerController>();
         minimapImage.gameObject.SetActive(true);
+        networkManager=FindObjectOfType<NetworkManager>();
         if (!player)
         {
             creep = GetComponentInParent<CreepController>();
+            isSameTeam= creep.playerTeam== networkManager.playerTeam;
             minimapImage.color= creep.playerTeam==0? Color.red: Color.blue;
         }
         else
         {
-            
-        }
-        if (player)
-        {
+            isSameTeam = player.playerTeam == networkManager.playerTeam;
             minimapImage.color = player.playerTeam == 0 ? Color.red : Color.blue;
             if(HasStateAuthority)
             {
@@ -48,7 +50,9 @@ public class StatusCanvas : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        firstShield=playerBuffs.GetComponentInChildren<Shield>();
+        healthBarPlayer.fillBar.sprite = isSameTeam ? hpImages[0] : hpImages[1];
+        healthBarPlayer.fadeFillBar.sprite = isSameTeam ? hpImages[0] : hpImages[1];
+        firstShield =playerBuffs.GetComponentInChildren<Shield>();
         timeShieldRemainingBar.gameObject.SetActive(firstShield);
         if (firstShield)
         {

@@ -3,6 +3,7 @@ using Fusion.Editor;
 using Fusion.Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -104,7 +105,7 @@ public class NetworkManager : MonoBehaviour
     {
         if (!runner.IsSharedModeMasterClient) return;
        StartCoroutine(SpawnMeleeCreep(player));
-       SpawnRangeCreep(player);
+       StartCoroutine(SpawnRangeCreep(player));
        StartCoroutine(SpawnNatural(player));
     }
     IEnumerator SpawnNatural(PlayerRef player)
@@ -113,7 +114,7 @@ public class NetworkManager : MonoBehaviour
         {
             for (int i = 0; i < spawnPointNatural.Length; i++)
             {
-                if (!IsHaveAllEnemyAround(spawnPointNatural[i], 15))
+                if (AroundEnemies(spawnPointNatural[i], 15).Count()==0)
                 {
                     runner.Spawn(naturals[i], spawnPointNatural[i].position, spawnPointNatural[i].rotation,
                         inputAuthority: player,
@@ -123,11 +124,22 @@ public class NetworkManager : MonoBehaviour
                            obj.GetComponent<CreepController>().finalTargetDestination = spawnPointNatural[i].position;
                        });
                 }
+                else
+                {
+                    List<CharacterController> creepEnemies= AroundEnemies(spawnPointNatural[i], 15)
+                        .Where(s=>s.GetComponent<CreepController>()!=null
+                    && s.GetComponent<CreepController>().creepType==Creep_Types.Natural).ToList();
+                    foreach(var creep in  creepEnemies)
+                    {
+                        creep.GetComponent<CreepController>().playerStat.currentHealth 
+                            = creep.GetComponent<CreepController>().playerStat.maxHealth;
+                    }
+                }
                 yield return new WaitForSeconds(0.15f);
             }
         }
     }
-    public bool IsHaveAllEnemyAround(Transform spawnPoint,float range)
+    public List<CharacterController> AroundEnemies(Transform spawnPoint,float range)
     {
         List<CharacterController> allEnemies = new List<CharacterController>();
         allEnemies.Clear();
@@ -135,9 +147,12 @@ public class NetworkManager : MonoBehaviour
         foreach (var hitCollider in hitColliders)
         {
             CharacterController characPlayer = hitCollider.gameObject.GetComponent<CharacterController>();
-            if (characPlayer) return true;
+            if (characPlayer!=null && !allEnemies.Contains(characPlayer))
+            {
+                allEnemies.Add(characPlayer);
+            }
         }
-        return false;
+        return allEnemies;
             
     }
     IEnumerator SpawnMeleeCreep(PlayerRef player)
@@ -150,17 +165,17 @@ public class NetworkManager : MonoBehaviour
                            {
                                obj.GetComponent<CreepController>().playerTeam = 0;
                            });
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
             runner.Spawn(creeps[0], spawnPointCreep[1].position + Vector3.right * 2f * i, spawnPointCreep[1].rotation,
                  inputAuthority: player,
                onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                {
                    obj.GetComponent<CreepController>().playerTeam = 1;
                });
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
     }
-    void SpawnRangeCreep(PlayerRef player)
+    IEnumerator SpawnRangeCreep(PlayerRef player)
     {
         runner.Spawn(creeps[1], spawnPointCreep[0].position + Vector3.left * 6, spawnPointCreep[0].rotation,
                                 inputAuthority: player,
@@ -168,6 +183,7 @@ public class NetworkManager : MonoBehaviour
                               {
                                   obj.GetComponent<CreepController>().playerTeam = 0;
                               });
+        yield return new WaitForSeconds(0.05f);
         runner.Spawn(creeps[1], spawnPointCreep[1].position + Vector3.right * 6, spawnPointCreep[1].rotation,
                              inputAuthority: player,
                            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>

@@ -8,7 +8,7 @@ using UnityEngine;
 public class LoginController : MonoBehaviour
 {
     public event Action<PlayerProfile> OnSignedIn;
-    public event Action<PlayerProfile> OnAvatarUpdate;
+   // public event Action<PlayerProfile> OnAvatarUpdate;
 
     private PlayerInfo playerInfo;
 

@@ -55025,7 +55025,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &3798917537460242812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55061,6 +55061,9 @@ MonoBehaviour:
   playerBuffs: {fileID: 0}
   player: {fileID: 0}
   creep: {fileID: 0}
+  hpImages:
+  - {fileID: 21300000, guid: 3ab9c63a63eb9b341a8a5fded4c000d7, type: 3}
+  - {fileID: 21300000, guid: b1c929e352b439a49bffd59f3299d9a2, type: 3}
   healthBarPlayer: {fileID: 7598011795097519885}
   manaBarPlayer: {fileID: 6335308047401652384}
   XPbar: {fileID: 0}
@@ -55088,7 +55091,9 @@ MonoBehaviour:
   WordCount: 0
   _interpolationDataSource: 0
   visuals:
-  - {fileID: 5572376032647131513}
+  - {fileID: 5348869480543929220}
+  - {fileID: 7986209977820555329}
+  - {fileID: 6366592094765656124}
   - {fileID: 3376823679979000942}
   - {fileID: 3602979934890497227}
   - {fileID: 4157209567600093570}
@@ -55105,6 +55110,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  networkManager: {fileID: 0}
 --- !u!1 &4997706391255732478
 GameObject:
   m_ObjectHideFlags: 0

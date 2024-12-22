@@ -79,14 +79,14 @@ public class Ryan : PlayerController
         float timeTrigger = 0f, float TimeEffect = 0f, Vector3? posMouseUp = null, int levelSkill = 1)
     {
         base.Skill_1(VFXEffect, levelDamage, manaCost, isPhysicDamage, timeTrigger: timeTrigger);
-        NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, posMouseUp, Quaternion.identity, Object.InputAuthority,
+        characterControllerPrototype.Move((Vector3)posMouseUp- transform.position);
+        NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, transform.position, Quaternion.identity, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
                 obj.GetComponent<EnvironmentObjects>().SetUp(this, playerTeam, 0.05f, levelDamage, isPhysicDamage, null,
                  isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect);
                 obj.GetComponent<BuffsOfPlayer>().levelSkill = levelSkill;
             });
-        characterControllerPrototype.Move((Vector3)posMouseUp- transform.position);
     }
     
     public override void Skill_2(NetworkObject VFXEffect, int levelDamage, int manaCost, bool isPhysicDamage,

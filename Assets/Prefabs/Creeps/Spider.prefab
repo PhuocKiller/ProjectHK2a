@@ -5503,6 +5503,9 @@ MonoBehaviour:
   playerBuffs: {fileID: 7473903799236534396}
   player: {fileID: 0}
   creep: {fileID: 0}
+  hpImages:
+  - {fileID: 21300000, guid: 3ab9c63a63eb9b341a8a5fded4c000d7, type: 3}
+  - {fileID: 21300000, guid: b1c929e352b439a49bffd59f3299d9a2, type: 3}
   healthBarPlayer: {fileID: 3261380890255968537}
   manaBarPlayer: {fileID: 0}
   XPbar: {fileID: 0}
@@ -25717,7 +25720,7 @@ MonoBehaviour:
   - {fileID: 8917525601043027929, guid: fd2ef73ed68c26647920626beb2db0cc, type: 3}
   - {fileID: 1507520601282269452, guid: 0ca5df0555b7a8947ba495e74a24fecf, type: 3}
   - {fileID: 343310564273814923, guid: 1d64a4d7f6b97c846953be13f63e9ec3, type: 3}
-  chanceDropItem: 0.2
+  _isMovingBack: 0
   visualRender:
   - {fileID: 0}
   - {fileID: 0}
@@ -51087,7 +51090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.032395888, b: 0.032395888, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -107073,7 +107076,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.032395888, b: 0.032395888, a: 0.27450982}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.27450982}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

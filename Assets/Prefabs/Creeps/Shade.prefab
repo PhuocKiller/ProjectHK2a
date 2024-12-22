@@ -10262,7 +10262,7 @@ MonoBehaviour:
   - {fileID: 7638813158079567121, guid: 09bf80eb4e1539746973c332e4808809, type: 3}
   - {fileID: 5258024174646961063, guid: 738af74d229384d439c0eada9b654b37, type: 3}
   - {fileID: 724070725905257728, guid: 27f68c2b2a4104d4eb41351003ca33bd, type: 3}
-  chanceDropItem: 0.2
+  _isMovingBack: 0
   visualRender:
   - {fileID: 0}
   - {fileID: 0}
@@ -15742,7 +15742,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.032395888, b: 0.032395888, a: 0.27450982}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.27450982}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -16160,7 +16160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.032395888, b: 0.032395888, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -81559,6 +81559,9 @@ MonoBehaviour:
   playerBuffs: {fileID: 4784947213120480572}
   player: {fileID: 0}
   creep: {fileID: 0}
+  hpImages:
+  - {fileID: 21300000, guid: 3ab9c63a63eb9b341a8a5fded4c000d7, type: 3}
+  - {fileID: 21300000, guid: b1c929e352b439a49bffd59f3299d9a2, type: 3}
   healthBarPlayer: {fileID: 9208509856056361585}
   manaBarPlayer: {fileID: 0}
   XPbar: {fileID: 0}

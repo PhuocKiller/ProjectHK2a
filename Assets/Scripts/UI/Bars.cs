@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Bars : MonoBehaviour
 {
     [SerializeField]
-    Image fillBar, fadeFillBar;
+    public Image fillBar, fadeFillBar;
     [SerializeField]
     TextMeshProUGUI valueText;
 

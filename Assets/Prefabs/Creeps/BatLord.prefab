@@ -5358,9 +5358,9 @@ MonoBehaviour:
   moveSpeed: 0
   attackSpeed: 0
   lifeSteal: 0
-  multipleHealth: 20
+  multipleHealth: 30
   multipleMana: 0
-  multipleDamage: 1
+  multipleDamage: 3
   multipleDefend: 0
   multipleMagicResistance: 0
   multipleMagicAmpli: 0
@@ -10616,7 +10616,7 @@ MonoBehaviour:
   - {fileID: 8643090637412614749, guid: 7edb6a7b01dbb3f409ca21f86a22d5a1, type: 3}
   - {fileID: 6355668400696504155, guid: b6289471bf0c0574d98248ef82d48a3f, type: 3}
   - {fileID: 542904368069807714, guid: 65495af3c83887c40b8c7bac55c28910, type: 3}
-  chanceDropItem: 0.2
+  _isMovingBack: 0
   visualRender:
   - {fileID: 0}
   - {fileID: 0}
@@ -40551,7 +40551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.032395888, b: 0.032395888, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -50608,7 +50608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.032395888, b: 0.032395888, a: 0.27450982}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.27450982}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -108045,7 +108045,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 6.29}
+  m_AnchoredPosition: {x: 0, y: 7.58}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5977804555439583847
@@ -108129,6 +108129,9 @@ MonoBehaviour:
   playerBuffs: {fileID: 2521235593880278848}
   player: {fileID: 0}
   creep: {fileID: 0}
+  hpImages:
+  - {fileID: 21300000, guid: 3ab9c63a63eb9b341a8a5fded4c000d7, type: 3}
+  - {fileID: 21300000, guid: b1c929e352b439a49bffd59f3299d9a2, type: 3}
   healthBarPlayer: {fileID: 904404748608579490}
   manaBarPlayer: {fileID: 0}
   XPbar: {fileID: 0}

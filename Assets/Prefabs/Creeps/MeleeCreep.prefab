@@ -5421,7 +5421,7 @@ MonoBehaviour:
   moveSpeed: 0
   attackSpeed: 0
   lifeSteal: 0
-  multipleHealth: 20
+  multipleHealth: 10
   multipleMana: 0
   multipleDamage: 1
   multipleDefend: 0
@@ -10687,6 +10687,8 @@ MonoBehaviour:
   normalMeleeAttackObj: {fileID: 1620554528767842668, guid: 0536b49b8c227cd42aa48ac17f942f4c, type: 3}
   normalRangeAttackObj: {fileID: 5484937385305069163, guid: 1264de5c600426745a79c25d8d7f3eb8, type: 3}
   creepType: 0
+  targetDestination: {x: 0, y: 0, z: 0}
+  finalTargetDestination: {x: 0, y: 0, z: 0}
   _playerTeam: 0
   networkObjs: {fileID: 1481342673320959658}
   collisionsEnvi: []
@@ -10698,11 +10700,12 @@ MonoBehaviour:
   characterControllerPrototype: {fileID: 0}
   _state: 0
   normalAttackTransform: {fileID: 4656446894752478365}
-  skillButtons: []
   statusDebuffs:
   - {fileID: 7656987445486467007}
   - {fileID: 5008018405886279575}
   - {fileID: 5232838576839202047}
+  dropItems: []
+  _isMovingBack: 0
   visualRender:
   - {fileID: 7087213417625486130}
   - {fileID: 7106604581187614966}
@@ -15758,7 +15761,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 1670404967789898308, guid: 5540993409a97704d868a1f4da189885, type: 3}
+  m_Mesh: {fileID: 1670404967789898308, guid: 351c0864a9d15d9428a9a54afa664e66, type: 3}
   m_Bones:
   - {fileID: 6675257537145816046}
   - {fileID: 7441346138014433965}
@@ -40959,7 +40962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.032395888, b: 0.032395888, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -46242,7 +46245,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -8715532510924458021, guid: 5540993409a97704d868a1f4da189885, type: 3}
+  m_Mesh: {fileID: -8715532510924458021, guid: 351c0864a9d15d9428a9a54afa664e66, type: 3}
   m_Bones:
   - {fileID: 6675257537145816046}
   - {fileID: 7441346138014433965}
@@ -51270,7 +51273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9811321, g: 0.032395888, b: 0.032395888, a: 0.27450982}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.27450982}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -71243,7 +71246,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -6556381072186657201, guid: 5540993409a97704d868a1f4da189885, type: 3}
+  m_Mesh: {fileID: -6556381072186657201, guid: 351c0864a9d15d9428a9a54afa664e66, type: 3}
   m_Bones:
   - {fileID: 6675257537145816046}
   - {fileID: 7441346138014433965}
@@ -76398,7 +76401,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 3567864480095722203, guid: 5540993409a97704d868a1f4da189885, type: 3}
+  m_Mesh: {fileID: 3567864480095722203, guid: 351c0864a9d15d9428a9a54afa664e66, type: 3}
   m_Bones:
   - {fileID: 6675257537145816046}
   - {fileID: 7441346138014433965}
@@ -76524,7 +76527,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 2917262996866637315, guid: 5540993409a97704d868a1f4da189885, type: 3}
+  m_Mesh: {fileID: 2917262996866637315, guid: 351c0864a9d15d9428a9a54afa664e66, type: 3}
   m_Bones:
   - {fileID: 6675257537145816046}
   - {fileID: 7441346138014433965}
@@ -81635,7 +81638,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -757984932170422373, guid: 5540993409a97704d868a1f4da189885, type: 3}
+  m_Mesh: {fileID: -757984932170422373, guid: 351c0864a9d15d9428a9a54afa664e66, type: 3}
   m_Bones:
   - {fileID: 6675257537145816046}
   - {fileID: 7441346138014433965}
@@ -91613,7 +91616,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7878793148161001180}
-  m_Mesh: {fileID: 4478171999157549534, guid: 5540993409a97704d868a1f4da189885, type: 3}
+  m_Mesh: {fileID: 4478171999157549534, guid: 351c0864a9d15d9428a9a54afa664e66, type: 3}
 --- !u!23 &8644510496577645679
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -106679,6 +106682,9 @@ MonoBehaviour:
   playerBuffs: {fileID: 2521235593880278848}
   player: {fileID: 0}
   creep: {fileID: 0}
+  hpImages:
+  - {fileID: 21300000, guid: 3ab9c63a63eb9b341a8a5fded4c000d7, type: 3}
+  - {fileID: 21300000, guid: b1c929e352b439a49bffd59f3299d9a2, type: 3}
   healthBarPlayer: {fileID: 904404748608579490}
   manaBarPlayer: {fileID: 0}
   XPbar: {fileID: 0}
@@ -106687,6 +106693,7 @@ MonoBehaviour:
   teleBar: {fileID: 0}
   statusBeingTMP: {fileID: 6017485189751828383}
   injureDamage: {fileID: 5029926742168534071}
+  levelTMP: {fileID: 0}
   minimapImage: {fileID: 7258768713334191005}
   _currentTeleTimeStatus: 0
 --- !u!1001 &5038461875449495708
