@@ -51,7 +51,7 @@ public class NetworkManager : MonoBehaviour
         if (flag == true) return;
         if (player == runner.LocalPlayer && runner.IsSharedModeMasterClient)
         {
-            SpawnWhenStartGame(m_runner, player);
+           StartCoroutine(SpawnWhenStartGame(m_runner, player));
         }
 
         if (player == runner.LocalPlayer)
@@ -66,20 +66,10 @@ public class NetworkManager : MonoBehaviour
                 });
         }
     }
-    void SpawnWhenStartGame(NetworkRunner m_runner, PlayerRef player)
+    IEnumerator SpawnWhenStartGame(NetworkRunner m_runner, PlayerRef player)
     {
         runner.Spawn(gameManagerObj, inputAuthority: player);
         runner.Spawn(playerManagerObj, inputAuthority: player);
-        for (int i = 0; i < spawnPointTower.Length; i++)
-        {
-            NetworkObject towerObject = runner.Spawn(buildings[0], spawnPointTower[i].position, spawnPointTower[i].rotation, player,
-              onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-              {
-                  obj.GetComponent<BuildingController>().playerTeam = i <= 3 ? 0 : 1;
-
-                  obj.GetComponent<BuildingController>().towerID = i <= 2 ? i : ((i == 3 || i == 7) ? 2 : i - 4);
-              });
-        }
         for (int i = 0; i < spawnPointBase.Length; i++)
         {
             NetworkObject towerObject = runner.Spawn(buildings[i + 1], spawnPointBase[i].position, spawnPointBase[i].rotation, player, //building 0 là tower
@@ -97,39 +87,43 @@ public class NetworkManager : MonoBehaviour
                   obj.GetComponent<BaseRegen>().SetUp(i, 0.05f);
               });
         }
+        for (int i = 0; i < spawnPointTower.Length; i++)
+        {
+            NetworkObject towerObject = runner.Spawn(buildings[0], spawnPointTower[i].position, spawnPointTower[i].rotation, player,
+              onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+              {
+                  obj.GetComponent<BuildingController>().playerTeam = i <= 3 ? 0 : 1;
+
+                  obj.GetComponent<BuildingController>().towerID = i <= 2 ? i : ((i == 3 || i == 7) ? 2 : i - 4);
+              });
+            yield return new WaitForSeconds(0.05f);
+        }
         // navMesh.BuildNavMesh();
     }
     public void SpawnCreep(PlayerRef player)
     {
         if (!runner.IsSharedModeMasterClient) return;
-       SpawnMeleeCreep(player);
+       StartCoroutine(SpawnMeleeCreep(player));
        SpawnRangeCreep(player);
-       SpawnNatural(player);
+       StartCoroutine(SpawnNatural(player));
     }
-    public void SpawnNatural(PlayerRef player)
+    IEnumerator SpawnNatural(PlayerRef player)
     {
-        if (!runner.IsSharedModeMasterClient) return;
-        for (int i = 0; i < spawnPointNatural.Length; i++)
+        if (runner.IsSharedModeMasterClient)
         {
-           if( ! IsHaveAllEnemyAround(spawnPointNatural[i],15))
+            for (int i = 0; i < spawnPointNatural.Length; i++)
             {
-                /*for (int j = -1; j < (naturals.Length-1); j++)
+                if (!IsHaveAllEnemyAround(spawnPointNatural[i], 15))
                 {
-                    runner.Spawn(naturals[j+1], spawnPointNatural[i].position + Vector3.left * 1f * j, spawnPointNatural[i].rotation,
-                    inputAuthority: player,
-                   onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-                   {
-                       obj.GetComponent<CreepController>().playerTeam = 2;
-                       obj.GetComponent<CreepController>().finalTargetDestination = spawnPointNatural[i].position + Vector3.left * 1f * j;
-                   });
-                }*/
-                runner.Spawn(naturals[i], spawnPointNatural[i].position, spawnPointNatural[i].rotation,
-                    inputAuthority: player,
-                   onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
-                   {
-                       obj.GetComponent<CreepController>().playerTeam = 2;
-                       obj.GetComponent<CreepController>().finalTargetDestination = spawnPointNatural[i].position;
-                   });
+                    runner.Spawn(naturals[i], spawnPointNatural[i].position, spawnPointNatural[i].rotation,
+                        inputAuthority: player,
+                       onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
+                       {
+                           obj.GetComponent<CreepController>().playerTeam = 2;
+                           obj.GetComponent<CreepController>().finalTargetDestination = spawnPointNatural[i].position;
+                       });
+                }
+                yield return new WaitForSeconds(0.15f);
             }
         }
     }
@@ -146,23 +140,24 @@ public class NetworkManager : MonoBehaviour
         return false;
             
     }
-        void SpawnMeleeCreep(PlayerRef player)
+    IEnumerator SpawnMeleeCreep(PlayerRef player)
     {
         for (int i = 0; i < 3; i++)
         {
-
             runner.Spawn(creeps[0], spawnPointCreep[0].position + Vector3.left * 2f * i, spawnPointCreep[0].rotation,
                              inputAuthority: player,
                            onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                            {
                                obj.GetComponent<CreepController>().playerTeam = 0;
                            });
+            yield return new WaitForSeconds(0.1f);
             runner.Spawn(creeps[0], spawnPointCreep[1].position + Vector3.right * 2f * i, spawnPointCreep[1].rotation,
                  inputAuthority: player,
                onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                {
                    obj.GetComponent<CreepController>().playerTeam = 1;
                });
+            yield return new WaitForSeconds(0.1f);
         }
     }
     void SpawnRangeCreep(PlayerRef player)
