@@ -10251,11 +10251,18 @@ MonoBehaviour:
   characterControllerPrototype: {fileID: 0}
   _state: 0
   normalAttackTransform: {fileID: 536466435503261099}
-  skillButtons: []
   statusDebuffs:
   - {fileID: 7061737893712608271}
   - {fileID: 2575559792046445648}
   - {fileID: 3151789790270351798}
+  dropItems:
+  - {fileID: 3882660239723210369, guid: b5714ca6b9c0eeb4fbd56ee263e1b808, type: 3}
+  - {fileID: 3656944514485197793, guid: 7cb3ac843f580f84db961734a2dacf28, type: 3}
+  - {fileID: 6972881802584736042, guid: 84b76d1b88ca0234abb3757500ba3618, type: 3}
+  - {fileID: 7638813158079567121, guid: 09bf80eb4e1539746973c332e4808809, type: 3}
+  - {fileID: 5258024174646961063, guid: 738af74d229384d439c0eada9b654b37, type: 3}
+  - {fileID: 724070725905257728, guid: 27f68c2b2a4104d4eb41351003ca33bd, type: 3}
+  chanceDropItem: 0.2
   visualRender:
   - {fileID: 0}
   - {fileID: 0}

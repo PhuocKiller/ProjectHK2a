@@ -41,12 +41,13 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     [SerializeField]
     public Transform  normalAttackTransform;
 
-    [HideInInspector] public SkillButton[] skillButtons;
     [SerializeField] GameObject[] statusDebuffs;
-
+    [SerializeField] GameObject[] dropItems;
+    float chanceDropItem;
     [SerializeField][Networked] TickTimer TimeOfStunDebuff { get; set; }
     [SerializeField][Networked] TickTimer TimeOfSlowDebuff { get; set; }
     [SerializeField][Networked] TickTimer TimeOfSilenDebuff { get; set; }
+    [Networked] public TickTimer timeDie { get; set; }
     [Networked] float maxStunTimeStatus { get; set; }
     [Networked] float currentStunTimeStatus { get; set; }
     [Networked] float maxSilenTimeStatus { get; set; }
@@ -78,6 +79,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             RenderVisualCreep();
             finalTargetDestination = runnerManager.spawnPointBase[playerTeam == 0 ? 1 : 0].position;
         }
+        chanceDropItem = 0.15f;
     }
     void RenderVisualCreep()
     {
@@ -139,8 +141,12 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                     CalculateMoveDirection();
                 }
             }
-            Quaternion look = Quaternion.LookRotation((new Vector3(targetDestination.x, transform.position.y, targetDestination.z) -transform.position).normalized);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
+            Vector3 lookVector = new Vector3(targetDestination.x, transform.position.y, targetDestination.z) - transform.position;
+            if(lookVector.magnitude>0)
+            {
+                Quaternion look = Quaternion.LookRotation(lookVector.normalized);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
+            }
             if (!playerStat.isBeingStun && state != 4)
             {
                 //  characterControllerPrototype.Move(moveDirection.normalized * 0.02f * playerStat.moveSpeed * Runner.DeltaTime);
@@ -450,9 +456,24 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     }
     public void CreepDie()
     {
-        if (HasStateAuthority) Destroy(gameObject);
+        if (HasStateAuthority)
+        {
+            if(creepType==Creep_Types.Natural) SpawnItemWhenDie();
+            Destroy(gameObject);
+        }
     }
-    [Networked] public TickTimer timeDie { get; set; }
+    void SpawnItemWhenDie()
+    {
+        for (int i = 0;i<dropItems.Length;i++)
+        {
+          if(FindObjectOfType<MechanicDamage>().GetChance(chanceDropItem*(6-i)))
+            {
+                
+                Runner.Spawn(dropItems[i],transform.position +Vector3.up);
+                return;
+            }
+        }
+    }
     #endregion
     #region XP,Coin
     void CalculateXPWhenKill(PlayerController playerAround)

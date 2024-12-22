@@ -134,7 +134,7 @@ public class PlayerStat : NetworkBehaviour
             }
             else if (creep.creepType == Creep_Types.Natural)
             {
-                BaseStatOnType(500, 0, 20, 5, 5, 0, 0, 1, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
+                BaseStatOnType(100, 0, 20, 5, 5, 0, 0, 1, 300, 100, 0, level, multipleHealth, multipleMana, multipleDamage, multipleDefend,
                             multipleMagicResistance, multipleMagicAmpli,
                             multipleCriticalChance, multipleCriticalDamage, multipleMoveSpeed, multipleAttackSpeed, multipleLifeSteal);
             }

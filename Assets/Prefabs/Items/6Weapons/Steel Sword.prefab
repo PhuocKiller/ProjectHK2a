@@ -145,14 +145,14 @@ MonoBehaviour:
   _interpolationDataSource: 0
   _maxHealth: 0
   _maxMana: 0
-  _damage: 15
+  _damage: 70
   _defend: 0
   _magicResistance: 0
   _magicAmpli: 0
-  _criticalChance: 0.02
-  _criticalDamage: 0.1
+  _criticalChance: 0.075
+  _criticalDamage: 0.4
   _moveSpeed: 0
-  _attackSpeed: 0
+  _attackSpeed: 30
   _lifeSteal: 0
   _levelSkill: 1
   canHeal: 0
@@ -248,7 +248,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   isSpawn: 0
   _Image: {fileID: 21300000, guid: 534457b0ee9748645a39380d47322cac, type: 3}
-  _Price: 525
+  _Price: 3550
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 26

@@ -707,7 +707,7 @@ MonoBehaviour:
   _magicAmpli: 0
   _criticalChance: 0.05
   _criticalDamage: 0
-  _moveSpeed: 50
+  _moveSpeed: 60
   _attackSpeed: 0
   _lifeSteal: 0
   _levelSkill: 1
@@ -729,7 +729,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   isSpawn: 0
   _Image: {fileID: 21300000, guid: dec2cab2064c0ff449c697e189bf4394, type: 3}
-  _Price: 750
+  _Price: 1000
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 26

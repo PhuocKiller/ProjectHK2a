@@ -1124,7 +1124,7 @@ MonoBehaviour:
   _maxMana: 0
   _damage: 0
   _defend: 5
-  _magicResistance: 10
+  _magicResistance: 7
   _magicAmpli: 0
   _criticalChance: 0
   _criticalDamage: 0
@@ -1150,7 +1150,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   isSpawn: 0
   _Image: {fileID: 21300000, guid: f11ea3385e028434f943ec95bcd99605, type: 3}
-  _Price: 2280
+  _Price: 1850
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 26

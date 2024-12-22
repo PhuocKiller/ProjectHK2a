@@ -143,8 +143,8 @@ MonoBehaviour:
   WordOffset: 0
   WordCount: 0
   _interpolationDataSource: 0
-  _maxHealth: 300
-  _maxMana: 10
+  _maxHealth: 200
+  _maxMana: 30
   _damage: 0
   _defend: 0
   _magicResistance: 5
@@ -248,7 +248,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   isSpawn: 0
   _Image: {fileID: 21300000, guid: 0b09a55612820e04fb865300e6dc6923, type: 3}
-  _Price: 700
+  _Price: 1000
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 26
