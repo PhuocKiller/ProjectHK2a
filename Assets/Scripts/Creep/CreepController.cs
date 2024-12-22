@@ -79,7 +79,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             RenderVisualCreep();
             finalTargetDestination = runnerManager.spawnPointBase[playerTeam == 0 ? 1 : 0].position;
         }
-        chanceDropItem = 0.15f;
+        chanceDropItem = 0.1f;
     }
     void RenderVisualCreep()
     {
