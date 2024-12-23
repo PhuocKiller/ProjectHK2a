@@ -80,15 +80,16 @@ public class InviManager : NetworkBehaviour
     }
     public void ControlMaterial(int modeRender, Material material, float alpha, int renderQueue)
     {
-        material.SetFloat("_Mode", 3);
-        material.color = new Color(material.color.r, material.color.g, material.color.b,alpha);
+       material.SetFloat("_Mode", 2);
+       material.SetColor("_Color", new Color(material.color.r, material.color.g, material.color.b, alpha));
         material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-        material.SetInt("_ZWrite", 0);
-        material.DisableKeyword("_ALPHATEST_ON");
+       material.SetInt("_ZWrite", 0);
+       material.DisableKeyword("_ALPHATEST_ON");
         material.EnableKeyword("_ALPHABLEND_ON");
-        material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+      material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
         material.renderQueue = renderQueue;
+        material.SetFloat("_Glossiness", 0);
     }
     public void BackDefaultMaterial()
     {
