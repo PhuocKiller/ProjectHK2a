@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     public MouseFollower mouseFollower;
     [SerializeField] Sprite defaulteSpriteItemBackGround;
     [SerializeField] TextMeshProUGUI nameTMP;
+    [SerializeField] Button fightBtnInputName;
 
     void Start()
     {
@@ -110,8 +111,13 @@ public class UIManager : MonoBehaviour
     }
     public void EnterID(string playerID)
     {
-        networkManager.playerID = playerID;
-        nameTMP.text= playerID;
+        if(playerID != "")
+        {
+            networkManager.playerID = playerID;
+            nameTMP.text = playerID;
+            fightBtnInputName.interactable = true;
+        }
+        else fightBtnInputName.interactable = false;
     }
 
     #region Inventory

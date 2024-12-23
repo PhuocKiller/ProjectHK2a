@@ -7,7 +7,7 @@ public class UILogin : MonoBehaviour
 {
     [SerializeField] private Button loginButton;
 
-    [SerializeField] private TMP_Text userIdText;
+    [SerializeField] private TMP_InputField userIdText;
     [SerializeField] private TMP_Text userNameText;
 
     [SerializeField] private Transform loginPanel, userPanel;
@@ -39,10 +39,9 @@ public class UILogin : MonoBehaviour
     {
         playerProfile = profile;
         loginPanel.gameObject.SetActive(false);
-        /*userPanel.gameObject.SetActive(true);
-
-        userIdText.text = $"id_{playerProfile.playerInfo.Id}";
-        userNameText.text = profile.Name;*/
+        // userPanel.gameObject.SetActive(true);
+        userIdText.text = playerProfile.playerInfo.Id;
+        //userNameText.text = profile.Name;
     }
     private void LoginController_OnAvatarUpdate(PlayerProfile profile)
     {

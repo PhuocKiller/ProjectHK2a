@@ -48,12 +48,12 @@ public class LoginController : MonoBehaviour
             Debug.Log("SignIn is successful.");
 
             FindObjectOfType<NetworkManager>().playerID = AuthenticationService.Instance.PlayerId;
-
+            playerInfo= AuthenticationService.Instance.PlayerInfo;
             var name = await AuthenticationService.Instance.GetPlayerNameAsync();
 
             playerProfile.playerInfo = playerInfo;
             playerProfile.Name = name;
-
+            Debug.Log(playerInfo.Username);
             OnSignedIn?.Invoke(playerProfile);
         }
         catch (AuthenticationException ex)

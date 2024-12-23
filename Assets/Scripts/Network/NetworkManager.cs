@@ -252,7 +252,8 @@ public class NetworkManager : MonoBehaviour
         {
             btn.interactable = false;
             Singleton<Loading>.Instance.ShowLoading();
-            gameNetworkCallBack ??= GetComponent<GameNetworkCallBack>();
+            Singleton<AudioManager>.Instance.ClickButtonSound();
+           gameNetworkCallBack ??= GetComponent<GameNetworkCallBack>();
             gameNetworkCallBack.OnPlayerJoinRegister(SpawnPlayer);
             await runner.StartGame(new StartGameArgs
             {
