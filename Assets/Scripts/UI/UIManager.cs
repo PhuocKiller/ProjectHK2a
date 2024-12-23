@@ -21,7 +21,8 @@ public class UIManager : MonoBehaviour
     public RectTransform crossHairFollow, crossHairUnFollow;
     public MouseFollower mouseFollower;
     [SerializeField] Sprite defaulteSpriteItemBackGround;
-    
+    [SerializeField] TextMeshProUGUI nameTMP;
+
     void Start()
     {
         networkManager = FindObjectOfType<NetworkManager>();
@@ -110,8 +111,9 @@ public class UIManager : MonoBehaviour
     public void EnterID(string playerID)
     {
         networkManager.playerID = playerID;
+        nameTMP.text= playerID;
     }
-    
+
     #region Inventory
     void InventoryScript_ItemAdded(object sender, InventoryEventArgs e)
     {
