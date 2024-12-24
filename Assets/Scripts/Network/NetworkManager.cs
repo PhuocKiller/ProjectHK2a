@@ -26,7 +26,8 @@ public class NetworkManager : MonoBehaviour
     public GameObject[] players, creeps, naturals, buildings, basicItems, shieldItems, armorItems, weaponItems, bootItems, onlineItems;
     public float[] itemsDropChance;
     GameNetworkCallBack gameNetworkCallBack;
-    private string roomName = "";
+    public string roomName;
+    public string password;
     [SerializeField]
     public UnityEvent onConnected, onJoinRoom;
     [SerializeField] public Transform[] spawnPointPlayer, spawnPointCreep, spawnPointNatural, spawnPointTower, spawnPointBase;
@@ -45,6 +46,7 @@ public class NetworkManager : MonoBehaviour
     {
         runner = GetComponent<NetworkRunner>();
         gameNetworkCallBack = GetComponent<GameNetworkCallBack>();
+        ResetNameAndPass();
     }
     
     public void SpawnPlayer(NetworkRunner m_runner, PlayerRef player)
@@ -274,6 +276,10 @@ public class NetworkManager : MonoBehaviour
     {
         this.roomName = roomName;
     }
+    public void EnterPassword(string password)
+    {
+        this.password = password;
+    }
     public async void OnClickBtn(Button btn)
     {
         if (runner != null && playerID != "")
@@ -294,11 +300,10 @@ public class NetworkManager : MonoBehaviour
                     UserId = playerID + playerTeam.ToString() +playerIndex.ToString(),
                 }
                 ,
-                /*SessionProperties = new Dictionary<string, SessionProperty>
+                SessionProperties = new Dictionary<string, SessionProperty>
                 {
-                    ["PlayerTeam"] = playerTeam,
-                    ["PlayerIndex"] = playerIndex,
-                }*/
+                    ["Password"] = password,
+                }
 
             });
             btn.interactable = true;
@@ -330,17 +335,30 @@ public class NetworkManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach (var item in sessionInfos)
+        foreach (var session in sessionInfos)
         {
             GameObject room = Instantiate(roomItem, parentRoomItem);
-            room.GetComponentInChildren<TextMeshProUGUI>().text = item.Name;
+            room.GetComponentInChildren<TextMeshProUGUI>().text = session.Name;
+            bool isLock = session.Properties["Password"] != "";
+            room.transform.GetChild(1).gameObject.SetActive(isLock); //lock
             Button btn = room.GetComponent<Button>();
             btn.onClick.AddListener(() =>
             {
-                roomName = item.Name;
-                OnClickBtn(btn);
+                roomName = session.Name;
+                if(!isLock)
+                {
+                    OnClickBtn(btn);
+                }
+                else
+                {
+                    FindObjectOfType<PanelChangeCharacter>().ActivePasswordConfirmPanel(session.Properties["Password"]);
+                }
             });
         }
+    }
+    public void ResetNameAndPass()
+    {
+        roomName = "";password = "";
     }
     public void ShutdownRunner()
     {

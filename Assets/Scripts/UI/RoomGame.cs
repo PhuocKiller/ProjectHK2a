@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RoomGame : MonoBehaviour
 {
     GameNetworkCallBack gameNetworkCallBack;
+    [SerializeField] NetworkRunner runner;
     [SerializeField] Sprite[] playerImages;
     [SerializeField] GameObject playerItem;
     [SerializeField] Transform darkTeamParent, lightTeamParent;
@@ -19,7 +20,7 @@ public class RoomGame : MonoBehaviour
     {
         gameNetworkCallBack.OnPlayerJoinRegister(PlayerJoinRoom);
         gameNetworkCallBack.onPlayerLeft += UpdateUI;
-        roomNameText.text = FindObjectOfType<NetworkRunner>().SessionInfo.Name;
+        roomNameText.text = runner.SessionInfo.Name;
     }
     private void OnDisable()
     {
@@ -33,7 +34,7 @@ public class RoomGame : MonoBehaviour
     }
     void UpdateUI(NetworkRunner m_runner, PlayerRef player)
     {
-        playBtn.interactable = FindObjectOfType<NetworkRunner>().IsSharedModeMasterClient;
+        playBtn.interactable = runner.IsSharedModeMasterClient;
         foreach (Transform child in darkTeamParent)
         {
             Destroy(child.gameObject);
@@ -42,9 +43,9 @@ public class RoomGame : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach (var playerJoin in FindObjectOfType<NetworkRunner>().ActivePlayers)
+        foreach (var playerJoin in runner.ActivePlayers)
         {
-            string namePlayer = FindObjectOfType<NetworkRunner>().GetPlayerUserId(playerJoin);
+            string namePlayer = runner.GetPlayerUserId(playerJoin);
             int playerTeam = int.Parse(namePlayer[namePlayer.Length - 2].ToString());
             int playerIndex = int.Parse(namePlayer[namePlayer.Length - 1].ToString());
             GameObject playerPrefab = Instantiate
@@ -52,7 +53,6 @@ public class RoomGame : MonoBehaviour
             playerPrefab.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text
                 = namePlayer.Substring(0, namePlayer.Length - 2);
             playerPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = playerImages[playerIndex];
-
         }
     }
     public void PlayGame()

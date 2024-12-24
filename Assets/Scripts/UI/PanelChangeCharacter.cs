@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class PanelChangeCharacter : MonoBehaviour
     public bool isChoseTeam, isChosePlayer;
     [SerializeField] Button darkTeamBtn, lightTeamBtn, fastGameBtn, networkBtn,
         darkNightBtn,dumbleBtn,ryanBtn,sagiBtn,teslaBtn,vikingBtn;
+    [SerializeField] GameObject passwordConfirmPanel;
+    string passwordToConfirm;
     private void OnEnable()
     {
         isChoseTeam = false; isChosePlayer = false;
@@ -135,5 +138,24 @@ public class PanelChangeCharacter : MonoBehaviour
             fastGameBtn.interactable = true;
             networkBtn.interactable = true;
         }
+    }
+    public void ActivePasswordConfirmPanel(string passwordToConfirm)
+    {
+        passwordConfirmPanel.SetActive(true);
+        this.passwordToConfirm= passwordToConfirm;
+    }
+    public void ConfirmPassword(Button btn)
+    {
+        NetworkManager networkManager=FindObjectOfType<NetworkManager>();
+        if(networkManager.password==passwordToConfirm)
+        {
+            networkManager.OnClickBtn(btn);
+            Singleton<AudioManager>.Instance.ClickButtonSound();
+        }
+        else
+        {
+            Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.error);
+        }
+        btn.transform.parent.GetChild(0).GetComponent<TMP_InputField>().text = "";
     }
 }
