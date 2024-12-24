@@ -286,10 +286,17 @@ public class NetworkManager : MonoBehaviour
                 SceneManager = GetComponent<LoadSceneManager>(),
                 AuthValues = new AuthenticationValues()
                 {
-                    UserId = playerID+playerTeam.ToString(),
+                    UserId = playerID + playerTeam.ToString() +playerIndex.ToString(),
                 }
-                
+                ,
+                /*SessionProperties = new Dictionary<string, SessionProperty>
+                {
+                    ["PlayerTeam"] = playerTeam,
+                    ["PlayerIndex"] = playerIndex,
+                }*/
+
             });
+            
             btn.interactable = true;
             //  onConnected?.Invoke();
             onJoinRoom?.Invoke();
