@@ -270,6 +270,10 @@ public class NetworkManager : MonoBehaviour
         return -1;
     }
     #endregion
+    public void EnterRoomName(string roomName)
+    {
+        this.roomName = roomName;
+    }
     public async void OnClickBtn(Button btn)
     {
         if (runner != null && playerID != "")
@@ -282,6 +286,7 @@ public class NetworkManager : MonoBehaviour
             {
                 GameMode = GameMode.Shared,
                 SessionName = roomName,
+                PlayerCount=6,
                 CustomLobbyName = "VN",
                 SceneManager = GetComponent<LoadSceneManager>(),
                 AuthValues = new AuthenticationValues()
@@ -296,7 +301,6 @@ public class NetworkManager : MonoBehaviour
                 }*/
 
             });
-            
             btn.interactable = true;
             //  onConnected?.Invoke();
             onJoinRoom?.Invoke();
@@ -316,7 +320,7 @@ public class NetworkManager : MonoBehaviour
         await runner.JoinSessionLobby(SessionLobby.Custom, "VN",
             authentication: new AuthenticationValues()
             {
-                UserId = playerID + playerTeam.ToString(),
+                UserId = playerID + playerTeam.ToString() + playerIndex.ToString(),
             });
         Singleton<Loading>.Instance.HideLoading();
     }

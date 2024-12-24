@@ -9,6 +9,7 @@ public class GameNetworkCallBack :MonoBehaviour, INetworkRunnerCallbacks
 {
     Action<List<SessionInfo>> onSessionListChanged;
     Action<NetworkRunner, PlayerRef> onPlayerJoin;
+    public Action<NetworkRunner, PlayerRef> onPlayerLeft;
     public void StartGameRegister(Action<List<SessionInfo>> onSessionListChanged)
     {
         this.onSessionListChanged = onSessionListChanged;
@@ -28,7 +29,7 @@ public class GameNetworkCallBack :MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-
+        onPlayerLeft?.Invoke(runner, player);
     }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
