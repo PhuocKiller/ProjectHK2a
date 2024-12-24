@@ -1,9 +1,10 @@
-using Fusion;
+ï»¿using Fusion;
 using Fusion.Editor;
 using Fusion.Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -12,6 +13,10 @@ using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject roomItem;
+    [SerializeField]
+    private Transform parentRoomItem;
     public string playerID;
     public NetworkRunner runner;
     public NavMeshSurface navMesh;
@@ -21,20 +26,28 @@ public class NetworkManager : MonoBehaviour
     public GameObject[] players, creeps, naturals, buildings, basicItems, shieldItems, armorItems, weaponItems, bootItems, onlineItems;
     public float[] itemsDropChance;
     GameNetworkCallBack gameNetworkCallBack;
+    private string roomName = "";
     [SerializeField]
-    UnityEvent onConnected;
+    public UnityEvent onConnected, onJoinRoom;
     [SerializeField] public Transform[] spawnPointPlayer, spawnPointCreep, spawnPointNatural, spawnPointTower, spawnPointBase;
     public int playerIndex, playerTeam;
     bool flagLogin;
 
-
+    private void OnEnable()
+    {
+      //  gameNetworkCallBack.OnPlayerJoinRegister(SpawnPlayer);
+    }
+    private void OnDisable()
+    {
+      //  gameNetworkCallBack.OnPlayerJoinUnRegister(SpawnPlayer);
+    }
     private void Awake()
     {
         runner = GetComponent<NetworkRunner>();
         gameNetworkCallBack = GetComponent<GameNetworkCallBack>();
     }
-
-    private void SpawnPlayer(NetworkRunner m_runner, PlayerRef player)
+    
+    public void SpawnPlayer(NetworkRunner m_runner, PlayerRef player)
     {
         bool flag = false;
         foreach (var playerObject in Login.playersGame)
@@ -50,6 +63,7 @@ public class NetworkManager : MonoBehaviour
             }
         }
         if (flag == true) return;
+        //SpawnWhenJoinRoom(m_runner, player);
         if (player == runner.LocalPlayer && runner.IsSharedModeMasterClient)
         {
            StartCoroutine(SpawnWhenStartGame(m_runner, player));
@@ -67,13 +81,19 @@ public class NetworkManager : MonoBehaviour
                 });
         }
     }
+    public void SpawnWhenJoinRoom(NetworkRunner m_runner, PlayerRef player)
+    {
+        if (player == runner.LocalPlayer && runner.IsSharedModeMasterClient)
+        {
+            runner.Spawn(gameManagerObj, inputAuthority: player);
+            runner.Spawn(playerManagerObj, inputAuthority: player);
+        }
+    }
     IEnumerator SpawnWhenStartGame(NetworkRunner m_runner, PlayerRef player)
     {
-        runner.Spawn(gameManagerObj, inputAuthority: player);
-        runner.Spawn(playerManagerObj, inputAuthority: player);
         for (int i = 0; i < spawnPointBase.Length; i++)
         {
-            NetworkObject towerObject = runner.Spawn(buildings[i + 1], spawnPointBase[i].position, spawnPointBase[i].rotation, player, //building 0 là tower
+            NetworkObject towerObject = runner.Spawn(buildings[i + 1], spawnPointBase[i].position, spawnPointBase[i].rotation, player, //building 0 lÃ  tower
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
                   obj.GetComponent<BuildingController>().playerTeam = i;
@@ -82,7 +102,7 @@ public class NetworkManager : MonoBehaviour
         }
         for (int i = 0; i < 2; i++)
         {
-            NetworkObject baseRegen = runner.Spawn(buildings[3], spawnPointPlayer[i].position, spawnPointPlayer[i].rotation, player, //building 0 là tower
+            NetworkObject baseRegen = runner.Spawn(buildings[3], spawnPointPlayer[i].position, spawnPointPlayer[i].rotation, player, //building 0 lÃ  tower
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
                   obj.GetComponent<BaseRegen>().SetUp(i, 0.05f);
@@ -108,6 +128,7 @@ public class NetworkManager : MonoBehaviour
        StartCoroutine(SpawnRangeCreep(player));
        StartCoroutine(SpawnNatural(player));
     }
+    #region SpawnCreep
     IEnumerator SpawnNatural(PlayerRef player)
     {
         if (runner.IsSharedModeMasterClient)
@@ -191,6 +212,8 @@ public class NetworkManager : MonoBehaviour
                                obj.GetComponent<CreepController>().playerTeam = 1;
                            });
     }
+    #endregion
+    #region SpawnItems
     public void SpawnObjWhenAddItem(GameObject itemObj, int indexItemSlot)
     {
         NetworkObject item = runner.Spawn(itemObj);
@@ -246,6 +269,7 @@ public class NetworkManager : MonoBehaviour
         }
         return -1;
     }
+    #endregion
     public async void OnClickBtn(Button btn)
     {
         if (runner != null && playerID != "")
@@ -253,26 +277,58 @@ public class NetworkManager : MonoBehaviour
             btn.interactable = false;
             Singleton<Loading>.Instance.ShowLoading();
             Singleton<AudioManager>.Instance.ClickButtonSound();
-           gameNetworkCallBack ??= GetComponent<GameNetworkCallBack>();
-            gameNetworkCallBack.OnPlayerJoinRegister(SpawnPlayer);
+            gameNetworkCallBack ??= GetComponent<GameNetworkCallBack>();
             await runner.StartGame(new StartGameArgs
             {
                 GameMode = GameMode.Shared,
-                SessionName = "Begin",
+                SessionName = roomName,
                 CustomLobbyName = "VN",
                 SceneManager = GetComponent<LoadSceneManager>(),
                 AuthValues = new AuthenticationValues()
                 {
-                    UserId = playerID,
+                    UserId = playerID+playerTeam.ToString(),
                 }
+                
             });
             btn.interactable = true;
-            onConnected?.Invoke();
+            //  onConnected?.Invoke();
+            onJoinRoom?.Invoke();
             Singleton<Loading>.Instance.HideLoading();
         }
         else
         {
             Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.error);
+        }
+    }
+   
+    public async void OnClickJoinBtn()
+    {
+        Singleton<Loading>.Instance.ShowLoading();
+        gameNetworkCallBack ??= GetComponent<GameNetworkCallBack>();
+        gameNetworkCallBack.StartGameRegister(OnSessionListChanged);
+        await runner.JoinSessionLobby(SessionLobby.Custom, "VN",
+            authentication: new AuthenticationValues()
+            {
+                UserId = playerID + playerTeam.ToString(),
+            });
+        Singleton<Loading>.Instance.HideLoading();
+    }
+    private void OnSessionListChanged(List<SessionInfo> sessionInfos)
+    {
+        foreach (Transform child in parentRoomItem)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (var item in sessionInfos)
+        {
+            GameObject room = Instantiate(roomItem, parentRoomItem);
+            room.GetComponentInChildren<TextMeshProUGUI>().text = item.Name;
+            Button btn = room.GetComponent<Button>();
+            btn.onClick.AddListener(() =>
+            {
+                roomName = item.Name;
+                OnClickBtn(btn);
+            });
         }
     }
     public void ShutdownRunner()

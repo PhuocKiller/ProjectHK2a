@@ -16,7 +16,7 @@ public class GameManager : NetworkBehaviour
 {
     
     [Networked(OnChanged = nameof(CurrentStateChanged))]
-    private int currentState { get; set; }
+    public int currentState { get; set; }
     public ClockManager clock;
     List<PlayerController> playerControllers = new List<PlayerController>();
    [Networked] public float currentTime { get; set; }
@@ -26,9 +26,8 @@ public class GameManager : NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
-        currentState = 3;
+        currentState = 1;
         clock=FindObjectOfType<ClockManager>();
-        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 1f);
         levelCreep = 0;
     }
 
@@ -39,6 +38,7 @@ public class GameManager : NetworkBehaviour
         {
           SyncTime();
         }
+       
        if(waitBeforeStartTime.ExpiredOrNotRunning(Runner) && currentState==3)
         {
             currentState = 4;
@@ -47,7 +47,11 @@ public class GameManager : NetworkBehaviour
             FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
         }
     }
-
+    public void GoWaitBeforeStart()
+    {
+        currentState = 3;
+        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 5f);
+    }
     public GameState TypeOfGameState(int value)
     {
         switch (value)
@@ -83,6 +87,12 @@ public class GameManager : NetworkBehaviour
         changed.LoadNew();
         GameState newState = changed.Behaviour.TypeOfGameState(changed.Behaviour.currentState);
         changed.Behaviour.onCurrentStateChanged?.Invoke(oldState, newState);
+        if(newState==GameState.WaitBeforeStart || newState == GameState.InGame)
+        {
+            FindObjectOfType<RoomGame>().gameObject.SetActive(false);
+            FindObjectOfType<NetworkManager>().onConnected?.Invoke();
+            FindObjectOfType<NetworkManager>().SpawnPlayer(changed.Behaviour.Runner, changed.Behaviour.Runner.LocalPlayer);
+        }
     }
     public void RegisterOnGameStateChanged(Action<GameState, GameState> listener)
     {

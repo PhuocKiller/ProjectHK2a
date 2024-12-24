@@ -276,9 +276,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             return;
         }
 
-        if (HasStateAuthority)
+        if (HasStateAuthority &&HasInputAuthority)
         {
-
             moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
             if (moveInput.magnitude == 0)

@@ -9,9 +9,17 @@ public class GameNetworkCallBack :MonoBehaviour, INetworkRunnerCallbacks
 {
     Action<List<SessionInfo>> onSessionListChanged;
     Action<NetworkRunner, PlayerRef> onPlayerJoin;
+    public void StartGameRegister(Action<List<SessionInfo>> onSessionListChanged)
+    {
+        this.onSessionListChanged = onSessionListChanged;
+    }
     public void OnPlayerJoinRegister(Action<NetworkRunner, PlayerRef> onPlayerJoin)
     {
-        this.onPlayerJoin = onPlayerJoin;
+        this.onPlayerJoin += onPlayerJoin;
+    }
+    public void OnPlayerJoinUnRegister(Action<NetworkRunner, PlayerRef> onPlayerJoin)
+    {
+        this.onPlayerJoin -= onPlayerJoin;
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {

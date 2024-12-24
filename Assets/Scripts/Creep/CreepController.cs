@@ -22,7 +22,8 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     public OverlapSphereCreep overlapSphere;
     public NetworkObject normalMeleeAttackObj, normalRangeAttackObj;
     public Creep_Types creepType;
-    public Vector3 targetDestination, finalTargetDestination;
+    public Vector3 targetDestination;
+    [Networked] public Vector3 finalTargetDestination { get; set; }
     [Networked] public int playerTeam { get; set; }
     public ListNetworkObject networkObjs;
     public List<Collider> collisionsEnvi = new List<Collider>();
@@ -97,7 +98,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         base.FixedUpdateNetwork();
         CalculateCanvas();
         CalculateStatusDebuff();
-        if (state != 2) animator.enabled = !playerStat.isBeingStun;
+       // if (state != 2) animator.enabled = !playerStat.isBeingStun;
         if (state == 3) return;
        if (HasStateAuthority)
         {
@@ -105,8 +106,10 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                 && (transform.position - finalTargetDestination).magnitude > 50) isMovingBack=true;
             if (!isMovingBack) //trong phạm vi ko quá xa điểm spawn
             {
+                
                 if (overlapSphere.CheckAllEnemyAround(12).Count == 0)
                 {
+                   
                     targetDestination = finalTargetDestination;
                     AnimatorSetBoolRPC("isAttack", false);
                     state = 0;
@@ -140,6 +143,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             }
             else //vượt qua phạm vi điểm spawn
             {
+                if (creepType == Creep_Types.Natural) Debug.Log(finalTargetDestination);
                 if (creepType == Creep_Types.Natural
                 && (transform.position - finalTargetDestination).magnitude<1) isMovingBack = false;
                 targetDestination = finalTargetDestination;
@@ -147,8 +151,9 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                 agent.isStopped = false;
                 state = 0;
             }
+            
             Vector3 lookVector = new Vector3(targetDestination.x, transform.position.y, targetDestination.z) - transform.position;
-            if(lookVector.magnitude>0)
+            if(lookVector.magnitude>0.01)
             {
                 Quaternion look = Quaternion.LookRotation(lookVector.normalized);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
@@ -199,7 +204,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         {
             if(creepType==Creep_Types.Melee|| creepType == Creep_Types.Natural)
             {
-                Runner.Spawn(normalMeleeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
+                Runner.Spawn(normalMeleeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation
                      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                      {
                          obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, normalAttackTransform,
@@ -208,7 +213,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             }
             else if(creepType == Creep_Types.Range)
             {
-                Runner.Spawn(normalRangeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation, inputAuthority: Object.InputAuthority
+                Runner.Spawn(normalRangeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation
                      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                      {
                          obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, null,
