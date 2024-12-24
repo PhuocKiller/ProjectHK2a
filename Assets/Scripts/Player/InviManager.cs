@@ -15,47 +15,47 @@ public class InviManager : NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
-        player= GetComponentInParent<PlayerController>();
-        networkManager=FindObjectOfType<NetworkManager>();
+        player = GetComponentInParent<PlayerController>();
+        networkManager = FindObjectOfType<NetworkManager>();
     }
 
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        if(player.playerStat.isLive)
+        if (player.playerStat.isLive)
         {
             // CheckInviVisual(player.playerStat.isVisible);
             //ControlInvi();
-            if(player.playerStat.isStartFadeInvi)
+            if (player.playerStat.isStartFadeInvi)
             {
                 for (int i = 0; i < meshRenderers.Length; i++)
                 {
-                    ControlMaterial(3, meshRenderers[i].material, meshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime,3000);
+                    ControlMaterial(3, meshRenderers[i].material, meshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime, 3000);
                 }
                 for (int i = 0; i < skinnedMeshRenderers.Length; i++)
                 {
-                    ControlMaterial(3, skinnedMeshRenderers[i].material, skinnedMeshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime,3000);
+                    ControlMaterial(3, skinnedMeshRenderers[i].material, skinnedMeshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime, 3000);
                 }
                 if (meshRenderers[0].material.color.a < 0.4f || skinnedMeshRenderers[0].material.color.a < 0.4f)
                 {
                     player.playerStat.isVisible = false;
                     player.playerStat.isStartFadeInvi = false;
                 }
-                
+
             }
-            else if(player.playerStat.isVisible)
+            else if (player.playerStat.isVisible)
             {
                 BackDefaultMaterial();
             }
-          CheckInviVisual(player.playerStat.isVisible);
+            CheckInviVisual(player.playerStat.isVisible);
         }
-        
-       // VisualOfPlayer(player.playerStat.isLive);
+
+        // VisualOfPlayer(player.playerStat.isLive);
     }
 
     private void CheckInviVisual(bool isVisible)
     {
-        if(player.playerTeam!=networkManager.playerTeam) //con nào chủ thế của invi thì ko bị ảnh hưởng
+        if (player.playerTeam != networkManager.playerTeam) //con nào chủ thế của invi thì ko bị ảnh hưởng
         {
             foreach (var visual in visuals)
             {
@@ -70,7 +70,8 @@ public class InviManager : NetworkBehaviour
     {
         CharacterRespawnRPC(isLive);
     }
-    [Rpc(RpcSources.All, RpcTargets.All)] public void CharacterRespawnRPC(bool isLive)
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void CharacterRespawnRPC(bool isLive)
     {
         player.GetComponent<CharacterController>().enabled = isLive;
         foreach (var visual in visuals)
@@ -80,14 +81,14 @@ public class InviManager : NetworkBehaviour
     }
     public void ControlMaterial(int modeRender, Material material, float alpha, int renderQueue)
     {
-       material.SetFloat("_Mode", 2);
-       material.SetColor("_Color", new Color(material.color.r, material.color.g, material.color.b, alpha));
-        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        material.SetFloat("_Mode", 2);
+        material.SetColor("_Color", new Color(material.color.r, material.color.g, material.color.b, alpha));
+        /*material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-       material.SetInt("_ZWrite", 0);
-       material.DisableKeyword("_ALPHATEST_ON");
+        material.SetInt("_ZWrite", 0);*/
+        material.DisableKeyword("_ALPHATEST_ON");
         material.EnableKeyword("_ALPHABLEND_ON");
-      material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
         material.renderQueue = renderQueue;
         material.SetFloat("_Glossiness", 0);
     }
@@ -105,7 +106,7 @@ public class InviManager : NetworkBehaviour
     void MaterialToDefault(Material material)
     {
         material.SetFloat("_Mode", 0); // 0 = Opaque
-        material.color= new Color(material.color.r, material.color.g, material.color.b, 1);
+        material.color = new Color(material.color.r, material.color.g, material.color.b, 1);
         // Thiết lập lại các thuộc tính cho Opaque
         material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha); // Kết hợp màu sắc
         material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha); // Kết hợp với alpha
