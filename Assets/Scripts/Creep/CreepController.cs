@@ -103,47 +103,55 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
        if (HasStateAuthority)
         {
             if (creepType == Creep_Types.Natural
-                && (transform.position - finalTargetDestination).magnitude > 50) isMovingBack=true;
+                && (transform.position - finalTargetDestination).magnitude > 50)
+            {
+                isMovingBack = true; playerStat.isBeingAttack = false;
+            }
             if (!isMovingBack) //trong phạm vi ko quá xa điểm spawn
             {
-                
-                if (overlapSphere.CheckAllEnemyAround(12).Count == 0)
+                if(!playerStat.isBeingAttack) //natural ko bị tấn công
                 {
-                   
-                    targetDestination = finalTargetDestination;
-                    AnimatorSetBoolRPC("isAttack", false);
-                    state = 0;
-                    if (Vector3.Distance(transform.position, targetDestination) < 2)
+                    if (overlapSphere.CheckAllEnemyAround(12).Count == 0)
                     {
-                        agent.isStopped = true;
-                        AnimatorSetBoolRPC("isMove", false);
+
+                        targetDestination = finalTargetDestination;
+                        AnimatorSetBoolRPC("isAttack", false);
+                        state = 0;
+                        if (Vector3.Distance(transform.position, targetDestination) < 2)
+                        {
+                            agent.isStopped = true;
+                            AnimatorSetBoolRPC("isMove", false);
+                        }
+                        else
+                        {
+                            agent.isStopped = false;
+                            AnimatorSetBoolRPC("isMove", true);
+                        }
                     }
-                    else
+                    else //có enemy xung quanh
                     {
-                        agent.isStopped = false;
-                        AnimatorSetBoolRPC("isMove", true);
+                        if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)).Count == 0)// nhưng ko có player follow
+                        {
+                            targetCharacterToChase = overlapSphere.FindClosestCharacterInRadius
+                                (overlapSphere.CheckAllEnemyAround(12), transform.position);
+                            CalculateMoveDirection();
+                        }
+                        else //có player follow
+                        {
+                            targetCharacterToChase = overlapSphere.FindClosestPlayerFollowInRadius
+                                (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)), transform.position)
+                                .GetComponent<CharacterController>();
+                            CalculateMoveDirection();
+                        }
                     }
                 }
-                else //có enemy xung quanh
+                else // natural đang bị attack
                 {
-                    if (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)).Count == 0)// nhưng ko có player follow
-                    {
-                        targetCharacterToChase = overlapSphere.FindClosestCharacterInRadius
-                            (overlapSphere.CheckAllEnemyAround(12), transform.position);
-                        CalculateMoveDirection();
-                    }
-                    else //có player follow
-                    {
-                        targetCharacterToChase = overlapSphere.FindClosestPlayerFollowInRadius
-                            (overlapSphere.CheckPlayerFollowEnemy(overlapSphere.CheckAllEnemyAround(12)), transform.position)
-                            .GetComponent<CharacterController>();
-                        CalculateMoveDirection();
-                    }
+                    CalculateMoveDirection();
                 }
             }
             else //vượt qua phạm vi điểm spawn
             {
-                if (creepType == Creep_Types.Natural) Debug.Log(finalTargetDestination);
                 if (creepType == Creep_Types.Natural
                 && (transform.position - finalTargetDestination).magnitude<1) isMovingBack = false;
                 targetDestination = finalTargetDestination;
@@ -401,6 +409,11 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         Action<int> lifeSteal = null, bool activeInjureAnim = true, bool isCritPhysic = false)
     {
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim, isCritPhysic);
+        if(creepType==Creep_Types.Natural)
+        {
+            targetCharacterToChase=player.GetComponent<CharacterController>();
+            playerStat.isBeingAttack = true;
+        }
         if (playerStat.isCounter)
         {
             counter?.Invoke(playerStat.counterDamage, isPhysicDamage);

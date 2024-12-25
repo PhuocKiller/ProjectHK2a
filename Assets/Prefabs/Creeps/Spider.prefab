@@ -536,6 +536,7 @@ MonoBehaviour:
   _isBeingStun: 0
   _isBeingSlow: 0
   _isBeingSilen: 0
+  _isBeingAttack: 0
   _isLifeSteal: 0
   _isVisible: 0
   _isUnderTower: 0
@@ -25697,7 +25698,7 @@ MonoBehaviour:
   normalRangeAttackObj: {fileID: 5484937385305069163, guid: 1264de5c600426745a79c25d8d7f3eb8, type: 3}
   creepType: 2
   targetDestination: {x: 0, y: 0, z: 0}
-  finalTargetDestination: {x: 0, y: 0, z: 0}
+  _finalTargetDestination: {x: 0, y: 0, z: 0}
   _playerTeam: 0
   networkObjs: {fileID: 5414109557909644006}
   collisionsEnvi: []
@@ -107151,7 +107152,7 @@ RectTransform:
   m_GameObject: {fileID: 9024902145421838195}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2496468925569053394}

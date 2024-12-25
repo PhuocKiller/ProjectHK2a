@@ -18,6 +18,6 @@ public class HeavyDutyBootsScript : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Heavy Duty Boots\nTo protect your legs from most physical attacks.\n+ 75 Armor\n+ 50 MovementSpeed"; }
+        get { return "Heavy Duty Boots\nTo protect your legs from most physical attacks.\n+100 Health\n+5 Damage\n+30 MovementSpeed"; }
     }
 }

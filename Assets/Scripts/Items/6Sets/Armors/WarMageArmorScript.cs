@@ -18,6 +18,7 @@ public class WarMageArmorScript : InventoryItemBase
     }
     public override string Info
     {
-        get { return "WarMage Armor\nWhen magicians become too much of an issue, units with this armor will be deployed..\n+ 95 Armor\n+ 1780 Max Health\n+ 17% Magic Resist"; }
+        get { return "WarMage Armor\nWhen magicians become too much of an issue, units with this armor will be deployed..\n+10 Armor\n+7 Magic Resistance\n+450 Max Health" +
+                "\nActive Skill: Invicibility\nThe Player can be invisible to enemy\nMana cost: 15\n Duration: 10 seconds"; }
     }
 }

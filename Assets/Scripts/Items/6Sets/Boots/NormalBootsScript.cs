@@ -18,6 +18,6 @@ public class NormalBootsScript : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Normal Boots\nOne needs something to protect themselves from the terrain afterall.\n+ 45 MovementSpeed"; }
+        get { return "Normal Boots\nOne needs something to protect themselves from the terrain afterall.\n+150 Max Health\n+40 MovementSpeed"; }
     }
 }

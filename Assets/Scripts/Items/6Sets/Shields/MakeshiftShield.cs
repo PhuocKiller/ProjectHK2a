@@ -18,6 +18,6 @@ public class MakeshiftShield : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Makeshift Shield\nA custom made shield for the magic swordmens.\n+ 25 Armor\n+ 900 Max Health\n+ 75 Max Mana\n+ 2.5% Magic Resist"; }
+        get { return "Makeshift Shield\nA custom made shield for the magic swordmens.\n+10 Armor\n+7 Magic Resistance\n+600 Max Health\n+50 Max Mana"; }
     }
 }

@@ -59,6 +59,7 @@ public class PlayerStat : NetworkBehaviour
     [HideInInspector][Networked] public bool isBeingStun { get; set; }
     [HideInInspector][Networked] public bool isBeingSlow { get; set; }
     [HideInInspector][Networked] public bool isBeingSilen { get; set; }
+    [Networked] public bool isBeingAttack { get; set; }
     [HideInInspector][Networked] public bool isLifeSteal { get; set; }
     [Networked] public bool isVisible { get; set; }
     [Networked] public bool isUnderTower { get; set; }

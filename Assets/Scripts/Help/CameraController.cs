@@ -11,14 +11,15 @@ public class CameraController : MonoBehaviour
     public PlayerController closestEnemyPlayer;
     public float m_SplineCurvature;
     bool isFollowEnemy;
+    public bool isMoveCameraUp;
     void Start()
     {
         freeLookCamera = GetComponent<CinemachineFreeLook>();
         Singleton<CinemachineBrain>.Instance.m_ShowDebugText = true;
         CinemachineCore.GetInputAxis = GetAxisCustom;
-        
+
 #if UNITY_EDITOR
-        freeLookCamera.m_XAxis.m_MaxSpeed = 1000f;
+        freeLookCamera.m_XAxis.m_MaxSpeed = 500;
         freeLookCamera.m_YAxis.m_MaxSpeed = 5f;
 #elif UNITY_ANDROID || UNITY_IOS
 freeLookCamera.m_XAxis.m_MaxSpeed = 150f;
@@ -28,13 +29,15 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
     }
     private void Update()
     {
-     if(isFollowEnemy)
+        if (isFollowEnemy)
         {
             Vector3 newPosclosestEnemyPlayer = new Vector3(closestEnemyPlayer.transform.position.x, 0, closestEnemyPlayer.transform.position.z);
-            Quaternion look=Quaternion.LookRotation(newPosclosestEnemyPlayer - player.transform.position,Vector3.up);
+            Quaternion look = Quaternion.LookRotation(newPosclosestEnemyPlayer - player.transform.position, Vector3.up);
             player.transform.rotation = Quaternion.Lerp(player.transform.rotation, look, 15 * Time.deltaTime);
-            freeLookCamera.m_XAxis.Value =Mathf.LerpAngle(freeLookCamera.m_XAxis.Value, player.transform.rotation.eulerAngles.y, 15 * Time.deltaTime);
-        }   
+            freeLookCamera.m_XAxis.Value = Mathf.LerpAngle(freeLookCamera.m_XAxis.Value, player.transform.rotation.eulerAngles.y, 15 * Time.deltaTime);
+        }
+        if (isMoveCameraUp) MoveCameraUp();
+        if (freeLookCamera.m_YAxis.Value >0.9f) isMoveCameraUp = false;
     }
     public void SetFollowCharacter(Transform characterTransform)
     {
@@ -46,7 +49,7 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
     public void RemoveFollowCharacter()
     {
         freeLookCamera.Follow = null;
-        
+
     }
     public void CameraFollowEnemy()
     {
@@ -60,7 +63,7 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
     }
     public void MoveCameraUp()
     {
-        freeLookCamera.m_YAxis.Value = Mathf.Lerp(freeLookCamera.m_YAxis.Value, 1, 0.5f * Time.deltaTime); //nâng cao camera khi xài skill
+        freeLookCamera.m_YAxis.Value = Mathf.Lerp(freeLookCamera.m_YAxis.Value, 1, 2f * Time.deltaTime); //nâng cao camera khi xài skill
     }
     public float GetAxisCustom(string axisName)
     {

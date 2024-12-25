@@ -18,6 +18,6 @@ public class SteelSword : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Steel Sword\nA basic sword, you'll need it.\n+ 50 Damage\n+ 2.5% Crit Chance"; }
+        get { return "Steel Sword\nA basic sword, you'll need it.\n+70 Damage\n+7.5% Crit Chance\n+40 Critical Damage\n+30 Attack Speed"; }
     }
 }

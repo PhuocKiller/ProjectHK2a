@@ -18,6 +18,6 @@ public class QueenSpellBook : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Ice Queen's Spellbook\nThe queen was an Ice Mage all along? Don't ask how I got my hands on this one..\n+ 75 Damage\n+ 100% Magic Amp"; }
+        get { return "Ice Queen's Spellbook\nThe queen was an Ice Mage all along? Don't ask how I got my hands on this one..\n+80 Max Mana\n+80% Magic Amplication\n+20 Movement Speed"; }
     }
 }

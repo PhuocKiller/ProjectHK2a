@@ -18,6 +18,7 @@ public class BladeOfTheHero : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Blade Of The Hero\nThe relentless and undying blade of the hero.\n+ 150 Damage\n+ 20% Crit Chance\n+ 50% Crit Damage"; }
+        get { return "Blade Of The Hero\nThe relentless and undying blade of the hero.\n+15 Damage\n+3% Critical Chance\n+20% Critical Damage" +
+                "\nActive Skill: Blink\nTeleport to location\nMana Cost: 10"; }
     }
 }

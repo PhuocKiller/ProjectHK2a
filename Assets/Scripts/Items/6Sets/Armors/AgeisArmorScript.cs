@@ -18,6 +18,6 @@ public class AgeisArmorScript : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Ageis Armor\nMade from the body of the Ageis itself!.\n+ 185 Armor\n+ 2180 Max Health\n+ 10% Magic Resist"; }
+        get { return "Ageis Armor\nMade from the body of the Ageis itself!.\n+100 Max Health\n+5 Magic Resist"; }
     }
 }

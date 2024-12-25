@@ -18,6 +18,6 @@ public class WhiteKnightArmor : InventoryItemBase
     }
     public override string Info
     {
-        get { return "White Knight Armor\nDon by the fearless Paladin zealots to battle.\n+ 125 Armor\n+ 1530 Max Health\n+ 7% Magic Resist\n+ 35 MovementSpeed"; }
+        get { return "White Knight Armor\nDon by the fearless Paladin zealots to battle.\n+10 Armor\n+10 Magic Resistance\n+600 Max Health\n+15 MovementSpeed"; }
     }
 }

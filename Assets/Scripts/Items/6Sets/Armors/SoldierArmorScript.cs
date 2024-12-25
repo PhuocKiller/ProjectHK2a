@@ -18,6 +18,6 @@ public class SoldierArmorScript : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Soldier Armor\nReliable mass produced footmen wear, this version is a little enchanted.\n+ 85 Armor\n+ 1500 Max Health\n+ 7.5% Magic Resist"; }
+        get { return "Soldier Armor\nReliable mass produced footmen wear, this version is a little enchanted.\n+ 5 Armor\n+8 Magic Resistance\n+ 400 Max Health"; }
     }
 }

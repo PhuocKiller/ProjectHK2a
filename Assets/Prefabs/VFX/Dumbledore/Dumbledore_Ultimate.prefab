@@ -28,8 +28,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1782525938046083145}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -4925,8 +4925,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1782525938046083145}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -9813,8 +9813,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1782525938046083145}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -14710,8 +14710,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1782525938046083145}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -19608,8 +19608,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1782525938046083145}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -24588,7 +24588,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 5.7e-44, z: 3.28e-42, w: -1.076e-42}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 9.1e-44, z: 3.0373e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -24623,8 +24623,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1782525938046083145}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -29670,8 +29670,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 12.097826, y: 8.882268, z: 13.299772}
-  m_Center: {x: 0, y: 3.9264646, z: 0}
+  m_Size: {x: 18, y: 8, z: 17.66}
+  m_Center: {x: 0, y: 4, z: 0}
 --- !u!114 &-3909487070850925151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29708,6 +29708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da582f1d8adac884585f14df09517e32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCritPhysic: 0
 --- !u!1 &7510175564308720118
 GameObject:
   m_ObjectHideFlags: 0
@@ -29775,8 +29776,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1782525938046083145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -34663,8 +34664,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1782525938046083145}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}

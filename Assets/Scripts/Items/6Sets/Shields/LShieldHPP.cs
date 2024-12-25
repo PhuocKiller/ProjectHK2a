@@ -18,6 +18,6 @@ public class LShieldHPP : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Luprus Ra's God Shield\nThat one shield the Hero's used throughout his life, was preserved and mantained well.\n+ 200 Armor\n+1850 Max Health\n+ 10% Magic Resist"; }
+        get { return "Luprus Ra's God Shield\nThat one shield the Hero's used throughout his life, was preserved and mantained well.\n+15 Armor\n+5 Magic Resistance\n+500 Max Health\n+20 Movement Speed"; }
     }
 }

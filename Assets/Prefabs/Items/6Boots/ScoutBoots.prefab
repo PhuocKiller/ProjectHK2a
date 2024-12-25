@@ -446,7 +446,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   isSpawn: 0
   _Image: {fileID: 21300000, guid: 620ea1c7fb2f19f4d89e71d833d209ac, type: 3}
-  _Price: 1500
+  _Price: 1800
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
   skillName: 32

@@ -18,6 +18,6 @@ public class LeatherArmorScript : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Leather Armor\nBasic and reliable light armor.\n+ 25 Armor\n+ 1000 Max Health"; }
+        get { return "Leather Armor\nBasic and reliable light armor.\n+ 5 Armor\n+5 Magic Resistance\n+ 300 Max Health"; }
     }
 }

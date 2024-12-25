@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] theme;
     public AudioSource musicSource, soundSource, monsterSource;
     public float musicVolume, soundVolume;
-   
+    [SerializeField] Scrollbar musicScrollBar, soundScrollBar;
     private void Start()
     {
       //  for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
@@ -43,6 +44,14 @@ public class AudioManager : MonoBehaviour
     public void ClickButtonSound()
     {
         PlaySound(clickButton, false);
+    }
+    public void SoundVolume()
+    {
+        soundSource.volume= soundScrollBar.value;
+    }
+    public void MusicVolume()
+    {
+        musicSource.volume = musicScrollBar.value;
     }
 }
 

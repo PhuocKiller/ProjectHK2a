@@ -34,12 +34,12 @@ public class StatusCanvas : NetworkBehaviour
         {
             creep = GetComponentInParent<CreepController>();
             isSameTeam= creep.playerTeam== networkManager.playerTeam;
-            minimapImage.color= creep.playerTeam==0? Color.red: Color.blue;
+            minimapImage.color= creep.playerTeam==0? Color.red:(creep.playerTeam ==1? Color.blue:Color.magenta);
         }
         else
         {
             isSameTeam = player.playerTeam == networkManager.playerTeam;
-            minimapImage.color = player.playerTeam == 0 ? Color.red : Color.blue;
+            minimapImage.color = player.playerTeam == 0 ? Color.red : (creep.playerTeam == 1 ? Color.blue : Color.magenta);
             if(HasStateAuthority)
             {
                 fixPosInjureDamage = injureDamage.GetComponent<RectTransform>().position;

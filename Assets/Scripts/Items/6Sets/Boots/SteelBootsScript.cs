@@ -18,6 +18,6 @@ public class SteelBootsScript : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Steel Boots\nSo i heard you wants to upgrade your Normal Boots..\n+ 30 Armor\n+ 75 MovementSpeed"; }
+        get { return "Steel Boots\nSo i heard you wants to upgrade your Normal Boots..\n+50 Damage\n+5 Armor\n+5 Magic Resistance\n+80 MovementSpeed"; }
     }
 }

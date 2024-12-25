@@ -18,6 +18,6 @@ public class ResistanceBootsScript : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Resistance Boots\nMagics.. Everyone needs something to protect themselves against that.\n+ 11% Magic Resist\n+ 75 MovementSpeed"; }
+        get { return "Resistance Boots\nMagics.. Everyone needs something to protect themselves against that.\n+30 Damage\n+5% Critical Chance\n+60 MovementSpeed"; }
     }
 }

@@ -18,6 +18,6 @@ public class LegionShield : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Legion Shield\nThe first countermeasure against Magics.\nPassive: + 25 Armor\n+1250 Max Health\n+ 5% Magic Resist"; }
+        get { return "Legion Shield\nThe first countermeasure against Magics.\n+5 Armor\n+10 Magic Resistance\n+200 Max Health\n+50 Max Mana"; }
     }
 }

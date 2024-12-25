@@ -50,6 +50,7 @@ public class SkillController : MonoBehaviour
     public void Trigger() //khi ấn button lệnh ở đây
     {
         if (m_isTriggered || m_isCooldowning) return;
+        Singleton<CameraController>.Instance.isMoveCameraUp = true;
         m_isCooldowning = true;
         // skillManager.RemoveSkill(skillName);
         if (triggerSoundFX) Singleton<AudioManager>.Instance.PlaySound(triggerSoundFX);

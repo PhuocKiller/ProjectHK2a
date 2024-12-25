@@ -1122,7 +1122,7 @@ MonoBehaviour:
   _maxHealth: 400
   _maxMana: 0
   _damage: 0
-  _defend: 8
+  _defend: 5
   _magicResistance: 5
   _magicAmpli: 0
   _criticalChance: 0

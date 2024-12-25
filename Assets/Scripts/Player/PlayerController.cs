@@ -142,7 +142,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         }
         if (!playerStat.isBeingStun && (state == 0 || state == 5 || state == 1))
         {
-
             CalculateMove();
             CalculateJump();
         }
@@ -305,7 +304,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
             if (moveDirection.magnitude > 0)
             {
-
+                Singleton<CameraController>.Instance.isMoveCameraUp = true;
                 NoTeleAnyMore();
                 if (gameManager.state == GameState.InGame)
                 {

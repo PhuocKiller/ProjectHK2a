@@ -18,6 +18,6 @@ public class OldStaff : InventoryItemBase
     }
     public override string Info
     {
-        get { return "Old Staff\nHow is this staff still working?\n+ 20 Damage\n+ 20% Magic Amp"; }
+        get { return "Old Staff\nHow is this staff still working?\n+50 Max Mana\n+60% Magic Amplication\n+5 Movement Speed"; }
     }
 }

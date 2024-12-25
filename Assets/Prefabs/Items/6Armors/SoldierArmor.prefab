@@ -1124,7 +1124,7 @@ MonoBehaviour:
   _maxMana: 0
   _damage: 0
   _defend: 5
-  _magicResistance: 7
+  _magicResistance: 8
   _magicAmpli: 0
   _criticalChance: 0
   _criticalDamage: 0
