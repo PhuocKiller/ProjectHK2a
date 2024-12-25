@@ -1,4 +1,5 @@
 using Fusion;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,11 +22,27 @@ public class RoomGame : MonoBehaviour
         gameNetworkCallBack.OnPlayerJoinRegister(PlayerJoinRoom);
         gameNetworkCallBack.onPlayerLeft += UpdateUI;
         roomNameText.text = runner.SessionInfo.Name;
+        foreach (Transform child in darkTeamParent)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in lightTeamParent)
+        {
+            Destroy(child.gameObject);
+        }
     }
     private void OnDisable()
     {
         gameNetworkCallBack.OnPlayerJoinUnRegister(PlayerJoinRoom);
         gameNetworkCallBack.onPlayerLeft -= UpdateUI;
+        foreach (Transform child in darkTeamParent)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in lightTeamParent)
+        {
+            Destroy(child.gameObject);
+        }
     }
     private void PlayerJoinRoom(NetworkRunner m_runner, PlayerRef player)
     {
@@ -34,7 +51,6 @@ public class RoomGame : MonoBehaviour
     }
     void UpdateUI(NetworkRunner m_runner, PlayerRef player)
     {
-        playBtn.interactable = runner.IsSharedModeMasterClient;
         foreach (Transform child in darkTeamParent)
         {
             Destroy(child.gameObject);
@@ -54,6 +70,14 @@ public class RoomGame : MonoBehaviour
                 = namePlayer.Substring(0, namePlayer.Length - 2);
             playerPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = playerImages[playerIndex];
         }
+        StartCoroutine(CheckPlayerBtn());
+    }
+    IEnumerator CheckPlayerBtn()
+    {
+        yield return null;
+        playBtn.interactable =( runner.IsSharedModeMasterClient
+            && darkTeamParent.childCount == lightTeamParent.childCount)
+            || darkTeamParent.childCount==1 || lightTeamParent.childCount==1;
     }
     public void PlayGame()
     {

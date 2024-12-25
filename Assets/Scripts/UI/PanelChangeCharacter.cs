@@ -8,12 +8,20 @@ public class PanelChangeCharacter : MonoBehaviour
 {
     public bool isChoseTeam, isChosePlayer;
     [SerializeField] Button darkTeamBtn, lightTeamBtn, fastGameBtn, networkBtn,
-        darkNightBtn,dumbleBtn,ryanBtn,sagiBtn,teslaBtn,vikingBtn;
+        darkNightBtn,dumbleBtn,ryanBtn,sagiBtn,teslaBtn,vikingBtn, characBtn;
     [SerializeField] GameObject passwordConfirmPanel;
+    [SerializeField] TMP_InputField roomNameField, passwordField;
     string passwordToConfirm;
     private void OnEnable()
     {
         isChoseTeam = false; isChosePlayer = false;
+        fastGameBtn.interactable = false;
+        networkBtn.interactable = false;
+        ButtonBackWhite();
+        HideAllMenuCharac();
+    }
+    void ButtonBackWhite()
+    {
         darkTeamBtn.GetComponent<Image>().color = Color.white;
         lightTeamBtn.GetComponent<Image>().color = Color.white;
         darkNightBtn.GetComponent<Image>().color = Color.white;
@@ -23,10 +31,20 @@ public class PanelChangeCharacter : MonoBehaviour
         teslaBtn.GetComponent<Image>().color = Color.white;
         vikingBtn.GetComponent<Image>().color = Color.white;
     }
+    void HideAllMenuCharac()
+    {
+        darkNightBtn.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        dumbleBtn.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        ryanBtn.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        sagiBtn.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        teslaBtn.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        vikingBtn.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+    }
     private void OnDisable()
     {
         isChoseTeam = false; isChosePlayer = false;
     }
+    #region playerButton
     public void DarkteamBtn()
     {
         darkTeamBtn.GetComponent<Image>().color=Color.green;
@@ -139,6 +157,7 @@ public class PanelChangeCharacter : MonoBehaviour
             networkBtn.interactable = true;
         }
     }
+    #endregion
     public void ActivePasswordConfirmPanel(string passwordToConfirm)
     {
         passwordConfirmPanel.SetActive(true);
@@ -157,5 +176,10 @@ public class PanelChangeCharacter : MonoBehaviour
             Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.error);
         }
         btn.transform.parent.GetChild(0).GetComponent<TMP_InputField>().text = "";
+    }
+    public void ResetRoomPassWhenCreat()
+    {
+        roomNameField.text = "";
+        passwordField.text = "";
     }
 }

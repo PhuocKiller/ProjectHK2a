@@ -43,6 +43,7 @@ public class ItemsManager : MonoBehaviour
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         this.player = player;
     }
+    #region LoadStat
     void LoadStatItems()
     {
         LoadStatBasicItems();
@@ -101,6 +102,7 @@ public class ItemsManager : MonoBehaviour
             imageItem.sprite = networkManager.bootItems[index].GetComponent<IInventoryItem>().Image;
         }
     }
+    #endregion
     public void UpdatePrice(Transform thisBtn)
     {
         string parentName=thisBtn.parent.name;
