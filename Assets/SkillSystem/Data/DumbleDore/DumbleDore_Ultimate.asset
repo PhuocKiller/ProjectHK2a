@@ -21,9 +21,19 @@ MonoBehaviour:
   triggerSoundFX: {fileID: 8300000, guid: 26483599d7f3ae8419d3159aa59f8972, type: 3}
   levelDamages: 00000000320000006400000096000000c8000000
   isPhysicDamage: 0
-  isMakeStun: 1
-  isMakeSlow: 0
+  isMakeStun: 0
+  isMakeSlow: 1
   isMakeSilen: 0
-  timeEffect: 0.5
+  timeEffect: 2
   VfxEffect: {fileID: 4974241977427462673, guid: d223d896fbfed854c909e6cee1bedbca, type: 3}
-  info: 
+  skillInfo: 'Summon the power of the cosmos, causing a series of meteors to fall
+    upon the location Dumbledore designates, slowing all targets.
+
+    Damage:{d1}/{d2}/{d3}/{d4}
+
+    Mana
+    Cost: {m1}/{m2}/{m3}/{m4}
+
+    Slow Duration: {timeEffect}
+
+'

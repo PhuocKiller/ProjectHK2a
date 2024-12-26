@@ -22,8 +22,11 @@ MonoBehaviour:
   levelDamages: 0000000000000000
   isPhysicDamage: 1
   isMakeStun: 0
-  isMakeSlow: 1
+  isMakeSlow: 0
   isMakeSilen: 0
   timeEffect: 1
   VfxEffect: {fileID: 2731230676116146205, guid: 58cc1d4b079cb3d439006b04187f2145, type: 3}
-  info: 
+  skillInfo: 'After defeating 9 minions or monsters, Dumbledore will heal.
+
+    When
+    participating in a champion takedown, he will heal even more'

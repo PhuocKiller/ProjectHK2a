@@ -26,4 +26,7 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 1477666970011942859, guid: 8325c19a1071b8a43bbebbc4beba4b9c, type: 3}
-  info: 
+  skillInfo: 'Call upon the power of the ancient kings to shield him from damage
+
+    Block
+    Damage: {d1}'

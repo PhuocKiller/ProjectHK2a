@@ -26,4 +26,8 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 4941050230053513004, guid: 17eebef9873e2ad4693af0ea8ce642d6, type: 3}
-  info: 
+  skillInfo: 'Create a shield for Dumbledore that reduces the cooldown time of all
+    his skills and deals damage to enemies attacking with attacks or skills.
+
+    Mana
+    Cost: {m1}/{m2}/{m3}/{m4}'

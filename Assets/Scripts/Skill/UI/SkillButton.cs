@@ -68,6 +68,10 @@ public class SkillButton : MonoBehaviour
         m_skillController.OnCooldownStop.RemoveListener(UpdateUI);
         m_skillController.OnNoItem.RemoveListener(NoItem);
     }
+    private void OnDestroy()
+    {
+        UnRegisterEvent();
+    }
     #endregion
 
 
@@ -248,12 +252,11 @@ public class SkillButton : MonoBehaviour
                 if (!canActive || m_skillName == SkillName.NoSkill) return;
             }
         }
-
-        Debug.Log(state);
-        if (shouldInvokeClick &&m_skillController != null && !m_skillController.IsCooldowning
+        if (m_skillController != null && !m_skillController.IsCooldowning
             && levelSkill != 0 && player.playerStat.currentMana >= manaCost
             && state == 0 && !player.playerStat.isBeingStun)
         {
+            if (!shouldInvokeClick) return;
             if (skillButtonType == SkillButtonTypes.Jump)
             {
                 player.Jump(VfxEffect);
@@ -300,10 +303,7 @@ public class SkillButton : MonoBehaviour
         }
     }
     #endregion
-    private void OnDestroy()
-    {
-        UnRegisterEvent();
-    }
+    
     #region Pointer
     public void PointerDown() //khóa camera khi giữ chuột trái tại skill
     {
@@ -339,24 +339,22 @@ public class SkillButton : MonoBehaviour
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         player.gameObject.GetComponent<SkillDirection>().GetMouseUp(out Vector3? posMouseUp);
         
-        if (!shouldInvokeClick|| m_skillController == null || m_skillController.IsCooldowning
+        if (m_skillController == null || m_skillController.IsCooldowning
                 || levelSkill == 0 || player.playerStat.currentMana < manaCost || state != 5
-                || skillType != SkillTypes.Direction_Active || player.playerStat.isBeingStun
-                || player.playerStat.isBeingSilen) return;
+                || skillType != SkillTypes.Direction_Active) return;
         player.state = 0;
-        if (posMouseUp != null)
-        {
-            this.posMouseUp = posMouseUp;
-        }
-        else if (player.playerStat.isFollowEnemy)
+        if (player.playerStat.isFollowEnemy)
         {
             this.posMouseUp = player.overlapSphere.closestEnemyPlayer.transform.position;
+        }
+        else if (posMouseUp != null)
+        {
+            this.posMouseUp = posMouseUp;
         }
         else
         {
             this.posMouseUp = player.transform.position + player.transform.forward * 20;
         }
-        
         m_btnComp.onClick.Invoke();
     }
     #endregion

@@ -21,9 +21,19 @@ MonoBehaviour:
   triggerSoundFX: {fileID: 8300000, guid: 027acc4963eba334b9329a66020dc498, type: 3}
   levelDamages: 0000000064000000af000000fa00000045010000
   isPhysicDamage: 0
-  isMakeStun: 1
-  isMakeSlow: 0
+  isMakeStun: 0
+  isMakeSlow: 1
   isMakeSilen: 0
   timeEffect: 4
   VfxEffect: {fileID: 2258647869133413994, guid: 33ca047ed9930b6498588fd4f4d1d44a, type: 3}
-  info: 
+  skillInfo: 'Dumbledore launches a fireball that deals damage, makes slow to enemies,
+    and restores lost energy if it kills the target
+
+    Damage:{d1}/{d2}/{d3}/{d4}
+
+    Mana
+    Cost: {m1}/{m2}/{m3}/{m4}
+
+    Slow Duration: {timeEffect}
+
+'
