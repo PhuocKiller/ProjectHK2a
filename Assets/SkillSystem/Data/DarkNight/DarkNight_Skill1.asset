@@ -26,4 +26,11 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 2
   VfxEffect: {fileID: 6439487993757146498, guid: 30b3672ab749f2b44af957dbeef1c399, type: 3}
-  info: 
+  skillInfo: 'Deals magic damage to an enemy and stuns the target
+
+    Damage:{d1}/{d2}/{d3}/{d4}
+
+    Mana
+    Cost: {m1}/{m2}/{m3}/{m4}
+
+    Stun Duration: {timeEffect}'

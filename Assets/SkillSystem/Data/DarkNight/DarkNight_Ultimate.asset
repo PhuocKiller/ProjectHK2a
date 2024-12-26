@@ -26,4 +26,12 @@ MonoBehaviour:
   isMakeSilen: 1
   timeEffect: 5
   VfxEffect: {fileID: 2865572806765571778, guid: 386b6ca9638bf584987276c026e26718, type: 3}
-  info: 
+  skillInfo: 'DarkNight unleashes a flurry of slashes around himself, dealing significant
+    damage based on the percentage of the target''s missing health
+
+    Damage:{d1}/{d2}/{d3}/{d4}
+
+    Mana
+    Cost: {m1}/{m2}/{m3}/{m4}
+
+    Silen Duration: {timeEffect}'

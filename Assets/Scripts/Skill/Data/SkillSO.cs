@@ -20,6 +20,7 @@ public class SkillSO : ScriptableObject
     public bool isMakeSilen;
     public float timeEffect;
     public NetworkObject VfxEffect;
-    public string info;
+    [TextArea(3, 10)] public string skillInfo;
+    
 }
 

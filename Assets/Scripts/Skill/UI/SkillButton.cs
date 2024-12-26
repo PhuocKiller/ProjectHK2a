@@ -44,7 +44,13 @@ public class SkillButton : MonoBehaviour
     [SerializeField] float timeEffect;
     [SerializeField] public int levelSkill;
     [SerializeField] int damageSkill, manaCost;
+    public string skillInfo;
+    public string fullNameSkill;
     Vector3? posMouseUp;
+    private float holdTime = 0.5f;  // Thời gian giữ nút
+    private float timer = 0f;     // Bộ đếm thời gian giữ nút
+    private bool isHolding;
+    private bool shouldInvokeClick;
     #region EVENTS
     void RegisterEvent()
     {
@@ -85,6 +91,17 @@ public class SkillButton : MonoBehaviour
     }
     private void Update()
     {
+        if(isHolding)
+        {
+            timer += Time.deltaTime;
+            if (timer >= holdTime)
+            {
+                ShowInfoSkill();  // Thực hiện hành động sau khi giữ đủ lâu
+                isHolding = false; // Dừng lại khi đã giữ đủ lâu
+                timer = 0f;        // Reset bộ đếm
+                shouldInvokeClick = false;
+            }
+        }
         if (player == null || skillButtonType == SkillButtonTypes.Jump ||
             skillButtonType == SkillButtonTypes.NormalAttack || skillButtonType == SkillButtonTypes.Teleport) return;
         skillLevelImage.fillAmount = levelSkill * 0.25f;
@@ -105,10 +122,6 @@ public class SkillButton : MonoBehaviour
             int maxSkillPointCanHave = Mathf.CeilToInt((float)player.playerStat.level / 3);
             AddSkill_LevelBtn.gameObject.SetActive(levelSkill < maxSkillPointCanHave && levelSkill < 4 && player.playerStat.levelPoint > 0);
         }
-
-
-
-
     }
     public void Initialize(SkillName skillName)
     {
@@ -139,10 +152,12 @@ public class SkillButton : MonoBehaviour
             levelManaCosts[i] = m_skillController.skillStat.levelManaCosts[i];
         }
         UpdateUI();
-
         RegisterEvent();
         if (skillType == SkillTypes.Items) levelSkill = 1;
         CalculateDamageAndManaCost();
+        skillInfo = m_skillController.skillStat.skillInfo;
+        GetFormattedInfo(levelDamages[1],levelDamages[2],levelDamages[3],levelDamages[4],
+            levelManaCosts[1], levelManaCosts[2], levelManaCosts[3], levelManaCosts[4], timeEffect);
     }
 
     private void UpdateUI()
@@ -218,7 +233,7 @@ public class SkillButton : MonoBehaviour
             manaCost = levelManaCosts[levelSkill];
         }
     }
-
+    #region Trigger SKill
     void TriggerSkill()
     {
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
@@ -233,7 +248,9 @@ public class SkillButton : MonoBehaviour
                 if (!canActive || m_skillName == SkillName.NoSkill) return;
             }
         }
-        if (m_skillController != null && !m_skillController.IsCooldowning
+
+        Debug.Log(state);
+        if (shouldInvokeClick &&m_skillController != null && !m_skillController.IsCooldowning
             && levelSkill != 0 && player.playerStat.currentMana >= manaCost
             && state == 0 && !player.playerStat.isBeingStun)
         {
@@ -282,12 +299,17 @@ public class SkillButton : MonoBehaviour
             Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.error);
         }
     }
+    #endregion
     private void OnDestroy()
     {
         UnRegisterEvent();
     }
+    #region Pointer
     public void PointerDown() //khóa camera khi giữ chuột trái tại skill
     {
+        isHolding = true;
+        timer = 0f;  
+        shouldInvokeClick = true;
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         if (m_skillController == null || m_skillController.IsCooldowning
             || levelSkill == 0 || player.playerStat.currentMana < manaCost || state != 0
@@ -299,6 +321,8 @@ public class SkillButton : MonoBehaviour
     }
     public void PointDrag()
     {
+        isHolding = false;
+        timer = 0f;
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         if (m_skillController == null || m_skillController.IsCooldowning
              || levelSkill == 0 || player.playerStat.currentMana < manaCost || state != 5
@@ -310,12 +334,16 @@ public class SkillButton : MonoBehaviour
     }
     public void PointerUp()
     {
+        isHolding = false;
+        timer = 0f;
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
-        if (m_skillController == null || m_skillController.IsCooldowning
+        player.gameObject.GetComponent<SkillDirection>().GetMouseUp(out Vector3? posMouseUp);
+        
+        if (!shouldInvokeClick|| m_skillController == null || m_skillController.IsCooldowning
                 || levelSkill == 0 || player.playerStat.currentMana < manaCost || state != 5
                 || skillType != SkillTypes.Direction_Active || player.playerStat.isBeingStun
                 || player.playerStat.isBeingSilen) return;
-        player.gameObject.GetComponent<SkillDirection>().GetMouseUp(out Vector3? posMouseUp);
+        player.state = 0;
         if (posMouseUp != null)
         {
             this.posMouseUp = posMouseUp;
@@ -328,8 +356,26 @@ public class SkillButton : MonoBehaviour
         {
             this.posMouseUp = player.transform.position + player.transform.forward * 20;
         }
-        player.state = 0;
+        
         m_btnComp.onClick.Invoke();
+    }
+    #endregion
+    void ShowInfoSkill()
+    {
+        FindObjectOfType<AbilityPlayer>().ShowInfoSkill(this);
+    }
+    public string GetFormattedInfo(int d1,int d2,int d3,int d4,int m1,int m2,int m3,int m4, float timeEffect)
+    {
+        skillInfo= skillInfo.Replace("{d1}", d1.ToString());
+        skillInfo = skillInfo.Replace("{d2}", d2.ToString());
+        skillInfo = skillInfo.Replace("{d3}", d3.ToString());
+        skillInfo = skillInfo.Replace("{d4}", d4.ToString());
+        skillInfo = skillInfo.Replace("{m1}", m1.ToString());
+        skillInfo = skillInfo.Replace("{m2}", m2.ToString());
+        skillInfo = skillInfo.Replace("{m3}", m3.ToString());
+        skillInfo = skillInfo.Replace("{m4}", m4.ToString());
+        skillInfo = skillInfo.Replace("{timeEffect}", timeEffect.ToString());
+        return skillInfo;
     }
 }
 

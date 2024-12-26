@@ -26,4 +26,10 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0.5
   VfxEffect: {fileID: 5172160001909256603, guid: fff7f279e72ca2842b2c5c4fdc43c7bf, type: 3}
-  info: 
+  skillInfo: 'The first hit by DarkNight on an enemy deals additional physical damage
+    based on the target''s current health.
+
+    This effect cannot occur on the same
+    enemy within a few seconds
+
+'

@@ -26,4 +26,7 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 1477666970011942859, guid: fa2b926f83196634f9137b8a28440e5d, type: 3}
-  info: 
+  skillInfo: 'Call upon the power of the ancient kings to shield him from damage
+    and increase DarkNight''s running speed
+
+    Block Damage: {d1}/{d2}/{d3}/{d4}'
