@@ -42,7 +42,7 @@ public class StatusCanvas : NetworkBehaviour
             minimapImage.color = player.playerTeam == 0 ? Color.red : (player.playerTeam == 1 ? Color.blue : Color.magenta);
             if (HasStateAuthority)
             {
-                fixPosInjureDamage = injureDamage.GetComponent<RectTransform>().position;
+                fixPosInjureDamage = injureDamage.GetComponent<RectTransform>().localPosition;
             }
         }
     }

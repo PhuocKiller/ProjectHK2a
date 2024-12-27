@@ -57,7 +57,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4b50c437a8ff3664ebcc4a709275b8d2, type: 2}
+  m_Motion: {fileID: 7400000, guid: 43875d802b2e0b0439f174934fa44047, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -110,7 +110,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: d5e1a3e942edaae4aab8019b75aff7c9, type: 3}
+  m_Motion: {fileID: 7400000, guid: 60dd7ef4512a4404896e945d3004f2b6, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -162,7 +162,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Batlord
+  m_Name: Turtle
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Speed
@@ -248,7 +248,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0e03921278d074f40a660c7956836a58, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6bd454983bde1714da47ff426ebb6d1f, type: 2}
   m_Tag: 
   m_SpeedParameter: AttackSpeed
   m_MirrorParameter: 
@@ -373,7 +373,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 3a7b770ccb577aa4386ac24889c73b6b, type: 2}
+  m_Motion: {fileID: 7400000, guid: eee9d7beb7b440a58147d924f277c7ce, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
