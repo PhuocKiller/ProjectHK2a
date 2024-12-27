@@ -30,11 +30,11 @@ public class InviManager : NetworkBehaviour
             {
                 for (int i = 0; i < meshRenderers.Length; i++)
                 {
-                    ControlMaterial(3, meshRenderers[i].material, meshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime, 3000);
+                    ControlMaterial(3, meshRenderers[i].material, meshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime, 5000);
                 }
                 for (int i = 0; i < skinnedMeshRenderers.Length; i++)
                 {
-                    ControlMaterial(3, skinnedMeshRenderers[i].material, skinnedMeshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime, 3000);
+                    ControlMaterial(3, skinnedMeshRenderers[i].material, skinnedMeshRenderers[i].material.color.a - 0.4f * Runner.DeltaTime, 5000);
                 }
                 if (meshRenderers[0].material.color.a < 0.4f || skinnedMeshRenderers[0].material.color.a < 0.4f)
                 {
@@ -86,11 +86,11 @@ public class InviManager : NetworkBehaviour
         /*material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
         material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
         material.SetInt("_ZWrite", 0);*/
-        material.DisableKeyword("_ALPHATEST_ON");
+       // material.DisableKeyword("_ALPHATEST_ON");
         material.EnableKeyword("_ALPHABLEND_ON");
-        material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        //material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
         material.renderQueue = renderQueue;
-        material.SetFloat("_Glossiness", 0);
+       // material.SetFloat("_Glossiness", 0);
     }
     public void BackDefaultMaterial()
     {
