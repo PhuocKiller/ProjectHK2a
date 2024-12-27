@@ -26,4 +26,14 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 2440589494968466578, guid: 5918f0369ce31dd4a939c7797cabd7d8, type: 3}
-  info: 
+  skillInfo: 'Sagittarius casts on himself or an ally to create a shield while enhancing
+    their attacks.
+
+    Block Damage: {d1}/{d2}/{d3}/{d4}
+
+    Mana Cost: {m1}/{m2}/{m3}/{m4}
+
+    Cooldown
+    Time: {cd} seconds
+
+    Shield Duration: {timeTrigger}'

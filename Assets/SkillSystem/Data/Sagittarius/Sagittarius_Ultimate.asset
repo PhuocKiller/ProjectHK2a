@@ -26,4 +26,13 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0.5
   VfxEffect: {fileID: 7301577350532398276, guid: 1df6ea42f18061d49bcd663fccea81e3, type: 3}
-  info: 
+  skillInfo: 'Summon a radiant circle of light that heals you and your allies within
+    its radius. Enemies inside the circle take continuous damage, weakened by the
+    pure energy of the light.
+
+    Mana Cost: {m1}/{m2}/{m3}/{m4}
+
+    Cooldown Time:
+    {cd} seconds
+
+    Circle Duration: {timeTrigger}'

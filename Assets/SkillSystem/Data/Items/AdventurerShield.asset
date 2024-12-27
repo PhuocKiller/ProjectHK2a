@@ -29,4 +29,8 @@ MonoBehaviour:
   skillInfo: 'Call upon the power of the ancient kings to shield him from damage
 
     Block
-    Damage: {d1}'
+    Damage: {d1}
+
+    Cooldown Time: {cd} seconds
+
+    Shield Duration: {timeTrigger}'

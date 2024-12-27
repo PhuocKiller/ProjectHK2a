@@ -26,4 +26,10 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 5007046916553812932, guid: 429147d542a7de446b50eb063a5428b0, type: 3}
-  info: 
+  skillInfo: 'Unleash your inner agility, boosting your running speed by 40 and attack
+    speed 20 for 5 seconds. Perfect for quickly closing gaps or escaping dangerous
+    situations
+
+    Mana Cost: {m1
+
+    Cooldown Time: {cd} seconds'

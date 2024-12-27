@@ -15,15 +15,25 @@ MonoBehaviour:
   skillName: 15
   skillType: 2
   timerTrigger: 5
-  cooldownTime: 10
+  cooldownTime: 12
   levelManaCosts: 000000000f00000014000000190000001e000000
   skillIcon: {fileID: 21300000, guid: 8e39d808fe2172b479cb294cb7eb23be, type: 3}
   triggerSoundFX: {fileID: 8300000, guid: c9164a54973ee7c4bb23532600ae3a09, type: 3}
-  levelDamages: 000000004b00000096000000e10000002c010000
+  levelDamages: 000000007d000000fa00000077010000f4010000
   isPhysicDamage: 0
   isMakeStun: 0
-  isMakeSlow: 1
-  isMakeSilen: 0
-  timeEffect: 4
+  isMakeSlow: 0
+  isMakeSilen: 1
+  timeEffect: 6
   VfxEffect: {fileID: 6936177063617485491, guid: 8d84442e07fd73a4f820318ca9e2588d, type: 3}
-  info: 
+  skillInfo: 'Tesla throws a grenade that deals massive damage to the targeted area
+    and silens all enemies.
+
+    Damage:{d1}/{d2}/{d3}/{d4}
+
+    Mana Cost: {m1}/{m2}/{m3}/{m4}
+
+    Cooldown
+    Time: {cd} seconds
+
+    Silen Duration: {timeEffect}'

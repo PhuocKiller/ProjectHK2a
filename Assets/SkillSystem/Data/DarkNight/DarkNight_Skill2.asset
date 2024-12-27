@@ -29,4 +29,12 @@ MonoBehaviour:
   skillInfo: 'Call upon the power of the ancient kings to shield him from damage
     and increase DarkNight''s running speed
 
-    Block Damage: {d1}/{d2}/{d3}/{d4}'
+    Block Damage: {d1}/{d2}/{d3}/{d4}
+
+    Mana
+    Cost: {m1}/{m2}/{m3}/{m4}
+
+    Cooldown Time: {cd} seconds
+
+    Shield Duration:
+    {timeTrigger}'

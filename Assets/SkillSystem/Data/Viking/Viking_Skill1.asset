@@ -26,4 +26,14 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 4
   VfxEffect: {fileID: 5796237315547235339, guid: e1998840ab8f1cb4aa3e9166ea2be1da, type: 3}
-  info: 
+  skillInfo: 'Viking throws an axe, dealing damage to enemies and slowing them
+
+    Damage:{d1}/{d2}/{d3}/{d4}
+
+    Mana
+    Cost: {m1}/{m2}/{m3}/{m4}
+
+    Cooldown Time: {cd} seconds
+
+    Slow Duration:
+    {timeEffect}'

@@ -22,8 +22,16 @@ MonoBehaviour:
   levelDamages: 0000000000000000000000000000000000000000
   isPhysicDamage: 1
   isMakeStun: 0
-  isMakeSlow: 1
+  isMakeSlow: 0
   isMakeSilen: 0
-  timeEffect: 4
+  timeEffect: 0
   VfxEffect: {fileID: 1433071667842740772, guid: 4dce0892078fd8b4594a5a28de165f34, type: 3}
-  info: 
+  skillInfo: 'Ryan throws a smoke screen and instantly dashes to the enemy. Ryan
+    gains increased attack speed within the area of effect
+
+    Smoke Duration: {timeTrigger}
+
+    Mana
+    Cost: {m1}/{m2}/{m3}/{m4
+
+    Cooldown Time: {cd} seconds'

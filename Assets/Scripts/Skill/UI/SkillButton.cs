@@ -160,8 +160,9 @@ public class SkillButton : MonoBehaviour
         if (skillType == SkillTypes.Items) levelSkill = 1;
         CalculateDamageAndManaCost();
         skillInfo = m_skillController.skillStat.skillInfo;
-        GetFormattedInfo(levelDamages[1],levelDamages[2],levelDamages[3],levelDamages[4],
-            levelManaCosts[1], levelManaCosts[2], levelManaCosts[3], levelManaCosts[4], timeEffect);
+        GetFormattedInfo(levelDamages[1], levelDamages[2], levelDamages[3], levelDamages[4],
+            levelManaCosts[1], levelManaCosts[2], levelManaCosts[3], levelManaCosts[4],
+            timerTrigger, timeEffect, m_skillController.skillStat.cooldownTime);
     }
 
     private void UpdateUI()
@@ -299,7 +300,7 @@ public class SkillButton : MonoBehaviour
         }
         else
         {
-            Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.error);
+          //  Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.error);
         }
     }
     #endregion
@@ -362,7 +363,8 @@ public class SkillButton : MonoBehaviour
     {
         FindObjectOfType<AbilityPlayer>().ShowInfoSkill(this);
     }
-    public string GetFormattedInfo(int d1,int d2,int d3,int d4,int m1,int m2,int m3,int m4, float timeEffect)
+    public string GetFormattedInfo(int d1,int d2,int d3,int d4,int m1,int m2,int m3,int m4,
+        float timeTrigger, float timeEffect, float cooldown)
     {
         skillInfo= skillInfo.Replace("{d1}", d1.ToString());
         skillInfo = skillInfo.Replace("{d2}", d2.ToString());
@@ -372,7 +374,9 @@ public class SkillButton : MonoBehaviour
         skillInfo = skillInfo.Replace("{m2}", m2.ToString());
         skillInfo = skillInfo.Replace("{m3}", m3.ToString());
         skillInfo = skillInfo.Replace("{m4}", m4.ToString());
+        skillInfo = skillInfo.Replace("{timeTrigger}", timeTrigger.ToString());
         skillInfo = skillInfo.Replace("{timeEffect}", timeEffect.ToString());
+        skillInfo = skillInfo.Replace("{cd}", cooldown.ToString());
         return skillInfo;
     }
 }

@@ -14,16 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 14
   skillType: 3
-  timerTrigger: 10
+  timerTrigger: 12
   cooldownTime: 20
   levelManaCosts: 000000000f00000014000000190000001e000000
   skillIcon: {fileID: 21300000, guid: 7d8a4197f5e890f47a14597ba73f3af7, type: 3}
   triggerSoundFX: {fileID: 8300000, guid: 902364ac54cb4884f98f5586cbba8007, type: 3}
-  levelDamages: 0000000096000000c8000000fa0000002c010000
+  levelDamages: 0000000000000000000000000000000000000000
   isPhysicDamage: 0
   isMakeStun: 0
   isMakeSlow: 0
   isMakeSilen: 1
   timeEffect: 4
   VfxEffect: {fileID: 5007046916553812932, guid: d1fe6d44c4205ae48ab4321905a7417d, type: 3}
-  info: 
+  skillInfo: 'Tesla gains movement speed and attack speed based on level
+
+    Move
+    Speed: 30/60/90/120
+
+    Attack Speed: 20/40/60/80
+
+    Mana Cost: {m1}/{m2}/{m3}/{m4}
+
+    Cooldown
+    Time: {cd} seconds
+
+    Effect Duration: {timeTrigger}'

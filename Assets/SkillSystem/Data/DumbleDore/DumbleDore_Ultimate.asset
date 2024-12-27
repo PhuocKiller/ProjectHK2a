@@ -34,6 +34,9 @@ MonoBehaviour:
     Mana
     Cost: {m1}/{m2}/{m3}/{m4}
 
-    Slow Duration: {timeEffect}
+    Cooldown Time: {cd} seconds
+
+    Slow Duration:
+    {timeEffect}
 
 '

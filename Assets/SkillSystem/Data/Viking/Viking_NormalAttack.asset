@@ -22,8 +22,9 @@ MonoBehaviour:
   levelDamages: 000000000a000000
   isPhysicDamage: 1
   isMakeStun: 0
-  isMakeSlow: 1
+  isMakeSlow: 0
   isMakeSilen: 0
   timeEffect: 0.5
   VfxEffect: {fileID: 2517323084352533629, guid: 39c9aab0de11d9f4bbdbf8227f5b55e3, type: 3}
-  info: 
+  skillInfo: Viking gains additional attack speed and lifesteal based on the health
+    he has lost

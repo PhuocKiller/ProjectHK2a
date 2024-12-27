@@ -26,4 +26,16 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 6342372748393257929, guid: ac9dd74917b5923478047f2bc54fef04, type: 3}
-  info: 
+  skillInfo: 'When cast on yourself, instantly heal for a portion of your health
+    and increase your movement speed and attack speed. When cast on an enemy, deal
+    damage and reduce their movement and attack speed.
+
+    Heal/Damage:{d1}/{d2}/{d3}/{d4}
+
+    Mana
+    Cost: {m1}/{m2}/{m3}/{m4}
+
+    Cooldown Time: {cd} seconds
+
+    Buff/Debuff Time:
+    {timeTrigger}'

@@ -26,4 +26,10 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 7727614483956060239, guid: 5af54a8e7f80cf74793509a01c14fc90, type: 3}
-  info: 
+  skillInfo: 'Become invisible for 10 seconds, evading enemies and moving undetected.
+    Perfect for ambushes or retreating to safety
+
+    Mana Cost: {m1
+
+    Cooldown
+    Time: {cd} seconds'

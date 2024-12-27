@@ -20,10 +20,11 @@ MonoBehaviour:
   skillIcon: {fileID: 21300000, guid: b80b374479e3bbf42ada6618948e9dbc, type: 3}
   triggerSoundFX: {fileID: 8300000, guid: 1e6aeda5f92b92649b2f78dfdfb92dc9, type: 3}
   levelDamages: 0000000000000000
-  isPhysicDamage: 0
+  isPhysicDamage: 1
   isMakeStun: 0
   isMakeSlow: 0
   isMakeSilen: 0
   timeEffect: 1
   VfxEffect: {fileID: 134134790892129091, guid: 7be5ce509da431c42b53d7f9ae9ddc5c, type: 3}
-  info: 
+  skillInfo: Each time Tesla gets a kill or an assist, he temporarily gains power
+    and attack speed.

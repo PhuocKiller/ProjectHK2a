@@ -26,8 +26,17 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 4941050230053513004, guid: 17eebef9873e2ad4693af0ea8ce642d6, type: 3}
-  skillInfo: 'Create a shield for Dumbledore that reduces the cooldown time of all
-    his skills and deals damage to enemies attacking with attacks or skills.
+  skillInfo: 'Create a buff for Dumbledore that increase Magic Resistance, Magic
+    Amplication, and deals damage to enemies attacking with attacks or skills.
 
     Mana
-    Cost: {m1}/{m2}/{m3}/{m4}'
+    Cost: {m1}/{m2}/{m3}/{m4}
+
+    Cooldown Time: {cd} seconds
+
+    Magic Resistance:
+    5/10/15/20
+
+    Magic Amplication: 30%/60%/90%/120%
+
+    Effect Duration: {timeTrigger}'

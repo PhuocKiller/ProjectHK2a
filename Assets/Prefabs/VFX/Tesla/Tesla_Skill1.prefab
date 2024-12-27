@@ -9613,8 +9613,8 @@ MonoBehaviour:
   _magicAmpli: 0
   _criticalChance: 0
   _criticalDamage: 0
-  _moveSpeed: 25
-  _attackSpeed: 10
+  _moveSpeed: 30
+  _attackSpeed: 20
   _lifeSteal: 0
   _levelSkill: 0
   canHeal: 0

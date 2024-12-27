@@ -26,4 +26,9 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 0}
-  info: 
+  skillInfo: 'Teleport to location in front of Player
+
+    Mana Cost: {m1
+
+    Cooldown
+    Time: {cd} seconds'

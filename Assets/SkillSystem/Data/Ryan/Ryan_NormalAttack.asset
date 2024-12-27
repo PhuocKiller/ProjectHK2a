@@ -24,6 +24,7 @@ MonoBehaviour:
   isMakeStun: 0
   isMakeSlow: 0
   isMakeSilen: 0
-  timeEffect: 1
+  timeEffect: 0
   VfxEffect: {fileID: 5172160001909256603, guid: 7bdc5a1e680eaef4f991da4102d80a03, type: 3}
-  info: 
+  skillInfo: After 3 consecutive hits, Ryan will perform a double slash and mark
+    the target

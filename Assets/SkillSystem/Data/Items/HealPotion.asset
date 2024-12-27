@@ -26,4 +26,8 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 6342372748393257929, guid: 4b27b57ec9d05bb46b74f3d2ec86df9f, type: 3}
-  info: 
+  skillInfo: 'Gradually restores 200 character''s health over 10 seconds, like a
+    soothing balm mending wounds, bringing them back to vitality with each passing
+    moment
+
+    Cooldown Time: {cd} seconds'

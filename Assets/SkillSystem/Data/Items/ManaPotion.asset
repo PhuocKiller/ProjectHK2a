@@ -26,4 +26,7 @@ MonoBehaviour:
   isMakeSilen: 0
   timeEffect: 0
   VfxEffect: {fileID: 6342372748393257929, guid: 470f30c6576359f48b2275fb320d2d7c, type: 3}
-  info: 
+  skillInfo: 'Restore 100 mana over 10 seconds, replenishing your energy to continue
+    casting powerful spells
+
+    Cooldown Time: {cd} seconds'

@@ -34,4 +34,7 @@ MonoBehaviour:
     Mana
     Cost: {m1}/{m2}/{m3}/{m4}
 
-    Silen Duration: {timeEffect}'
+    Cooldown Time: {cd} seconds
+
+    Silen Duration:
+    {timeEffect}'
