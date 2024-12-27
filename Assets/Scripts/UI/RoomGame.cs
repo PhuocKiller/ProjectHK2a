@@ -9,10 +9,10 @@ public class RoomGame : MonoBehaviour
     GameNetworkCallBack gameNetworkCallBack;
     [SerializeField] NetworkRunner runner;
     [SerializeField] Sprite[] playerImages;
-    [SerializeField] GameObject playerItem;
+    [SerializeField] GameObject playerItem, coolDownPanel;
     [SerializeField] Transform darkTeamParent, lightTeamParent;
     [SerializeField] Button playBtn;
-    [SerializeField] TextMeshProUGUI roomNameText;
+    [SerializeField] TextMeshProUGUI roomNameText, cooldownTime;
     private void Awake()
     {
         gameNetworkCallBack = FindObjectOfType<GameNetworkCallBack>();
@@ -75,12 +75,17 @@ public class RoomGame : MonoBehaviour
     IEnumerator CheckPlayerBtn()
     {
         yield return null;
-        playBtn.interactable =( runner.IsSharedModeMasterClient
-            && darkTeamParent.childCount == lightTeamParent.childCount)
-            || darkTeamParent.childCount==1 || lightTeamParent.childCount==1;
+        playBtn.interactable = runner.IsSharedModeMasterClient
+            && (darkTeamParent.childCount == lightTeamParent.childCount
+            || darkTeamParent.childCount==1 || lightTeamParent.childCount==1);
     }
     public void PlayGame()
     {
-        FindObjectOfType<GameManager>().GoWaitBeforeStart();
+        FindObjectOfType<GameManager>().GoTransitionState();
+    }
+    public void ControlCooldownTimeBeforePlay(string time, bool active)
+    {
+        coolDownPanel.SetActive(active);
+        cooldownTime.text= time;
     }
 }

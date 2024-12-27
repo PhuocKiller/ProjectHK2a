@@ -109,7 +109,6 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         // statusCanvas.RenderActive(HasStateAuthority,true);
         joystick = FindObjectOfType<Joystick>();
         Login.AddPlayer(this);
-
     }
     public void UIManagerRegisInven()
     {
@@ -119,6 +118,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
     {
         base.FixedUpdateNetwork();
         // CheckPing();
+
         CalculateCanvas();
         CalculateStatusDebuff();
        // if (state != 2) animator.enabled = !playerStat.isBeingStun;
@@ -304,6 +304,8 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
             if (moveDirection.magnitude > 0)
             {
+                
+
                 Singleton<CameraController>.Instance.isMoveCameraUp = true;
                 NoTeleAnyMore();
                 if (gameManager.state == GameState.InGame)

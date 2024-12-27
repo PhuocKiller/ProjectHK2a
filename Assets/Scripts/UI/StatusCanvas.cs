@@ -30,17 +30,17 @@ public class StatusCanvas : NetworkBehaviour
         player=GetComponentInParent<PlayerController>();
         minimapImage.gameObject.SetActive(true);
         networkManager=FindObjectOfType<NetworkManager>();
-        if (!player)
+        if (!player) //ko là player
         {
             creep = GetComponentInParent<CreepController>();
-            isSameTeam= creep.playerTeam== networkManager.playerTeam;
-            minimapImage.color= creep.playerTeam==0? Color.red:(creep.playerTeam ==1? Color.blue:Color.magenta);
+            isSameTeam = creep.playerTeam == networkManager.playerTeam;
+            minimapImage.color = creep.playerTeam == 0 ? Color.red : (creep.playerTeam == 1 ? Color.blue : Color.magenta);
         }
-        else
+        else //là player
         {
             isSameTeam = player.playerTeam == networkManager.playerTeam;
-            minimapImage.color = player.playerTeam == 0 ? Color.red : (creep.playerTeam == 1 ? Color.blue : Color.magenta);
-            if(HasStateAuthority)
+            minimapImage.color = player.playerTeam == 0 ? Color.red : (player.playerTeam == 1 ? Color.blue : Color.magenta);
+            if (HasStateAuthority)
             {
                 fixPosInjureDamage = injureDamage.GetComponent<RectTransform>().position;
             }

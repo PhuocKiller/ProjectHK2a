@@ -99,7 +99,7 @@ public class NetworkManager : MonoBehaviour
               onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
               {
                   obj.GetComponent<BuildingController>().playerTeam = i;
-                  obj.GetComponent<BuildingController>().towerID = 3 + 3 * i;
+                  obj.GetComponent<BuildingController>().towerID = 3;
               });
         }
         for (int i = 0; i < 2; i++)

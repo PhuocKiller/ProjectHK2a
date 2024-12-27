@@ -137,7 +137,7 @@ public class SkillButton : MonoBehaviour
             m_btnComp.onClick.RemoveAllListeners();
             m_btnComp.onClick.AddListener(TriggerSkill);
         }
-
+        
         m_skillController = skillManager.GetSkillController(skillName);
         skillType = m_skillController.skillType;
         VfxEffect = m_skillController.skillStat.VfxEffect;

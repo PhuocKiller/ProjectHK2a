@@ -14,32 +14,44 @@ public enum GameState
 }
 public class GameManager : NetworkBehaviour
 {
-    
+
     [Networked(OnChanged = nameof(CurrentStateChanged))]
     public int currentState { get; set; }
     public ClockManager clock;
     List<PlayerController> playerControllers = new List<PlayerController>();
-   [Networked] public float currentTime { get; set; }
-    [Networked] public TickTimer waitBeforeStartTime {  get; set; }
+    [Networked] public float currentTime { get; set; }
+    [Networked] public TickTimer waitBeforeStartTime { get; set; }
+    [Networked] public TickTimer transitionTime { get; set; }
     [Networked] public int levelCreep { get; set; }
     public Action reachMarkTime;
     public override void Spawned()
     {
         base.Spawned();
         currentState = 1;
-        clock=FindObjectOfType<ClockManager>();
+        clock = FindObjectOfType<ClockManager>();
         levelCreep = 0;
     }
 
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-       if(HasStateAuthority && Object.IsValid)
+        if (HasStateAuthority && Object.IsValid)
         {
-          SyncTime();
+            SyncTime();
         }
-       
-       if(waitBeforeStartTime.ExpiredOrNotRunning(Runner) && currentState==3)
+        if (currentState == 2)
+        {
+            if (transitionTime.ExpiredOrNotRunning(Runner))
+            {
+                GoWaitBeforeStartState();
+                FindObjectOfType<RoomGame>().ControlCooldownTimeBeforePlay("0", false);
+            }
+            else
+            {
+                FindObjectOfType<RoomGame>().ControlCooldownTimeBeforePlay(((int)transitionTime.RemainingTime(Runner)).ToString(), true);
+            }
+        }
+        if (waitBeforeStartTime.ExpiredOrNotRunning(Runner) && currentState == 3)
         {
             currentState = 4;
             currentTime = 0;
@@ -47,7 +59,12 @@ public class GameManager : NetworkBehaviour
             FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
         }
     }
-    public void GoWaitBeforeStart()
+    public void GoTransitionState()
+    {
+        currentState = 2;
+        transitionTime = TickTimer.CreateFromSeconds(Runner, 3.5f);
+    }
+    public void GoWaitBeforeStartState()
     {
         currentState = 3;
         waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 5f);
@@ -87,11 +104,16 @@ public class GameManager : NetworkBehaviour
         changed.LoadNew();
         GameState newState = changed.Behaviour.TypeOfGameState(changed.Behaviour.currentState);
         changed.Behaviour.onCurrentStateChanged?.Invoke(oldState, newState);
-        if(newState==GameState.WaitBeforeStart || newState == GameState.InGame)
+        if (newState == GameState.WaitBeforeStart || newState == GameState.InGame)
         {
             FindObjectOfType<RoomGame>().gameObject.SetActive(false);
             FindObjectOfType<NetworkManager>().onConnected?.Invoke();
+            RenderSettings.fog = true;
             FindObjectOfType<NetworkManager>().SpawnPlayer(changed.Behaviour.Runner, changed.Behaviour.Runner.LocalPlayer);
+        }
+        if (newState == GameState.Transition)
+        {
+
         }
     }
     public void RegisterOnGameStateChanged(Action<GameState, GameState> listener)
@@ -102,18 +124,18 @@ public class GameManager : NetworkBehaviour
     {
         onCurrentStateChanged -= listener;
     }
-    
+
     public void SwitchState(GameState state)
     {
         currentState = (int)state;
     }
     public void SyncTime()
     {
-        if (state == GameState.WaitBeforeStart) currentTime= (float)waitBeforeStartTime.RemainingTime(Runner);
+        if (state == GameState.WaitBeforeStart) currentTime = (float)waitBeforeStartTime.RemainingTime(Runner);
         if (state == GameState.InGame)
         {
-            currentTime +=Runner.DeltaTime;
-            if (Mathf.FloorToInt(currentTime) / 30 > (levelCreep-1))
+            currentTime += Runner.DeltaTime;
+            if (Mathf.FloorToInt(currentTime) / 30 > (levelCreep - 1))
             {
                 levelCreep++;
                 FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
