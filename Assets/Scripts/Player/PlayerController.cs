@@ -128,6 +128,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             {
 
                 playerStat.isLive = true;
+                playerStat.isVisible = true;
                 state = 0;
                 playerStat.currentHealth = playerStat.maxHealth;
                 playerStat.currentMana = playerStat.maxMana;
@@ -145,7 +146,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             CalculateMove();
             CalculateJump();
         }
-        CalculateEXP();
+        
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
     }
@@ -611,15 +612,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
         playerDamage.playerStat.GainCoinWhenKill((int)100 * (playerScore.playersMakeDamages.Count + 1) * playerStat.level / playerScore.playersMakeDamages.Count);
         playerDamage.GetComponent<Tesla>()?.PassiveWhenKill();
     }
-    void CalculateEXP()
-    {
-        if (playerStat.currentXP >= playerStat.maxXP)
-        {
-            playerStat.currentXP -= playerStat.maxXP;
-            playerStat.UpgradeLevel();
-            if (HasStateAuthority) Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.levelUp);
-        }
-    }
+    
     public IEnumerator DelayHideVisualWhenDie()
     {
         yield return new WaitForSeconds(3f);

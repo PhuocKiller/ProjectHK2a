@@ -22,7 +22,7 @@ public class SkillButton : MonoBehaviour
     [SerializeField] Button m_btnComp, AddSkill_LevelBtn;
 
 
-    SkillController m_skillController;
+    public SkillController m_skillController;
     [SerializeField] PlayerController player;
     int m_currentAmount;
     public SkillButtonTypes[] m_skillButtonTypes;
@@ -110,12 +110,12 @@ public class SkillButton : MonoBehaviour
             skillButtonType == SkillButtonTypes.NormalAttack || skillButtonType == SkillButtonTypes.Teleport) return;
         skillLevelImage.fillAmount = levelSkill * 0.25f;
         AddSkill_LevelBtn.gameObject.SetActive(player.playerStat.levelPoint > 0 && levelSkill < 4);
-
+/*
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
             player.playerStat.UpgradeLevel();
-        }
+        }*/
         if (skillButtonType == SkillButtonTypes.Ultimate)
         {
             int maxSkillPointCanHave = (int)(player.playerStat.level / 3);

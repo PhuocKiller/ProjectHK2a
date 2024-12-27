@@ -31,7 +31,7 @@ public class SkillController : MonoBehaviour
     }
     public bool IsTriggered { get => m_isTriggered; }
     public bool IsCooldowning { get => m_isCooldowning; }
-    public float CooldownTime { get => m_cooldownTime; }
+    public float CooldownTime { get => m_cooldownTime;}
     private void Awake()
     {
         skillManager=GetComponentInParent<SkillManager>();
@@ -99,5 +99,9 @@ public class SkillController : MonoBehaviour
         m_isCooldowning=false;
         m_isTriggered=false;
         LoadStat();
+    }
+    public void ResetCoolDownTime()
+    {
+        m_cooldownTime=0;
     }
 }

@@ -367,4 +367,8 @@ public class NetworkManager : MonoBehaviour
             runner.Shutdown(false, forceShutdownProcedure: true);
         }
     }
+    public void QuitApplication()
+    {
+        Application.Quit();
+    }
 }

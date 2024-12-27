@@ -117,12 +117,13 @@ public class PlayerStat : NetworkBehaviour
         levelPoint = 0;
         UpgradeLevel();
         isVisible = true; isLive = true; isLifeSteal = true;
-        coinsValue = 30000;
+        coinsValue = 0;
     }
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
         UpdateFullStat();
+        CalculateEXP();
     }
     public void UpdateBaseStat(int level, int multipleHealth, int multipleMana, int multipleDamage, int multipleDefend,
         int multipleMagicResistance, float multipleMagicAmpli,
@@ -235,6 +236,16 @@ public class PlayerStat : NetworkBehaviour
         if(this!=null)
         {
             Destroy(transform.parent.parent.gameObject);
+        }
+    }
+    void CalculateEXP()
+    {
+        if (level >= 12) return;
+        if (currentXP >= maxXP)
+        {
+            currentXP -= maxXP;
+            UpgradeLevel();
+            if (HasStateAuthority) Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.levelUp);
         }
     }
 }

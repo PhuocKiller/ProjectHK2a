@@ -1,4 +1,4 @@
-using Fusion;
+﻿using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -62,12 +62,12 @@ public class GameManager : NetworkBehaviour
     public void GoTransitionState()
     {
         currentState = 2;
-        transitionTime = TickTimer.CreateFromSeconds(Runner, 3.5f);
+        transitionTime = TickTimer.CreateFromSeconds(Runner, 1.5f); //thời gian đếm ngược trước khi playgame
     }
     public void GoWaitBeforeStartState()
     {
         currentState = 3;
-        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 5f);
+        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 3f); //thời gian chuẩn bị mua đồ
     }
     public GameState TypeOfGameState(int value)
     {
@@ -106,10 +106,11 @@ public class GameManager : NetworkBehaviour
         changed.Behaviour.onCurrentStateChanged?.Invoke(oldState, newState);
         if (newState == GameState.WaitBeforeStart || newState == GameState.InGame)
         {
-            FindObjectOfType<RoomGame>().gameObject.SetActive(false);
             FindObjectOfType<NetworkManager>().onConnected?.Invoke();
             RenderSettings.fog = true;
             FindObjectOfType<NetworkManager>().SpawnPlayer(changed.Behaviour.Runner, changed.Behaviour.Runner.LocalPlayer);
+            RoomGame roomGame = FindObjectOfType<RoomGame>();
+            if(roomGame) roomGame.gameObject.SetActive(false);
         }
         if (newState == GameState.Transition)
         {

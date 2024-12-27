@@ -124,13 +124,13 @@ namespace Fusion {
 
       switch (logType) {
         case LogType.Error:
-        //Debug.LogError(fullMessage, obj);
+      // Debug.LogError(fullMessage, obj);
           break;
         case LogType.Warn:
-       //  Debug.LogWarning(fullMessage, obj);
+       // Debug.LogWarning(fullMessage, obj);
           break;
         default:
-        // Debug.Log(fullMessage, obj);
+       //  Debug.Log(fullMessage, obj);
           break;
       }
     }
