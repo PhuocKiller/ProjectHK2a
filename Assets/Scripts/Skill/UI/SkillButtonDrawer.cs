@@ -11,6 +11,7 @@ public class SkillButtonDrawer : MonoBehaviour
     public SkillManager skillManager;
     public void DrawSkillButton()
     {
+        Debug.Log("a");
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         skillManager = player.GetComponentInChildren<SkillManager>();
         m_skillCollecteds = skillManager.SkillCollecteds;

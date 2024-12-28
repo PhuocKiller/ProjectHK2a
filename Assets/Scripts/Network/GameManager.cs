@@ -24,6 +24,7 @@ public class GameManager : NetworkBehaviour
     [Networked] public TickTimer transitionTime { get; set; }
     [Networked] public int levelCreep { get; set; }
     public Action reachMarkTime;
+    bool flag; //đánh dầu có vào waitbeforestart
     public override void Spawned()
     {
         base.Spawned();
@@ -62,12 +63,12 @@ public class GameManager : NetworkBehaviour
     public void GoTransitionState()
     {
         currentState = 2;
-        transitionTime = TickTimer.CreateFromSeconds(Runner, 1.5f); //thời gian đếm ngược trước khi playgame
+        transitionTime = TickTimer.CreateFromSeconds(Runner, 2f); //thời gian đếm ngược trước khi playgame
     }
     public void GoWaitBeforeStartState()
     {
         currentState = 3;
-        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 3f); //thời gian chuẩn bị mua đồ
+        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 6f); //thời gian chuẩn bị mua đồ
     }
     public GameState TypeOfGameState(int value)
     {
@@ -104,18 +105,28 @@ public class GameManager : NetworkBehaviour
         changed.LoadNew();
         GameState newState = changed.Behaviour.TypeOfGameState(changed.Behaviour.currentState);
         changed.Behaviour.onCurrentStateChanged?.Invoke(oldState, newState);
-        if (newState == GameState.WaitBeforeStart || newState == GameState.InGame)
+        if (newState == GameState.WaitBeforeStart)
         {
-            FindObjectOfType<NetworkManager>().onConnected?.Invoke();
-            RenderSettings.fog = true;
+            changed.Behaviour.flag = true;
+            changed.Behaviour.StartGame();
             FindObjectOfType<NetworkManager>().SpawnPlayer(changed.Behaviour.Runner, changed.Behaviour.Runner.LocalPlayer);
-            RoomGame roomGame = FindObjectOfType<RoomGame>();
-            if(roomGame) roomGame.gameObject.SetActive(false);
         }
-        if (newState == GameState.Transition)
+        if(newState == GameState.InGame)
         {
-
+            
+            if(!changed.Behaviour.flag)
+            {
+                changed.Behaviour.StartGame();
+                FindObjectOfType<NetworkManager>().SpawnPlayer(changed.Behaviour.Runner, changed.Behaviour.Runner.LocalPlayer);
+            }
         }
+    }
+    void StartGame()
+    {
+        FindObjectOfType<NetworkManager>().onConnected?.Invoke();
+        RenderSettings.fog = true;
+        RoomGame roomGame = FindObjectOfType<RoomGame>();
+        if (roomGame) roomGame.gameObject.SetActive(false);
     }
     public void RegisterOnGameStateChanged(Action<GameState, GameState> listener)
     {
