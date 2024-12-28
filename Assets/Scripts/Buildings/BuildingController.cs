@@ -93,8 +93,8 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
             }
             return;
         }
-        defend = (5+ gameManager.levelCreep) * (towerID+3);
-        damage = (200 + gameManager.levelCreep) * (towerID + 1);
+        defend =(int)(5+ 0.3f*gameManager.levelCreep) * (towerID+3);
+        damage = (100 + gameManager.levelCreep) * (towerID + 2);
         bool isHaveEnemy = overlapSphere.CheckAllEnemyAround(30).Count > 0;
         if (buildingType == BuildingType.Tower) sphereRender.enabled = isHaveEnemy;
 
