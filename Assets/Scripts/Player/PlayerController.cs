@@ -305,9 +305,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             Quaternion look = Quaternion.AngleAxis(Camera.main.transform.rotation.eulerAngles.y, Vector3.up);
             if (moveDirection.magnitude > 0)
             {
-                
-
-                Singleton<CameraController>.Instance.isMoveCameraUp = true;
+                Singleton<CameraController>.Instance.isMoveCameraWhenMove = true;
                 NoTeleAnyMore();
                 if (gameManager.state == GameState.InGame)
                 {

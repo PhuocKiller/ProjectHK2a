@@ -11,7 +11,6 @@ public class SkillButtonDrawer : MonoBehaviour
     public SkillManager skillManager;
     public void DrawSkillButton()
     {
-        Debug.Log("a");
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         skillManager = player.GetComponentInChildren<SkillManager>();
         m_skillCollecteds = skillManager.SkillCollecteds;
@@ -23,7 +22,6 @@ public class SkillButtonDrawer : MonoBehaviour
             index++;
             if (index <= 5)
             {
-
                 Helper.ClearChilds(m_gridRoot[index]);
                 var skillButtonClone = Instantiate(m_skillBtnPrefab);
                 Helper.AssignToRoot(m_gridRoot[index], skillButtonClone.transform,

@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
     public PlayerController closestEnemyPlayer;
     public float m_SplineCurvature;
     bool isFollowEnemy;
-    public bool isMoveCameraUp;
+    public bool isMoveCameraUp, isMoveCameraWhenMove;
     void Start()
     {
         freeLookCamera = GetComponent<CinemachineFreeLook>();
@@ -37,6 +37,11 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
             freeLookCamera.m_XAxis.Value = Mathf.LerpAngle(freeLookCamera.m_XAxis.Value, player.transform.rotation.eulerAngles.y, 15 * Time.deltaTime);
         }
         if (isMoveCameraUp) MoveCameraUp();
+        else if (isMoveCameraWhenMove)
+        {
+            MoveCameraWhenMove();
+            if(freeLookCamera.m_YAxis.Value > 0.55f&& freeLookCamera.m_YAxis.Value<0.75f) isMoveCameraWhenMove = false;
+        }
         if (freeLookCamera.m_YAxis.Value >0.9f) isMoveCameraUp = false;
     }
     public void SetFollowCharacter(Transform characterTransform)
@@ -64,6 +69,10 @@ freeLookCamera.m_YAxis.m_MaxSpeed = 1f;
     public void MoveCameraUp()
     {
         freeLookCamera.m_YAxis.Value = Mathf.Lerp(freeLookCamera.m_YAxis.Value, 1, 2f * Time.deltaTime); //nâng cao camera khi xài skill
+    }
+    public void MoveCameraWhenMove()
+    {
+        freeLookCamera.m_YAxis.Value = Mathf.Lerp(freeLookCamera.m_YAxis.Value, 0.65f, 2f * Time.deltaTime); //nâng cao camera khi xài skill
     }
     public float GetAxisCustom(string axisName)
     {
