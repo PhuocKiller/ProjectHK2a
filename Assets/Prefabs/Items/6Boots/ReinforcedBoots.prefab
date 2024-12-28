@@ -313,7 +313,7 @@ MonoBehaviour:
   _Price: 700
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
-  skillName: 26
+  skillName: 32
 --- !u!136 &-7392914001772224984
 CapsuleCollider:
   m_ObjectHideFlags: 0

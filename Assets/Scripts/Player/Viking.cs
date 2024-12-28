@@ -48,7 +48,7 @@ public class Viking : PlayerController
     {
         base.Skill_1(VFXEffect, levelDamage, manaCost, isPhysicDamage, timeTrigger: timeTrigger);
         StartCoroutine(DelaySpawnSkill_1(VFXEffect, levelDamage, isPhysicDamage,
-            isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, posMouseUp));
+            isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, posMouseUp, levelSkill));
         
     }
     IEnumerator DelaySpawnSkill_1(NetworkObject VFXEffect, int levelDamage, bool isPhysicDamage,
@@ -60,7 +60,7 @@ public class Viking : PlayerController
         NetworkObject obj = Runner.Spawn(VFXEffect.gameObject, skill_1Transform.position, skill_1Transform.rotation, Object.InputAuthority,
             onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
             {
-                obj.GetComponent<AxeAttackObject>().SetUp(this, levelDamage, isPhysicDamage, null,
+                obj.GetComponent<AxeAttackObject>().SetUp(this, (int)(levelDamage + playerStat.damage* levelSkill*0.15f), isPhysicDamage, null,
                  isMakeStun, isMakeSlow, isMakeSilen, timeTrigger, TimeEffect, posMouseUp);
                 obj.GetComponent<AxeAttackObject>().SetDirection(transform.forward);
             });

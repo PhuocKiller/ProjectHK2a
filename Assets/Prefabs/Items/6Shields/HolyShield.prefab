@@ -251,7 +251,7 @@ MonoBehaviour:
   _Price: 1550
   isDecreaseAlpha: 0
   isIncreaseAlpha: 0
-  skillName: 26
+  skillName: 29
 --- !u!1 &8764078645776180384
 GameObject:
   m_ObjectHideFlags: 0

@@ -163,13 +163,17 @@ public class SkillButton : MonoBehaviour
         GetFormattedInfo(levelDamages[1], levelDamages[2], levelDamages[3], levelDamages[4],
             levelManaCosts[1], levelManaCosts[2], levelManaCosts[3], levelManaCosts[4],
             timerTrigger, timeEffect, m_skillController.skillStat.cooldownTime);
+        if (skillButtonType == SkillButtonTypes.Items) shouldInvokeClick = true;
     }
 
     private void UpdateUI()
     {
         if (m_skillController == null) return;
         if (m_skillIcon && m_skillName != SkillName.NoSkill)
-            m_skillIcon.sprite = m_skillController.skillStat.skillIcon;
+        {
+            if(m_skillIcon.sprite==null) m_skillIcon.sprite = m_skillController.skillStat.skillIcon;
+        }
+            
         // UpdateAmountTxt();
         UpdateCooldown();
 
@@ -241,6 +245,7 @@ public class SkillButton : MonoBehaviour
     #region Trigger SKill
     void TriggerSkill()
     {
+        
         Singleton<PlayerManager>.Instance.CheckPlayer(out int? state, out PlayerController player);
         if (skillButtonType == SkillButtonTypes.Items)
         {
@@ -248,6 +253,7 @@ public class SkillButton : MonoBehaviour
             IInventoryItem item = dragHandler.Item;
             if (item != null)
             {
+                
                 player.inventory.UseItemClickInventory
                 (player.inventory.mSlots[transform.GetSiblingIndex()].FirstItem, transform.GetSiblingIndex(), out bool canActive);
                 if (!canActive || m_skillName == SkillName.NoSkill) return;
@@ -257,6 +263,7 @@ public class SkillButton : MonoBehaviour
             && levelSkill != 0 && player.playerStat.currentMana >= manaCost
             && state == 0 && !player.playerStat.isBeingStun)
         {
+            
             if (!shouldInvokeClick) return;
             if (skillButtonType == SkillButtonTypes.Jump)
             {
@@ -293,6 +300,7 @@ public class SkillButton : MonoBehaviour
             }
             if (skillButtonType == SkillButtonTypes.Items)
             {
+                
                 player.UseItemSkill(m_skillName, VfxEffect, damageSkill, manaCost, isPhysicDamage, isMakeStun, isMakeSlow, isMakeSilen,
        timerTrigger, timeEffect, posMouseUp, levelSkill);
             }

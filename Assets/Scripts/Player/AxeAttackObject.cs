@@ -94,14 +94,16 @@ public class AxeAttackObject: NetworkBehaviour
             if (other.gameObject.layer == 7 && !collisions.Contains(other)
             && other.gameObject.GetComponent<NetworkObject>().HasStateAuthority == false
             && other.gameObject.GetComponent<PlayerController>().state != 3
-            && other.gameObject.GetComponent<PlayerController>().playerTeam != player.playerTeam)
+            && other.gameObject.GetComponent<PlayerController>().playerTeam != player.playerTeam
+            &&other is BoxCollider)
             {
                 trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
             }
             if (other.gameObject.layer == 8 && !collisions.Contains(other)
             && other.gameObject.GetComponent<CreepController>().state != 3
-            && other.gameObject.GetComponent<CreepController>().playerTeam != player.playerTeam)
+            && other.gameObject.GetComponent<CreepController>().playerTeam != player.playerTeam
+            && other is BoxCollider)
             {
                 trigger.ControlTriggerPlayer(other, collisions, player, damage, timeEffect, isPhysicDamage,
                 isMakeStun, isMakeSlow, isMakeSilen, isDestroyWhenCollider, Object.InputAuthority);
