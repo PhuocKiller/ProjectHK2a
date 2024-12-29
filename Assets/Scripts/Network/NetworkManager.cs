@@ -21,7 +21,7 @@ public class NetworkManager : MonoBehaviour
     public NetworkRunner runner;
     public NavMeshSurface navMesh;
     [SerializeField]
-    GameObject gameManagerObj, playerManagerObj;
+    GameObject gameManagerObj, playerManagerObj, roomPlayerInfo;
     [SerializeField]
     public GameObject[] players, creeps, naturals, buildings, basicItems, shieldItems, armorItems, weaponItems, bootItems, onlineItems;
     public float[] itemsDropChance;
@@ -36,11 +36,11 @@ public class NetworkManager : MonoBehaviour
 
     private void OnEnable()
     {
-      //  gameNetworkCallBack.OnPlayerJoinRegister(SpawnPlayer);
+        //  gameNetworkCallBack.OnPlayerJoinRegister(SpawnPlayer);
     }
     private void OnDisable()
     {
-      //  gameNetworkCallBack.OnPlayerJoinUnRegister(SpawnPlayer);
+        //  gameNetworkCallBack.OnPlayerJoinUnRegister(SpawnPlayer);
     }
     private void Awake()
     {
@@ -48,7 +48,7 @@ public class NetworkManager : MonoBehaviour
         gameNetworkCallBack = GetComponent<GameNetworkCallBack>();
         ResetNameAndPass();
     }
-    
+
     public void SpawnPlayer(NetworkRunner m_runner, PlayerRef player)
     {
         bool flag = false;
@@ -68,7 +68,7 @@ public class NetworkManager : MonoBehaviour
         //SpawnWhenJoinRoom(m_runner, player);
         if (player == runner.LocalPlayer && FindObjectOfType<GameManager>().GetComponent<NetworkObject>().StateAuthority == runner.LocalPlayer)
         {
-           StartCoroutine(SpawnWhenStartGame(m_runner, player));
+            StartCoroutine(SpawnWhenStartGame(m_runner, player));
         }
 
         if (player == runner.LocalPlayer)
@@ -85,11 +85,22 @@ public class NetworkManager : MonoBehaviour
     }
     public void SpawnWhenJoinRoom(NetworkRunner m_runner, PlayerRef player)
     {
-        if (player == runner.LocalPlayer && runner.IsSharedModeMasterClient)
+        if (player == runner.LocalPlayer)
         {
-            runner.Spawn(gameManagerObj, inputAuthority: player);
-            runner.Spawn(playerManagerObj, inputAuthority: player);
+            if (runner.IsSharedModeMasterClient)
+            {
+                runner.Spawn(gameManagerObj, inputAuthority: player);
+                runner.Spawn(playerManagerObj, inputAuthority: player);
+            }
+            runner.Spawn(roomPlayerInfo, inputAuthority: player, onBeforeSpawned:
+                (NetworkRunner runner, NetworkObject obj) =>
+                {
+                    obj.GetComponent<RoomPlayerInfo>().playerID = playerID;
+                    obj.GetComponent<RoomPlayerInfo>().playerTeam = playerTeam;
+                    obj.GetComponent<RoomPlayerInfo>().playerIndex = playerIndex;
+                });
         }
+
     }
     IEnumerator SpawnWhenStartGame(NetworkRunner m_runner, PlayerRef player)
     {
@@ -126,9 +137,9 @@ public class NetworkManager : MonoBehaviour
     public void SpawnCreep(PlayerRef player)
     {
         if (FindObjectOfType<GameManager>().GetComponent<NetworkObject>().StateAuthority != runner.LocalPlayer) return;
-       StartCoroutine(SpawnMeleeCreep(player));
-       StartCoroutine(SpawnRangeCreep(player));
-       StartCoroutine(SpawnNatural(player));
+        StartCoroutine(SpawnMeleeCreep(player));
+        StartCoroutine(SpawnRangeCreep(player));
+        StartCoroutine(SpawnNatural(player));
     }
     #region SpawnCreep
     IEnumerator SpawnNatural(PlayerRef player)
@@ -137,7 +148,7 @@ public class NetworkManager : MonoBehaviour
         {
             for (int i = 0; i < spawnPointNatural.Length; i++)
             {
-                if (AroundEnemies(spawnPointNatural[i], 15).Count()==0)
+                if (AroundEnemies(spawnPointNatural[i], 15).Count() == 0)
                 {
                     runner.Spawn(naturals[i], spawnPointNatural[i].position, spawnPointNatural[i].rotation,
                         inputAuthority: player,
@@ -149,12 +160,12 @@ public class NetworkManager : MonoBehaviour
                 }
                 else
                 {
-                    List<CharacterController> creepEnemies= AroundEnemies(spawnPointNatural[i], 15)
-                        .Where(s=>s.GetComponent<CreepController>()!=null
-                    && s.GetComponent<CreepController>().creepType==Creep_Types.Natural).ToList();
-                    foreach(var creep in  creepEnemies)
+                    List<CharacterController> creepEnemies = AroundEnemies(spawnPointNatural[i], 15)
+                        .Where(s => s.GetComponent<CreepController>() != null
+                    && s.GetComponent<CreepController>().creepType == Creep_Types.Natural).ToList();
+                    foreach (var creep in creepEnemies)
                     {
-                        creep.GetComponent<CreepController>().playerStat.currentHealth 
+                        creep.GetComponent<CreepController>().playerStat.currentHealth
                             = creep.GetComponent<CreepController>().playerStat.maxHealth;
                     }
                 }
@@ -162,7 +173,7 @@ public class NetworkManager : MonoBehaviour
             }
         }
     }
-    public List<CharacterController> AroundEnemies(Transform spawnPoint,float range)
+    public List<CharacterController> AroundEnemies(Transform spawnPoint, float range)
     {
         List<CharacterController> allEnemies = new List<CharacterController>();
         allEnemies.Clear();
@@ -170,13 +181,13 @@ public class NetworkManager : MonoBehaviour
         foreach (var hitCollider in hitColliders)
         {
             CharacterController characPlayer = hitCollider.gameObject.GetComponent<CharacterController>();
-            if (characPlayer!=null && !allEnemies.Contains(characPlayer))
+            if (characPlayer != null && !allEnemies.Contains(characPlayer))
             {
                 allEnemies.Add(characPlayer);
             }
         }
         return allEnemies;
-            
+
     }
     IEnumerator SpawnMeleeCreep(PlayerRef player)
     {
@@ -292,12 +303,12 @@ public class NetworkManager : MonoBehaviour
             {
                 GameMode = GameMode.Shared,
                 SessionName = roomName,
-                PlayerCount=6,
+                PlayerCount = 6,
                 CustomLobbyName = "VN",
                 SceneManager = GetComponent<LoadSceneManager>(),
                 AuthValues = new AuthenticationValues()
                 {
-                    UserId = playerID + playerTeam.ToString() +playerIndex.ToString(),
+                    UserId = playerID,
                 }
                 ,
                 SessionProperties = new Dictionary<string, SessionProperty>
@@ -316,7 +327,7 @@ public class NetworkManager : MonoBehaviour
             Singleton<AudioManager>.Instance.PlaySound(Singleton<AudioManager>.Instance.error);
         }
     }
-   
+
     public async void OnClickJoinBtn()
     {
         Singleton<Loading>.Instance.ShowLoading();
@@ -325,7 +336,7 @@ public class NetworkManager : MonoBehaviour
         await runner.JoinSessionLobby(SessionLobby.Custom, "VN",
             authentication: new AuthenticationValues()
             {
-                UserId = playerID + playerTeam.ToString() + playerIndex.ToString(),
+                UserId = playerID,
             });
         Singleton<Loading>.Instance.HideLoading();
     }
@@ -345,7 +356,7 @@ public class NetworkManager : MonoBehaviour
             btn.onClick.AddListener(() =>
             {
                 roomName = session.Name;
-                if(!isLock)
+                if (!isLock)
                 {
                     OnClickBtn(btn);
                 }
@@ -358,7 +369,7 @@ public class NetworkManager : MonoBehaviour
     }
     public void ResetNameAndPass()
     {
-        roomName = "";password = "";
+        roomName = ""; password = "";
     }
     public void ShutdownRunner()
     {

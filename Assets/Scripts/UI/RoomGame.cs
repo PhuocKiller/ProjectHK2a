@@ -1,6 +1,8 @@
 ﻿using Fusion;
 using System.Collections;
+using System.Linq;
 using TMPro;
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +13,9 @@ public class RoomGame : MonoBehaviour
     [SerializeField] Sprite[] playerImages;
     [SerializeField] GameObject playerItem, coolDownPanel;
     [SerializeField] Transform darkTeamParent, lightTeamParent;
-    [SerializeField] public Button playBtn,backBtn, kickBtn, passKeyBtn;
+    [SerializeField] public Button playBtn,backBtn, kickBtn, passKeyBtn, rightTeamBtn,leftTeamBtn,rightPlayerBtn,leftPlayerBtn;
     [SerializeField] TextMeshProUGUI roomNameText, cooldownTime;
+    [SerializeField] Image chosePlayerImage;
     public string namePlayer;
     bool isMasterPlayer;
     private void Awake()
@@ -34,6 +37,8 @@ public class RoomGame : MonoBehaviour
             Destroy(child.gameObject);
         }
         isMasterPlayer=false;
+        leftTeamBtn.interactable = true;
+        rightTeamBtn.interactable = true;
     }
     private void OnDisable()
     {
@@ -52,15 +57,22 @@ public class RoomGame : MonoBehaviour
     {
         FindObjectOfType<NetworkManager>().SpawnWhenJoinRoom(m_runner, player);
         FindObjectOfType<GameManager>().AddPlayerWhenJoin(m_runner, player);
-        UpdateUI(m_runner, player);
+        StartCoroutine(DelayUpdateUI());
     }
     private void PlayerLeftRoom(NetworkRunner m_runner, PlayerRef player)
     {
         FindObjectOfType<GameManager>().RemovePlayerWhenLeave(m_runner, player);
-        UpdateUI(m_runner, player);
+        StartCoroutine(DelayUpdateUI());
     }
-    public void UpdateUI(NetworkRunner m_runner, PlayerRef player)
+    public RoomPlayerInfo CheckInfoPlayer(PlayerRef player)
     {
+        RoomPlayerInfo[] allPlayers = FindObjectsOfType<RoomPlayerInfo>();
+        RoomPlayerInfo[] players= allPlayers.Where(s => s.playerID == runner.GetPlayerUserId(player)).ToArray();
+        return players[0];
+    }
+    public void UpdateUI()
+    {
+        
         isMasterPlayer = FindObjectOfType<GameManager>().GetComponent<NetworkObject>().StateAuthority == runner.LocalPlayer;
         foreach (Transform child in darkTeamParent)
         {
@@ -75,13 +87,13 @@ public class RoomGame : MonoBehaviour
         foreach (var playerJoin in runner.ActivePlayers)
         {
             bool isKeyPlayer = FindObjectOfType<GameManager>().GetComponent<NetworkObject>().StateAuthority == playerJoin;
-            string namePlayer = runner.GetPlayerUserId(playerJoin);
-            int playerTeam = int.Parse(namePlayer[namePlayer.Length - 2].ToString());
-            int playerIndex = int.Parse(namePlayer[namePlayer.Length - 1].ToString());
+            RoomPlayerInfo playerInfo = CheckInfoPlayer(playerJoin);
+            string namePlayer = playerInfo.playerID;
+            int playerTeam = playerInfo.playerTeam;
+            int playerIndex = playerInfo.playerIndex;
             GameObject playerPrefab = Instantiate
             (playerItem, playerTeam == 0 ? darkTeamParent : lightTeamParent);
-            playerPrefab.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text
-                = namePlayer.Substring(0, namePlayer.Length - 2);
+            playerPrefab.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text= namePlayer;
             playerPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = playerImages[playerIndex]; //hình ảnh ava
             playerPrefab.transform.GetChild(0).GetComponent<Image>().color= playerJoin==runner.LocalPlayer? Color.red : Color.white; //Màu viền ava
             playerPrefab.transform.GetChild(2).GetComponent<Image>().enabled= isKeyPlayer; //hình ảnh key
@@ -93,7 +105,13 @@ public class RoomGame : MonoBehaviour
                 this.namePlayer = namePlayer;
             });
         }
+        chosePlayerImage.sprite = playerImages[CheckInfoPlayer(runner.LocalPlayer).playerIndex];
         StartCoroutine(CheckPlayerBtn());
+    }
+    public IEnumerator DelayUpdateUI()
+    {
+        yield return new WaitForSeconds(0.3f);
+        UpdateUI();
     }
     IEnumerator CheckPlayerBtn()
     {
@@ -124,5 +142,43 @@ public class RoomGame : MonoBehaviour
     public void PassKeyBtn()
     {
         FindObjectOfType<GameManager>().keyPlayer= namePlayer;
+    }
+    public void RightTeamBtn()
+    {
+        CheckInfoPlayer(runner.LocalPlayer).playerTeam = 1;
+        rightTeamBtn.interactable = false;
+        leftTeamBtn.interactable = true;
+    }
+    public void LeftTeamBtn()
+    {
+        CheckInfoPlayer(runner.LocalPlayer).playerTeam = 0;
+        leftTeamBtn.interactable = false;
+        rightTeamBtn.interactable = true;
+    }
+    public void RightPlayerBtn()
+    {
+        RoomPlayerInfo playerInfo = CheckInfoPlayer(runner.LocalPlayer);
+        if (playerInfo.playerIndex<5)
+        {
+            playerInfo.playerIndex += 1;
+        }
+        else
+        {
+            rightPlayerBtn.interactable = false;
+        }
+        leftPlayerBtn.interactable = true;
+    }
+    public void LeftPlayerBtn()
+    {
+        RoomPlayerInfo playerInfo = CheckInfoPlayer(runner.LocalPlayer);
+        if (playerInfo.playerIndex > 0)
+        {
+            playerInfo.playerIndex -= 1;
+        }
+        else
+        {
+            leftPlayerBtn.interactable = false;
+        }
+        rightPlayerBtn.interactable = true;
     }
 }

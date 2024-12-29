@@ -142,14 +142,8 @@ public class GameManager : NetworkBehaviour
         {
             changed.Behaviour.GetComponent<NetworkObject>().RequestStateAuthority();
         }
-        changed.Behaviour.StartCoroutine(changed.Behaviour.DelayUpdateUI());
+        changed.Behaviour.StartCoroutine(FindObjectOfType<RoomGame>().DelayUpdateUI());
     }
-    IEnumerator DelayUpdateUI()
-    {
-        yield return new WaitForSeconds(0.3f);
-        FindObjectOfType<RoomGame>().UpdateUI(Runner,Runner.LocalPlayer);
-    }
-
     void StartGame()
     {
         FindObjectOfType<NetworkManager>().onConnected?.Invoke();
