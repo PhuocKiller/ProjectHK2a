@@ -124,7 +124,7 @@ namespace Fusion {
 
       switch (logType) {
         case LogType.Error:
-      // Debug.LogError(fullMessage, obj);
+     //  Debug.LogError(fullMessage, obj);
           break;
         case LogType.Warn:
        // Debug.LogWarning(fullMessage, obj);
@@ -138,7 +138,7 @@ namespace Fusion {
     public void LogException<T>(string prefix, ref T context, Exception ex) where T : ILogBuilder {
       Log(LogType.Error, string.Empty, ref context, $"{ex.GetType()}\n<i>See next error log entry for details.</i>");
       if (context is UnityEngine.Object obj) {
-      // Debug.LogException(ex, obj);
+     //  Debug.LogException(ex, obj);
       } else {
      //  Debug.LogException(ex);
       }

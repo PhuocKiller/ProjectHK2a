@@ -25,12 +25,15 @@ public class GameManager : NetworkBehaviour
     [Networked] public int levelCreep { get; set; }
     public Action reachMarkTime;
     bool flag; //đánh dầu có vào waitbeforestart
+    [Networked(OnChanged = nameof(PlayerInRoomChange)), Capacity(6)] public NetworkArray<string> playersInRoom { get; }
+    [Networked(OnChanged = nameof(KeyPlayerChanged))] public string keyPlayer { get; set; }
     public override void Spawned()
     {
         base.Spawned();
         currentState = 1;
         clock = FindObjectOfType<ClockManager>();
         levelCreep = 0;
+        if(HasStateAuthority) keyPlayer = Runner.UserId;
     }
 
     public override void FixedUpdateNetwork()
@@ -111,16 +114,42 @@ public class GameManager : NetworkBehaviour
             changed.Behaviour.StartGame();
             FindObjectOfType<NetworkManager>().SpawnPlayer(changed.Behaviour.Runner, changed.Behaviour.Runner.LocalPlayer);
         }
-        if(newState == GameState.InGame)
+        if (newState == GameState.InGame)
         {
-            
-            if(!changed.Behaviour.flag)
+
+            if (!changed.Behaviour.flag)
             {
                 changed.Behaviour.StartGame();
                 FindObjectOfType<NetworkManager>().SpawnPlayer(changed.Behaviour.Runner, changed.Behaviour.Runner.LocalPlayer);
             }
         }
     }
+    protected static void PlayerInRoomChange(Changed<GameManager> changed)
+    {
+        bool isHaveThisPlayer = false;
+        for (int i = 0; i < 6; i++)
+        {
+            if (changed.Behaviour.playersInRoom.Get(i) == changed.Behaviour.Runner.GetPlayerUserId(changed.Behaviour.Runner.LocalPlayer))
+            {
+                isHaveThisPlayer = true;
+            }
+        }
+        if (!isHaveThisPlayer) FindObjectOfType<RoomGame>().backBtn.onClick?.Invoke();
+    }
+    protected static void KeyPlayerChanged(Changed<GameManager> changed)
+    {
+        if (changed.Behaviour.keyPlayer == changed.Behaviour.Runner.GetPlayerUserId(changed.Behaviour.Runner.LocalPlayer))
+        {
+            changed.Behaviour.GetComponent<NetworkObject>().RequestStateAuthority();
+        }
+        changed.Behaviour.StartCoroutine(changed.Behaviour.DelayUpdateUI());
+    }
+    IEnumerator DelayUpdateUI()
+    {
+        yield return new WaitForSeconds(0.3f);
+        FindObjectOfType<RoomGame>().UpdateUI(Runner,Runner.LocalPlayer);
+    }
+
     void StartGame()
     {
         FindObjectOfType<NetworkManager>().onConnected?.Invoke();
@@ -153,6 +182,29 @@ public class GameManager : NetworkBehaviour
                 FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
                 reachMarkTime?.Invoke();
             };
+        }
+    }
+    public void AddPlayerWhenJoin(NetworkRunner m_runner, PlayerRef player)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            if (playersInRoom.Get(i) == "")
+            {
+                playersInRoom.Set(i, m_runner.GetPlayerUserId(player));
+                return;
+            }
+        }
+    }
+    public void RemovePlayerWhenLeave(NetworkRunner m_runner, PlayerRef player)
+    {
+        keyPlayer=Runner.UserId;
+        for (int i = 0; i < 6; i++)
+        {
+            if (i == player.PlayerId)
+            {
+                playersInRoom.Set(i, "");
+                return;
+            }
         }
     }
 }

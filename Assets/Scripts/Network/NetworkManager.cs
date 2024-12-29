@@ -66,7 +66,7 @@ public class NetworkManager : MonoBehaviour
         }
         if (flag == true) return;
         //SpawnWhenJoinRoom(m_runner, player);
-        if (player == runner.LocalPlayer && runner.IsSharedModeMasterClient)
+        if (player == runner.LocalPlayer && FindObjectOfType<GameManager>().GetComponent<NetworkObject>().StateAuthority == runner.LocalPlayer)
         {
            StartCoroutine(SpawnWhenStartGame(m_runner, player));
         }
@@ -125,7 +125,7 @@ public class NetworkManager : MonoBehaviour
     }
     public void SpawnCreep(PlayerRef player)
     {
-        if (!runner.IsSharedModeMasterClient) return;
+        if (FindObjectOfType<GameManager>().GetComponent<NetworkObject>().StateAuthority != runner.LocalPlayer) return;
        StartCoroutine(SpawnMeleeCreep(player));
        StartCoroutine(SpawnRangeCreep(player));
        StartCoroutine(SpawnNatural(player));
@@ -133,7 +133,7 @@ public class NetworkManager : MonoBehaviour
     #region SpawnCreep
     IEnumerator SpawnNatural(PlayerRef player)
     {
-        if (runner.IsSharedModeMasterClient)
+        if (FindObjectOfType<GameManager>().GetComponent<NetworkObject>().StateAuthority == runner.LocalPlayer)
         {
             for (int i = 0; i < spawnPointNatural.Length; i++)
             {
