@@ -61,12 +61,12 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
                 meshVisualTower[i].mesh = meshTower[i + 3 * playerTeam];
             }
             TimeOfAttack = TickTimer.CreateFromSeconds(Runner, 0);
-            maxHealth = (1000 + gameManager.levelCreep * 50) *(towerID +2);
+            maxHealth = (500 + gameManager.levelCreep * 50) *(towerID +2);
         }
         else
         {
             minimapImage.sprite = startImages[0];
-            maxHealth = (1000 + gameManager.levelCreep * 50) * (towerID + 2);
+            maxHealth = (500 + gameManager.levelCreep * 50) * (towerID + 2);
         }
         currentHealth = maxHealth;
         state = 0;
@@ -211,7 +211,9 @@ public class BuildingController : NetworkBehaviour,ICanTakeDamage
         hpBar.gameObject.SetActive(false);
         if(buildingType == BuildingType.BaseHouse)
         {
-            Debug.Log("Team" + (playerTeam==0?1:0) +" Win" );
+            HudManager hud=FindObjectOfType<HudManager>();
+            hud.winPanel.SetActive(true);
+            hud.winTeamTxt.text = (playerTeam == 0 ? "LIGHT" : "DARK") + " TEAM WIN";
         }
     }
     public void HideVisualOfTower()

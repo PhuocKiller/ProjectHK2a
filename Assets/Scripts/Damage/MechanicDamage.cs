@@ -8,27 +8,33 @@ public class MechanicDamage : MonoBehaviour
     public bool isCritPhysicDamage;
     public int GetDamageOfTwoObject(int damage, bool isPhysicDamage, PlayerController playerAttack, Collider ObjectBeAttack, out bool isCritPhysic)
     {
+        GameManager gameManager = FindObjectOfType<GameManager>();
         if (ObjectBeAttack.GetComponent<PlayerController>() != null)
         {
+            PlayerController playerBeAtk=ObjectBeAttack.GetComponent<PlayerController>();
             int baseDamage = (int)(damage * Random.Range(0.95f, 1.05f) *
-          (1 - (deltaDamage * (isPhysicDamage ? ObjectBeAttack.GetComponent<PlayerController>().playerStat.defend : ObjectBeAttack.GetComponent<PlayerController>().playerStat.magicResistance)
+          (1 - (deltaDamage * (isPhysicDamage ? playerBeAtk.playerStat.defend : playerBeAtk.playerStat.magicResistance)
           / (1 + deltaDamage * ObjectBeAttack.GetComponent<PlayerController>().playerStat.defend))));
             CheckCritPhysicDamage(playerAttack, isPhysicDamage, out float increaseDamage);
             isCritPhysic = isCritPhysicDamage;
-            return (int)(baseDamage * increaseDamage);
+            bool getMoreDamgeFromDayTime = gameManager.moonLightTime != playerBeAtk.playerTeam;
+            return (int)(baseDamage * increaseDamage * (getMoreDamgeFromDayTime?1.2f:1));
         }
         else if (ObjectBeAttack.GetComponent<CreepController>() != null)
         {
+            CreepController creep = ObjectBeAttack.GetComponent<CreepController>();
             int baseDamage = (int)(damage * Random.Range(0.95f, 1.05f) *
-        (1 - (deltaDamage * (isPhysicDamage ? ObjectBeAttack.GetComponent<CreepController>().playerStat.defend : ObjectBeAttack.GetComponent<CreepController>().playerStat.magicResistance)
-        / (1 + deltaDamage * ObjectBeAttack.GetComponent<CreepController>().playerStat.defend))));
+        (1 - (deltaDamage * (isPhysicDamage ? creep.playerStat.defend : creep.playerStat.magicResistance)
+        / (1 + deltaDamage * creep.playerStat.defend))));
             CheckCritPhysicDamage(playerAttack, isPhysicDamage, out float increaseDamage);
             isCritPhysic = isCritPhysicDamage;
-            return (int)(baseDamage * increaseDamage);
+            bool getMoreDamgeFromDayTime = gameManager.moonLightTime != creep.playerTeam;
+            return (int)(baseDamage * increaseDamage * (getMoreDamgeFromDayTime ? 1.2f : 1));
         }
 
         else if (ObjectBeAttack.GetComponent<BuildingController>() != null)
         {
+            BuildingController building= ObjectBeAttack.GetComponent<BuildingController>();
             if (!isPhysicDamage)
             {
                 isCritPhysic = isCritPhysicDamage;
@@ -37,9 +43,10 @@ public class MechanicDamage : MonoBehaviour
             else
             {
                 isCritPhysic = isCritPhysicDamage;
-                return (int)(damage * Random.Range(0.95f, 1.05f) *
-          (1 - (deltaDamage * (ObjectBeAttack.GetComponent<BuildingController>().defend)
-          / (1 + deltaDamage * ObjectBeAttack.GetComponent<BuildingController>().defend))));
+                bool getMoreDamgeFromDayTime = gameManager.moonLightTime != building.playerTeam;
+                return (int)(damage * Random.Range(0.95f, 1.05f) * (getMoreDamgeFromDayTime ? 1.2f : 1)*
+          (1 - (deltaDamage * (building.defend)
+          / (1 + deltaDamage * building.defend))));
             }
 
         }

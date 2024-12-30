@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7133127710017623427
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5552,6 +5552,7 @@ MonoBehaviour:
   _isBeingStun: 0
   _isBeingSlow: 0
   _isBeingSilen: 0
+  _isBeingAttack: 0
   _isLifeSteal: 0
   _isVisible: 0
   _isUnderTower: 0
@@ -10773,7 +10774,7 @@ MonoBehaviour:
   normalRangeAttackObj: {fileID: 5484937385305069163, guid: 1264de5c600426745a79c25d8d7f3eb8, type: 3}
   creepType: 1
   targetDestination: {x: 0, y: 0, z: 0}
-  finalTargetDestination: {x: 0, y: 0, z: 0}
+  _finalTargetDestination: {x: 0, y: 0, z: 0}
   _playerTeam: 0
   networkObjs: {fileID: 1481342673320959658}
   collisionsEnvi: []

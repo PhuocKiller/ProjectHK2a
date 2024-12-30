@@ -146,9 +146,10 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             CalculateMove();
             CalculateJump();
         }
-        
         animator.SetFloat("AttackSpeed", (float)playerStat.attackSpeed / 100);
         animator.SetFloat("MoveSpeed", (float)playerStat.moveSpeed / 300);
+        RenderSettings.fogEndDistance = gameManager.moonLightTime == playerTeam ?
+            Mathf.Lerp(RenderSettings.fogEndDistance,80,0.03f) : Mathf.Lerp(RenderSettings.fogEndDistance, 40, 0.03f);
     }
     #region Jump
     private void CalculateJump()

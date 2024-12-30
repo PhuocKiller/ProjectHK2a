@@ -27,6 +27,7 @@ public class GameManager : NetworkBehaviour
     bool flag; //đánh dầu có vào waitbeforestart
     [Networked(OnChanged = nameof(PlayerInRoomChange)), Capacity(6)] public NetworkArray<string> playersInRoom { get; }
     [Networked(OnChanged = nameof(KeyPlayerChanged))] public string keyPlayer { get; set; }
+    [Networked(OnChanged = nameof(TimeChanged))] public int moonLightTime { get; set; }
     public override void Spawned()
     {
         base.Spawned();
@@ -57,6 +58,7 @@ public class GameManager : NetworkBehaviour
         }
         if (waitBeforeStartTime.ExpiredOrNotRunning(Runner) && currentState == 3)
         {
+            moonLightTime = 0;
             currentState = 4;
             currentTime = 0;
             levelCreep = 1;
@@ -144,6 +146,10 @@ public class GameManager : NetworkBehaviour
         }
         changed.Behaviour.StartCoroutine(FindObjectOfType<RoomGame>().DelayUpdateUI());
     }
+    protected static void TimeChanged(Changed<GameManager> changed)
+    {
+    }
+    
     void StartGame()
     {
         FindObjectOfType<NetworkManager>().onConnected?.Invoke();
@@ -176,6 +182,7 @@ public class GameManager : NetworkBehaviour
                 FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
                 reachMarkTime?.Invoke();
             };
+            moonLightTime = Mathf.FloorToInt(currentTime / 10f) % 2;
         }
     }
     public void AddPlayerWhenJoin(NetworkRunner m_runner, PlayerRef player)

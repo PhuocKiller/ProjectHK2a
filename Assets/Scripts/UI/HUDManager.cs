@@ -6,11 +6,11 @@ using UnityEngine;
 public class HudManager : MonoBehaviour
 {
     PlayerController player;
-    public GameObject followBtn, unFollowBtn;
-    [SerializeField] TextMeshProUGUI coinsValue, playerName;
+    public GameObject followBtn, unFollowBtn, winPanel;
+    [SerializeField] public TextMeshProUGUI coinsValue, playerName, winTeamTxt;
     private void Awake()
     {
-     // gameObject.SetActive(false);
+     gameObject.SetActive(false);
     }
     private void OnEnable()
     {
