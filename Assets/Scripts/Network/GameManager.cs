@@ -68,7 +68,7 @@ public class GameManager : NetworkBehaviour
     public void GoTransitionState()
     {
         currentState = 2;
-        transitionTime = TickTimer.CreateFromSeconds(Runner, 2f); //thời gian đếm ngược trước khi playgame
+        transitionTime = TickTimer.CreateFromSeconds(Runner, 3.2f); //thời gian đếm ngược trước khi playgame
     }
     public void GoWaitBeforeStartState()
     {
@@ -182,7 +182,7 @@ public class GameManager : NetworkBehaviour
                 FindObjectOfType<NetworkManager>().SpawnCreep(Runner.LocalPlayer);
                 reachMarkTime?.Invoke();
             };
-            moonLightTime = Mathf.FloorToInt(currentTime / 10f) % 2;
+            moonLightTime = Mathf.FloorToInt(currentTime / 30) % 2;
         }
     }
     public void AddPlayerWhenJoin(NetworkRunner m_runner, PlayerRef player)

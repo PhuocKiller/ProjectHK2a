@@ -39,7 +39,7 @@ public class ClockManager : MonoBehaviour
         secondTime = Mathf.FloorToInt(currentTime % 60f);
         timeClockText.text = string.Format("{0:00}:{1:00}", minuteTime, secondTime);
         clockImage.sprite= clockSprites[gameManager.moonLightTime];
-        if (gameManager.state==GameState.WaitBeforeStart &&currentTime<=31)
+        if (gameManager.state==GameState.WaitBeforeStart &&currentTime<=5)
         {
             timeClockText.color = Color.red;
         }

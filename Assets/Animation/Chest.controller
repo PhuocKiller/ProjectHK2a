@@ -57,7 +57,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ee5a6e1651a035546a95a0a341b0903a, type: 2}
+  m_Motion: {fileID: 7400000, guid: 63710ef249252a84d89da83ebd2100a2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -110,7 +110,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 68aa6de316a273f4da99e2250a81b2eb, type: 2}
+  m_Motion: {fileID: 7400000, guid: f7fc646472738df44b7147f6ca1ea515, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -162,7 +162,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sting
+  m_Name: Chest
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Speed
@@ -248,7 +248,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ec26d4f9cdd2fe2459d9d259b84b49f7, type: 2}
+  m_Motion: {fileID: 7400000, guid: 48bab56ecfdeb8043937e9d3d5190d10, type: 2}
   m_Tag: 
   m_SpeedParameter: AttackSpeed
   m_MirrorParameter: 
@@ -373,7 +373,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 80b88cb06ce434c4794c18d4cec4868e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 4ff474021486f8149bf05324163e0b7d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
