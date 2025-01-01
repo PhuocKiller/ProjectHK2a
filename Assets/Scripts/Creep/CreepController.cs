@@ -37,10 +37,10 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     float speed;
     private int targetX, targetY, beforeTarget;
     float previousSpeedX, currentSpeedX, previousSpeedY, currentSpeedY, attackRange;
-    [Networked]public int state { get; set; }
-   
+    [Networked] public int state { get; set; }
+
     [SerializeField]
-    public Transform  normalAttackTransform;
+    public Transform normalAttackTransform;
 
     [SerializeField] GameObject[] statusDebuffs;
     [SerializeField] GameObject[] dropItems;
@@ -57,7 +57,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     [Networked] float currentSlowTimeStatus { get; set; }
     [Networked] public bool isMovingBack { get; set; }
     [SerializeField] GameObject[] visualRender;
-    [SerializeField]  Material[] teamMaterial;
+    [SerializeField] Material[] teamMaterial;
     private void Awake()
     {
         characterControllerPrototype = GetComponent<CharacterController>();
@@ -98,9 +98,9 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         base.FixedUpdateNetwork();
         CalculateCanvas();
         CalculateStatusDebuff();
-       // if (state != 2) animator.enabled = !playerStat.isBeingStun;
+        if (state != 2) animator.speed = playerStat.isBeingStun? 0:1;
         if (state == 3) return;
-       if (HasStateAuthority)
+        if (HasStateAuthority)
         {
             if (creepType == Creep_Types.Natural
                 && (transform.position - finalTargetDestination).magnitude > 50)
@@ -109,7 +109,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             }
             if (!isMovingBack) //trong phạm vi ko quá xa điểm spawn
             {
-                if(!playerStat.isBeingAttack) //natural ko bị tấn công
+                if (!playerStat.isBeingAttack) //natural ko bị tấn công
                 {
                     if (overlapSphere.CheckAllEnemyAround(12).Count == 0)
                     {
@@ -124,7 +124,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                         }
                         else
                         {
-                            agent.isStopped = false;
+                            agent.isStopped = playerStat.isBeingStun;
                             AnimatorSetBoolRPC("isMove", true);
                         }
                     }
@@ -153,15 +153,15 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             else //vượt qua phạm vi điểm spawn
             {
                 if (creepType == Creep_Types.Natural
-                && (transform.position - finalTargetDestination).magnitude<1) isMovingBack = false;
+                && (transform.position - finalTargetDestination).magnitude < 1) isMovingBack = false;
                 targetDestination = finalTargetDestination;
                 AnimatorSetBoolRPC("isAttack", false);
-                agent.isStopped = false;
+                agent.isStopped = playerStat.isBeingStun;
                 state = 0;
             }
-            
+
             Vector3 lookVector = new Vector3(targetDestination.x, transform.position.y, targetDestination.z) - transform.position;
-            if(lookVector.magnitude>0.01)
+            if (lookVector.magnitude > 0.01)
             {
                 Quaternion look = Quaternion.LookRotation(lookVector.normalized);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, look, 360 * Runner.DeltaTime);
@@ -179,16 +179,16 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         targetDestination = targetCharacterToChase.transform.position;
         targetCharacterToAttack = overlapSphere.FindClosestCharacterInRadius
                 (overlapSphere.CheckAllEnemyAround
-                (creepType == Creep_Types.Melee ? 1.5f: (creepType == Creep_Types.Natural?3f:9f)), transform.position);
-            if (targetCharacterToAttack== targetCharacterToChase)
-            {
-                Attack();
-            }
-            else
-            {
-                DontAttack();
-            }
-        
+                (creepType == Creep_Types.Melee ? 1.5f : (creepType == Creep_Types.Natural ? 3f : 9f)), transform.position);
+        if (targetCharacterToAttack == targetCharacterToChase)
+        {
+            Attack();
+        }
+        else
+        {
+            DontAttack();
+        }
+
     }
     void Attack()
     {
@@ -202,15 +202,15 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         AnimatorSetBoolRPC("isAttack", false);
         AnimatorSetBoolRPC("isMove", true);
         state = 0;
-        agent.isStopped = false;
+        agent.isStopped = playerStat.isBeingStun;
     }
 
     #region "Attack"
     public virtual void NormalAttack()
     {
-        if(HasStateAuthority)
+        if (HasStateAuthority)
         {
-            if(creepType==Creep_Types.Melee|| creepType == Creep_Types.Natural)
+            if (creepType == Creep_Types.Melee || creepType == Creep_Types.Natural)
             {
                 Runner.Spawn(normalMeleeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation
                      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
@@ -219,19 +219,19 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
                              false, false, false, 0.5f, 0, isDestroyWhenCollider: true);
                      });
             }
-            else if(creepType == Creep_Types.Range)
+            else if (creepType == Creep_Types.Range)
             {
                 Runner.Spawn(normalRangeAttackObj.gameObject, normalAttackTransform.transform.position, normalAttackTransform.rotation
                      , onBeforeSpawned: (NetworkRunner runner, NetworkObject obj) =>
                      {
                          obj.GetComponent<AttackObjectsCreep>().SetUpCreep(this, playerStat.damage, true, null,
-                             false, false, false, 1.5f, 0,isDestroyWhenCollider:true);
+                             false, false, false, 1.5f, 0, isDestroyWhenCollider: true);
                          obj.GetComponent<AttackObjectsCreep>().SetDirection(transform.forward);
                      });
             }
         }
     }
-    
+
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void AnimatorSetTriggerRPC(string name)
     {
@@ -240,7 +240,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void AnimatorSetBoolRPC(string name, bool isActive)
     {
-        animator.SetBool(name,isActive);
+        animator.SetBool(name, isActive);
     }
     #endregion
     #region Move
@@ -248,7 +248,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         if (HasStateAuthority)
         {
-            
+
         }
     }
     private void CalculateAnimSpeed(string animationName, float speed, bool isMoveX)
@@ -301,9 +301,9 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             time += Runner.DeltaTime;
         }
     }
-    
+
     #endregion
-    
+
     #region State
     public void SwithCharacterState(int newstate)
     {
@@ -337,7 +337,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     #region Collider
     private void OnTriggerEnter(Collider other)
     {
-       
+
     }
     private void OnTriggerExit(Collider other)
     {
@@ -345,7 +345,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         {
             collisionsEnvi.Remove(other);
         }
-        
+
     }
     private void OnTriggerStay(Collider otherColi)
     {
@@ -400,7 +400,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
 
         }
     }
-    
+
     #endregion
     #region Apply Damage
     public void ApplyDamage(int damage, bool isPhysicDamage, PlayerController player,
@@ -409,9 +409,9 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         Action<int> lifeSteal = null, bool activeInjureAnim = true, bool isCritPhysic = false)
     {
         CalculateHealthRPC(damage, isPhysicDamage, player, activeInjureAnim, isCritPhysic);
-        if(creepType==Creep_Types.Natural)
+        if (creepType == Creep_Types.Natural)
         {
-            targetCharacterToChase=player.GetComponent<CharacterController>();
+            targetCharacterToChase = player.GetComponent<CharacterController>();
             playerStat.isBeingAttack = true;
         }
         if (playerStat.isCounter)
@@ -421,7 +421,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
 
         if (state == 3)
         {
-          isKillCreep?.Invoke(transform.position + Vector3.up*0.5f, 0); //LuckyChanceBaseOnCreepType()
+            isKillCreep?.Invoke(transform.position + Vector3.up * 0.5f, 0); //LuckyChanceBaseOnCreepType()
         }
         lifeSteal?.Invoke(damage);
     }
@@ -434,14 +434,14 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
             playerScore.playersMakeDamages.Add(player);
         }
         if (state == 3) return;
-        
+
         if ((playerStat.currentHealth + statusCanvas.GetCurrentDamageAbsorbShield()) > damage)
         {
             if (statusCanvas.GetCurrentDamageAbsorbShield() > 0)
             {
                 statusCanvas.ReduceDamageAbsoreShield(damage, out int overBalanceDmg);
                 playerStat.currentHealth -= overBalanceDmg;
-                if(player) statusCanvas.PlayerHaveInjure(overBalanceDmg, isCritPhysic);
+                if (player) statusCanvas.PlayerHaveInjure(overBalanceDmg, isCritPhysic);
             }
             else
             {
@@ -481,18 +481,18 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     {
         if (HasStateAuthority)
         {
-            if(creepType==Creep_Types.Natural) SpawnItemWhenDie();
+            if (creepType == Creep_Types.Natural) SpawnItemWhenDie();
             Destroy(gameObject);
         }
     }
     void SpawnItemWhenDie()
     {
-        for (int i = 0;i<dropItems.Length;i++)
+        for (int i = 0; i < dropItems.Length; i++)
         {
-          if(FindObjectOfType<MechanicDamage>().GetChance(chanceDropItem*(6-i)))
+            if (FindObjectOfType<MechanicDamage>().GetChance(chanceDropItem * (6 - i)))
             {
-                
-                Runner.Spawn(dropItems[i],transform.position +Vector3.up);
+
+                Runner.Spawn(dropItems[i], transform.position + Vector3.up);
                 return;
             }
         }
@@ -509,11 +509,11 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
     }
     int EXPBaseOnCreepType(int level)
     {
-        if (creepType==Creep_Types.Melee)
+        if (creepType == Creep_Types.Melee)
         {
-            return 20 + (level-1) * 5;
-        } 
-        else if(creepType == Creep_Types.Range)
+            return 20 + (level - 1) * 5;
+        }
+        else if (creepType == Creep_Types.Range)
         {
             return 30 + (level - 1) * 8;
         }
@@ -561,7 +561,7 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         }
     }
     #endregion
-    
+
     #region Apply Effect
     public void ApplyEffect(PlayerRef player, bool isMakeStun = false, bool isMakeSlow = false, bool isMakeSilen = false,
         float TimeEffect = 0, Action callback = null)
@@ -672,13 +672,13 @@ public class CreepController : NetworkBehaviour, ICanTakeDamage
         {
             statusCanvas.TimeRemainingBar.UpdateBar(currentSlowTimeStatus, maxSlowTimeStatus);
         }
-        if(state!=3) statusCanvas.healthBarPlayer.UpdateBar(playerStat.currentHealth, playerStat.maxHealth);
+        if (state != 3) statusCanvas.healthBarPlayer.UpdateBar(playerStat.currentHealth, playerStat.maxHealth);
         statusCanvas.statusBeingTMP.text =
          (playerStat.isBeingStun ? "Stunned " : "") + (playerStat.isBeingSlow ? "Slowed " : "") + (playerStat.isBeingSilen ? "Silened " : "");
 
         //xoay các bar để mọi player nhìn rõ
     }
     #endregion
-    
+
 }
 

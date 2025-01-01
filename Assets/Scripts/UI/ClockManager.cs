@@ -43,7 +43,7 @@ public class ClockManager : MonoBehaviour
         {
             timeClockText.color = Color.red;
         }
-        else timeClockText.color = Color.white;
+        else timeClockText.color = Color.black;
         RenderSettings.skybox.SetColor("_SkyTint", gameManager.moonLightTime==0? Color.white:Color.black);
     }
     void CalculateTime()

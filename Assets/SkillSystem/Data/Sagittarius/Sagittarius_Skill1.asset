@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 10
   skillType: 2
-  timerTrigger: 12
+  timerTrigger: 15
   cooldownTime: 20
   levelManaCosts: 000000000f00000014000000190000001e000000
   skillIcon: {fileID: 21300000, guid: bdbfb880c1950c74b820c0d72e27ba10, type: 3}
