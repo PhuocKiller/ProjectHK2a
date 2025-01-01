@@ -206,5 +206,15 @@ public class GameManager : NetworkBehaviour
                 return;
             }
         }
+        StartCoroutine(ChangeKeyWhenLeaveMySelf());
+    }
+    public IEnumerator ChangeKeyWhenLeaveMySelf()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (HasStateAuthority)
+        {
+            Debug.Log("a");
+            keyPlayer = Runner.GetPlayerUserId(Runner.LocalPlayer);
+        }
     }
 }

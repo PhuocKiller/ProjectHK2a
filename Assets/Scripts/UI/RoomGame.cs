@@ -118,7 +118,7 @@ public class RoomGame : MonoBehaviour
         yield return null;
         playBtn.interactable = isMasterPlayer
             && (darkTeamParent.childCount == lightTeamParent.childCount
-            || darkTeamParent.childCount==1 || lightTeamParent.childCount==1);
+            || darkTeamParent.childCount+lightTeamParent.childCount==1);
     }
     public void PlayGame()
     {
