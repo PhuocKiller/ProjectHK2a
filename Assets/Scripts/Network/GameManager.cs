@@ -198,7 +198,6 @@ public class GameManager : NetworkBehaviour
     }
     public void RemovePlayerWhenLeave(NetworkRunner m_runner, PlayerRef player)
     {
-        keyPlayer=Runner.UserId;
         for (int i = 0; i < 6; i++)
         {
             if (i == player.PlayerId)

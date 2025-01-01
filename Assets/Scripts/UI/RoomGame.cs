@@ -110,7 +110,7 @@ public class RoomGame : MonoBehaviour
     }
     public IEnumerator DelayUpdateUI()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
         UpdateUI();
     }
     IEnumerator CheckPlayerBtn()
