@@ -73,7 +73,7 @@ public class GameManager : NetworkBehaviour
     public void GoWaitBeforeStartState()
     {
         currentState = 3;
-        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 6f); //thời gian chuẩn bị mua đồ
+        waitBeforeStartTime = TickTimer.CreateFromSeconds(Runner, 15f); //thời gian chuẩn bị mua đồ
     }
     public GameState TypeOfGameState(int value)
     {

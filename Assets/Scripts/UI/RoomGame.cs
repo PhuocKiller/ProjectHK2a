@@ -119,6 +119,7 @@ public class RoomGame : MonoBehaviour
         playBtn.interactable = isMasterPlayer
             && (darkTeamParent.childCount == lightTeamParent.childCount
             || darkTeamParent.childCount+lightTeamParent.childCount==1);
+        backBtn.interactable = darkTeamParent.childCount + lightTeamParent.childCount == 1 || !isMasterPlayer;
     }
     public void PlayGame()
     {

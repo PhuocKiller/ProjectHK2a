@@ -117,7 +117,7 @@ public class PlayerStat : NetworkBehaviour
         levelPoint = 0;
         UpgradeLevel();
         isVisible = true; isLive = true; isLifeSteal = true;
-        coinsValue = 0;
+        coinsValue = 500;
     }
     public override void FixedUpdateNetwork()
     {
