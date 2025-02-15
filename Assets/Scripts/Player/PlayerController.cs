@@ -97,7 +97,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
 
         if (Object.InputAuthority.PlayerId == Runner.LocalPlayer.PlayerId)
         {
-            gameManager = FindObjectOfType<GameManager>();
+            
             spawnPosPlayer = runnerManager.spawnPointPlayer[playerTeam].position + Vector3.right * 5 * (playerTeam == 0 ? 1 : -1);
             Singleton<CameraController>.Instance.SetFollowCharacter(transform);
             Singleton<PlayerManager>.Instance.SetRunner(Runner);
@@ -106,6 +106,7 @@ public class PlayerController : NetworkBehaviour, ICanTakeDamage
             TimeOfSilenDebuff = TickTimer.CreateFromSeconds(Runner, 0);
             UIManagerRegisInven();
         }
+        gameManager = FindObjectOfType<GameManager>();
         // statusCanvas.RenderActive(HasStateAuthority,true);
         joystick = FindObjectOfType<Joystick>();
         Login.AddPlayer(this);
